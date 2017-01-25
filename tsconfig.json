@@ -1,0 +1,20 @@
+{
+  "ref": "master",
+  "path": "typings",
+  "compilerOptions": {
+    "module": "amd",
+    "target": "es5",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "outFile": "public/bundle.js",
+    "outDir": "public"
+  },
+  "exclude": [
+    "node_modules",
+    "typings/global",
+    "typings/index.d.ts"
+  ],
+  "files": [
+    "./src/main.ts"
+  ]
+}
