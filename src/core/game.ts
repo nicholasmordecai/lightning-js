@@ -9,9 +9,13 @@ namespace Lightening {
         private _ticker:PIXI.ticker.Ticker;
         private _activateState:State = null;
         private _tweens = new Tween.TweenManager(this);
-        private _stats = new Stats();
         private _signals:Signals.SignalManager = new Signals.SignalManager(this);
+        private _physicsActive:boolean = false;
+        private _PhysicsWorld:Box2D.Dynamics.b2World;
 
+        private _stats = new Stats();
+        private _statsEnabled:boolean = true;
+        
         // game engine constructor
         constructor(width, height) {
             this._renderer = PIXI.autoDetectRenderer(width, height);
@@ -29,17 +33,23 @@ namespace Lightening {
             this._ticker.add(this.update, this);
 
             this.resize();
-            this._stats.setMode(0);
-            document.getElementById('app-container').appendChild(this._stats.domElement);
+            if(this._statsEnabled) {
+                this._stats.setMode(0);
+                document.getElementById('app-container').appendChild(this._stats.domElement);
+            }
         }
 
         // gets called on update
         update(time):void {
-            this._stats.begin();
+            if(this._statsEnabled) this._stats.begin();
+            if(this._physicsActive) {
+                this._PhysicsWorld.Step(1 / 60,  1, 1);
+                this._PhysicsWorld.ClearForces();
+            }
             this._activateState.update();
             this._tweens.update();
             this._renderer.render(this._world);
-            this._stats.end();
+            if(this._statsEnabled) this._stats.end();
         }
 
         resize() {
@@ -68,6 +78,11 @@ namespace Lightening {
             }
             this._activateState = state;
             state.init(params);
+        }
+
+        startPhysics() {
+            this._PhysicsWorld = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 10),  true);
+            this._physicsActive = true;
         }
 
         public set backgroundColor(val:number) {
@@ -100,6 +115,10 @@ namespace Lightening {
 
         public get signals():Signals.SignalManager {
             return this._signals;
+        }
+
+        public get physics() {
+            return this._PhysicsWorld;
         }
     }
 }

@@ -141,6 +141,7 @@ tween.destroy();
 
 #### Events
 > All events can be called with 'add', 'addOnce', 'remove' or 'removeAll'.
+
 ```js
 // On Start
 tween.onStart.add('refName', () => {

@@ -7,6 +7,7 @@ namespace app {
 
         constructor() {
             this.game = new Lightening.Engine(window.innerWidth, window.innerHeight);
+            this.game.startPhysics();
             this.game.startState(Lightening.States.PreloadState);
         }
     }

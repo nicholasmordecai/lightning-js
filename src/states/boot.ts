@@ -13,7 +13,7 @@ namespace Lightening {
             }
 
             create() {
-                this.game.renderer.backgroundColor = Utils.Colours.BG;
+                this.game.backgroundColor = Utils.Colours.BG;
                 new States.PreloadState(this.game);
             }
 

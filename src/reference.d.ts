@@ -2,6 +2,7 @@
 /// <reference path="./core/state.ts" />
 /// <reference path="./core/game.ts" />
 /// <reference path="./core/ui/shapes.ts" />
+/// <reference path="./core/ui/sprite.ts" />
 /// <reference path="./core/ui/icons.ts" />
 /// <reference path="./core/tween-generator/Easing.ts" />
 /// <reference path="./core/tween-generator/Events.ts" />

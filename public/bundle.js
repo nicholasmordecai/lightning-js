@@ -37,8 +37,10 @@ var Lightening;
         function Engine(width, height) {
             this._activateState = null;
             this._tweens = new Tween.TweenManager(this);
-            this._stats = new Stats();
             this._signals = new Lightening.Signals.SignalManager(this);
+            this._physicsActive = false;
+            this._stats = new Stats();
+            this._statsEnabled = true;
             this._renderer = PIXI.autoDetectRenderer(width, height);
             this._world = new PIXI.Container();
             this._world.interactive = true;
@@ -51,16 +53,24 @@ var Lightening;
             this._ticker.autoStart = true;
             this._ticker.add(this.update, this);
             this.resize();
-            this._stats.setMode(0);
-            document.getElementById('app-container').appendChild(this._stats.domElement);
+            if (this._statsEnabled) {
+                this._stats.setMode(0);
+                document.getElementById('app-container').appendChild(this._stats.domElement);
+            }
         }
         // gets called on update
         Engine.prototype.update = function (time) {
-            this._stats.begin();
+            if (this._statsEnabled)
+                this._stats.begin();
+            if (this._physicsActive) {
+                this._PhysicsWorld.Step(1 / 60, 1, 1);
+                this._PhysicsWorld.ClearForces();
+            }
             this._activateState.update();
             this._tweens.update();
             this._renderer.render(this._world);
-            this._stats.end();
+            if (this._statsEnabled)
+                this._stats.end();
         };
         Engine.prototype.resize = function () {
             var _this = this;
@@ -90,6 +100,10 @@ var Lightening;
             }
             this._activateState = state;
             state.init(params);
+        };
+        Engine.prototype.startPhysics = function () {
+            this._PhysicsWorld = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 10), true);
+            this._physicsActive = true;
         };
         Object.defineProperty(Engine.prototype, "backgroundColor", {
             set: function (val) {
@@ -143,6 +157,13 @@ var Lightening;
         Object.defineProperty(Engine.prototype, "signals", {
             get: function () {
                 return this._signals;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "physics", {
+            get: function () {
+                return this._PhysicsWorld;
             },
             enumerable: true,
             configurable: true
@@ -278,6 +299,32 @@ var Lightening;
             }
             Shapes.Triangle = Triangle;
         })(Shapes = UI.Shapes || (UI.Shapes = {}));
+    })(UI = Lightening.UI || (Lightening.UI = {}));
+})(Lightening || (Lightening = {}));
+/// <reference path="./../../reference.d.ts" />
+var Lightening;
+(function (Lightening) {
+    var UI;
+    (function (UI) {
+        var Sprite = (function (_super) {
+            __extends(Sprite, _super);
+            function Sprite(texture) {
+                if (texture === void 0) { texture = null; }
+                return _super.call(this, texture) || this;
+            }
+            Object.defineProperty(Sprite.prototype, "body", {
+                get: function () {
+                    return this._body;
+                },
+                set: function (body) {
+                    this._body = body;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return Sprite;
+        }(PIXI.Sprite));
+        UI.Sprite = Sprite;
     })(UI = Lightening.UI || (Lightening.UI = {}));
 })(Lightening || (Lightening = {}));
 /// <reference path="./../../reference.d.ts" />
@@ -1989,7 +2036,7 @@ var Lightening;
                 this.create();
             };
             BootState.prototype.create = function () {
-                this.game.renderer.backgroundColor = Lightening.Utils.Colours.BG;
+                this.game.backgroundColor = Lightening.Utils.Colours.BG;
                 new States.PreloadState(this.game);
             };
             BootState.prototype.update = function () {
@@ -2012,19 +2059,11 @@ var Lightening;
                 _this.RADIANS = Math.PI / 180;
                 _this.DEGREES = 180 / Math.PI;
                 _this._bodies = [];
-                _this._actors = [];
-                _this.hitTest = function (x1, y1, w1, h1, x2, y2, w2, h2) {
-                    if (x1 + w1 > x2)
-                        if (x1 < x2 + w2)
-                            if (y1 + h1 > y2)
-                                if (y1 < y2 + h2)
-                                    return true;
-                    return false;
-                };
+                _this._actors = new PIXI.Container();
                 return _this;
             }
             GameState.prototype.init = function (params) {
-                this.world = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 10), true);
+                this.addChild(this._actors);
                 var polyFixture = new Box2D.Dynamics.b2FixtureDef();
                 polyFixture.shape = new Box2D.Collision.Shapes.b2PolygonShape();
                 polyFixture.density = 1;
@@ -2037,44 +2076,24 @@ var Lightening;
                 //down
                 polyFixture.shape.SetAsBox(10, 1);
                 bodyDef.position.Set(9, this.game.height / 100 + 1);
-                this.world.CreateBody(bodyDef).CreateFixture(polyFixture);
+                this.game.physics.CreateBody(bodyDef).CreateFixture(polyFixture);
                 //left
                 polyFixture.shape.SetAsBox(1, 100);
                 bodyDef.position.Set(-1, 0);
-                this.world.CreateBody(bodyDef).CreateFixture(polyFixture);
+                this.game.physics.CreateBody(bodyDef).CreateFixture(polyFixture);
                 //right
-                bodyDef.position.Set(this.game.height / 100 + 1, 0);
-                this.world.CreateBody(bodyDef).CreateFixture(polyFixture);
+                bodyDef.position.Set(this.game.height / 100, 0);
+                this.game.physics.CreateBody(bodyDef).CreateFixture(polyFixture);
                 bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
                 for (var i = 0; i < 40; i++) {
                     bodyDef.position.Set(this.rndRange(0, this.game.width) / 100, -this.rndRange(50, 5000) / 100);
-                    var body = this.world.CreateBody(bodyDef);
-                    var s;
-                    if (Math.random() > 0.5) {
-                        s = this.rndRange(70, 100);
-                        circleFixture.shape.SetRadius(s / 2 / 100);
-                        body.CreateFixture(circleFixture);
-                        this._bodies.push(body);
-                        var ball = new PIXI.Sprite(PIXI.Texture.fromImage("assets/ball.png"));
-                        this.addChild(ball);
-                        ball['i'] = i;
-                        ball.anchor.x = ball.anchor.y = 0.5;
-                        ball.scale.x = ball.scale.y = s / 100;
-                        this._actors[this._actors.length] = ball;
-                    }
-                    else {
-                        s = this.rndRange(50, 100);
-                        polyFixture.shape.SetAsBox(s / 2 / 100, s / 2 / 100);
-                        body.CreateFixture(polyFixture);
-                        this._bodies.push(body);
-                        var box = new PIXI.Sprite(PIXI.Texture.fromImage("assets/box.jpg"));
-                        this.addChild(box);
-                        box['i'] = i;
-                        box.anchor.x = box.anchor.y = 0.5;
-                        box.scale.x = s / 100;
-                        box.scale.y = s / 100;
-                        this._actors[this._actors.length] = box;
-                    }
+                    var body = this.game.physics.CreateBody(bodyDef);
+                    circleFixture.shape.SetRadius(0.5);
+                    body.CreateFixture(circleFixture);
+                    var ball = new Lightening.UI.Sprite(PIXI.Texture.fromImage("assets/ball.png"));
+                    ball.body = body;
+                    ball.anchor.x = ball.anchor.y = 0.5;
+                    this._actors.addChild(ball);
                 }
             };
             GameState.prototype.rndRange = function (min, max) {
@@ -2083,25 +2102,14 @@ var Lightening;
             GameState.prototype.rndIntRange = function (min, max) {
                 return Math.round(this.rndRange(min, max));
             };
-            GameState.prototype.toRadians = function (degrees) {
-                return degrees * this.RADIANS;
-            };
-            GameState.prototype.toDegrees = function (radians) {
-                return radians * this.DEGREES;
-            };
             GameState.prototype.create = function () {
             };
             GameState.prototype.update = function () {
-                this.world.Step(1 / 60, 3, 3);
-                this.world.ClearForces();
-                var n = this._actors.length;
-                for (var i = 0; i < n; i++) {
-                    var body = this._bodies[i];
-                    var actor = this._actors[i];
-                    var position = body.GetPosition();
-                    actor.position.x = position.x * 100;
-                    actor.position.y = position.y * 100;
-                    actor.rotation = body.GetAngle();
+                for (var _i = 0, _a = this._actors.children; _i < _a.length; _i++) {
+                    var actor = _a[_i];
+                    actor.x = actor['body'].GetPosition().x * 100;
+                    actor.y = actor['body'].GetPosition().y * 100;
+                    actor.rotation = actor['body']['GetAngle']();
                 }
             };
             return GameState;
@@ -2194,6 +2202,7 @@ var app;
     var app = (function () {
         function app() {
             this.game = new Lightening.Engine(window.innerWidth, window.innerHeight);
+            this.game.startPhysics();
             this.game.startState(Lightening.States.PreloadState);
         }
         return app;

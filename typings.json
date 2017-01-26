@@ -5,6 +5,7 @@
   "globalDevDependencies": {
     "pixi.js": "file:custom_typings/pixi.js/index.d.ts",
     "sound.js": "file:custom_typings/sound.js/index.d.ts",
-    "stats.js": "file:custom_typings/stats.js/index.d.ts"
+    "stats.js": "file:custom_typings/stats.js/index.d.ts",
+    "box2d": "file:custom_typings/box2d/index.d.ts"
   }
 }

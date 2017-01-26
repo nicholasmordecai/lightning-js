@@ -1,8 +1,8 @@
 {
   "resolution": "main",
   "tree": {
-    "src": "/Users/nicholasmordecai/Documents/sprite-storm/squares-2/custom_typings/sound.js/index.d.ts",
+    "src": "/Users/nicholasmordecai/Documents/sprite-storm/physicsTest/custom_typings/sound.js/index.d.ts",
     "raw": "file:custom_typings/sound.js/index.d.ts",
-    "typings": "/Users/nicholasmordecai/Documents/sprite-storm/squares-2/custom_typings/sound.js/index.d.ts"
+    "typings": "/Users/nicholasmordecai/Documents/sprite-storm/physicsTest/custom_typings/sound.js/index.d.ts"
   }
 }
