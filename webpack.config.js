@@ -9,7 +9,7 @@ const common = {
     context: __dirname + '/public',
     entry: [
         'pixi.js/dist/pixi.js',
-        'matter-js/build/matter.js',
+        './libs/Box2d.js',
         './libs/howler.js',
         './libs/stats.min.js',
         './public/bundle.js'

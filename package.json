@@ -1,6 +1,6 @@
 {
-  "name": "pixi-ts-amd",
-  "version": "1.0.0",
+  "name": "lightening",
+  "version": "0.1.4",
   "description": "",
   "main": "public/bundle.js",
   "scripts": {

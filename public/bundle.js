@@ -4,8 +4,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 /// <reference path="./../reference.d.ts" />
-var Game;
-(function (Game) {
+var Lightening;
+(function (Lightening) {
     var State = (function (_super) {
         __extends(State, _super);
         function State(game) {
@@ -15,8 +15,6 @@ var Game;
             }
             var _this = _super.call(this) || this;
             _this.game = game;
-            _this.game.initState(_this);
-            _this.init(params);
             return _this;
         }
         State.prototype.init = function (params) {
@@ -29,20 +27,19 @@ var Game;
         };
         return State;
     }(PIXI.Container));
-    Game.State = State;
-})(Game || (Game = {}));
+    Lightening.State = State;
+})(Lightening || (Lightening = {}));
 /// <reference path="./../reference.d.ts" />
-var Game;
-(function (Game) {
+var Lightening;
+(function (Lightening) {
     var Engine = (function () {
         // game engine constructor
         function Engine(width, height) {
             this._activateState = null;
             this._tweens = new Tween.TweenManager(this);
             this._stats = new Stats();
-            this._signals = new Game.Signals.SignalManager(this);
+            this._signals = new Lightening.Signals.SignalManager(this);
             this._renderer = PIXI.autoDetectRenderer(width, height);
-            // this._physics = Physics
             this._world = new PIXI.Container();
             this._world.interactive = true;
             this._world.on('mousedown', function () {
@@ -53,7 +50,6 @@ var Game;
             this._ticker = PIXI.ticker.shared;
             this._ticker.autoStart = true;
             this._ticker.add(this.update, this);
-            var sprite = new PIXI.Sprite();
             this.resize();
             this._stats.setMode(0);
             document.getElementById('app-container').appendChild(this._stats.domElement);
@@ -76,7 +72,15 @@ var Game;
                 _this._renderer.resize(w, h);
             };
         };
-        Engine.prototype.initState = function (state) {
+        Engine.prototype.startState = function (state) {
+            var params = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                params[_i - 1] = arguments[_i];
+            }
+            var nState = new state(this);
+            this.initState(nState, params);
+        };
+        Engine.prototype.initState = function (state, params) {
             if (this._activateState === null) {
                 this._world.addChild(state);
             }
@@ -85,6 +89,7 @@ var Game;
                 this._world.addChild(state);
             }
             this._activateState = state;
+            state.init(params);
         };
         Object.defineProperty(Engine.prototype, "backgroundColor", {
             set: function (val) {
@@ -144,158 +149,164 @@ var Game;
         });
         return Engine;
     }());
-    Game.Engine = Engine;
-})(Game || (Game = {}));
-/// <reference path="./../reference.d.ts" />
-var Game;
-(function (Game) {
-    var Shapes;
-    (function (Shapes) {
-        /**
-         * @description Draw a square
-         *
-         * @param {number} d dimension of the square in pixels
-         *
-         * @returns {PIXI.Graphics}
-         */
-        function Square(d) {
-            var graphics = new PIXI.Graphics();
-            graphics.beginFill(0xffffff, 1);
-            graphics.drawRect(0, 0, d, d);
-            graphics.endFill();
-            return graphics;
-        }
-        Shapes.Square = Square;
-        /**
-         * @description Draw a rectangle
-         *
-         * @param {number} w width of the rectangle in pixels
-         * @param {number} h height of the rectangle in pixels
-         *
-         * @returns {PIXI.Graphics}
-         */
-        function Rect(w, h) {
-            var graphics = new PIXI.Graphics();
-            graphics.beginFill(0xffffff, 1);
-            graphics.drawRect(0, 0, w, h);
-            graphics.endFill();
-            return graphics;
-        }
-        Shapes.Rect = Rect;
-        /**
-         * @description Draw a Star (double square)
-         *
-         * @param {number} w width of the rectangle in pixels
-         * @param {number} h height of the rectangle in pixels
-         *
-         * @returns {PIXI.Graphics}
-         */
-        function Star(w, h) {
-            var graphics = new PIXI.Graphics();
-            graphics.beginFill(0xffffff, 1);
-            graphics.drawRect(0, 0, w, h);
-            graphics.endFill();
-            return graphics;
-        }
-        Shapes.Star = Star;
-        /**
-         * @description Draw a 3d rectangle
-         *
-         * @param {number} w width of the rectangle in pixels
-         * @param {number} h height of the rectangle in pixels
-         * @param {number} d depth of rectangle in pixels
-         *
-         * @returns {PIXI.Graphics}
-         */
-        function Rect3D(w, h, d) {
-            w *= 2, h *= 2, d *= 2;
-            var graphics = new PIXI.Graphics();
-            // draw front
-            graphics.beginFill(0xffffff, 1);
-            graphics.drawRect(0, 0, w, h);
-            graphics.endFill();
-            // draw top side
-            var topSide = new PIXI.Graphics();
-            topSide.beginFill(0xd2d2d2, 1);
-            topSide.moveTo(0, 0);
-            topSide.lineTo(d, -d);
-            topSide.lineTo(w + d, -d);
-            topSide.lineTo(w, 0);
-            topSide.lineTo(0, 0);
-            topSide.endFill();
-            graphics.addChild(topSide);
-            //draw right ride
-            var rightSide = new PIXI.Graphics();
-            rightSide.beginFill(0xababab, 1);
-            rightSide.moveTo(w, 0);
-            rightSide.lineTo(w + d, -d);
-            rightSide.lineTo(w + d, h - d);
-            rightSide.lineTo(w, h);
-            rightSide.lineTo(w, 0);
-            rightSide.endFill();
-            graphics.addChild(rightSide);
-            return graphics;
-        }
-        Shapes.Rect3D = Rect3D;
-        /**
-         * @description Draw a circle
-         *
-         * @param {number} r Radius of the circle in pixels
-         *
-         * @returns {PIXI.Graphics}
-         */
-        function Circle(r) {
-            var graphics = new PIXI.Graphics();
-            graphics.beginFill(0xffffff, 1);
-            graphics.arc(75, 75, r, 0, Math.PI * 2, false);
-            graphics.endFill();
-            return graphics;
-        }
-        Shapes.Circle = Circle;
-        /**
-         * @description Draw a Triangle
-         *
-         * @param {number} r Length of the triangle sides
-         *
-         * @returns {PIXI.Graphics}
-         */
-        function Triangle(l) {
-            var graphics = new PIXI.Graphics();
-            graphics.beginFill(0xffffff, 1);
-            graphics.moveTo(l * 0.5, 0);
-            graphics.lineTo(l, l);
-            graphics.lineTo(0, l);
-            graphics.lineTo(l * 0.5, 0);
-            graphics.endFill();
-            return graphics;
-        }
-        Shapes.Triangle = Triangle;
-    })(Shapes = Game.Shapes || (Game.Shapes = {}));
-})(Game || (Game = {}));
-/// <reference path="./../reference.d.ts" />
-var Game;
-(function (Game) {
-    var Icons;
-    (function (Icons) {
-        /**
-         * @description Draw a hamburger menu icon
-         *
-         * @param {number} s size of the icon in pixels
-         *
-         * @returns {PIXI.Graphics}
-         */
-        function Hamburger(s) {
-            var graphics = new PIXI.Graphics();
-            graphics.beginFill(0xffffff, 1);
-            graphics.drawRect(0, 0, s, s * 0.15);
-            graphics.drawRect(0, s * 0.4, s, s * 0.15);
-            graphics.drawRect(0, s * 0.8, s, s * 0.15);
-            graphics.endFill();
-            return graphics;
-        }
-        Icons.Hamburger = Hamburger;
-    })(Icons = Game.Icons || (Game.Icons = {}));
-})(Game || (Game = {}));
+    Lightening.Engine = Engine;
+})(Lightening || (Lightening = {}));
+/// <reference path="./../../reference.d.ts" />
+var Lightening;
+(function (Lightening) {
+    var UI;
+    (function (UI) {
+        var Shapes;
+        (function (Shapes) {
+            /**
+             * @description Draw a square
+             *
+             * @param {number} d dimension of the square in pixels
+             *
+             * @returns {PIXI.Graphics}
+             */
+            function Square(d) {
+                var graphics = new PIXI.Graphics();
+                graphics.beginFill(0xffffff, 1);
+                graphics.drawRect(0, 0, d, d);
+                graphics.endFill();
+                return graphics;
+            }
+            Shapes.Square = Square;
+            /**
+             * @description Draw a rectangle
+             *
+             * @param {number} w width of the rectangle in pixels
+             * @param {number} h height of the rectangle in pixels
+             *
+             * @returns {PIXI.Graphics}
+             */
+            function Rect(w, h) {
+                var graphics = new PIXI.Graphics();
+                graphics.beginFill(0xffffff, 1);
+                graphics.drawRect(0, 0, w, h);
+                graphics.endFill();
+                return graphics;
+            }
+            Shapes.Rect = Rect;
+            /**
+             * @description Draw a Star (double square)
+             *
+             * @param {number} w width of the rectangle in pixels
+             * @param {number} h height of the rectangle in pixels
+             *
+             * @returns {PIXI.Graphics}
+             */
+            function Star(w, h) {
+                var graphics = new PIXI.Graphics();
+                graphics.beginFill(0xffffff, 1);
+                graphics.drawRect(0, 0, w, h);
+                graphics.endFill();
+                return graphics;
+            }
+            Shapes.Star = Star;
+            /**
+             * @description Draw a 3d rectangle
+             *
+             * @param {number} w width of the rectangle in pixels
+             * @param {number} h height of the rectangle in pixels
+             * @param {number} d depth of rectangle in pixels
+             *
+             * @returns {PIXI.Graphics}
+             */
+            function Rect3D(w, h, d) {
+                w *= 2, h *= 2, d *= 2;
+                var graphics = new PIXI.Graphics();
+                // draw front
+                graphics.beginFill(0xffffff, 1);
+                graphics.drawRect(0, 0, w, h);
+                graphics.endFill();
+                // draw top side
+                var topSide = new PIXI.Graphics();
+                topSide.beginFill(0xd2d2d2, 1);
+                topSide.moveTo(0, 0);
+                topSide.lineTo(d, -d);
+                topSide.lineTo(w + d, -d);
+                topSide.lineTo(w, 0);
+                topSide.lineTo(0, 0);
+                topSide.endFill();
+                graphics.addChild(topSide);
+                //draw right ride
+                var rightSide = new PIXI.Graphics();
+                rightSide.beginFill(0xababab, 1);
+                rightSide.moveTo(w, 0);
+                rightSide.lineTo(w + d, -d);
+                rightSide.lineTo(w + d, h - d);
+                rightSide.lineTo(w, h);
+                rightSide.lineTo(w, 0);
+                rightSide.endFill();
+                graphics.addChild(rightSide);
+                return graphics;
+            }
+            Shapes.Rect3D = Rect3D;
+            /**
+             * @description Draw a circle
+             *
+             * @param {number} r Radius of the circle in pixels
+             *
+             * @returns {PIXI.Graphics}
+             */
+            function Circle(r) {
+                var graphics = new PIXI.Graphics();
+                graphics.beginFill(0xffffff, 1);
+                graphics.arc(75, 75, r, 0, Math.PI * 2, false);
+                graphics.endFill();
+                return graphics;
+            }
+            Shapes.Circle = Circle;
+            /**
+             * @description Draw a Triangle
+             *
+             * @param {number} r Length of the triangle sides
+             *
+             * @returns {PIXI.Graphics}
+             */
+            function Triangle(l) {
+                var graphics = new PIXI.Graphics();
+                graphics.beginFill(0xffffff, 1);
+                graphics.moveTo(l * 0.5, 0);
+                graphics.lineTo(l, l);
+                graphics.lineTo(0, l);
+                graphics.lineTo(l * 0.5, 0);
+                graphics.endFill();
+                return graphics;
+            }
+            Shapes.Triangle = Triangle;
+        })(Shapes = UI.Shapes || (UI.Shapes = {}));
+    })(UI = Lightening.UI || (Lightening.UI = {}));
+})(Lightening || (Lightening = {}));
+/// <reference path="./../../reference.d.ts" />
+var Lightening;
+(function (Lightening) {
+    var UI;
+    (function (UI) {
+        var Icons;
+        (function (Icons) {
+            /**
+             * @description Draw a hamburger menu icon
+             *
+             * @param {number} s size of the icon in pixels
+             *
+             * @returns {PIXI.Graphics}
+             */
+            function Hamburger(s) {
+                var graphics = new PIXI.Graphics();
+                graphics.beginFill(0xffffff, 1);
+                graphics.drawRect(0, 0, s, s * 0.15);
+                graphics.drawRect(0, s * 0.4, s, s * 0.15);
+                graphics.drawRect(0, s * 0.8, s, s * 0.15);
+                graphics.endFill();
+                return graphics;
+            }
+            Icons.Hamburger = Hamburger;
+        })(Icons = UI.Icons || (UI.Icons = {}));
+    })(UI = Lightening.UI || (Lightening.UI = {}));
+})(Lightening || (Lightening = {}));
 var Tween;
 (function (Tween) {
     var Easing = (function () {
@@ -1447,8 +1458,8 @@ var Tween;
     Tween.TweenManager = TweenManager;
 })(Tween || (Tween = {}));
 /// <reference path="./../../reference.d.ts" />
-var Game;
-(function (Game) {
+var Lightening;
+(function (Lightening) {
     var Signals;
     (function (Signals) {
         /**
@@ -1707,11 +1718,11 @@ var Game;
          */
         Signal.VERSION = '1.0.0';
         Signals.Signal = Signal;
-    })(Signals = Game.Signals || (Game.Signals = {}));
-})(Game || (Game = {}));
+    })(Signals = Lightening.Signals || (Lightening.Signals = {}));
+})(Lightening || (Lightening = {}));
 /// <reference path="./../../reference.d.ts" />
-var Game;
-(function (Game) {
+var Lightening;
+(function (Lightening) {
     var Signals;
     (function (Signals) {
         /*
@@ -1830,11 +1841,11 @@ var Game;
             return SignalBinding;
         }());
         Signals.SignalBinding = SignalBinding;
-    })(Signals = Game.Signals || (Game.Signals = {}));
-})(Game || (Game = {}));
+    })(Signals = Lightening.Signals || (Lightening.Signals = {}));
+})(Lightening || (Lightening = {}));
 /// <reference path="./../../reference.d.ts" />
-var Game;
-(function (Game) {
+var Lightening;
+(function (Lightening) {
     var Signals;
     (function (Signals) {
         /**
@@ -1962,136 +1973,11 @@ var Game;
             return SignalManager;
         }());
         Signals.SignalManager = SignalManager;
-    })(Signals = Game.Signals || (Game.Signals = {}));
-})(Game || (Game = {}));
+    })(Signals = Lightening.Signals || (Lightening.Signals = {}));
+})(Lightening || (Lightening = {}));
 /// <reference path="./../reference.d.ts" />
-var Game;
-(function (Game) {
-    var Prefab;
-    (function (Prefab) {
-        var ObstacleRect = (function (_super) {
-            __extends(ObstacleRect, _super);
-            function ObstacleRect(game) {
-                var _this = _super.call(this) || this;
-                _this.game = game;
-                _this.x = _this.game.width * 0.5;
-                _this.y = 200;
-                _this.tint = 0x846552;
-                _this.scale = new PIXI.Point(0.5, 0.5);
-                _this.anchor = new PIXI.Point(0.5, 0.5);
-                _this.createTexture();
-                return _this;
-            }
-            ObstacleRect.prototype.createTexture = function () {
-                var texture = Game.Shapes.Rect3D(this.game.width * 0.2, this.game.height * 0.2, this.game.width * 0.015);
-                this.texture = this.game.renderer.generateTexture(texture);
-            };
-            return ObstacleRect;
-        }(PIXI.Sprite));
-        Prefab.ObstacleRect = ObstacleRect;
-    })(Prefab = Game.Prefab || (Game.Prefab = {}));
-})(Game || (Game = {}));
-/// <reference path="./../reference.d.ts" />
-var Game;
-(function (Game) {
-    var Prefab;
-    (function (Prefab) {
-        var BGSquare = (function (_super) {
-            __extends(BGSquare, _super);
-            function BGSquare(game, width, idx, idy) {
-                var _this = _super.call(this) || this;
-                _this.game = game;
-                _this.tint = Game.Utils.Colours.DARK;
-                _this.anchor = new PIXI.Point(0.5, 0.5);
-                _this._idx = idx;
-                _this._idy = idy;
-                _this._initWidth = width;
-                _this.createTexture(width);
-                return _this;
-            }
-            BGSquare.prototype.createTexture = function (width) {
-                var texture = Game.Shapes.Rect(width, width);
-                this.texture = this.game.renderer.generateTexture(texture);
-            };
-            BGSquare.prototype.drawSquare = function () {
-                var texture = Game.Shapes.Rect(this._initWidth, this._initWidth);
-                this.texture = this.game.renderer.generateTexture(texture);
-            };
-            BGSquare.prototype.drawCircle = function () {
-                var texture = Game.Shapes.Circle(this._initWidth / 2);
-                this.tint = Game.Utils.Colours.LIGHTBLUE;
-                this.texture = this.game.renderer.generateTexture(texture, 4, 4);
-            };
-            BGSquare.prototype.drawDiamond = function () {
-                var texture = Game.Shapes.Rect(this._initWidth * 0.8, this._initWidth * 0.8);
-                this.rotation = 0.785398;
-                this.tint = Game.Utils.Colours.DIAMOND;
-                this.texture = this.game.renderer.generateTexture(texture, 4, 4);
-            };
-            BGSquare.prototype.drawStar = function () {
-                var texture = Game.Shapes.Star(this._initWidth * 0.8, this._initWidth * 0.8);
-                var texture2 = Game.Shapes.Star(this._initWidth * 0.8, this._initWidth * 0.8);
-                texture2.rotation = 0.785398;
-                texture2.x += texture2.width * 0.5;
-                texture2.y -= texture2.width * 0.25;
-                texture.addChild(texture2);
-                this.tint = Game.Utils.Colours.GOLD;
-                this.texture = this.game.renderer.generateTexture(texture);
-            };
-            BGSquare.prototype.drawWhiteSquare = function () {
-                var texture = Game.Shapes.Rect(this._initWidth * 1.1, this._initWidth * 1.1);
-                this.tint = Game.Utils.Colours.WHITE;
-                this.texture = this.game.renderer.generateTexture(texture);
-            };
-            BGSquare.prototype.drawTriangle = function () {
-                var texture = Game.Shapes.Triangle(this._initWidth * 0.8);
-                this.tint = Game.Utils.Colours.ORANGE;
-                this.texture = this.game.renderer.generateTexture(texture);
-            };
-            BGSquare.prototype.typeChange = function (type) {
-                switch (type) {
-                    case 'circle':
-                        this.drawCircle();
-                        break;
-                    case 'star':
-                        this.drawStar();
-                        break;
-                    case 'triangle':
-                        this.drawTriangle();
-                        break;
-                    case 'diamond':
-                        this.drawDiamond();
-                        break;
-                    case 'whiteSquare':
-                        this.drawWhiteSquare();
-                        break;
-                    case 'blank':
-                        this.alpha = 0;
-                        break;
-                }
-            };
-            Object.defineProperty(BGSquare.prototype, "idx", {
-                get: function () {
-                    return this._idx;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(BGSquare.prototype, "idy", {
-                get: function () {
-                    return this._idy;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return BGSquare;
-        }(PIXI.Sprite));
-        Prefab.BGSquare = BGSquare;
-    })(Prefab = Game.Prefab || (Game.Prefab = {}));
-})(Game || (Game = {}));
-/// <reference path="./../reference.d.ts" />
-var Game;
-(function (Game) {
+var Lightening;
+(function (Lightening) {
     var States;
     (function (States) {
         var BootState = (function (_super) {
@@ -2103,108 +1989,129 @@ var Game;
                 this.create();
             };
             BootState.prototype.create = function () {
-                this.game.renderer.backgroundColor = Game.Utils.Colours.BG;
-                new Game.States.PreloadState(this.game);
+                this.game.renderer.backgroundColor = Lightening.Utils.Colours.BG;
+                new States.PreloadState(this.game);
             };
             BootState.prototype.update = function () {
                 console.log('update boot');
             };
             return BootState;
-        }(Game.State));
+        }(Lightening.State));
         States.BootState = BootState;
-    })(States = Game.States || (Game.States = {}));
-})(Game || (Game = {}));
+    })(States = Lightening.States || (Lightening.States = {}));
+})(Lightening || (Lightening = {}));
 /// <reference path="./../reference.d.ts" />
-var Game;
-(function (Game) {
+var Lightening;
+(function (Lightening) {
     var States;
     (function (States) {
         var GameState = (function (_super) {
             __extends(GameState, _super);
             function GameState(game) {
-                return _super.call(this, game) || this;
+                var _this = _super.call(this, game) || this;
+                _this.RADIANS = Math.PI / 180;
+                _this.DEGREES = 180 / Math.PI;
+                _this._bodies = [];
+                _this._actors = [];
+                _this.hitTest = function (x1, y1, w1, h1, x2, y2, w2, h2) {
+                    if (x1 + w1 > x2)
+                        if (x1 < x2 + w2)
+                            if (y1 + h1 > y2)
+                                if (y1 < y2 + h2)
+                                    return true;
+                    return false;
+                };
+                return _this;
             }
             GameState.prototype.init = function (params) {
-                console.log(params);
-            };
-            GameState.prototype.create = function () {
-            };
-            return GameState;
-        }(Game.State));
-        States.GameState = GameState;
-    })(States = Game.States || (Game.States = {}));
-})(Game || (Game = {}));
-/// <reference path="./../reference.d.ts" />
-var Game;
-(function (Game) {
-    var States;
-    (function (States) {
-        var MenuState = (function (_super) {
-            __extends(MenuState, _super);
-            function MenuState(game) {
-                return _super.call(this, game) || this;
-            }
-            MenuState.prototype.init = function (params) {
-                this.create();
-            };
-            MenuState.prototype.create = function () {
-                var sContainer = new PIXI.Container();
-                this.addChild(sContainer);
-                var padding = this.game.width * 0.05;
-                var width = this.game.width - padding;
-                var height = this.game.height - padding;
-                var lineWidth = width / 8;
-                var offsetX = lineWidth / 2 + padding / 2;
-                var offsetY = lineWidth / 2 + padding / 2;
-                var squareWidth = width / 8 * 0.76;
-                var maxY = Math.floor(height / lineWidth);
-                var heightMax = maxY * lineWidth;
-                var diff = height - heightMax;
-                for (var y = 0; y < maxY; y++) {
-                    for (var x = 0; x < 8; x++) {
-                        var square = new Game.Prefab.BGSquare(this.game, squareWidth, x, 0);
-                        square.x = offsetX + (lineWidth * x);
-                        square.y = offsetY + (diff * 0.50) + (lineWidth * y);
-                        for (var _i = 0, _a = Game.Utils.SquarePositions.menuHide; _i < _a.length; _i++) {
-                            var i = _a[_i];
-                            if (i.x === x && i.y === y) {
-                                switch (i.type) {
-                                    case 'c':
-                                        square.drawCircle();
-                                        break;
-                                    case 's':
-                                        square.drawStar();
-                                        break;
-                                    case 't':
-                                        square.drawTriangle();
-                                        break;
-                                    case 'd':
-                                        square.drawDiamond();
-                                        break;
-                                    case 'q':
-                                        square.drawWhiteSquare();
-                                        break;
-                                    case 'b':
-                                        square.alpha = 0;
-                                        break;
-                                }
-                            }
-                        }
-                        if (x === 3 && y === 0) {
-                            square.drawCircle();
-                        }
-                        sContainer.addChild(square);
+                this.world = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 10), true);
+                var polyFixture = new Box2D.Dynamics.b2FixtureDef();
+                polyFixture.shape = new Box2D.Collision.Shapes.b2PolygonShape();
+                polyFixture.density = 1;
+                var circleFixture = new Box2D.Dynamics.b2FixtureDef();
+                circleFixture.shape = new Box2D.Collision.Shapes.b2CircleShape();
+                circleFixture.density = 1;
+                circleFixture.restitution = 0.7;
+                var bodyDef = new Box2D.Dynamics.b2BodyDef();
+                bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody;
+                //down
+                polyFixture.shape.SetAsBox(10, 1);
+                bodyDef.position.Set(9, this.game.height / 100 + 1);
+                this.world.CreateBody(bodyDef).CreateFixture(polyFixture);
+                //left
+                polyFixture.shape.SetAsBox(1, 100);
+                bodyDef.position.Set(-1, 0);
+                this.world.CreateBody(bodyDef).CreateFixture(polyFixture);
+                //right
+                bodyDef.position.Set(this.game.height / 100 + 1, 0);
+                this.world.CreateBody(bodyDef).CreateFixture(polyFixture);
+                bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+                for (var i = 0; i < 40; i++) {
+                    bodyDef.position.Set(this.rndRange(0, this.game.width) / 100, -this.rndRange(50, 5000) / 100);
+                    var body = this.world.CreateBody(bodyDef);
+                    var s;
+                    if (Math.random() > 0.5) {
+                        s = this.rndRange(70, 100);
+                        circleFixture.shape.SetRadius(s / 2 / 100);
+                        body.CreateFixture(circleFixture);
+                        this._bodies.push(body);
+                        var ball = new PIXI.Sprite(PIXI.Texture.fromImage("assets/ball.png"));
+                        this.addChild(ball);
+                        ball['i'] = i;
+                        ball.anchor.x = ball.anchor.y = 0.5;
+                        ball.scale.x = ball.scale.y = s / 100;
+                        this._actors[this._actors.length] = ball;
+                    }
+                    else {
+                        s = this.rndRange(50, 100);
+                        polyFixture.shape.SetAsBox(s / 2 / 100, s / 2 / 100);
+                        body.CreateFixture(polyFixture);
+                        this._bodies.push(body);
+                        var box = new PIXI.Sprite(PIXI.Texture.fromImage("assets/box.jpg"));
+                        this.addChild(box);
+                        box['i'] = i;
+                        box.anchor.x = box.anchor.y = 0.5;
+                        box.scale.x = s / 100;
+                        box.scale.y = s / 100;
+                        this._actors[this._actors.length] = box;
                     }
                 }
             };
-            return MenuState;
-        }(Game.State));
-        States.MenuState = MenuState;
-    })(States = Game.States || (Game.States = {}));
-})(Game || (Game = {}));
+            GameState.prototype.rndRange = function (min, max) {
+                return min + (Math.random() * (max - min));
+            };
+            GameState.prototype.rndIntRange = function (min, max) {
+                return Math.round(this.rndRange(min, max));
+            };
+            GameState.prototype.toRadians = function (degrees) {
+                return degrees * this.RADIANS;
+            };
+            GameState.prototype.toDegrees = function (radians) {
+                return radians * this.DEGREES;
+            };
+            GameState.prototype.create = function () {
+            };
+            GameState.prototype.update = function () {
+                this.world.Step(1 / 60, 3, 3);
+                this.world.ClearForces();
+                var n = this._actors.length;
+                for (var i = 0; i < n; i++) {
+                    var body = this._bodies[i];
+                    var actor = this._actors[i];
+                    var position = body.GetPosition();
+                    actor.position.x = position.x * 100;
+                    actor.position.y = position.y * 100;
+                    actor.rotation = body.GetAngle();
+                }
+            };
+            return GameState;
+        }(Lightening.State));
+        States.GameState = GameState;
+    })(States = Lightening.States || (Lightening.States = {}));
+})(Lightening || (Lightening = {}));
 /// <reference path="./../reference.d.ts" />
-var Game;
-(function (Game) {
+var Lightening;
+(function (Lightening) {
     var States;
     (function (States) {
         var PreloadState = (function (_super) {
@@ -2222,75 +2129,16 @@ var Game;
                 var _this = this;
                 this.game.signals.create('preloadComplete');
                 this.game.signals.add('preloadComplete', function () {
-                    new Game.States.MenuState(_this.game);
+                    _this.game.startState(States.GameState);
                 });
-                var sContainer = new PIXI.Container();
-                this.addChild(sContainer);
-                var padding = this.game.width * 0.05;
-                var width = this.game.width - padding;
-                var height = this.game.height - padding;
-                var lineWidth = width / 8;
-                var offsetX = lineWidth / 2 + padding / 2;
-                var offsetY = lineWidth / 2 + padding / 2;
-                var squareWidth = width / 8 * 0.76;
-                var maxY = Math.floor(height / lineWidth);
-                var heightMax = maxY * lineWidth;
-                var diff = height - heightMax;
-                for (var y = 0; y < maxY; y++) {
-                    for (var x = 0; x < 8; x++) {
-                        var square = new Game.Prefab.BGSquare(this.game, squareWidth, x, y);
-                        square.x = offsetX + (lineWidth * x);
-                        square.y = offsetY + (diff * 0.50) + (lineWidth * y);
-                        for (var _i = 0, _a = Game.Utils.SquarePositions.menuHide; _i < _a.length; _i++) {
-                            var i = _a[_i];
-                            if (i.x === x && i.y === y) {
-                                square.typeChange(i.type);
-                            }
-                        }
-                        if (x === 3 && y === 0) {
-                            square.drawCircle();
-                        }
-                        sContainer.addChild(square);
-                    }
-                }
-                var progressBackground = Game.Shapes.Rect(this.game.width, this.game.height * 0.15);
-                progressBackground.y = sContainer.children[65].y + squareWidth;
-                progressBackground.tint = Game.Utils.Colours.DARK;
-                this.addChild(progressBackground);
-                var progressBar = Game.Shapes.Rect(this.game.width, this.game.height * 0.12);
-                progressBar.y = (progressBackground.height - progressBar.height) * 0.5;
-                progressBar.tint = Game.Utils.Colours.MEDIUM;
-                progressBackground.addChild(progressBar);
-                var progressBarTopShaddow = Game.Shapes.Rect(this.game.width, progressBar.height * 0.06);
-                progressBarTopShaddow.tint = 0x000000;
-                progressBarTopShaddow.alpha = 0.1;
-                progressBar.addChild(progressBarTopShaddow);
-                var progressBarBottomShaddow = Game.Shapes.Rect(this.game.width, progressBar.height * 0.04);
-                progressBarBottomShaddow.tint = 0x000000;
-                progressBarBottomShaddow.alpha = 0.1;
-                progressBarBottomShaddow.y = progressBar.height - progressBarBottomShaddow.height;
-                progressBar.addChild(progressBarBottomShaddow);
-                progressBar.scale.x = 0;
-                var loadingTween = this.game.tweens.create('preload', [
-                    {
-                        prop: "x",
-                        from: 0,
-                        to: 1,
-                        time: 4000,
-                        easing: this.game.tweens.easing.easeInOutExpo
-                    }
-                ]);
-                loadingTween.events.onComplete.add(function () {
-                    _this.game.signals.dispatch('preloadComplete');
-                });
-                this.game.tweens.start(progressBar.scale, 'preload', false, 0, true);
                 // setup the loader
                 var loader = new PIXI.loaders.Loader();
                 loader.on('error', this.error, this);
                 loader.on('load', this.load, this);
                 loader.once('complete', this.complete, this);
                 // add all your assets here
-                loader.add('assets/pokemon.png');
+                loader.add('assets/ball.png');
+                loader.add('assets/box.jpg');
                 // start the loader
                 loader.load();
             };
@@ -2307,23 +2155,24 @@ var Game;
                 // get the name of the loaded asset
                 var file = resource.name;
                 // remove the directory if you wish
-                // file = file.replace(/^.*[\\\/]/, '');
+                file = file.replace(/^.*[\\\/]/, '');
                 var progress = resource.progressChunk;
+                console.log('File:', file, 'loaded. Progress:', progress);
             };
             /**
              * Called when the loader has finished loading everything
              */
             PreloadState.prototype.complete = function () {
-                // new Game.States.MenuState(this.game);
+                this.game.signals.dispatch('preloadComplete', {});
             };
             return PreloadState;
-        }(Game.State));
+        }(Lightening.State));
         States.PreloadState = PreloadState;
-    })(States = Game.States || (Game.States = {}));
-})(Game || (Game = {}));
+    })(States = Lightening.States || (Lightening.States = {}));
+})(Lightening || (Lightening = {}));
 /// <reference path="./../reference.d.ts" />
-var Game;
-(function (Game) {
+var Lightening;
+(function (Lightening) {
     var Utils;
     (function (Utils) {
         var Colours;
@@ -2337,43 +2186,15 @@ var Game;
             Colours.ORANGE = 0xF04F50;
             Colours.WHITE = 0xFFFFFF;
         })(Colours = Utils.Colours || (Utils.Colours = {}));
-    })(Utils = Game.Utils || (Game.Utils = {}));
-})(Game || (Game = {}));
-/// <reference path="./../reference.d.ts" />
-var Game;
-(function (Game) {
-    var Utils;
-    (function (Utils) {
-        var SquarePositions;
-        (function (SquarePositions) {
-            SquarePositions.menuHide = [
-                { x: 2, y: 2, type: 'circle' },
-                { x: 3, y: 2, type: 'diamond' },
-                { x: 4, y: 2, type: 'circle' },
-                { x: 5, y: 2, type: 'star' },
-                { x: 2, y: 3, type: 'triangle' },
-                { x: 3, y: 3, type: 'diamond' },
-                { x: 4, y: 3, type: 'diamond' },
-                { x: 5, y: 3, type: 'triangle' },
-                { x: 2, y: 4, type: 'triangle' },
-                { x: 3, y: 4, type: 'star' },
-                { x: 4, y: 4, type: 'circle' },
-                { x: 5, y: 4, type: 'whiteSquare' },
-                { x: 2, y: 5, type: 'blank' },
-                { x: 3, y: 5, type: 'blank' },
-                { x: 4, y: 5, type: 'blank' },
-                { x: 5, y: 5, type: 'blank' }
-            ];
-        })(SquarePositions = Utils.SquarePositions || (Utils.SquarePositions = {}));
-    })(Utils = Game.Utils || (Game.Utils = {}));
-})(Game || (Game = {}));
+    })(Utils = Lightening.Utils || (Lightening.Utils = {}));
+})(Lightening || (Lightening = {}));
 /// <reference path="./reference.d.ts" />
 var app;
 (function (app_1) {
     var app = (function () {
         function app() {
-            this.game = new Game.Engine(window.innerWidth, window.innerHeight);
-            new Game.States.BootState(this.game);
+            this.game = new Lightening.Engine(window.innerWidth, window.innerHeight);
+            this.game.startState(Lightening.States.PreloadState);
         }
         return app;
     }());

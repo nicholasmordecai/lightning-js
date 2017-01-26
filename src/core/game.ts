@@ -1,13 +1,13 @@
 /// <reference path="./../reference.d.ts" />
 
-namespace Game {
+namespace Lightening {
 
     export class Engine {
 
         private _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
         private _world: PIXI.Container;
         private _ticker:PIXI.ticker.Ticker;
-        private _activateState:Game.State = null;
+        private _activateState:State = null;
         private _tweens = new Tween.TweenManager(this);
         private _stats = new Stats();
         private _signals:Signals.SignalManager = new Signals.SignalManager(this);
@@ -27,8 +27,6 @@ namespace Game {
             this._ticker = PIXI.ticker.shared;
             this._ticker.autoStart = true;
             this._ticker.add(this.update, this);
-
-            let sprite = new PIXI.Sprite();
 
             this.resize();
             this._stats.setMode(0);
@@ -56,7 +54,12 @@ namespace Game {
             }
         }
 
-        initState(state:State) {
+        startState(state, ...params) {
+            let nState = new state(this);
+            this.initState(nState, params);
+        }
+
+        initState(state:State, params) {
             if(this._activateState === null) {
                 this._world.addChild(state);
             } else {
@@ -64,13 +67,14 @@ namespace Game {
                 this._world.addChild(state);
             }
             this._activateState = state;
+            state.init(params);
         }
 
         public set backgroundColor(val:number) {
             this._renderer.backgroundColor = val;
         }
 
-        public set state(val:Game.State) {
+        public set state(val:State) {
             this._activateState = val;
         }
 

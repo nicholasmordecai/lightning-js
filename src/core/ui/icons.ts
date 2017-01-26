@@ -1,6 +1,6 @@
-/// <reference path="./../reference.d.ts" />
+/// <reference path="./../../reference.d.ts" />
 
-namespace Game {
+namespace Lightening.UI {
     export namespace Icons {
         /**
          * @description Draw a hamburger menu icon

@@ -1,6 +1,5 @@
-/// <reference path="./../reference.d.ts" />
-
-namespace Game {
+/// <reference path="./../../reference.d.ts" />
+namespace Lightening.UI {
     export namespace Shapes {
         /**
          * @description Draw a square

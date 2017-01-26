@@ -1,10 +1,10 @@
 /// <reference path="./../reference.d.ts" />
 
-namespace Game {
+namespace Lightening {
     export namespace States {
-        export class BootState extends Game.State {
+        export class BootState extends State {
 
-            constructor(game:Game.Engine) {
+            constructor(game:Engine) {
                 super(game);
             }
 
@@ -13,12 +13,12 @@ namespace Game {
             }
 
             create() {
-                this.game.renderer.backgroundColor = Game.Utils.Colours.BG;
-                new Game.States.PreloadState(this.game);
+                this.game.renderer.backgroundColor = Utils.Colours.BG;
+                new States.PreloadState(this.game);
             }
 
             update() {
-            console.log('update boot')
+                console.log('update boot')
             }
         }
     }
