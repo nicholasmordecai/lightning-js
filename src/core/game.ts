@@ -1,6 +1,6 @@
 /// <reference path="./../reference.d.ts" />
 
-namespace Lightening {
+namespace Lightning {
 
     export class Engine {
 
@@ -11,7 +11,8 @@ namespace Lightening {
         private _tweens = new Tween.TweenManager(this);
         private _signals:Signals.SignalManager = new Signals.SignalManager(this);
         private _physicsActive:boolean = false;
-        private _PhysicsWorld:Box2D.Dynamics.b2World;
+        private _physicsWorld:Box2D.Dynamics.b2World;
+        private _physicsWorldBounds:Box2D.Dynamics.b2BodyDef;
 
         private _stats = new Stats();
         private _statsEnabled:boolean = true;
@@ -22,7 +23,7 @@ namespace Lightening {
             this._world = new PIXI.Container();
             this._world.interactive = true;
             this._world.on('mousedown', () => {
-                console.log('container mousedown');
+                // console.log('container mousedown');
             });
 
             document.getElementById('app-container').appendChild(this._renderer.view);
@@ -43,8 +44,8 @@ namespace Lightening {
         update(time):void {
             if(this._statsEnabled) this._stats.begin();
             if(this._physicsActive) {
-                this._PhysicsWorld.Step(1 / 60,  1, 1);
-                this._PhysicsWorld.ClearForces();
+                this._physicsWorld.Step(1 / 60,  1, 1);
+                this._physicsWorld.ClearForces();
             }
             this._activateState.update();
             this._tweens.update();
@@ -81,8 +82,33 @@ namespace Lightening {
         }
 
         startPhysics() {
-            this._PhysicsWorld = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 10),  true);
+            this._physicsWorld = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 10),  true);
             this._physicsActive = true;
+        }
+
+        collideOnWorldBounds():void {
+            this._physicsWorldBounds = new Box2D.Dynamics.b2BodyDef();
+            let polyFixture:Box2D.Dynamics.b2FixtureDef = new Box2D.Dynamics.b2FixtureDef();
+            polyFixture.shape = new Box2D.Collision.Shapes.b2PolygonShape();
+            polyFixture.density = 1;
+
+            this._physicsWorldBounds = new Box2D.Dynamics.b2BodyDef();
+            this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_staticBody;
+        
+            //down
+            polyFixture.shape.SetAsBox(10, 1);
+            this._physicsWorldBounds.position.Set(9, this.height / 100 + 1);
+            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
+            
+            //left
+            polyFixture.shape.SetAsBox(1, 100);
+            this._physicsWorldBounds.position.Set(-1, 0);
+            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
+            
+            //right
+            this._physicsWorldBounds.position.Set(this.height / 100, 0);
+            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
+            this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
         }
 
         public set backgroundColor(val:number) {
@@ -117,8 +143,12 @@ namespace Lightening {
             return this._signals;
         }
 
-        public get physics() {
-            return this._PhysicsWorld;
+        public get physics():Box2D.Dynamics.b2World {
+            return this._physicsWorld;
+        }
+
+        public get physicsWorldBounds():Box2D.Dynamics.b2BodyDef {
+            return this._physicsWorldBounds
         }
     }
 }

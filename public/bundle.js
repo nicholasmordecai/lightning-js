@@ -4,8 +4,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 /// <reference path="./../reference.d.ts" />
-var Lightening;
-(function (Lightening) {
+var Lightning;
+(function (Lightning) {
     var State = (function (_super) {
         __extends(State, _super);
         function State(game) {
@@ -27,17 +27,17 @@ var Lightening;
         };
         return State;
     }(PIXI.Container));
-    Lightening.State = State;
-})(Lightening || (Lightening = {}));
+    Lightning.State = State;
+})(Lightning || (Lightning = {}));
 /// <reference path="./../reference.d.ts" />
-var Lightening;
-(function (Lightening) {
+var Lightning;
+(function (Lightning) {
     var Engine = (function () {
         // game engine constructor
         function Engine(width, height) {
             this._activateState = null;
             this._tweens = new Tween.TweenManager(this);
-            this._signals = new Lightening.Signals.SignalManager(this);
+            this._signals = new Lightning.Signals.SignalManager(this);
             this._physicsActive = false;
             this._stats = new Stats();
             this._statsEnabled = true;
@@ -45,7 +45,7 @@ var Lightening;
             this._world = new PIXI.Container();
             this._world.interactive = true;
             this._world.on('mousedown', function () {
-                console.log('container mousedown');
+                // console.log('container mousedown');
             });
             document.getElementById('app-container').appendChild(this._renderer.view);
             // init the ticker
@@ -63,8 +63,8 @@ var Lightening;
             if (this._statsEnabled)
                 this._stats.begin();
             if (this._physicsActive) {
-                this._PhysicsWorld.Step(1 / 60, 1, 1);
-                this._PhysicsWorld.ClearForces();
+                this._physicsWorld.Step(1 / 60, 1, 1);
+                this._physicsWorld.ClearForces();
             }
             this._activateState.update();
             this._tweens.update();
@@ -102,8 +102,28 @@ var Lightening;
             state.init(params);
         };
         Engine.prototype.startPhysics = function () {
-            this._PhysicsWorld = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 10), true);
+            this._physicsWorld = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 10), true);
             this._physicsActive = true;
+        };
+        Engine.prototype.collideOnWorldBounds = function () {
+            this._physicsWorldBounds = new Box2D.Dynamics.b2BodyDef();
+            var polyFixture = new Box2D.Dynamics.b2FixtureDef();
+            polyFixture.shape = new Box2D.Collision.Shapes.b2PolygonShape();
+            polyFixture.density = 1;
+            this._physicsWorldBounds = new Box2D.Dynamics.b2BodyDef();
+            this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_staticBody;
+            //down
+            polyFixture.shape.SetAsBox(10, 1);
+            this._physicsWorldBounds.position.Set(9, this.height / 100 + 1);
+            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
+            //left
+            polyFixture.shape.SetAsBox(1, 100);
+            this._physicsWorldBounds.position.Set(-1, 0);
+            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
+            //right
+            this._physicsWorldBounds.position.Set(this.height / 100, 0);
+            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
+            this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
         };
         Object.defineProperty(Engine.prototype, "backgroundColor", {
             set: function (val) {
@@ -163,18 +183,25 @@ var Lightening;
         });
         Object.defineProperty(Engine.prototype, "physics", {
             get: function () {
-                return this._PhysicsWorld;
+                return this._physicsWorld;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "physicsWorldBounds", {
+            get: function () {
+                return this._physicsWorldBounds;
             },
             enumerable: true,
             configurable: true
         });
         return Engine;
     }());
-    Lightening.Engine = Engine;
-})(Lightening || (Lightening = {}));
+    Lightning.Engine = Engine;
+})(Lightning || (Lightning = {}));
 /// <reference path="./../../reference.d.ts" />
-var Lightening;
-(function (Lightening) {
+var Lightning;
+(function (Lightning) {
     var UI;
     (function (UI) {
         var Shapes;
@@ -299,11 +326,11 @@ var Lightening;
             }
             Shapes.Triangle = Triangle;
         })(Shapes = UI.Shapes || (UI.Shapes = {}));
-    })(UI = Lightening.UI || (Lightening.UI = {}));
-})(Lightening || (Lightening = {}));
+    })(UI = Lightning.UI || (Lightning.UI = {}));
+})(Lightning || (Lightning = {}));
 /// <reference path="./../../reference.d.ts" />
-var Lightening;
-(function (Lightening) {
+var Lightning;
+(function (Lightning) {
     var UI;
     (function (UI) {
         var Sprite = (function (_super) {
@@ -312,6 +339,19 @@ var Lightening;
                 if (texture === void 0) { texture = null; }
                 return _super.call(this, texture) || this;
             }
+            Sprite.prototype.enableBody = function (val) {
+                if (val) {
+                }
+            };
+            Sprite.prototype.setAnchor = function (aX, aY) {
+                if (aY === void 0) { aY = null; }
+                if (!aY) {
+                    this.anchor = new PIXI.Point(aX, aX);
+                }
+                else {
+                    this.anchor = new PIXI.Point(aX, aY);
+                }
+            };
             Object.defineProperty(Sprite.prototype, "body", {
                 get: function () {
                     return this._body;
@@ -325,11 +365,11 @@ var Lightening;
             return Sprite;
         }(PIXI.Sprite));
         UI.Sprite = Sprite;
-    })(UI = Lightening.UI || (Lightening.UI = {}));
-})(Lightening || (Lightening = {}));
+    })(UI = Lightning.UI || (Lightning.UI = {}));
+})(Lightning || (Lightning = {}));
 /// <reference path="./../../reference.d.ts" />
-var Lightening;
-(function (Lightening) {
+var Lightning;
+(function (Lightning) {
     var UI;
     (function (UI) {
         var Icons;
@@ -352,8 +392,221 @@ var Lightening;
             }
             Icons.Hamburger = Hamburger;
         })(Icons = UI.Icons || (UI.Icons = {}));
-    })(UI = Lightening.UI || (Lightening.UI = {}));
-})(Lightening || (Lightening = {}));
+    })(UI = Lightning.UI || (Lightning.UI = {}));
+})(Lightning || (Lightning = {}));
+/// <reference path="./../../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var UI;
+    (function (UI) {
+        var Button = (function (_super) {
+            __extends(Button, _super);
+            function Button(game, texture) {
+                if (texture === void 0) { texture = null; }
+                var _this = _super.call(this, texture) || this;
+                _this._primitive = null;
+                _this.game = game;
+                _this.initalise();
+                return _this;
+            }
+            Button.prototype.initalise = function () {
+                this.interactive = true;
+                this._hitArea = new UI.HitArea(this.game, this.texture.width, this.texture.height);
+                this.addChild(this._hitArea);
+            };
+            Button.prototype.setAnchor = function (aX, aY) {
+                if (aY === void 0) { aY = null; }
+                if (!aY) {
+                    this.anchor = new PIXI.Point(aX, aX);
+                    this._hitArea.x -= this.width * aX;
+                    this._hitArea.y -= this.height * aX;
+                }
+                else {
+                    this.anchor = new PIXI.Point(aX, aY);
+                    this._hitArea.x -= this.width * aX;
+                    this._hitArea.y -= this.height * aY;
+                }
+            };
+            Object.defineProperty(Button.prototype, "hit", {
+                get: function () {
+                    return this._hitArea;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return Button;
+        }(UI.Sprite));
+        UI.Button = Button;
+    })(UI = Lightning.UI || (Lightning.UI = {}));
+})(Lightning || (Lightning = {}));
+/// <reference path="./../../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var UI;
+    (function (UI) {
+        var HitArea = (function (_super) {
+            __extends(HitArea, _super);
+            /**
+             *
+             * @param game
+             * @returns {HitArea}
+             */
+            function HitArea(game, width, height) {
+                var _this = _super.call(this) || this;
+                _this._debug = false;
+                _this.game = game;
+                _this.interactive = true;
+                _this.alpha = 0.2;
+                // check if the hitAreaDebug signal exists, if not then create it.
+                // then add the debug function to that signal.
+                if (_this.game.signals.has('hitAreaDebug')) {
+                    _this.game.signals.add('hitAreaDebug', _this.debug, _this);
+                }
+                else {
+                    _this.game.signals.create('hitAreaDebug');
+                    _this.game.signals.add('hitAreaDebug', _this.debug, _this);
+                }
+                _this.beginFill(0xffffff, 1);
+                _this.drawRect(0, 0, width, height);
+                _this.endFill();
+                return _this;
+            }
+            HitArea.prototype.setRect = function (width, height) {
+            };
+            HitArea.prototype.setCircle = function (radius) {
+            };
+            /**
+             * @description Pass a function to be added to the click events
+             * @param fnct
+             */
+            HitArea.prototype.onClick = function (fnct) {
+                this.on('click', fnct);
+            };
+            /**
+             * @description Pass a function to be added to the mouse, pointer and touch down events
+             * @param fnct
+             */
+            HitArea.prototype.down = function (fnct) {
+                this.on('mousedown', fnct);
+                this.on('touchend', fnct);
+                if (this['pointertap'] !== undefined) {
+                    this.on('pointertap', fnct);
+                }
+                if (this['pointerdown'] !== undefined) {
+                    this.on('pointerdown', fnct);
+                }
+            };
+            /**
+             * @description Pass a function to be added to the mouse, touch and pointer up events
+             * @param fnct
+             */
+            HitArea.prototype.up = function (fnct) {
+                this.on('mouseup', fnct);
+                this.on('touchend', fnct);
+                if (this['pointerup'] !== undefined) {
+                    this.on('pointerup', fnct);
+                }
+            };
+            /**
+             * @description Pass a function to be added to the mouse, pointer and touch up outside events
+             * @param fnct
+             */
+            HitArea.prototype.upOutside = function (fnct) {
+                this.on('mouseupoutside', fnct);
+                this.on('touchendoutside', fnct);
+                if (this['pointerupoutside'] !== undefined) {
+                    this.on('pointerupoutside', fnct);
+                }
+            };
+            /**
+             * @description Pass a function to be added to the mouse and pointer over events
+             * @param fnct
+             */
+            HitArea.prototype.over = function (fnct) {
+                this.on('mouseover', fnct);
+                if (this['pointerover'] !== undefined) {
+                    this.on('pointerover', fnct);
+                }
+            };
+            /**
+             * @description Pass a function to be added to the mouse and pointer out events
+             * @param fnct
+             */
+            HitArea.prototype.out = function (fnct) {
+                this.on('mouseout', fnct);
+                if (this['pointerout'] !== undefined) {
+                    this.on('pointerout', fnct);
+                }
+            };
+            /**
+             * @description Pass a function to be added to the mouse and pointer move event
+             * @param fnct
+             */
+            HitArea.prototype.move = function (fnct) {
+                this.on('mousemove', fnct);
+                if (this['pointermove'] !== undefined) {
+                    this.on('pointermove', fnct);
+                }
+            };
+            /**
+             * @description Pass a function to be added to the right click events
+             * @param fnct
+             */
+            HitArea.prototype.rightClick = function (fnct) {
+                this.on('rightclick', fnct);
+            };
+            /**
+             * @description Pass a function to be added to the right down events
+             * @param fnct
+             */
+            HitArea.prototype.rightDown = function (fnct) {
+                this.on('rightdown', fnct);
+            };
+            /**
+             * @description Pass a function to be added to the right up events
+             * @param fnct
+             */
+            HitArea.prototype.rightUp = function (fnct) {
+                this.on('rightup', fnct);
+            };
+            /**
+             * @description Pass a function to be added to the right up outside events
+             * @param fnct
+             */
+            HitArea.prototype.rightUpOutside = function (fnct) {
+                this.on('rightupoutside', fnct);
+            };
+            /**
+             * @description Pass a function to be added to the tap event
+             *
+             * @param fnct
+             */
+            HitArea.prototype.tap = function (fnct) {
+                this.on('tap', fnct);
+            };
+            /**
+             * @description Sets the debug enabled / disabled and the alpha to 0.5 accordingly
+             *
+             * @param {Array} data passed in from the signal dispatch event
+             */
+            HitArea.prototype.debug = function (data) {
+                /**
+                 * data [0] = true / false - debug mode enabled
+                 */
+                if (data[0]) {
+                    this._debug = true;
+                    this.alpha = 0.5;
+                }
+                else {
+                    this._debug = false;
+                    this.alpha = 0;
+                }
+            };
+            return HitArea;
+        }(PIXI.Graphics));
+        UI.HitArea = HitArea;
+    })(UI = Lightning.UI || (Lightning.UI = {}));
+})(Lightning || (Lightning = {}));
 var Tween;
 (function (Tween) {
     var Easing = (function () {
@@ -1505,8 +1758,8 @@ var Tween;
     Tween.TweenManager = TweenManager;
 })(Tween || (Tween = {}));
 /// <reference path="./../../reference.d.ts" />
-var Lightening;
-(function (Lightening) {
+var Lightning;
+(function (Lightning) {
     var Signals;
     (function (Signals) {
         /**
@@ -1765,11 +2018,11 @@ var Lightening;
          */
         Signal.VERSION = '1.0.0';
         Signals.Signal = Signal;
-    })(Signals = Lightening.Signals || (Lightening.Signals = {}));
-})(Lightening || (Lightening = {}));
+    })(Signals = Lightning.Signals || (Lightning.Signals = {}));
+})(Lightning || (Lightning = {}));
 /// <reference path="./../../reference.d.ts" />
-var Lightening;
-(function (Lightening) {
+var Lightning;
+(function (Lightning) {
     var Signals;
     (function (Signals) {
         /*
@@ -1888,11 +2141,11 @@ var Lightening;
             return SignalBinding;
         }());
         Signals.SignalBinding = SignalBinding;
-    })(Signals = Lightening.Signals || (Lightening.Signals = {}));
-})(Lightening || (Lightening = {}));
+    })(Signals = Lightning.Signals || (Lightning.Signals = {}));
+})(Lightning || (Lightning = {}));
 /// <reference path="./../../reference.d.ts" />
-var Lightening;
-(function (Lightening) {
+var Lightning;
+(function (Lightning) {
     var Signals;
     (function (Signals) {
         /**
@@ -2020,11 +2273,11 @@ var Lightening;
             return SignalManager;
         }());
         Signals.SignalManager = SignalManager;
-    })(Signals = Lightening.Signals || (Lightening.Signals = {}));
-})(Lightening || (Lightening = {}));
+    })(Signals = Lightning.Signals || (Lightning.Signals = {}));
+})(Lightning || (Lightning = {}));
 /// <reference path="./../reference.d.ts" />
-var Lightening;
-(function (Lightening) {
+var Lightning;
+(function (Lightning) {
     var States;
     (function (States) {
         var BootState = (function (_super) {
@@ -2036,20 +2289,20 @@ var Lightening;
                 this.create();
             };
             BootState.prototype.create = function () {
-                this.game.backgroundColor = Lightening.Utils.Colours.BG;
+                this.game.backgroundColor = Lightning.Utils.Colours.BG;
                 new States.PreloadState(this.game);
             };
             BootState.prototype.update = function () {
                 console.log('update boot');
             };
             return BootState;
-        }(Lightening.State));
+        }(Lightning.State));
         States.BootState = BootState;
-    })(States = Lightening.States || (Lightening.States = {}));
-})(Lightening || (Lightening = {}));
+    })(States = Lightning.States || (Lightning.States = {}));
+})(Lightning || (Lightning = {}));
 /// <reference path="./../reference.d.ts" />
-var Lightening;
-(function (Lightening) {
+var Lightning;
+(function (Lightning) {
     var States;
     (function (States) {
         var GameState = (function (_super) {
@@ -2063,37 +2316,24 @@ var Lightening;
                 return _this;
             }
             GameState.prototype.init = function (params) {
+                var _this = this;
+                this.game.collideOnWorldBounds();
                 this.addChild(this._actors);
-                var polyFixture = new Box2D.Dynamics.b2FixtureDef();
-                polyFixture.shape = new Box2D.Collision.Shapes.b2PolygonShape();
-                polyFixture.density = 1;
                 var circleFixture = new Box2D.Dynamics.b2FixtureDef();
                 circleFixture.shape = new Box2D.Collision.Shapes.b2CircleShape();
                 circleFixture.density = 1;
                 circleFixture.restitution = 0.7;
-                var bodyDef = new Box2D.Dynamics.b2BodyDef();
-                bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody;
-                //down
-                polyFixture.shape.SetAsBox(10, 1);
-                bodyDef.position.Set(9, this.game.height / 100 + 1);
-                this.game.physics.CreateBody(bodyDef).CreateFixture(polyFixture);
-                //left
-                polyFixture.shape.SetAsBox(1, 100);
-                bodyDef.position.Set(-1, 0);
-                this.game.physics.CreateBody(bodyDef).CreateFixture(polyFixture);
-                //right
-                bodyDef.position.Set(this.game.height / 100, 0);
-                this.game.physics.CreateBody(bodyDef).CreateFixture(polyFixture);
-                bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
                 for (var i = 0; i < 40; i++) {
-                    bodyDef.position.Set(this.rndRange(0, this.game.width) / 100, -this.rndRange(50, 5000) / 100);
-                    var body = this.game.physics.CreateBody(bodyDef);
-                    circleFixture.shape.SetRadius(0.5);
-                    body.CreateFixture(circleFixture);
-                    var ball = new Lightening.UI.Sprite(PIXI.Texture.fromImage("assets/ball.png"));
-                    ball.body = body;
-                    ball.anchor.x = ball.anchor.y = 0.5;
-                    this._actors.addChild(ball);
+                    setTimeout(function () {
+                        var ball = new Lightning.UI.Sprite(PIXI.Texture.fromImage("assets/ball.png"));
+                        _this.game.physicsWorldBounds.position.Set(_this.game.width / 2 / 100, _this.game.height * 0.2 / 100);
+                        var body = _this.game.physics.CreateBody(_this.game.physicsWorldBounds);
+                        circleFixture.shape.SetRadius(ball.width / 200);
+                        body.CreateFixture(circleFixture);
+                        ball.body = body;
+                        ball.anchor.x = ball.anchor.y = 0.5;
+                        _this._actors.addChild(ball);
+                    }, 1000 * i);
                 }
             };
             GameState.prototype.rndRange = function (min, max) {
@@ -2113,13 +2353,13 @@ var Lightening;
                 }
             };
             return GameState;
-        }(Lightening.State));
+        }(Lightning.State));
         States.GameState = GameState;
-    })(States = Lightening.States || (Lightening.States = {}));
-})(Lightening || (Lightening = {}));
+    })(States = Lightning.States || (Lightning.States = {}));
+})(Lightning || (Lightning = {}));
 /// <reference path="./../reference.d.ts" />
-var Lightening;
-(function (Lightening) {
+var Lightning;
+(function (Lightning) {
     var States;
     (function (States) {
         var PreloadState = (function (_super) {
@@ -2129,15 +2369,15 @@ var Lightening;
             }
             PreloadState.prototype.init = function (params) {
                 this.create();
+                this.game.backgroundColor = Lightning.Utils.Colours.LIGHTBLUE;
             };
             /**
              * Create function
              */
             PreloadState.prototype.create = function () {
-                var _this = this;
                 this.game.signals.create('preloadComplete');
                 this.game.signals.add('preloadComplete', function () {
-                    _this.game.startState(States.GameState);
+                    //this.game.startState(States.GameState);
                 });
                 // setup the loader
                 var loader = new PIXI.loaders.Loader();
@@ -2172,15 +2412,21 @@ var Lightening;
              */
             PreloadState.prototype.complete = function () {
                 this.game.signals.dispatch('preloadComplete', {});
+                var button = new Lightning.UI.Button(this.game, PIXI.Texture.fromImage('assets/ball.png'));
+                button.x = this.game.width * 0.5;
+                button.y = this.game.height * 0.5;
+                button.setAnchor(0.5);
+                this.addChild(button);
+                // this.game.signals.dispatch('hitAreaDebug', false)
             };
             return PreloadState;
-        }(Lightening.State));
+        }(Lightning.State));
         States.PreloadState = PreloadState;
-    })(States = Lightening.States || (Lightening.States = {}));
-})(Lightening || (Lightening = {}));
+    })(States = Lightning.States || (Lightning.States = {}));
+})(Lightning || (Lightning = {}));
 /// <reference path="./../reference.d.ts" />
-var Lightening;
-(function (Lightening) {
+var Lightning;
+(function (Lightning) {
     var Utils;
     (function (Utils) {
         var Colours;
@@ -2194,16 +2440,16 @@ var Lightening;
             Colours.ORANGE = 0xF04F50;
             Colours.WHITE = 0xFFFFFF;
         })(Colours = Utils.Colours || (Utils.Colours = {}));
-    })(Utils = Lightening.Utils || (Lightening.Utils = {}));
-})(Lightening || (Lightening = {}));
+    })(Utils = Lightning.Utils || (Lightning.Utils = {}));
+})(Lightning || (Lightning = {}));
 /// <reference path="./reference.d.ts" />
 var app;
 (function (app_1) {
     var app = (function () {
         function app() {
-            this.game = new Lightening.Engine(window.innerWidth, window.innerHeight);
+            this.game = new Lightning.Engine(window.innerWidth, window.innerHeight);
             this.game.startPhysics();
-            this.game.startState(Lightening.States.PreloadState);
+            this.game.startState(Lightning.States.PreloadState);
         }
         return app;
     }());

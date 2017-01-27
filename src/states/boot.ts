@@ -1,6 +1,6 @@
 /// <reference path="./../reference.d.ts" />
 
-namespace Lightening {
+namespace Lightning {
     export namespace States {
         export class BootState extends State {
 

@@ -1,6 +1,6 @@
 /// <reference path="./../reference.d.ts" />
 
-namespace Lightening {
+namespace Lightning {
     export namespace States {
         export class PreloadState extends State {
 
@@ -10,6 +10,7 @@ namespace Lightening {
 
             init(params) {
                 this.create();
+                this.game.backgroundColor = Utils.Colours.LIGHTBLUE;
             }
 
             /**
@@ -19,7 +20,7 @@ namespace Lightening {
 
                 this.game.signals.create('preloadComplete');
                 this.game.signals.add('preloadComplete', () => {
-                    this.game.startState(States.GameState);
+                    //this.game.startState(States.GameState);
                 });
 
                 // setup the loader
@@ -63,6 +64,14 @@ namespace Lightening {
              */
             complete() {
                 this.game.signals.dispatch('preloadComplete', {});
+
+                let button = new UI.Button(this.game, PIXI.Texture.fromImage('assets/ball.png'));
+                button.x = this.game.width * 0.5;
+                button.y = this.game.height * 0.5;
+                button.setAnchor(0.5);
+                
+                this.addChild(button);
+                // this.game.signals.dispatch('hitAreaDebug', false)
             }
         }
     }

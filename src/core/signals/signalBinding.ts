@@ -1,6 +1,6 @@
 /// <reference path="./../../reference.d.ts" />
 
-namespace Lightening.Signals {
+namespace Lightning.Signals {
     /*
     *	@desc   	An object that represents a binding between a Signal and a listener function.
     *               Released under the MIT license

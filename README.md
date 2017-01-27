@@ -27,7 +27,7 @@ $ npm install -g webpack tsc
 Next, go ahead and clone the project.
 
 ```sh
-$ git clone git@gitlab.com:Sprite-Storm/lightening.git
+$ git clone git@gitlab.com:Sprite-Storm/Lightning.git
 ```
 
 If you want to make changes to the development branch, please switch to the dev branch. If you want to implement your own feature request, please make a seperate branch and once completed, make a merge request. You can make a pull request from the gitlab dashboard, or from the command line.
@@ -40,7 +40,7 @@ $ git checkout dev
 $ git checkout -b myCoolFeature
 
 # CI pull request
-$ git request-pull v1.0 git@gitlab.com:Sprite-Storm/lightening.git dev
+$ git request-pull v1.0 git@gitlab.com:Sprite-Storm/Lightning.git dev
 ```
 Once you have made a pull request to the dev branch, your feature will be implemented into the latest development version, and released with the version.
 
@@ -51,7 +51,7 @@ Trying to stick to one format of coding style to make collaboration easier. Belo
 /**
  * Button class for adding a hit area and input controls to a sprite
  */
-namespace Lightening.Utils {
+namespace Lightning.Utils {
     export class Button extends UI.Sprite {
         /**
          * @description Constructor of button class

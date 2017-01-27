@@ -1,6 +1,6 @@
 /// <reference path="./../reference.d.ts" />
 
-namespace Lightening.Utils.Colours {
+namespace Lightning.Utils.Colours {
     export const DARK:number = 0x161520;
     export const BG:number = 0x222232;
     export const MEDIUM:number = 0x565691;

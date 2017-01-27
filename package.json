@@ -1,6 +1,6 @@
 {
-  "name": "lightening",
-  "version": "0.1.5",
+  "name": "lightning",
+  "version": "0.1.6",
   "description": "",
   "main": "public/bundle.js",
   "scripts": {

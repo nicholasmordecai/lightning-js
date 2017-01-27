@@ -3,12 +3,12 @@
 namespace app {
     export class app {
 
-        public game:Lightening.Engine;
+        public game:Lightning.Engine;
 
         constructor() {
-            this.game = new Lightening.Engine(window.innerWidth, window.innerHeight);
+            this.game = new Lightning.Engine(window.innerWidth, window.innerHeight);
             this.game.startPhysics();
-            this.game.startState(Lightening.States.PreloadState);
+            this.game.startState(Lightning.States.PreloadState);
         }
     }
 }

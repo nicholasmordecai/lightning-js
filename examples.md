@@ -1,15 +1,15 @@
 # Ligtening Examples
-A quick guide for the major parts of Lightening to setup and get going quickly.
+A quick guide for the major parts of Lightning to setup and get going quickly.
 
 ### Game Initalisation
 ```js
 namespace app {
     export class app {
 
-        public game:Lightening.Engine;
+        public game:Lightning.Engine;
 
         constructor() {
-            this.game = new Lightening.Engine(window.innerWidth, window.innerHeight);
+            this.game = new Lightning.Engine(window.innerWidth, window.innerHeight);
         }
     }
 }
@@ -28,12 +28,12 @@ this.game.backgroundColor // sets the background colour of the root stage
 
 ### State Initalisation
 ```js
-this.game.startState(Lightening.States.PreloadState);
+this.game.startState(Lightning.States.PreloadState);
 ```
 
 ### State Creation
 ```js
-namespace Lightening {
+namespace Lightning {
     export namespace States {
         export class PreloadState extends State {
 
@@ -55,23 +55,23 @@ namespace Lightening {
 
 ### Sprites
 ```js
-// if using outside of Lightening Namespace
-let sprite = new Lightening.UI.Sprite();
+// if using outside of Lightning Namespace
+let sprite = new Lightning.UI.Sprite();
 sprite.texture = texture;
 
-// if inside Lightening Namespace
-let sprite = new Lightening.UI.Sprite();
+// if inside Lightning Namespace
+let sprite = new Lightning.UI.Sprite();
 sprite.texture = texture;
 ```
 
 ### Geometry
 ```js
-let square = Lightening.UI.Shapes.Square(width);
-let rectangle = Lightening.UI.Shapes.Rect(width, heihgt);
-let star = Lightening.UI.Shapes.Star(width, height);
+let square = Lightning.UI.Shapes.Square(width);
+let rectangle = Lightning.UI.Shapes.Rect(width, heihgt);
+let star = Lightning.UI.Shapes.Star(width, height);
 let rectangle3d = Ligthening.UI.Shapes.Rect3D(width, height, depth);
-let circle = Lightening.UI.Shapes.Circle(radius);
-let triangle = Lightening.UI.Shapes.Circle(length);
+let circle = Lightning.UI.Shapes.Circle(radius);
+let triangle = Lightning.UI.Shapes.Circle(length);
 ```
 
 ### Signals
@@ -182,7 +182,7 @@ tween.onTick.addOnce('refName', () => {
 > these are a very useful feature for when you want to quickly change themes during gameplay. Edit the file in src/utils/colours.ts and export constants.
 
 ```js
-namespace Lightening.Utils.Colours {
+namespace Lightning.Utils.Colours {
     export const DARK:number = 0x161520;
     export const BG:number = 0x222232;
     export const MEDIUM:number = 0x565691;
@@ -194,7 +194,7 @@ namespace Lightening.Utils.Colours {
 }
 
 // usage
-let sprite = Lightening.UI.Sprite();
-sprite.tint = Lightening.Utils.Colours.Medium;
+let sprite = Lightning.UI.Sprite();
+sprite.tint = Lightning.Utils.Colours.Medium;
 ```
 

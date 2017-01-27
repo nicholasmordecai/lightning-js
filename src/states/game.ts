@@ -1,6 +1,6 @@
 /// <reference path="./../reference.d.ts" />
 
-namespace Lightening {
+namespace Lightning {
     export namespace States {
         export class GameState extends State {
 
@@ -10,52 +10,36 @@ namespace Lightening {
             private mouseJoint;
             private _bodies:Array<any> = [];
             private _actors:PIXI.Container = new PIXI.Container();
+            private _physicsBounds:Box2D.Dynamics.b2BodyDef;
 
             constructor(game:Engine) {
                 super(game);
             }
 
             init(params) {
-
+                this.game.collideOnWorldBounds();
                 this.addChild(this._actors);
-        
-                const polyFixture:Box2D.Dynamics.b2FixtureDef = new Box2D.Dynamics.b2FixtureDef();
-                polyFixture.shape = new Box2D.Collision.Shapes.b2PolygonShape();
-                polyFixture.density = 1;
                 
-                const circleFixture	= new Box2D.Dynamics.b2FixtureDef();
+                let circleFixture	= new Box2D.Dynamics.b2FixtureDef();
                 circleFixture.shape	= new Box2D.Collision.Shapes.b2CircleShape();
                 circleFixture.density = 1;
                 circleFixture.restitution = 0.7;
+                
+                for (var i = 0; i < 40; i++) {
+                    setTimeout(() => {
+                        
+                        let ball = new UI.Sprite(PIXI.Texture.fromImage("assets/ball.png"));
 
-                const bodyDef = new Box2D.Dynamics.b2BodyDef();
-                bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody;
-            
-                //down
-                polyFixture.shape.SetAsBox(10, 1);
-                bodyDef.position.Set(9, this.game.height / 100 + 1);
-                this.game.physics.CreateBody(bodyDef).CreateFixture(polyFixture);
-                
-                //left
-                polyFixture.shape.SetAsBox(1, 100);
-                bodyDef.position.Set(-1, 0);
-                this.game.physics.CreateBody(bodyDef).CreateFixture(polyFixture);
-                
-                //right
-                bodyDef.position.Set(this.game.height / 100, 0);
-                this.game.physics.CreateBody(bodyDef).CreateFixture(polyFixture);
-                bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
-                
-                for (var i = 0; i < 40; i++)
-                {
-                    bodyDef.position.Set(this.rndRange(0, this.game.width) / 100, -this.rndRange(50, 5000) / 100);
-                    var body = this.game.physics.CreateBody(bodyDef);
-                    circleFixture.shape.SetRadius(0.5);
-                    body.CreateFixture(circleFixture);
-                    var ball = new UI.Sprite(PIXI.Texture.fromImage("assets/ball.png"));
-                    ball.body = body;
-                    ball.anchor.x = ball.anchor.y = 0.5;
-                    this._actors.addChild(ball);
+                        this.game.physicsWorldBounds.position.Set(this.game.width / 2 / 100, this.game.height * 0.2 / 100);
+                        let body = this.game.physics.CreateBody(this.game.physicsWorldBounds);
+                        circleFixture.shape.SetRadius(ball.width / 200);
+                        body.CreateFixture(circleFixture);
+
+                        ball.body = body;
+                        ball.anchor.x = ball.anchor.y = 0.5;
+                        this._actors.addChild(ball);
+                }, 1000 * i);
+                    
                 }
             }
 

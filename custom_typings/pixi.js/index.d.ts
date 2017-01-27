@@ -1212,8 +1212,8 @@ declare module PIXI {
 
         constructor(texture?: Texture);
 
-        protected _anchor: ObservablePoint;
-        anchor: ObservablePoint;
+        protected _anchor: Point;
+        anchor: Point;
         protected _texture: Texture;
         protected _transformTrimmedID: number;
         protected _textureTrimmedID: number;

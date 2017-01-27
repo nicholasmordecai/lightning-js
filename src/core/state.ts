@@ -1,6 +1,6 @@
 /// <reference path="./../reference.d.ts" />
 
-namespace Lightening {
+namespace Lightning {
     export class State extends PIXI.Container {
         
         protected game: Engine;
