@@ -1,4 +1,4 @@
-# Ligtening 0.1.4
+# Ligtening 0.2.0
 
 A template for building mobile games in pixi, box2d and typescript
 

@@ -1,9 +1,9 @@
 # Changelog
 
 ### 0.2.0
-1.
-2.
-3.
+1. Fixed #3 - not updating state
+2. Made it much easier to run the latest version, though it's not 100% requirable at the moment.
+3. More work on the sprites, button, input handling and other UI related issues
 
 
 ### 0.1.6
