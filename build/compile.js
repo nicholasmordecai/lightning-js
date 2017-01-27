@@ -29,176 +29,6 @@ var Lightning;
     }(PIXI.Container));
     Lightning.State = State;
 })(Lightning || (Lightning = {}));
-/// <reference path="./../reference.d.ts" />
-var Lightning;
-(function (Lightning) {
-    var Engine = (function () {
-        // game engine constructor
-        function Engine(width, height) {
-            this._activateState = null;
-            this._tweens = new Tween.TweenManager(this);
-            this._signals = new Lightning.Signals.SignalManager(this);
-            this._physicsActive = false;
-            this._stats = new Stats();
-            this._statsEnabled = true;
-            this._renderer = PIXI.autoDetectRenderer(width, height);
-            this._world = new PIXI.Container();
-            this._world.interactive = true;
-            this._world.on('mousedown', function () {
-                // console.log('container mousedown');
-            });
-            document.getElementById('app-container').appendChild(this._renderer.view);
-            // init the ticker
-            this._ticker = PIXI.ticker.shared;
-            this._ticker.autoStart = true;
-            this._ticker.add(this.update, this);
-            this.resize();
-            if (this._statsEnabled) {
-                this._stats.setMode(0);
-                document.getElementById('app-container').appendChild(this._stats.domElement);
-            }
-        }
-        // gets called on update
-        Engine.prototype.update = function (time) {
-            if (this._statsEnabled)
-                this._stats.begin();
-            if (this._physicsActive) {
-                this._physicsWorld.Step(1 / 60, 1, 1);
-                this._physicsWorld.ClearForces();
-            }
-            this._activateState.update();
-            this._tweens.update();
-            this._renderer.render(this._world);
-            if (this._statsEnabled)
-                this._stats.end();
-        };
-        Engine.prototype.resize = function () {
-            var _this = this;
-            window.onresize = function (event) {
-                var w = window.innerWidth;
-                var h = window.innerHeight;
-                _this._renderer.view.style.width = w + "px";
-                _this._renderer.view.style.height = h + "px";
-                _this._renderer.resize(w, h);
-            };
-        };
-        Engine.prototype.startState = function (state) {
-            var params = [];
-            for (var _i = 1; _i < arguments.length; _i++) {
-                params[_i - 1] = arguments[_i];
-            }
-            var nState = new state(this);
-            this.initState(nState, params);
-        };
-        Engine.prototype.initState = function (state, params) {
-            if (this._activateState === null) {
-                this._world.addChild(state);
-            }
-            else {
-                this._world.removeChild(this._activateState);
-                this._world.addChild(state);
-            }
-            this._activateState = state;
-            state.init(params);
-        };
-        Engine.prototype.startPhysics = function () {
-            this._physicsWorld = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 10), true);
-            this._physicsActive = true;
-        };
-        Engine.prototype.collideOnWorldBounds = function () {
-            this._physicsWorldBounds = new Box2D.Dynamics.b2BodyDef();
-            var polyFixture = new Box2D.Dynamics.b2FixtureDef();
-            polyFixture.shape = new Box2D.Collision.Shapes.b2PolygonShape();
-            polyFixture.density = 1;
-            this._physicsWorldBounds = new Box2D.Dynamics.b2BodyDef();
-            this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_staticBody;
-            //down
-            polyFixture.shape.SetAsBox(10, 1);
-            this._physicsWorldBounds.position.Set(9, this.height / 100 + 1);
-            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
-            //left
-            polyFixture.shape.SetAsBox(1, 100);
-            this._physicsWorldBounds.position.Set(-1, 0);
-            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
-            //right
-            this._physicsWorldBounds.position.Set(this.height / 100, 0);
-            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
-            this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
-        };
-        Object.defineProperty(Engine.prototype, "backgroundColor", {
-            set: function (val) {
-                this._renderer.backgroundColor = val;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "state", {
-            set: function (val) {
-                this._activateState = val;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "world", {
-            get: function () {
-                return this._world;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "width", {
-            get: function () {
-                return this._renderer.width;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "height", {
-            get: function () {
-                return this._renderer.height;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "renderer", {
-            get: function () {
-                return this._renderer;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "tweens", {
-            get: function () {
-                return this._tweens;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "signals", {
-            get: function () {
-                return this._signals;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "physics", {
-            get: function () {
-                return this._physicsWorld;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "physicsWorldBounds", {
-            get: function () {
-                return this._physicsWorldBounds;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return Engine;
-    }());
-    Lightning.Engine = Engine;
-})(Lightning || (Lightning = {}));
 /// <reference path="./../../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
@@ -2278,181 +2108,171 @@ var Lightning;
 /// <reference path="./../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
-    var States;
-    (function (States) {
-        var BootState = (function (_super) {
-            __extends(BootState, _super);
-            function BootState(game) {
-                return _super.call(this, game) || this;
+    var Engine = (function () {
+        // game engine constructor
+        function Engine(width, height) {
+            this._activateState = null;
+            this._tweens = new Tween.TweenManager(this);
+            this._signals = new Lightning.Signals.SignalManager(this);
+            this._physicsActive = false;
+            this._stats = new Stats();
+            this._statsEnabled = true;
+            this._renderer = PIXI.autoDetectRenderer(width, height);
+            this._world = new PIXI.Container();
+            this._world.interactive = true;
+            this._world.on('mousedown', function () {
+                // console.log('container mousedown');
+            });
+            document.getElementById('app-container').appendChild(this._renderer.view);
+            // init the ticker
+            this._ticker = PIXI.ticker.shared;
+            this._ticker.autoStart = true;
+            this._ticker.add(this.update, this);
+            this.resize();
+            if (this._statsEnabled) {
+                this._stats.setMode(0);
+                document.getElementById('app-container').appendChild(this._stats.domElement);
             }
-            BootState.prototype.init = function (params) {
-                this.create();
-            };
-            BootState.prototype.create = function () {
-                this.game.backgroundColor = Lightning.Utils.Colours.BG;
-                new States.PreloadState(this.game);
-            };
-            BootState.prototype.update = function () {
-                console.log('update boot');
-            };
-            return BootState;
-        }(Lightning.State));
-        States.BootState = BootState;
-    })(States = Lightning.States || (Lightning.States = {}));
-})(Lightning || (Lightning = {}));
-/// <reference path="./../reference.d.ts" />
-var Lightning;
-(function (Lightning) {
-    var States;
-    (function (States) {
-        var GameState = (function (_super) {
-            __extends(GameState, _super);
-            function GameState(game) {
-                var _this = _super.call(this, game) || this;
-                _this.RADIANS = Math.PI / 180;
-                _this.DEGREES = 180 / Math.PI;
-                _this._bodies = [];
-                _this._actors = new PIXI.Container();
-                return _this;
-            }
-            GameState.prototype.init = function (params) {
-                var _this = this;
-                this.game.collideOnWorldBounds();
-                this.addChild(this._actors);
-                var circleFixture = new Box2D.Dynamics.b2FixtureDef();
-                circleFixture.shape = new Box2D.Collision.Shapes.b2CircleShape();
-                circleFixture.density = 1;
-                circleFixture.restitution = 0.7;
-                for (var i = 0; i < 40; i++) {
-                    setTimeout(function () {
-                        var ball = new Lightning.UI.Sprite(PIXI.Texture.fromImage("assets/ball.png"));
-                        _this.game.physicsWorldBounds.position.Set(_this.game.width / 2 / 100, _this.game.height * 0.2 / 100);
-                        var body = _this.game.physics.CreateBody(_this.game.physicsWorldBounds);
-                        circleFixture.shape.SetRadius(ball.width / 200);
-                        body.CreateFixture(circleFixture);
-                        ball.body = body;
-                        ball.anchor.x = ball.anchor.y = 0.5;
-                        _this._actors.addChild(ball);
-                    }, 1000 * i);
-                }
-            };
-            GameState.prototype.rndRange = function (min, max) {
-                return min + (Math.random() * (max - min));
-            };
-            GameState.prototype.rndIntRange = function (min, max) {
-                return Math.round(this.rndRange(min, max));
-            };
-            GameState.prototype.create = function () {
-            };
-            GameState.prototype.update = function () {
-                for (var _i = 0, _a = this._actors.children; _i < _a.length; _i++) {
-                    var actor = _a[_i];
-                    actor.x = actor['body'].GetPosition().x * 100;
-                    actor.y = actor['body'].GetPosition().y * 100;
-                    actor.rotation = actor['body']['GetAngle']();
-                }
-            };
-            return GameState;
-        }(Lightning.State));
-        States.GameState = GameState;
-    })(States = Lightning.States || (Lightning.States = {}));
-})(Lightning || (Lightning = {}));
-/// <reference path="./../reference.d.ts" />
-var Lightning;
-(function (Lightning) {
-    var States;
-    (function (States) {
-        var PreloadState = (function (_super) {
-            __extends(PreloadState, _super);
-            function PreloadState(game) {
-                return _super.call(this, game) || this;
-            }
-            PreloadState.prototype.init = function (params) {
-                this.create();
-                this.game.backgroundColor = Lightning.Utils.Colours.LIGHTBLUE;
-            };
-            /**
-             * Create function
-             */
-            PreloadState.prototype.create = function () {
-                this.game.signals.create('preloadComplete');
-                this.game.signals.add('preloadComplete', function () {
-                    //this.game.startState(States.GameState);
-                });
-                // setup the loader
-                var loader = new PIXI.loaders.Loader();
-                loader.on('error', this.error, this);
-                loader.on('load', this.load, this);
-                loader.once('complete', this.complete, this);
-                // add all your assets here
-                loader.add('assets/ball.png');
-                loader.add('assets/box.jpg');
-                // start the loader
-                loader.load();
-            };
-            /**
-             * Called if the loader produces an error
-             */
-            PreloadState.prototype.error = function (err) {
-                console.log(err);
-            };
-            /**
-             * Called when a single file has completed loading
-             */
-            PreloadState.prototype.load = function (loader, resource) {
-                // get the name of the loaded asset
-                var file = resource.name;
-                // remove the directory if you wish
-                file = file.replace(/^.*[\\\/]/, '');
-                var progress = resource.progressChunk;
-                console.log('File:', file, 'loaded. Progress:', progress);
-            };
-            /**
-             * Called when the loader has finished loading everything
-             */
-            PreloadState.prototype.complete = function () {
-                this.game.signals.dispatch('preloadComplete', {});
-                var button = new Lightning.UI.Button(this.game, PIXI.Texture.fromImage('assets/ball.png'));
-                button.x = this.game.width * 0.5;
-                button.y = this.game.height * 0.5;
-                button.setAnchor(0.5);
-                this.addChild(button);
-                // this.game.signals.dispatch('hitAreaDebug', false)
-            };
-            return PreloadState;
-        }(Lightning.State));
-        States.PreloadState = PreloadState;
-    })(States = Lightning.States || (Lightning.States = {}));
-})(Lightning || (Lightning = {}));
-/// <reference path="./../reference.d.ts" />
-var Lightning;
-(function (Lightning) {
-    var Utils;
-    (function (Utils) {
-        var Colours;
-        (function (Colours) {
-            Colours.DARK = 0x161520;
-            Colours.BG = 0x222232;
-            Colours.MEDIUM = 0x565691;
-            Colours.LIGHTBLUE = 0xAEDEDB;
-            Colours.GOLD = 0xF0D66F;
-            Colours.DIAMOND = 0x3BB0DD;
-            Colours.ORANGE = 0xF04F50;
-            Colours.WHITE = 0xFFFFFF;
-        })(Colours = Utils.Colours || (Utils.Colours = {}));
-    })(Utils = Lightning.Utils || (Lightning.Utils = {}));
-})(Lightning || (Lightning = {}));
-/// <reference path="./reference.d.ts" />
-var app;
-(function (app_1) {
-    var app = (function () {
-        function app() {
-            this.game = new Lightning.Engine(window.innerWidth, window.innerHeight);
-            this.game.startPhysics();
-            this.game.startState(Lightning.States.PreloadState);
         }
-        return app;
+        // gets called on update
+        Engine.prototype.update = function (time) {
+            if (this._statsEnabled)
+                this._stats.begin();
+            if (this._physicsActive) {
+                this._physicsWorld.Step(1 / 60, 1, 1);
+                this._physicsWorld.ClearForces();
+            }
+            this._activateState.update();
+            this._tweens.update();
+            this._renderer.render(this._world);
+            if (this._statsEnabled)
+                this._stats.end();
+        };
+        Engine.prototype.resize = function () {
+            var _this = this;
+            window.onresize = function (event) {
+                var w = window.innerWidth;
+                var h = window.innerHeight;
+                _this._renderer.view.style.width = w + "px";
+                _this._renderer.view.style.height = h + "px";
+                _this._renderer.resize(w, h);
+            };
+        };
+        Engine.prototype.startState = function (state) {
+            var params = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                params[_i - 1] = arguments[_i];
+            }
+            var nState = new state(this);
+            this.initState(nState, params);
+        };
+        Engine.prototype.initState = function (state, params) {
+            if (this._activateState === null) {
+                this._world.addChild(state);
+            }
+            else {
+                this._world.removeChild(this._activateState);
+                this._world.addChild(state);
+            }
+            this._activateState = state;
+            state.init(params);
+        };
+        Engine.prototype.startPhysics = function () {
+            this._physicsWorld = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 10), true);
+            this._physicsActive = true;
+        };
+        Engine.prototype.collideOnWorldBounds = function () {
+            this._physicsWorldBounds = new Box2D.Dynamics.b2BodyDef();
+            var polyFixture = new Box2D.Dynamics.b2FixtureDef();
+            polyFixture.shape = new Box2D.Collision.Shapes.b2PolygonShape();
+            polyFixture.density = 1;
+            this._physicsWorldBounds = new Box2D.Dynamics.b2BodyDef();
+            this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_staticBody;
+            //down
+            polyFixture.shape.SetAsBox(10, 1);
+            this._physicsWorldBounds.position.Set(9, this.height / 100 + 1);
+            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
+            //left
+            polyFixture.shape.SetAsBox(1, 100);
+            this._physicsWorldBounds.position.Set(-1, 0);
+            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
+            //right
+            this._physicsWorldBounds.position.Set(this.height / 100, 0);
+            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
+            this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+        };
+        Object.defineProperty(Engine.prototype, "backgroundColor", {
+            set: function (val) {
+                this._renderer.backgroundColor = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "state", {
+            set: function (val) {
+                this._activateState = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "world", {
+            get: function () {
+                return this._world;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "width", {
+            get: function () {
+                return this._renderer.width;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "height", {
+            get: function () {
+                return this._renderer.height;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "renderer", {
+            get: function () {
+                return this._renderer;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "tweens", {
+            get: function () {
+                return this._tweens;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "signals", {
+            get: function () {
+                return this._signals;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "physics", {
+            get: function () {
+                return this._physicsWorld;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "physicsWorldBounds", {
+            get: function () {
+                return this._physicsWorldBounds;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Engine;
     }());
-    app_1.app = app;
-})(app || (app = {}));
-new app.app();
+    Lightning.Engine = Engine;
+})(Lightning || (Lightning = {}));
+//# sourceMappingURL=compile.js.map

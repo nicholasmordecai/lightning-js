@@ -1,5 +1,11 @@
 # Changelog
 
+### 0.2.0
+1.
+2.
+3.
+
+
 ### 0.1.6
 1. Hit Area class added
     1. Simpler interaction management

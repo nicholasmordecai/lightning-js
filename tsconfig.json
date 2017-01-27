@@ -5,9 +5,10 @@
     "module": "amd",
     "target": "es5",
     "moduleResolution": "node",
-    "allowJs": true,
-    "outFile": "public/bundle.js",
-    "outDir": "public"
+    "declaration": true,
+    "sourceMap": true,
+    "outFile": "build/compile.js",
+    "outDir": "build"
   },
   "exclude": [
     "node_modules",
@@ -15,6 +16,6 @@
     "typings/index.d.ts"
   ],
   "files": [
-    "./src/main.ts"
+    "./src/core/game.ts"
   ]
 }

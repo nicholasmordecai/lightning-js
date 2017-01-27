@@ -47,7 +47,9 @@ namespace Lightning {
                 this._physicsWorld.Step(1 / 60,  1, 1);
                 this._physicsWorld.ClearForces();
             }
-            this._activateState.update();
+            if(this._activateState) {
+                this._activateState.update();
+            }
             this._tweens.update();
             this._renderer.render(this._world);
             if(this._statsEnabled) this._stats.end();
