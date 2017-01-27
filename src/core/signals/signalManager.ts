@@ -1,6 +1,6 @@
 /// <reference path="./../../reference.d.ts" />
 
-namespace Game.Signals {
+namespace Lightning.Signals {
     /**
      * Signal Manager class for storing, manipulating and general management of signals throughout the game
      */

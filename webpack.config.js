@@ -6,18 +6,21 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const common = {
     cache:false,
-    context: __dirname + '/public',
+    context: __dirname + '/dist',
     entry: [
-        'pixi.js/dist/pixi.js',
-        'matter-js/build/matter.js',
-        './libs/howler.js',
-        './libs/stats.min.js',
-        './public/bundle.js'
+        './src/libs/pixi.js',
+        './src/libs/Box2d.js',
+        './src/libs/howler.js',
+        './src/libs/stats.min.js',
+        './build/compile.js'
     ],
     output: {
-        path: './public',
-        filename: 'bundle-debug.js'
+        path: './dist',
+        filename: 'lightning.js',
+        library: 'Lightning',
+        libraryTarget: 'var'
     },
+    devtool: 'source-map',
 resolve: {
         extensions: ['', '.webpack.js', '.js'],
         root: path.join(__dirname, "src"),
@@ -49,14 +52,14 @@ if(TARGET === 'start' || !TARGET) {
     module.exports = merge(common, {
         context: path.join(__dirname, ''),
         devServer: {
-            contentBase: './public/',
+            contentBase: './dist/',
             historyApiFallback: true,
             hot: true,
             inline: true,
             progress: true,
             stats: 'errors-only',
             host: process.env.HOST,
-            port: process.env.PORT || 5600
+            port: process.env.PORT || 5601
         },
         cache: true,
         devtool: 'cheap-module-source-map',
@@ -76,7 +79,7 @@ if(TARGET === 'build') {
     module.exports = merge(common, {
         context: path.join(__dirname, ''),
         plugins: [
-            // new webpack.optimize.UglifyJsPlugin({minimize: true})
+
         ]
     });
 }

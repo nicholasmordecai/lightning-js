@@ -1,6 +1,6 @@
 /// <reference path="./../../reference.d.ts" />
 
-namespace Game.Signals {
+namespace Lightning.Signals {
     /**
      *	@desc       A TypeScript conversion of JS Signals by Miller Medeiros
     *               Released under the MIT license
