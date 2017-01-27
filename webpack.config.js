@@ -8,11 +8,10 @@ const common = {
     cache:false,
     context: __dirname + '/dist',
     entry: [
-        'requirejs/require.js',
-        'pixi.js/dist/pixi.js',
-        './libs/Box2d.js',
-        './libs/howler.js',
-        './libs/stats.min.js',
+        './src/libs/pixi.js',
+        './src/libs/Box2d.js',
+        './src/libs/howler.js',
+        './src/libs/stats.min.js',
         './build/compile.js'
     ],
     output: {
