@@ -106,17 +106,18 @@ namespace Lightning.UI {
         /**
          * @description Draw a Triangle
          * 
-         * @param {number} r Length of the triangle sides
+         * @param {number} l1 Length of the first triangle side
+         * @param {number} l2 Length of the second triangle side
          * 
          * @returns {PIXI.Graphics}
          */
-        export function Triangle(l:number):PIXI.Graphics {
+        export function Triangle(l1:number, l2:number = l1):PIXI.Graphics {
             let graphics = new PIXI.Graphics();
             graphics.beginFill(0xffffff, 1);
-            graphics.moveTo(l * 0.5, 0);
-            graphics.lineTo(l, l);
-            graphics.lineTo(0, l);
-            graphics.lineTo(l * 0.5, 0);
+            graphics.moveTo(l1 * 0.5, 0);
+            graphics.lineTo(l2, l1);
+            graphics.lineTo(0, l1);
+            graphics.lineTo(l1 * 0.5, 0);
             graphics.endFill();
             return graphics;
         }
