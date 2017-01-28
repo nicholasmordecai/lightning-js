@@ -19,21 +19,28 @@ namespace Lightning {
         
         // game engine constructor
         constructor(width, height) {
-            this._renderer = PIXI.autoDetectRenderer(width, height);
+            this._renderer = PIXI.autoDetectRenderer(width, height, {resolution:window.devicePixelRatio});
+            this._renderer.autoResize = true;
             this._world = new PIXI.Container();
+            this._world.scale = new PIXI.Point(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
             this._world.interactive = true;
             this._world.on('mousedown', () => {
                 // console.log('container mousedown');
             });
 
             document.getElementById('app-container').appendChild(this._renderer.view);
+
+            let canvas = document.querySelector('canvas');
+            let scale = window.devicePixelRatio;
+            let renderer = PIXI.autoDetectRenderer(width * scale, height * scale, canvas);
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
             
             // init the ticker
             this._ticker = PIXI.ticker.shared;
             this._ticker.autoStart = true;
             this._ticker.add(this.update, this);
 
-            this.resize();
             if(this._statsEnabled) {
                 this._stats.setMode(0);
                 document.getElementById('app-container').appendChild(this._stats.domElement);
@@ -53,18 +60,6 @@ namespace Lightning {
             this._tweens.update();
             this._renderer.render(this._world);
             if(this._statsEnabled) this._stats.end();
-        }
-
-        resize() {
-            window.onresize = (event) => {
-                let w:number = window.innerWidth;
-                let h:number = window.innerHeight;    
- 
-                this._renderer.view.style.width = w + "px";    
-                this._renderer.view.style.height = h + "px";    
- 
-                this._renderer.resize(w, h);
-            }
         }
 
         startState(state, ...params) {

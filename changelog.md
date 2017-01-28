@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.2.1
+1. Fixed button game refernece not being accessable when inherited
+
 ### 0.2.0
 1. Fixed #3 - not updating state
 2. Made it much easier to run the latest version, though it's not 100% requirable at the moment.

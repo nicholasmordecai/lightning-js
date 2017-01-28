@@ -3,9 +3,9 @@
 namespace Lightning.UI {
     export class Button extends Sprite {
 
-        private game:Engine;
-        private _primitive:string = null;
-        private _hitArea:HitArea;
+        protected game:Engine;
+        protected _primitive:string = null;
+        protected _hitArea:HitArea;
 
         constructor(game:Engine, texture = null) {
             super(texture);
