@@ -140,17 +140,19 @@ var Lightning;
             /**
              * @description Draw a Triangle
              *
-             * @param {number} r Length of the triangle sides
+             * @param {number} l1 Length of the first triangle side
+             * @param {number} l2 Length of the second triangle side
              *
              * @returns {PIXI.Graphics}
              */
-            function Triangle(l) {
+            function Triangle(l1, l2) {
+                if (l2 === void 0) { l2 = l1; }
                 var graphics = new PIXI.Graphics();
                 graphics.beginFill(0xffffff, 1);
-                graphics.moveTo(l * 0.5, 0);
-                graphics.lineTo(l, l);
-                graphics.lineTo(0, l);
-                graphics.lineTo(l * 0.5, 0);
+                graphics.moveTo(l1 * 0.5, 0);
+                graphics.lineTo(l2, l1);
+                graphics.lineTo(0, l1);
+                graphics.lineTo(l1 * 0.5, 0);
                 graphics.endFill();
                 return graphics;
             }
@@ -2117,18 +2119,24 @@ var Lightning;
             this._physicsActive = false;
             this._stats = new Stats();
             this._statsEnabled = true;
-            this._renderer = PIXI.autoDetectRenderer(width, height);
+            this._renderer = PIXI.autoDetectRenderer(width, height, { resolution: window.devicePixelRatio });
+            this._renderer.autoResize = true;
             this._world = new PIXI.Container();
+            this._world.scale = new PIXI.Point(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
             this._world.interactive = true;
             this._world.on('mousedown', function () {
                 // console.log('container mousedown');
             });
             document.getElementById('app-container').appendChild(this._renderer.view);
+            var canvas = document.querySelector('canvas');
+            var scale = window.devicePixelRatio;
+            var renderer = PIXI.autoDetectRenderer(width * scale, height * scale, canvas);
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
             // init the ticker
             this._ticker = PIXI.ticker.shared;
             this._ticker.autoStart = true;
             this._ticker.add(this.update, this);
-            this.resize();
             if (this._statsEnabled) {
                 this._stats.setMode(0);
                 document.getElementById('app-container').appendChild(this._stats.domElement);
@@ -2142,21 +2150,13 @@ var Lightning;
                 this._physicsWorld.Step(1 / 60, 1, 1);
                 this._physicsWorld.ClearForces();
             }
-            this._activateState.update();
+            if (this._activateState) {
+                this._activateState.update();
+            }
             this._tweens.update();
             this._renderer.render(this._world);
             if (this._statsEnabled)
                 this._stats.end();
-        };
-        Engine.prototype.resize = function () {
-            var _this = this;
-            window.onresize = function (event) {
-                var w = window.innerWidth;
-                var h = window.innerHeight;
-                _this._renderer.view.style.width = w + "px";
-                _this._renderer.view.style.height = h + "px";
-                _this._renderer.resize(w, h);
-            };
         };
         Engine.prototype.startState = function (state) {
             var params = [];

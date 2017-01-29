@@ -58,16 +58,17 @@ declare namespace Lightning.UI {
         /**
          * @description Draw a Triangle
          *
-         * @param {number} r Length of the triangle sides
+         * @param {number} l1 Length of the first triangle side
+         * @param {number} l2 Length of the second triangle side
          *
          * @returns {PIXI.Graphics}
          */
-        function Triangle(l: number): PIXI.Graphics;
+        function Triangle(l1: number, l2?: number): PIXI.Graphics;
     }
 }
 declare namespace Lightning.UI {
     class Sprite extends PIXI.Sprite {
-        private _body;
+        protected _body: any;
         constructor(texture?: PIXI.Texture);
         enableBody(val: boolean): void;
         setAnchor(aX: any, aY?: any): void;
@@ -88,9 +89,9 @@ declare namespace Lightning.UI {
 }
 declare namespace Lightning.UI {
     class Button extends Sprite {
-        private game;
-        private _primitive;
-        private _hitArea;
+        protected game: Engine;
+        protected _primitive: string;
+        protected _hitArea: HitArea;
         constructor(game: Engine, texture?: any);
         initalise(): void;
         setAnchor(aX: any, aY?: any): void;
@@ -911,7 +912,6 @@ declare namespace Lightning {
         private _statsEnabled;
         constructor(width: any, height: any);
         update(time: any): void;
-        resize(): void;
         startState(state: any, ...params: any[]): void;
         initState(state: State, params: any): void;
         startPhysics(): void;

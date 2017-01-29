@@ -157,7 +157,7 @@ namespace Lightning.UI {
          * 
          * @param fnct
          */
-        tap(fnct:Function):void {
+        onTap(fnct:Function):void {
             this.on('tap', fnct);
         }
 

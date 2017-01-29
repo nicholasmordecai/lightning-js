@@ -3,7 +3,7 @@
 namespace Lightning.UI {
     export class Sprite extends PIXI.Sprite {
         
-        private _body;
+        protected _body;
 
         constructor(texture:PIXI.Texture = null) {
             super(texture);
