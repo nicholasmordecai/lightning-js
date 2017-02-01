@@ -17,3 +17,4 @@
 /// <reference path="./core/signals/signal.ts" />
 /// <reference path="./core/signals/signalBinding.ts" />
 /// <reference path="./core/signals/signalManager.ts" />
+/// <reference path="./utils/font.ts" />

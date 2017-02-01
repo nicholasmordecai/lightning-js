@@ -2,6 +2,7 @@
 
 ### 0.2.1
 1. Fixed button game refernece not being accessable when inherited
+2. Added a font helper class to generate the correct scaling size for font
 
 ### 0.2.0
 1. Fixed #3 - not updating state
