@@ -15,12 +15,12 @@ namespace Lightning.UI {
             }
         }
 
-        setAnchor(aX, aY = null):void {
-            if(!aY) {
-                this.anchor = new PIXI.Point(aX, aX);
-            } else {
-                this.anchor = new PIXI.Point(aX, aY);
-            }
+        setAnchor(aX, aY = aX):void {
+            this.anchor = new PIXI.Point(aX, aY);
+        }
+
+        setScale(aX, aY = aX):void {
+            this.scale = new PIXI.Point(aX, aY);
         }
 
         set body(body) {
