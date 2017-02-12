@@ -1,4 +1,4 @@
-# Ligtning 0.2.1
+# Ligtning 0.2.2
 
 A template for building mobile games in pixi, box2d and typescript
 

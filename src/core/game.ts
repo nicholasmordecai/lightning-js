@@ -18,7 +18,22 @@ namespace Lightning {
         private _statsEnabled:boolean = true;
         
         // game engine constructor
-        constructor(width, height) {
+        constructor(width, height, canvasId:string = 'app') {
+
+            let view = document.getElementById(canvasId);
+            let debug = document.getElementById('debug');
+
+            if(!debug) {
+                let debugCanvas = document.createElement('canvas');
+                debugCanvas.id = 'debug';
+                document.getElementById('app-container').appendChild(debugCanvas);
+            }
+            if(!canvasId) {
+                let viewCanvas = document.createElement('canvas');
+                viewCanvas.id = 'app';
+                document.getElementById('app-container').appendChild(viewCanvas);
+            }
+            
             this._renderer = PIXI.autoDetectRenderer(width, height, {resolution:window.devicePixelRatio});
             this._renderer.autoResize = true;
             this._world = new PIXI.Container();
@@ -106,6 +121,9 @@ namespace Lightning {
             this._physicsWorldBounds.position.Set(this.height / 100, 0);
             this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
             this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+
+            let body = Box2D.Dynamics.b2Body;
+            
         }
 
         public set backgroundColor(val:number) {
