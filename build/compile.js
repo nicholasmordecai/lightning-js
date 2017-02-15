@@ -176,13 +176,12 @@ var Lightning;
                 }
             };
             Sprite.prototype.setAnchor = function (aX, aY) {
-                if (aY === void 0) { aY = null; }
-                if (!aY) {
-                    this.anchor = new PIXI.Point(aX, aX);
-                }
-                else {
-                    this.anchor = new PIXI.Point(aX, aY);
-                }
+                if (aY === void 0) { aY = aX; }
+                this.anchor = new PIXI.Point(aX, aY);
+            };
+            Sprite.prototype.setScale = function (aX, aY) {
+                if (aY === void 0) { aY = aX; }
+                this.scale = new PIXI.Point(aX, aY);
             };
             Object.defineProperty(Sprite.prototype, "body", {
                 get: function () {
@@ -413,7 +412,7 @@ var Lightning;
              *
              * @param fnct
              */
-            HitArea.prototype.tap = function (fnct) {
+            HitArea.prototype.onTap = function (fnct) {
                 this.on('tap', fnct);
             };
             /**
@@ -2110,15 +2109,46 @@ var Lightning;
 /// <reference path="./../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
+    /**
+     * @description function for calculating scaling fonts
+     *
+     * @param {Object} game reference to the Engine instance
+     * @param {number} size size of the font (in responsive pixels)
+     * @param {string} font name of the font stored in resource cache
+     *
+     * @returns {string} concatinated string to pass directly to the PIXI.extras.BitmapText
+     */
+    function calcFont(game, size, font) {
+        var str = ((game.width) / size).toString() + 'px ' + font;
+        return str;
+    }
+    Lightning.calcFont = calcFont;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
     var Engine = (function () {
         // game engine constructor
-        function Engine(width, height) {
+        function Engine(width, height, canvasId) {
+            if (canvasId === void 0) { canvasId = 'app'; }
             this._activateState = null;
             this._tweens = new Tween.TweenManager(this);
             this._signals = new Lightning.Signals.SignalManager(this);
             this._physicsActive = false;
             this._stats = new Stats();
             this._statsEnabled = true;
+            var view = document.getElementById(canvasId);
+            var debug = document.getElementById('debug');
+            if (!debug) {
+                var debugCanvas = document.createElement('canvas');
+                debugCanvas.id = 'debug';
+                document.getElementById('app-container').appendChild(debugCanvas);
+            }
+            if (!canvasId) {
+                var viewCanvas = document.createElement('canvas');
+                viewCanvas.id = 'app';
+                document.getElementById('app-container').appendChild(viewCanvas);
+            }
             this._renderer = PIXI.autoDetectRenderer(width, height, { resolution: window.devicePixelRatio });
             this._renderer.autoResize = true;
             this._world = new PIXI.Container();
@@ -2200,6 +2230,7 @@ var Lightning;
             this._physicsWorldBounds.position.Set(this.height / 100, 0);
             this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
             this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+            var body = Box2D.Dynamics.b2Body;
         };
         Object.defineProperty(Engine.prototype, "backgroundColor", {
             set: function (val) {

@@ -1,7 +1,7 @@
 {
   "name": "lightning",
-  "version": "0.2.2",
-  "description": "",
+  "version": "0.2.4",
+  "description": "A modern, fast framework built on Pixi.js for all WebGL and Canvas games and apps.",
   "main": "dist/lightning.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -25,6 +25,9 @@
     "copy-webpack-plugin": "^4.0.1",
     "coveralls": "^2.11.15",
     "fs": "0.0.1-security",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-minify": "0.0.15",
     "istanbul": "^0.4.5",
     "matter-js": "^0.11.1",
     "mocha": "^3.2.0",

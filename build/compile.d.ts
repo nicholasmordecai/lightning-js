@@ -72,6 +72,7 @@ declare namespace Lightning.UI {
         constructor(texture?: PIXI.Texture);
         enableBody(val: boolean): void;
         setAnchor(aX: any, aY?: any): void;
+        setScale(aX: any, aY?: any): void;
         body: any;
     }
 }
@@ -171,7 +172,7 @@ declare namespace Lightning.UI {
          *
          * @param fnct
          */
-        tap(fnct: Function): void;
+        onTap(fnct: Function): void;
         /**
          * @description Sets the debug enabled / disabled and the alpha to 0.5 accordingly
          *
@@ -898,6 +899,18 @@ declare namespace Lightning.Signals {
     }
 }
 declare namespace Lightning {
+    /**
+     * @description function for calculating scaling fonts
+     *
+     * @param {Object} game reference to the Engine instance
+     * @param {number} size size of the font (in responsive pixels)
+     * @param {string} font name of the font stored in resource cache
+     *
+     * @returns {string} concatinated string to pass directly to the PIXI.extras.BitmapText
+     */
+    function calcFont(game: Engine, size: number, font: string): string;
+}
+declare namespace Lightning {
     class Engine {
         private _renderer;
         private _world;
@@ -910,7 +923,7 @@ declare namespace Lightning {
         private _physicsWorldBounds;
         private _stats;
         private _statsEnabled;
-        constructor(width: any, height: any);
+        constructor(width: any, height: any, canvasId?: string);
         update(time: any): void;
         startState(state: any, ...params: any[]): void;
         initState(state: State, params: any): void;

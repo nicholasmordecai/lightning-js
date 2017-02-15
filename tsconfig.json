@@ -2,12 +2,11 @@
   "ref": "master",
   "path": "typings",
   "compilerOptions": {
-    "module": "amd",
+    "module": "umd",
     "target": "es5",
     "moduleResolution": "node",
     "declaration": true,
     "sourceMap": true,
-    "outFile": "build/compile.js",
     "outDir": "build"
   },
   "exclude": [
