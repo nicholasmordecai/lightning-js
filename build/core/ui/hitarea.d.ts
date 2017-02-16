@@ -1,5 +1,5 @@
 /// <reference path="../../../src/reference.d.ts" />
-declare namespace Lightning.UI {
+declare namespace Lightning {
     class HitArea extends PIXI.Graphics {
         private game;
         private _debug;

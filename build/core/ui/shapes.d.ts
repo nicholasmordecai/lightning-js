@@ -1,5 +1,5 @@
 /// <reference path="../../../src/reference.d.ts" />
-declare namespace Lightning.UI {
+declare namespace Lightning {
     namespace Shapes {
         /**
          * @description Draw a square
@@ -8,7 +8,7 @@ declare namespace Lightning.UI {
          *
          * @returns {PIXI.Graphics}
          */
-        function Square(d: number): PIXI.Graphics;
+        function Square(d: number): Lightning.Graphics;
         /**
          * @description Draw a rectangle
          *

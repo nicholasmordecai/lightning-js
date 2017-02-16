@@ -1,6 +1,6 @@
 /// <reference path="./../../reference.d.ts" />
 
-namespace Lightning.UI {
+namespace Lightning {
     export namespace Icons {
         /**
          * @description Draw a hamburger menu icon

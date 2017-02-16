@@ -6,39 +6,48 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var Lightning;
 (function (Lightning) {
-    var UI;
-    (function (UI) {
-        var Sprite = (function (_super) {
-            __extends(Sprite, _super);
-            function Sprite(texture) {
-                if (texture === void 0) { texture = null; }
-                return _super.call(this, texture) || this;
+    var Sprite = (function (_super) {
+        __extends(Sprite, _super);
+        function Sprite(texture) {
+            if (texture === void 0) { texture = null; }
+            return _super.call(this, texture) || this;
+        }
+        Sprite.prototype.enableBody = function (val) {
+            if (val) {
             }
-            Sprite.prototype.enableBody = function (val) {
-                if (val) {
-                }
-            };
-            Sprite.prototype.setAnchor = function (aX, aY) {
-                if (aY === void 0) { aY = aX; }
-                this.anchor = new PIXI.Point(aX, aY);
-            };
-            Sprite.prototype.setScale = function (aX, aY) {
-                if (aY === void 0) { aY = aX; }
-                this.scale = new PIXI.Point(aX, aY);
-            };
-            Object.defineProperty(Sprite.prototype, "body", {
-                get: function () {
-                    return this._body;
-                },
-                set: function (body) {
-                    this._body = body;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return Sprite;
-        }(PIXI.Sprite));
-        UI.Sprite = Sprite;
-    })(UI = Lightning.UI || (Lightning.UI = {}));
+        };
+        Sprite.prototype.setAnchor = function (aX, aY) {
+            if (aY === void 0) { aY = aX; }
+            this.anchor = new PIXI.Point(aX, aY);
+        };
+        Sprite.prototype.setScale = function (aX, aY) {
+            if (aY === void 0) { aY = aX; }
+            this.scale = new PIXI.Point(aX, aY);
+        };
+        Object.defineProperty(Sprite.prototype, "body", {
+            get: function () {
+                return this._body;
+            },
+            set: function (body) {
+                this._body = body;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @param  {} ...displayObjects
+         */
+        Sprite.prototype.add = function () {
+            var displayObjects = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                displayObjects[_i] = arguments[_i];
+            }
+            for (var i = 0; i < displayObjects.length - 1; i++) {
+                this.addChild(displayObjects[i]);
+            }
+        };
+        return Sprite;
+    }(PIXI.Sprite));
+    Lightning.Sprite = Sprite;
 })(Lightning || (Lightning = {}));
 //# sourceMappingURL=sprite.js.map

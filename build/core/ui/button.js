@@ -6,46 +6,53 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var Lightning;
 (function (Lightning) {
-    var UI;
-    (function (UI) {
-        var Button = (function (_super) {
-            __extends(Button, _super);
-            function Button(game, texture) {
-                if (texture === void 0) { texture = null; }
-                var _this = _super.call(this, texture) || this;
-                _this._primitive = null;
-                _this.game = game;
-                _this.initalise();
-                return _this;
+    var Button = (function (_super) {
+        __extends(Button, _super);
+        function Button(game, texture) {
+            if (texture === void 0) { texture = null; }
+            var _this = _super.call(this, texture) || this;
+            _this._primitive = null;
+            _this.game = game;
+            _this.initalise();
+            return _this;
+        }
+        /**
+         */
+        Button.prototype.initalise = function () {
+            this.interactive = true;
+            this._hitArea = new Lightning.HitArea(this.game, this.texture.width, this.texture.height);
+            this.addChild(this._hitArea);
+        };
+        /**
+         * @param  {number} aX
+         * @param  {number=null} aY
+         * @returns void
+         */
+        Button.prototype.setAnchor = function (aX, aY) {
+            if (aY === void 0) { aY = null; }
+            if (!aY) {
+                this.anchor = new PIXI.Point(aX, aX);
+                this._hitArea.x -= this.width * aX;
+                this._hitArea.y -= this.height * aX;
             }
-            Button.prototype.initalise = function () {
-                this.interactive = true;
-                this._hitArea = new UI.HitArea(this.game, this.texture.width, this.texture.height);
-                this.addChild(this._hitArea);
-            };
-            Button.prototype.setAnchor = function (aX, aY) {
-                if (aY === void 0) { aY = null; }
-                if (!aY) {
-                    this.anchor = new PIXI.Point(aX, aX);
-                    this._hitArea.x -= this.width * aX;
-                    this._hitArea.y -= this.height * aX;
-                }
-                else {
-                    this.anchor = new PIXI.Point(aX, aY);
-                    this._hitArea.x -= this.width * aX;
-                    this._hitArea.y -= this.height * aY;
-                }
-            };
-            Object.defineProperty(Button.prototype, "hit", {
-                get: function () {
-                    return this._hitArea;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return Button;
-        }(UI.Sprite));
-        UI.Button = Button;
-    })(UI = Lightning.UI || (Lightning.UI = {}));
+            else {
+                this.anchor = new PIXI.Point(aX, aY);
+                this._hitArea.x -= this.width * aX;
+                this._hitArea.y -= this.height * aY;
+            }
+        };
+        Object.defineProperty(Button.prototype, "hit", {
+            /**
+             * @returns HitArea
+             */
+            get: function () {
+                return this._hitArea;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Button;
+    }(Lightning.Sprite));
+    Lightning.Button = Button;
 })(Lightning || (Lightning = {}));
 //# sourceMappingURL=button.js.map

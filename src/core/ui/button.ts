@@ -1,6 +1,6 @@
 /// <reference path="./../../reference.d.ts" />
 
-namespace Lightning.UI {
+namespace Lightning {
     export class Button extends Sprite {
 
         protected game:Engine;
@@ -13,24 +13,28 @@ namespace Lightning.UI {
             this.initalise();
         }
 
+        /**
+         */
         initalise() {
             this.interactive = true;
             this._hitArea = new HitArea(this.game, this.texture.width, this.texture.height);
             this.addChild(this._hitArea);
         }
 
-        setAnchor(aX, aY = null):void {
-            if(!aY) {
-                this.anchor = new PIXI.Point(aX, aX);
-                this._hitArea.x -= this.width * aX;
-                this._hitArea.y -= this.height * aX;
-            } else {
-                this.anchor = new PIXI.Point(aX, aY);
-                this._hitArea.x -= this.width * aX;
-                this._hitArea.y -= this.height * aY;
-            }
+        /**
+         * @param  {number} aX
+         * @param  {number=null} aY
+         * @returns void
+         */
+        setAnchor(aX:number, aY:number = aX):void {
+            this.anchor = new PIXI.Point(aX, aY);
+            this._hitArea.x -= this.width * aX;
+            this._hitArea.y -= this.height * aY;
         }
-
+        
+        /**
+         * @returns HitArea
+         */
         public get hit():HitArea {
             return this._hitArea;
         }

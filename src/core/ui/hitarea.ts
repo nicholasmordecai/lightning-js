@@ -1,6 +1,6 @@
 /// <reference path="./../../reference.d.ts" />
 
-namespace Lightning.UI {
+namespace Lightning {
     export class HitArea extends PIXI.Graphics {
 
         private game:Engine;

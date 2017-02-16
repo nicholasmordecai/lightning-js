@@ -1,6 +1,6 @@
 /// <reference path="./../../reference.d.ts" />
 
-namespace Lightning.UI {
+namespace Lightning {
     export class SVG extends Sprite {
 
         constructor(url:string) {
@@ -14,16 +14,12 @@ namespace Lightning.UI {
             }
         }
 
-        setAnchor(aX, aY = aX):void {
+        /**
+         * @param  {number} aX
+         * @param  {number} aY
+         */
+        setAnchor(aX:number, aY:number = aX):void {
             this.anchor = new PIXI.Point(aX, aY);
-        }
-
-        set body(body) {
-            this._body = body;
-        }
-
-        get body() {
-            return this._body;
         }
     }
 }
