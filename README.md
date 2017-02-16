@@ -1,3 +1,6 @@
+[![build status](https://gitlab.com/Sprite-Storm/lightning/badges/dev/build.svg)](https://gitlab.com/Sprite-Storm/lightning/commits/dev)
+
+
 # Ligtning 0.2.2
 
 A template for building mobile games in pixi, box2d and typescript
