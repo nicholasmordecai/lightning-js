@@ -8,26 +8,48 @@ var Lightning;
 (function (Lightning) {
     var Sprite = (function (_super) {
         __extends(Sprite, _super);
+        /**
+         * @param  {PIXI.Texture=null} texture
+         */
         function Sprite(texture) {
             if (texture === void 0) { texture = null; }
             return _super.call(this, texture) || this;
         }
+        /**
+         * @param  {boolean} val
+         */
         Sprite.prototype.enableBody = function (val) {
             if (val) {
             }
         };
+        /**
+         * @param  {number} aX
+         * @param  {number=aX} aY
+         * @returns void
+         */
         Sprite.prototype.setAnchor = function (aX, aY) {
             if (aY === void 0) { aY = aX; }
             this.anchor = new PIXI.Point(aX, aY);
         };
+        /**
+         * @param  {number} aX
+         * @param  {number=aX} aY
+         * @returns void
+         */
         Sprite.prototype.setScale = function (aX, aY) {
             if (aY === void 0) { aY = aX; }
             this.scale = new PIXI.Point(aX, aY);
         };
         Object.defineProperty(Sprite.prototype, "body", {
+            /**
+             * @returns Box2D
+             */
             get: function () {
                 return this._body;
             },
+            /**
+             * @param  {Box2D.Dynamics.b2Body} body
+             */
             set: function (body) {
                 this._body = body;
             },

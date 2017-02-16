@@ -8,6 +8,10 @@ var Lightning;
 (function (Lightning) {
     var Button = (function (_super) {
         __extends(Button, _super);
+        /**
+         * @param  {Engine} game
+         * @param  {} texture=null
+         */
         function Button(game, texture) {
             if (texture === void 0) { texture = null; }
             var _this = _super.call(this, texture) || this;
@@ -29,17 +33,10 @@ var Lightning;
          * @returns void
          */
         Button.prototype.setAnchor = function (aX, aY) {
-            if (aY === void 0) { aY = null; }
-            if (!aY) {
-                this.anchor = new PIXI.Point(aX, aX);
-                this._hitArea.x -= this.width * aX;
-                this._hitArea.y -= this.height * aX;
-            }
-            else {
-                this.anchor = new PIXI.Point(aX, aY);
-                this._hitArea.x -= this.width * aX;
-                this._hitArea.y -= this.height * aY;
-            }
+            if (aY === void 0) { aY = aX; }
+            this.anchor = new PIXI.Point(aX, aY);
+            this._hitArea.x -= this.width * aX;
+            this._hitArea.y -= this.height * aY;
         };
         Object.defineProperty(Button.prototype, "hit", {
             /**

@@ -4,6 +4,10 @@ declare namespace Lightning {
         protected game: Engine;
         protected _primitive: string;
         protected _hitArea: HitArea;
+        /**
+         * @param  {Engine} game
+         * @param  {} texture=null
+         */
         constructor(game: Engine, texture?: any);
         /**
          */

@@ -1,21 +1,18 @@
 {
   "name": "lightning-js",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "A modern, fast framework built on Pixi.js for all WebGL and Canvas games and apps.",
   "main": "dist/lightning.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "start": "tsc -w  & webpack-dev-server --host 0.0.0.0",
+    "start": "",
     "compile": "tsc",
-    "build": "NODE_ENV=production & webpack",
-    "definitions": "cat *.txt >> all.txt",
-    "test": "node node_modules/mocha/bin/mocha -r jsdom-global/register",
-    "coverage": "npm run build && istanbul cover _mocha -- -R spec",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
-    "docs": "node node_modules/typedoc/bin/typedoc --exclude node_modules --ignoreCompilerErrors  --out docs/ lib/",
-    "lineCount": "find src -name '*.ts' | xargs wc -l"
+    "concat": "gulp concat",
+    "concat-dts": "gulp concat-dts",
+    "minify": "gulp minify",
+    "build": "npm-run-all compile concat concat-dts minify"
   },
-  "author": "",
+  "author": "Nicholas Mordecai",
   "license": "ISC",
   "devDependencies": {
     "brfs": "^1.4.3",
@@ -25,6 +22,7 @@
     "gulp-concat": "^2.6.1",
     "gulp-minify": "0.0.15",
     "istanbul": "^0.4.5",
+    "npm-run-all": "^4.0.1",
     "pixi.js": "^4.3.4",
     "transform-loader": "^0.2.3",
     "typedoc": "^0.5.5",
