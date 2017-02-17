@@ -30,413 +30,445 @@ var Lightning;
     Lightning.State = State;
 })(Lightning || (Lightning = {}));
 /// <reference path="./../../reference.d.ts" />
+/**
+ * Notes: Need to add a shaddow parameter and function.
+ * This should allow the user to set parameters such is
+ *
+ * make a button class that has multiple states for quick dev
+ */
 var Lightning;
 (function (Lightning) {
-    var UI;
-    (function (UI) {
-        var Shapes;
-        (function (Shapes) {
-            /**
-             * @description Draw a square
-             *
-             * @param {number} d dimension of the square in pixels
-             *
-             * @returns {PIXI.Graphics}
-             */
-            function Square(d) {
-                var graphics = new PIXI.Graphics();
-                graphics.beginFill(0xffffff, 1);
-                graphics.drawRect(0, 0, d, d);
-                graphics.endFill();
-                return graphics;
-            }
-            Shapes.Square = Square;
-            /**
-             * @description Draw a rectangle
-             *
-             * @param {number} w width of the rectangle in pixels
-             * @param {number} h height of the rectangle in pixels
-             *
-             * @returns {PIXI.Graphics}
-             */
-            function Rect(w, h) {
-                var graphics = new PIXI.Graphics();
-                graphics.beginFill(0xffffff, 1);
-                graphics.drawRect(0, 0, w, h);
-                graphics.endFill();
-                return graphics;
-            }
-            Shapes.Rect = Rect;
-            /**
-             * @description Draw a Star (double square)
-             *
-             * @param {number} w width of the rectangle in pixels
-             * @param {number} h height of the rectangle in pixels
-             *
-             * @returns {PIXI.Graphics}
-             */
-            function Star(w, h) {
-                var graphics = new PIXI.Graphics();
-                graphics.beginFill(0xffffff, 1);
-                graphics.drawRect(0, 0, w, h);
-                graphics.endFill();
-                return graphics;
-            }
-            Shapes.Star = Star;
-            /**
-             * @description Draw a 3d rectangle
-             *
-             * @param {number} w width of the rectangle in pixels
-             * @param {number} h height of the rectangle in pixels
-             * @param {number} d depth of rectangle in pixels
-             *
-             * @returns {PIXI.Graphics}
-             */
-            function Rect3D(w, h, d) {
-                w *= 2, h *= 2, d *= 2;
-                var graphics = new PIXI.Graphics();
-                // draw front
-                graphics.beginFill(0xffffff, 1);
-                graphics.drawRect(0, 0, w, h);
-                graphics.endFill();
-                // draw top side
-                var topSide = new PIXI.Graphics();
-                topSide.beginFill(0xd2d2d2, 1);
-                topSide.moveTo(0, 0);
-                topSide.lineTo(d, -d);
-                topSide.lineTo(w + d, -d);
-                topSide.lineTo(w, 0);
-                topSide.lineTo(0, 0);
-                topSide.endFill();
-                graphics.addChild(topSide);
-                //draw right ride
-                var rightSide = new PIXI.Graphics();
-                rightSide.beginFill(0xababab, 1);
-                rightSide.moveTo(w, 0);
-                rightSide.lineTo(w + d, -d);
-                rightSide.lineTo(w + d, h - d);
-                rightSide.lineTo(w, h);
-                rightSide.lineTo(w, 0);
-                rightSide.endFill();
-                graphics.addChild(rightSide);
-                return graphics;
-            }
-            Shapes.Rect3D = Rect3D;
-            /**
-             * @description Draw a circle
-             *
-             * @param {number} r Radius of the circle in pixels
-             *
-             * @returns {PIXI.Graphics}
-             */
-            function Circle(r) {
-                var graphics = new PIXI.Graphics();
-                graphics.beginFill(0xffffff, 1);
-                graphics.arc(75, 75, r, 0, Math.PI * 2, false);
-                graphics.endFill();
-                return graphics;
-            }
-            Shapes.Circle = Circle;
-            /**
-             * @description Draw a Triangle
-             *
-             * @param {number} l1 Length of the first triangle side
-             * @param {number} l2 Length of the second triangle side
-             *
-             * @returns {PIXI.Graphics}
-             */
-            function Triangle(l1, l2) {
-                if (l2 === void 0) { l2 = l1; }
-                var graphics = new PIXI.Graphics();
-                graphics.beginFill(0xffffff, 1);
-                graphics.moveTo(l1 * 0.5, 0);
-                graphics.lineTo(l2, l1);
-                graphics.lineTo(0, l1);
-                graphics.lineTo(l1 * 0.5, 0);
-                graphics.endFill();
-                return graphics;
-            }
-            Shapes.Triangle = Triangle;
-        })(Shapes = UI.Shapes || (UI.Shapes = {}));
-    })(UI = Lightning.UI || (Lightning.UI = {}));
+    var Geometry;
+    (function (Geometry) {
+        /**
+         * @description Draw a square
+         *
+         * @param {number} d dimension of the square in pixels
+         *
+         * @returns {Lightning.Graphics}
+         */
+        function Square(d) {
+            var graphics = new PIXI.Graphics();
+            graphics.beginFill(0xffffff, 1);
+            graphics.drawRect(0, 0, d, d);
+            graphics.endFill();
+            return graphics;
+        }
+        Geometry.Square = Square;
+        /**
+         * @description Draw a rectangle
+         *
+         * @param {number} w width of the rectangle in pixels
+         * @param {number} h height of the rectangle in pixels
+         *
+         * @returns {Lightning.Graphics}
+         */
+        function Rect(w, h) {
+            var graphics = new PIXI.Graphics();
+            graphics.beginFill(0xffffff, 1);
+            graphics.drawRect(0, 0, w, h);
+            graphics.endFill();
+            return graphics;
+        }
+        Geometry.Rect = Rect;
+        /**
+         * @description Draw a Star (double square)
+         *
+         * @param {number} w width of the rectangle in pixels
+         * @param {number} h height of the rectangle in pixels
+         *
+         * @returns {Lightning.Graphics}
+         */
+        function Star(w, h) {
+            var graphics = new PIXI.Graphics();
+            graphics.beginFill(0xffffff, 1);
+            graphics.drawRect(0, 0, w, h);
+            graphics.endFill();
+            return graphics;
+        }
+        Geometry.Star = Star;
+        /**
+         * @description Draw a 3d rectangle
+         *
+         * @param {number} w width of the rectangle in pixels
+         * @param {number} h height of the rectangle in pixels
+         * @param {number} d depth of rectangle in pixels
+         *
+         * @returns {Lightning.Graphics}
+         */
+        function Rect3D(w, h, d) {
+            w *= 2, h *= 2, d *= 2;
+            var graphics = new PIXI.Graphics();
+            // draw front
+            graphics.beginFill(0xffffff, 1);
+            graphics.drawRect(0, 0, w, h);
+            graphics.endFill();
+            // draw top side
+            var topSide = new PIXI.Graphics();
+            topSide.beginFill(0xd2d2d2, 1);
+            topSide.moveTo(0, 0);
+            topSide.lineTo(d, -d);
+            topSide.lineTo(w + d, -d);
+            topSide.lineTo(w, 0);
+            topSide.lineTo(0, 0);
+            topSide.endFill();
+            graphics.addChild(topSide);
+            //draw right ride
+            var rightSide = new PIXI.Graphics();
+            rightSide.beginFill(0xababab, 1);
+            rightSide.moveTo(w, 0);
+            rightSide.lineTo(w + d, -d);
+            rightSide.lineTo(w + d, h - d);
+            rightSide.lineTo(w, h);
+            rightSide.lineTo(w, 0);
+            rightSide.endFill();
+            graphics.addChild(rightSide);
+            return graphics;
+        }
+        Geometry.Rect3D = Rect3D;
+        /**
+         * @description Draw a circle
+         *
+         * @param {number} r Radius of the circle in pixels
+         *
+         * @returns {Lightning.Graphics}
+         */
+        function Circle(r) {
+            var graphics = new PIXI.Graphics();
+            graphics.beginFill(0xffffff, 1);
+            graphics.arc(75, 75, r, 0, Math.PI * 2, false);
+            graphics.endFill();
+            return graphics;
+        }
+        Geometry.Circle = Circle;
+        /**
+         * @description Draw a Triangle
+         *
+         * @param {number} l1 Length of the first triangle side
+         * @param {number} l2 Length of the second triangle side
+         *
+         * @returns {Lightning.Graphics}
+         */
+        function Triangle(l1, l2) {
+            if (l2 === void 0) { l2 = l1; }
+            var graphics = new PIXI.Graphics();
+            graphics.beginFill(0xffffff, 1);
+            graphics.moveTo(l1 * 0.5, 0);
+            graphics.lineTo(l2, l1);
+            graphics.lineTo(0, l1);
+            graphics.lineTo(l1 * 0.5, 0);
+            graphics.endFill();
+            return graphics;
+        }
+        Geometry.Triangle = Triangle;
+    })(Geometry = Lightning.Geometry || (Lightning.Geometry = {}));
 })(Lightning || (Lightning = {}));
 /// <reference path="./../../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
-    var UI;
-    (function (UI) {
-        var Sprite = (function (_super) {
-            __extends(Sprite, _super);
-            function Sprite(texture) {
-                if (texture === void 0) { texture = null; }
-                return _super.call(this, texture) || this;
+    var Sprite = (function (_super) {
+        __extends(Sprite, _super);
+        /**
+         * @param  {PIXI.Texture=null} texture
+         */
+        function Sprite(texture) {
+            if (texture === void 0) { texture = null; }
+            return _super.call(this, texture) || this;
+        }
+        /**
+         * @param  {boolean} val
+         */
+        Sprite.prototype.enableBody = function (val) {
+            if (val) {
             }
-            Sprite.prototype.enableBody = function (val) {
-                if (val) {
-                }
-            };
-            Sprite.prototype.setAnchor = function (aX, aY) {
-                if (aY === void 0) { aY = aX; }
-                this.anchor = new PIXI.Point(aX, aY);
-            };
-            Sprite.prototype.setScale = function (aX, aY) {
-                if (aY === void 0) { aY = aX; }
-                this.scale = new PIXI.Point(aX, aY);
-            };
-            Object.defineProperty(Sprite.prototype, "body", {
-                get: function () {
-                    return this._body;
-                },
-                set: function (body) {
-                    this._body = body;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return Sprite;
-        }(PIXI.Sprite));
-        UI.Sprite = Sprite;
-    })(UI = Lightning.UI || (Lightning.UI = {}));
+        };
+        /**
+         * @param  {number} aX
+         * @param  {number=aX} aY
+         * @returns void
+         */
+        Sprite.prototype.setAnchor = function (aX, aY) {
+            if (aY === void 0) { aY = aX; }
+            this.anchor = new PIXI.Point(aX, aY);
+        };
+        /**
+         * @param  {number} aX
+         * @param  {number=aX} aY
+         * @returns void
+         */
+        Sprite.prototype.setScale = function (aX, aY) {
+            if (aY === void 0) { aY = aX; }
+            this.scale = new PIXI.Point(aX, aY);
+        };
+        Object.defineProperty(Sprite.prototype, "body", {
+            /**
+             * @returns Box2D
+             */
+            get: function () {
+                return this._body;
+            },
+            /**
+             * @param  {Box2D.Dynamics.b2Body} body
+             */
+            set: function (body) {
+                this._body = body;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @param  {} ...displayObjects
+         */
+        Sprite.prototype.add = function () {
+            var displayObjects = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                displayObjects[_i] = arguments[_i];
+            }
+            for (var i = 0; i < displayObjects.length - 1; i++) {
+                this.addChild(displayObjects[i]);
+            }
+        };
+        return Sprite;
+    }(PIXI.Sprite));
+    Lightning.Sprite = Sprite;
 })(Lightning || (Lightning = {}));
 /// <reference path="./../../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
-    var UI;
-    (function (UI) {
-        var Icons;
-        (function (Icons) {
-            /**
-             * @description Draw a hamburger menu icon
-             *
-             * @param {number} s size of the icon in pixels
-             *
-             * @returns {PIXI.Graphics}
-             */
-            function Hamburger(s) {
-                var graphics = new PIXI.Graphics();
-                graphics.beginFill(0xffffff, 1);
-                graphics.drawRect(0, 0, s, s * 0.15);
-                graphics.drawRect(0, s * 0.4, s, s * 0.15);
-                graphics.drawRect(0, s * 0.8, s, s * 0.15);
-                graphics.endFill();
-                return graphics;
-            }
-            Icons.Hamburger = Hamburger;
-        })(Icons = UI.Icons || (UI.Icons = {}));
-    })(UI = Lightning.UI || (Lightning.UI = {}));
+    var Icons;
+    (function (Icons) {
+        /**
+         * @description Draw a hamburger menu icon
+         *
+         * @param {number} s size of the icon in pixels
+         *
+         * @returns {PIXI.Graphics}
+         */
+        function Hamburger(s) {
+            var graphics = new PIXI.Graphics();
+            graphics.beginFill(0xffffff, 1);
+            graphics.drawRect(0, 0, s, s * 0.15);
+            graphics.drawRect(0, s * 0.4, s, s * 0.15);
+            graphics.drawRect(0, s * 0.8, s, s * 0.15);
+            graphics.endFill();
+            return graphics;
+        }
+        Icons.Hamburger = Hamburger;
+    })(Icons = Lightning.Icons || (Lightning.Icons = {}));
 })(Lightning || (Lightning = {}));
 /// <reference path="./../../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
-    var UI;
-    (function (UI) {
-        var Button = (function (_super) {
-            __extends(Button, _super);
-            function Button(game, texture) {
-                if (texture === void 0) { texture = null; }
-                var _this = _super.call(this, texture) || this;
-                _this._primitive = null;
-                _this.game = game;
-                _this.initalise();
-                return _this;
-            }
-            Button.prototype.initalise = function () {
-                this.interactive = true;
-                this._hitArea = new UI.HitArea(this.game, this.texture.width, this.texture.height);
-                this.addChild(this._hitArea);
-            };
-            Button.prototype.setAnchor = function (aX, aY) {
-                if (aY === void 0) { aY = null; }
-                if (!aY) {
-                    this.anchor = new PIXI.Point(aX, aX);
-                    this._hitArea.x -= this.width * aX;
-                    this._hitArea.y -= this.height * aX;
-                }
-                else {
-                    this.anchor = new PIXI.Point(aX, aY);
-                    this._hitArea.x -= this.width * aX;
-                    this._hitArea.y -= this.height * aY;
-                }
-            };
-            Object.defineProperty(Button.prototype, "hit", {
-                get: function () {
-                    return this._hitArea;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return Button;
-        }(UI.Sprite));
-        UI.Button = Button;
-    })(UI = Lightning.UI || (Lightning.UI = {}));
+    var Button = (function (_super) {
+        __extends(Button, _super);
+        /**
+         * @param  {Engine} game
+         * @param  {} texture=null
+         */
+        function Button(game, texture) {
+            if (texture === void 0) { texture = null; }
+            var _this = _super.call(this, texture) || this;
+            _this._primitive = null;
+            _this.game = game;
+            _this.initalise();
+            return _this;
+        }
+        /**
+         */
+        Button.prototype.initalise = function () {
+            this.interactive = true;
+            this._hitArea = new Lightning.HitArea(this.game, this.texture.width, this.texture.height);
+            this.addChild(this._hitArea);
+        };
+        /**
+         * @param  {number} aX
+         * @param  {number=null} aY
+         * @returns void
+         */
+        Button.prototype.setAnchor = function (aX, aY) {
+            if (aY === void 0) { aY = aX; }
+            this.anchor = new PIXI.Point(aX, aY);
+            this._hitArea.x -= this.width * aX;
+            this._hitArea.y -= this.height * aY;
+        };
+        Object.defineProperty(Button.prototype, "hit", {
+            /**
+             * @returns HitArea
+             */
+            get: function () {
+                return this._hitArea;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Button;
+    }(Lightning.Sprite));
+    Lightning.Button = Button;
 })(Lightning || (Lightning = {}));
 /// <reference path="./../../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
-    var UI;
-    (function (UI) {
-        var HitArea = (function (_super) {
-            __extends(HitArea, _super);
-            /**
-             *
-             * @param game
-             * @returns {HitArea}
-             */
-            function HitArea(game, width, height) {
-                var _this = _super.call(this) || this;
-                _this._debug = false;
-                _this.game = game;
-                _this.interactive = true;
-                _this.alpha = 0.2;
-                // check if the hitAreaDebug signal exists, if not then create it.
-                // then add the debug function to that signal.
-                if (_this.game.signals.has('hitAreaDebug')) {
-                    _this.game.signals.add('hitAreaDebug', _this.debug, _this);
-                }
-                else {
-                    _this.game.signals.create('hitAreaDebug');
-                    _this.game.signals.add('hitAreaDebug', _this.debug, _this);
-                }
-                _this.beginFill(0xffffff, 1);
-                _this.drawRect(0, 0, width, height);
-                _this.endFill();
-                return _this;
+    var HitArea = (function (_super) {
+        __extends(HitArea, _super);
+        /**
+         *
+         * @param game
+         * @returns {HitArea}
+         */
+        function HitArea(game, width, height) {
+            var _this = _super.call(this) || this;
+            _this._debug = false;
+            _this.game = game;
+            _this.interactive = true;
+            _this.alpha = 0.2;
+            // check if the hitAreaDebug signal exists, if not then create it.
+            // then add the debug function to that signal.
+            if (_this.game.signals.has('hitAreaDebug')) {
+                _this.game.signals.add('hitAreaDebug', _this.debug, _this);
             }
-            HitArea.prototype.setRect = function (width, height) {
-            };
-            HitArea.prototype.setCircle = function (radius) {
-            };
+            else {
+                _this.game.signals.create('hitAreaDebug');
+                _this.game.signals.add('hitAreaDebug', _this.debug, _this);
+            }
+            _this.beginFill(0xffffff, 1);
+            _this.drawRect(0, 0, width, height);
+            _this.endFill();
+            return _this;
+        }
+        HitArea.prototype.setRect = function (width, height) {
+        };
+        HitArea.prototype.setCircle = function (radius) {
+        };
+        /**
+         * @description Pass a function to be added to the click events
+         * @param fnct
+         */
+        HitArea.prototype.onClick = function (fnct) {
+            this.on('click', fnct);
+        };
+        /**
+         * @description Pass a function to be added to the mouse, pointer and touch down events
+         * @param fnct
+         */
+        HitArea.prototype.down = function (fnct) {
+            this.on('mousedown', fnct);
+            this.on('touchend', fnct);
+            if (this['pointertap'] !== undefined) {
+                this.on('pointertap', fnct);
+            }
+            if (this['pointerdown'] !== undefined) {
+                this.on('pointerdown', fnct);
+            }
+        };
+        /**
+         * @description Pass a function to be added to the mouse, touch and pointer up events
+         * @param fnct
+         */
+        HitArea.prototype.up = function (fnct) {
+            this.on('mouseup', fnct);
+            this.on('touchend', fnct);
+            if (this['pointerup'] !== undefined) {
+                this.on('pointerup', fnct);
+            }
+        };
+        /**
+         * @description Pass a function to be added to the mouse, pointer and touch up outside events
+         * @param fnct
+         */
+        HitArea.prototype.upOutside = function (fnct) {
+            this.on('mouseupoutside', fnct);
+            this.on('touchendoutside', fnct);
+            if (this['pointerupoutside'] !== undefined) {
+                this.on('pointerupoutside', fnct);
+            }
+        };
+        /**
+         * @description Pass a function to be added to the mouse and pointer over events
+         * @param fnct
+         */
+        HitArea.prototype.over = function (fnct) {
+            this.on('mouseover', fnct);
+            if (this['pointerover'] !== undefined) {
+                this.on('pointerover', fnct);
+            }
+        };
+        /**
+         * @description Pass a function to be added to the mouse and pointer out events
+         * @param fnct
+         */
+        HitArea.prototype.out = function (fnct) {
+            this.on('mouseout', fnct);
+            if (this['pointerout'] !== undefined) {
+                this.on('pointerout', fnct);
+            }
+        };
+        /**
+         * @description Pass a function to be added to the mouse and pointer move event
+         * @param fnct
+         */
+        HitArea.prototype.move = function (fnct) {
+            this.on('mousemove', fnct);
+            if (this['pointermove'] !== undefined) {
+                this.on('pointermove', fnct);
+            }
+        };
+        /**
+         * @description Pass a function to be added to the right click events
+         * @param fnct
+         */
+        HitArea.prototype.rightClick = function (fnct) {
+            this.on('rightclick', fnct);
+        };
+        /**
+         * @description Pass a function to be added to the right down events
+         * @param fnct
+         */
+        HitArea.prototype.rightDown = function (fnct) {
+            this.on('rightdown', fnct);
+        };
+        /**
+         * @description Pass a function to be added to the right up events
+         * @param fnct
+         */
+        HitArea.prototype.rightUp = function (fnct) {
+            this.on('rightup', fnct);
+        };
+        /**
+         * @description Pass a function to be added to the right up outside events
+         * @param fnct
+         */
+        HitArea.prototype.rightUpOutside = function (fnct) {
+            this.on('rightupoutside', fnct);
+        };
+        /**
+         * @description Pass a function to be added to the tap event
+         *
+         * @param fnct
+         */
+        HitArea.prototype.onTap = function (fnct) {
+            this.on('tap', fnct);
+        };
+        /**
+         * @description Sets the debug enabled / disabled and the alpha to 0.5 accordingly
+         *
+         * @param {Array} data passed in from the signal dispatch event
+         */
+        HitArea.prototype.debug = function (data) {
             /**
-             * @description Pass a function to be added to the click events
-             * @param fnct
+             * data [0] = true / false - debug mode enabled
              */
-            HitArea.prototype.onClick = function (fnct) {
-                this.on('click', fnct);
-            };
-            /**
-             * @description Pass a function to be added to the mouse, pointer and touch down events
-             * @param fnct
-             */
-            HitArea.prototype.down = function (fnct) {
-                this.on('mousedown', fnct);
-                this.on('touchend', fnct);
-                if (this['pointertap'] !== undefined) {
-                    this.on('pointertap', fnct);
-                }
-                if (this['pointerdown'] !== undefined) {
-                    this.on('pointerdown', fnct);
-                }
-            };
-            /**
-             * @description Pass a function to be added to the mouse, touch and pointer up events
-             * @param fnct
-             */
-            HitArea.prototype.up = function (fnct) {
-                this.on('mouseup', fnct);
-                this.on('touchend', fnct);
-                if (this['pointerup'] !== undefined) {
-                    this.on('pointerup', fnct);
-                }
-            };
-            /**
-             * @description Pass a function to be added to the mouse, pointer and touch up outside events
-             * @param fnct
-             */
-            HitArea.prototype.upOutside = function (fnct) {
-                this.on('mouseupoutside', fnct);
-                this.on('touchendoutside', fnct);
-                if (this['pointerupoutside'] !== undefined) {
-                    this.on('pointerupoutside', fnct);
-                }
-            };
-            /**
-             * @description Pass a function to be added to the mouse and pointer over events
-             * @param fnct
-             */
-            HitArea.prototype.over = function (fnct) {
-                this.on('mouseover', fnct);
-                if (this['pointerover'] !== undefined) {
-                    this.on('pointerover', fnct);
-                }
-            };
-            /**
-             * @description Pass a function to be added to the mouse and pointer out events
-             * @param fnct
-             */
-            HitArea.prototype.out = function (fnct) {
-                this.on('mouseout', fnct);
-                if (this['pointerout'] !== undefined) {
-                    this.on('pointerout', fnct);
-                }
-            };
-            /**
-             * @description Pass a function to be added to the mouse and pointer move event
-             * @param fnct
-             */
-            HitArea.prototype.move = function (fnct) {
-                this.on('mousemove', fnct);
-                if (this['pointermove'] !== undefined) {
-                    this.on('pointermove', fnct);
-                }
-            };
-            /**
-             * @description Pass a function to be added to the right click events
-             * @param fnct
-             */
-            HitArea.prototype.rightClick = function (fnct) {
-                this.on('rightclick', fnct);
-            };
-            /**
-             * @description Pass a function to be added to the right down events
-             * @param fnct
-             */
-            HitArea.prototype.rightDown = function (fnct) {
-                this.on('rightdown', fnct);
-            };
-            /**
-             * @description Pass a function to be added to the right up events
-             * @param fnct
-             */
-            HitArea.prototype.rightUp = function (fnct) {
-                this.on('rightup', fnct);
-            };
-            /**
-             * @description Pass a function to be added to the right up outside events
-             * @param fnct
-             */
-            HitArea.prototype.rightUpOutside = function (fnct) {
-                this.on('rightupoutside', fnct);
-            };
-            /**
-             * @description Pass a function to be added to the tap event
-             *
-             * @param fnct
-             */
-            HitArea.prototype.onTap = function (fnct) {
-                this.on('tap', fnct);
-            };
-            /**
-             * @description Sets the debug enabled / disabled and the alpha to 0.5 accordingly
-             *
-             * @param {Array} data passed in from the signal dispatch event
-             */
-            HitArea.prototype.debug = function (data) {
-                /**
-                 * data [0] = true / false - debug mode enabled
-                 */
-                if (data[0]) {
-                    this._debug = true;
-                    this.alpha = 0.5;
-                }
-                else {
-                    this._debug = false;
-                    this.alpha = 0;
-                }
-            };
-            return HitArea;
-        }(PIXI.Graphics));
-        UI.HitArea = HitArea;
-    })(UI = Lightning.UI || (Lightning.UI = {}));
+            if (data[0]) {
+                this._debug = true;
+                this.alpha = 0.5;
+            }
+            else {
+                this._debug = false;
+                this.alpha = 0;
+            }
+        };
+        return HitArea;
+    }(PIXI.Graphics));
+    Lightning.HitArea = HitArea;
 })(Lightning || (Lightning = {}));
 var Tween;
 (function (Tween) {
@@ -2135,8 +2167,7 @@ var Lightning;
             this._tweens = new Tween.TweenManager(this);
             this._signals = new Lightning.Signals.SignalManager(this);
             this._physicsActive = false;
-            this._stats = new Stats();
-            this._statsEnabled = true;
+            console.log('new game');
             var view = document.getElementById(canvasId);
             var debug = document.getElementById('debug');
             if (!debug) {
@@ -2167,15 +2198,9 @@ var Lightning;
             this._ticker = PIXI.ticker.shared;
             this._ticker.autoStart = true;
             this._ticker.add(this.update, this);
-            if (this._statsEnabled) {
-                this._stats.setMode(0);
-                document.getElementById('app-container').appendChild(this._stats.domElement);
-            }
         }
         // gets called on update
         Engine.prototype.update = function (time) {
-            if (this._statsEnabled)
-                this._stats.begin();
             if (this._physicsActive) {
                 this._physicsWorld.Step(1 / 60, 1, 1);
                 this._physicsWorld.ClearForces();
@@ -2185,8 +2210,6 @@ var Lightning;
             }
             this._tweens.update();
             this._renderer.render(this._world);
-            if (this._statsEnabled)
-                this._stats.end();
         };
         Engine.prototype.startState = function (state) {
             var params = [];

@@ -13,13 +13,10 @@ namespace Lightning {
         private _physicsActive:boolean = false;
         private _physicsWorld:Box2D.Dynamics.b2World;
         private _physicsWorldBounds:Box2D.Dynamics.b2BodyDef;
-
-        private _stats = new Stats();
-        private _statsEnabled:boolean = true;
         
         // game engine constructor
         constructor(width, height, canvasId:string = 'app') {
-
+            console.log('new game')
             let view = document.getElementById(canvasId);
             let debug = document.getElementById('debug');
 
@@ -55,16 +52,10 @@ namespace Lightning {
             this._ticker = PIXI.ticker.shared;
             this._ticker.autoStart = true;
             this._ticker.add(this.update, this);
-
-            if(this._statsEnabled) {
-                this._stats.setMode(0);
-                document.getElementById('app-container').appendChild(this._stats.domElement);
-            }
         }
 
         // gets called on update
         update(time):void {
-            if(this._statsEnabled) this._stats.begin();
             if(this._physicsActive) {
                 this._physicsWorld.Step(1 / 60,  1, 1);
                 this._physicsWorld.ClearForces();
@@ -74,7 +65,6 @@ namespace Lightning {
             }
             this._tweens.update();
             this._renderer.render(this._world);
-            if(this._statsEnabled) this._stats.end();
         }
 
         startState(state, ...params) {

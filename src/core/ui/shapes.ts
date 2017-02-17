@@ -17,8 +17,8 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        export function Square(d:number):Lightning.Graphics {
-            let graphics = new Lightning.Graphics();
+        export function Square(d:number):PIXI.Graphics {
+            let graphics = new PIXI.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.drawRect(0, 0, d, d);
             graphics.endFill();
@@ -33,8 +33,8 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        export function Rect(w:number, h:number):Lightning.Graphics {
-            let graphics = new Lightning.Graphics();
+        export function Rect(w:number, h:number):PIXI.Graphics {
+            let graphics = new PIXI.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.drawRect(0, 0, w, h);
             graphics.endFill();
@@ -49,8 +49,8 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        export function Star(w:number, h:number):Lightning.Graphics {
-            let graphics = new Lightning.Graphics();
+        export function Star(w:number, h:number):PIXI.Graphics {
+            let graphics = new PIXI.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.drawRect(0, 0, w, h);
             graphics.endFill();
@@ -66,15 +66,15 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        export function Rect3D(w:number, h:number, d:number):Lightning.Graphics {
+        export function Rect3D(w:number, h:number, d:number):PIXI.Graphics {
             w *= 2, h *=2, d *= 2;
-            let graphics = new Lightning.Graphics();
+            let graphics = new PIXI.Graphics();
             // draw front
             graphics.beginFill(0xffffff, 1);
             graphics.drawRect(0, 0, w, h);
             graphics.endFill();
             // draw top side
-            let topSide = new Lightning.Graphics();
+            let topSide = new PIXI.Graphics();
             topSide.beginFill(0xd2d2d2, 1);
             topSide.moveTo(0, 0);
             topSide.lineTo(d, -d);
@@ -84,7 +84,7 @@ namespace Lightning {
             topSide.endFill();
             graphics.addChild(topSide);
             //draw right ride
-            let rightSide = new Lightning.Graphics();
+            let rightSide = new PIXI.Graphics();
             rightSide.beginFill(0xababab, 1);
             rightSide.moveTo(w, 0);
             rightSide.lineTo(w + d, -d);
@@ -104,8 +104,8 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        export function Circle(r:number):Lightning.Graphics {
-            let graphics = new Lightning.Graphics();
+        export function Circle(r:number):PIXI.Graphics {
+            let graphics = new PIXI.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.arc(75, 75, r, 0, Math.PI*2, false);
             graphics.endFill();
@@ -120,8 +120,8 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        export function Triangle(l1:number, l2:number = l1):Lightning.Graphics {
-            let graphics = new Lightning.Graphics();
+        export function Triangle(l1:number, l2:number = l1):PIXI.Graphics {
+            let graphics = new PIXI.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.moveTo(l1 * 0.5, 0);
             graphics.lineTo(l2, l1);

@@ -9,14 +9,20 @@ declare namespace Lightning {
         create(): void;
     }
 }
-declare namespace Lightning.UI {
-    namespace Shapes {
+/**
+ * Notes: Need to add a shaddow parameter and function.
+ * This should allow the user to set parameters such is
+ *
+ * make a button class that has multiple states for quick dev
+ */
+declare namespace Lightning {
+    namespace Geometry {
         /**
          * @description Draw a square
          *
          * @param {number} d dimension of the square in pixels
          *
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
         function Square(d: number): PIXI.Graphics;
         /**
@@ -25,7 +31,7 @@ declare namespace Lightning.UI {
          * @param {number} w width of the rectangle in pixels
          * @param {number} h height of the rectangle in pixels
          *
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
         function Rect(w: number, h: number): PIXI.Graphics;
         /**
@@ -34,7 +40,7 @@ declare namespace Lightning.UI {
          * @param {number} w width of the rectangle in pixels
          * @param {number} h height of the rectangle in pixels
          *
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
         function Star(w: number, h: number): PIXI.Graphics;
         /**
@@ -44,7 +50,7 @@ declare namespace Lightning.UI {
          * @param {number} h height of the rectangle in pixels
          * @param {number} d depth of rectangle in pixels
          *
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
         function Rect3D(w: number, h: number, d: number): PIXI.Graphics;
         /**
@@ -52,7 +58,7 @@ declare namespace Lightning.UI {
          *
          * @param {number} r Radius of the circle in pixels
          *
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
         function Circle(r: number): PIXI.Graphics;
         /**
@@ -61,22 +67,48 @@ declare namespace Lightning.UI {
          * @param {number} l1 Length of the first triangle side
          * @param {number} l2 Length of the second triangle side
          *
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
         function Triangle(l1: number, l2?: number): PIXI.Graphics;
     }
 }
-declare namespace Lightning.UI {
+declare namespace Lightning {
     class Sprite extends PIXI.Sprite {
-        protected _body: any;
+        protected _body: Box2D.Dynamics.b2Body;
+        /**
+         * @param  {PIXI.Texture=null} texture
+         */
         constructor(texture?: PIXI.Texture);
+        /**
+         * @param  {boolean} val
+         */
         enableBody(val: boolean): void;
-        setAnchor(aX: any, aY?: any): void;
-        setScale(aX: any, aY?: any): void;
-        body: any;
+        /**
+         * @param  {number} aX
+         * @param  {number=aX} aY
+         * @returns void
+         */
+        setAnchor(aX: number, aY?: number): void;
+        /**
+         * @param  {number} aX
+         * @param  {number=aX} aY
+         * @returns void
+         */
+        setScale(aX: number, aY?: number): void;
+        /**
+         * @returns Box2D
+         */
+        /**
+         * @param  {Box2D.Dynamics.b2Body} body
+         */
+        body: Box2D.Dynamics.b2Body;
+        /**
+         * @param  {} ...displayObjects
+         */
+        add(...displayObjects: any[]): void;
     }
 }
-declare namespace Lightning.UI {
+declare namespace Lightning {
     namespace Icons {
         /**
          * @description Draw a hamburger menu icon
@@ -88,18 +120,32 @@ declare namespace Lightning.UI {
         function Hamburger(s: number): PIXI.Graphics;
     }
 }
-declare namespace Lightning.UI {
+declare namespace Lightning {
     class Button extends Sprite {
         protected game: Engine;
         protected _primitive: string;
         protected _hitArea: HitArea;
+        /**
+         * @param  {Engine} game
+         * @param  {} texture=null
+         */
         constructor(game: Engine, texture?: any);
+        /**
+         */
         initalise(): void;
-        setAnchor(aX: any, aY?: any): void;
+        /**
+         * @param  {number} aX
+         * @param  {number=null} aY
+         * @returns void
+         */
+        setAnchor(aX: number, aY?: number): void;
+        /**
+         * @returns HitArea
+         */
         readonly hit: HitArea;
     }
 }
-declare namespace Lightning.UI {
+declare namespace Lightning {
     class HitArea extends PIXI.Graphics {
         private game;
         private _debug;
@@ -921,8 +967,6 @@ declare namespace Lightning {
         private _physicsActive;
         private _physicsWorld;
         private _physicsWorldBounds;
-        private _stats;
-        private _statsEnabled;
         constructor(width: any, height: any, canvasId?: string);
         update(time: any): void;
         startState(state: any, ...params: any[]): void;

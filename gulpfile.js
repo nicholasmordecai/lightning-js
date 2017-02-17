@@ -20,12 +20,17 @@ gulp.task('concat-dts', function() {
     .pipe(gulp.dest(destination));
 });
 
+gulp.task('push-to-test', function() {
+    gulp.src('./dist/lightning.js')
+        .pipe(gulp.dest('./../lightning-tester/public/js/'));
+});
+
 gulp.task('minify', function() {
   gulp.src('./dist/lightning.js')
     .pipe(minify({
         ext:{
-            src:'.min.js',
-            min:'.js'
+            src:'.js',
+            min:'.min.js'
         },
         exclude: ['tasks'],
     }))

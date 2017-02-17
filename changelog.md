@@ -1,5 +1,27 @@
 # Changelog
 
+### 0.2.6
+1. Major overhaul again with the build tools and compiling
+2. Fix for not bundling sub directory .js files in the build folder
+
+### 0.2.5
+1. Added CI tools to the dev branch
+2. Fixed some typos in the code
+3. Updated naming conventions
+    1. Removed the UI prefix for sprite, graphics, group etc
+    2. Changed Shapes to Geometry
+
+### 0.2.4
+1. Added font creation utility (generates responsive font sizing)
+2. Fixes for scaling in SVG's with retina / high dpr displays
+
+### 0.2.3
+1. Updated project name for use with NPM
+2. Added and refactored shared code amongst display objects for eeasier scale and anchor setting
+
+### 0.2.2
+1. Updated the documentation (needs another look over in the future)
+
 ### 0.2.1
 1. Fixed button game refernece not being accessable when inherited
 2. Added a font helper class to generate the correct scaling size for font

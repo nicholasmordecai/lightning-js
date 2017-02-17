@@ -3,7 +3,7 @@
 namespace Lightning {
     export class Group extends PIXI.Container {
 
-        constructor(game:Engine, texture = null) {
+        constructor() {
             super();
         }
         
