@@ -1,4 +1,4 @@
-/// <reference path="./../../reference.d.ts" />
+/// <reference path="./../reference.d.ts" />
 
 namespace Lightning {
     export class SVG extends Sprite {

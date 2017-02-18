@@ -25,5 +25,11 @@ namespace Lightning {
         create() {
 
         }
+
+        add(...params:Array<DisplayObject>) {
+            for(let i of params) {
+                this.addChild(i);
+            }
+        }
     }
 }

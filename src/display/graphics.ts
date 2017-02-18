@@ -1,7 +1,7 @@
-/// <reference path="./../../reference.d.ts" />
+/// <reference path="./../reference.d.ts" />
 
 namespace Lightning {
-    export class Group extends PIXI.Container {
+    export class Graphics extends PIXI.Graphics {
 
         constructor() {
             super();

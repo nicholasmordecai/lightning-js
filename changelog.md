@@ -1,5 +1,13 @@
 # Changelog
 
+### 0.2.7
+1. Added center values to the game for ease of finding center x and y
+2. Added the DisplayObject class as an extention to Lightning
+3. Removes Icons class and moved it to a plugin for an SVG pack
+4. Moved UI related classes to Display
+5. States get an 'add' util function to add multiple sprites to the stage easily
+6. Begin development of both Particles and a Particle Emitter
+
 ### 0.2.6
 1. Major overhaul again with the build tools and compiling
 2. Fix for not bundling sub directory .js files in the build folder

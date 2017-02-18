@@ -7,6 +7,57 @@ declare namespace Lightning {
         start(): void;
         update(): void;
         create(): void;
+        add(...params: Array<DisplayObject>): void;
+    }
+}
+declare namespace Lightning {
+    class DisplayObject extends PIXI.DisplayObject {
+        constructor();
+    }
+}
+declare namespace Lightning {
+    class Graphics extends PIXI.Graphics {
+        constructor();
+        /**
+         * @param  {} ...displayObjects
+         */
+        add(...displayObjects: any[]): void;
+    }
+}
+declare namespace Lightning {
+    class Sprite extends PIXI.Sprite {
+        protected _body: Box2D.Dynamics.b2Body;
+        /**
+         * @param  {PIXI.Texture=null} texture
+         */
+        constructor(texture?: PIXI.Texture);
+        /**
+         * @param  {boolean} val
+         */
+        enableBody(val: boolean): void;
+        /**
+         * @param  {number} aX
+         * @param  {number=aX} aY
+         * @returns void
+         */
+        setAnchor(aX: number, aY?: number): void;
+        /**
+         * @param  {number} aX
+         * @param  {number=aX} aY
+         * @returns void
+         */
+        setScale(aX: number, aY?: number): void;
+        /**
+         * @returns Box2D
+         */
+        /**
+         * @param  {Box2D.Dynamics.b2Body} body
+         */
+        body: Box2D.Dynamics.b2Body;
+        /**
+         * @param  {} ...displayObjects
+         */
+        add(...displayObjects: any[]): void;
     }
 }
 /**
@@ -73,80 +124,7 @@ declare namespace Lightning {
     }
 }
 declare namespace Lightning {
-    class Sprite extends PIXI.Sprite {
-        protected _body: Box2D.Dynamics.b2Body;
-        /**
-         * @param  {PIXI.Texture=null} texture
-         */
-        constructor(texture?: PIXI.Texture);
-        /**
-         * @param  {boolean} val
-         */
-        enableBody(val: boolean): void;
-        /**
-         * @param  {number} aX
-         * @param  {number=aX} aY
-         * @returns void
-         */
-        setAnchor(aX: number, aY?: number): void;
-        /**
-         * @param  {number} aX
-         * @param  {number=aX} aY
-         * @returns void
-         */
-        setScale(aX: number, aY?: number): void;
-        /**
-         * @returns Box2D
-         */
-        /**
-         * @param  {Box2D.Dynamics.b2Body} body
-         */
-        body: Box2D.Dynamics.b2Body;
-        /**
-         * @param  {} ...displayObjects
-         */
-        add(...displayObjects: any[]): void;
-    }
-}
-declare namespace Lightning {
-    namespace Icons {
-        /**
-         * @description Draw a hamburger menu icon
-         *
-         * @param {number} s size of the icon in pixels
-         *
-         * @returns {PIXI.Graphics}
-         */
-        function Hamburger(s: number): PIXI.Graphics;
-    }
-}
-declare namespace Lightning {
-    class Button extends Sprite {
-        protected game: Engine;
-        protected _primitive: string;
-        protected _hitArea: HitArea;
-        /**
-         * @param  {Engine} game
-         * @param  {} texture=null
-         */
-        constructor(game: Engine, texture?: any);
-        /**
-         */
-        initalise(): void;
-        /**
-         * @param  {number} aX
-         * @param  {number=null} aY
-         * @returns void
-         */
-        setAnchor(aX: number, aY?: number): void;
-        /**
-         * @returns HitArea
-         */
-        readonly hit: HitArea;
-    }
-}
-declare namespace Lightning {
-    class HitArea extends PIXI.Graphics {
+    class HitArea extends Graphics {
         private game;
         private _debug;
         private _texture;
@@ -225,6 +203,65 @@ declare namespace Lightning {
          * @param {Array} data passed in from the signal dispatch event
          */
         debug(data: any): void;
+    }
+}
+declare namespace Lightning {
+    class Button extends Sprite {
+        protected game: Engine;
+        protected _primitive: string;
+        protected _hitArea: HitArea;
+        /**
+         * @param  {Engine} game
+         * @param  {} texture=null
+         */
+        constructor(game: Engine, texture?: any);
+        /**
+         */
+        initalise(): void;
+        /**
+         * @param  {number} aX
+         * @param  {number=null} aY
+         * @returns void
+         */
+        setAnchor(aX: number, aY?: number): void;
+        /**
+         * @returns HitArea
+         */
+        readonly hit: HitArea;
+    }
+}
+declare namespace Lightning {
+    class Group extends PIXI.Container {
+        constructor();
+        /**
+         * @param  {} ...displayObjects
+         */
+        add(...displayObjects: any[]): void;
+    }
+}
+declare namespace Lightning {
+    class Particle extends Sprite {
+        constructor();
+    }
+}
+declare namespace Lightning {
+    class ParticleEmitter extends Group {
+        protected _particles: Array<Particle>;
+        protected _lifeSpan: number;
+        protected _emitStrength: number;
+        protected _emitFrequency: number;
+        protected _gravity: {
+            x: number;
+            y: number;
+        };
+        constructor();
+        /**
+         * @param  {string} key
+         * @param  {DisplayObject} particle
+         */
+        add(particle: Particle): void;
+        start(time?: number): void;
+        stop(): void;
     }
 }
 declare namespace Tween {
@@ -978,6 +1015,10 @@ declare namespace Lightning {
         readonly world: PIXI.Container;
         readonly width: number;
         readonly height: number;
+        readonly center: {
+            x: number;
+            y: number;
+        };
         readonly renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
         readonly tweens: Tween.TweenManager;
         readonly signals: Signals.SignalManager;

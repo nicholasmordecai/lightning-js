@@ -50556,11 +50556,126 @@ var Lightning;
         };
         State.prototype.create = function () {
         };
+        State.prototype.add = function () {
+            var params = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                params[_i] = arguments[_i];
+            }
+            for (var _a = 0, params_1 = params; _a < params_1.length; _a++) {
+                var i = params_1[_a];
+                this.addChild(i);
+            }
+        };
         return State;
     }(PIXI.Container));
     Lightning.State = State;
 })(Lightning || (Lightning = {}));
-/// <reference path="./../../reference.d.ts" />
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var DisplayObject = (function (_super) {
+        __extends(DisplayObject, _super);
+        function DisplayObject() {
+            return _super.call(this) || this;
+        }
+        return DisplayObject;
+    }(PIXI.DisplayObject));
+    Lightning.DisplayObject = DisplayObject;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Graphics = (function (_super) {
+        __extends(Graphics, _super);
+        function Graphics() {
+            return _super.call(this) || this;
+        }
+        /**
+         * @param  {} ...displayObjects
+         */
+        Graphics.prototype.add = function () {
+            var displayObjects = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                displayObjects[_i] = arguments[_i];
+            }
+            for (var i = 0; i < displayObjects.length - 1; i++) {
+                this.addChild(displayObjects[i]);
+            }
+        };
+        return Graphics;
+    }(PIXI.Graphics));
+    Lightning.Graphics = Graphics;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Sprite = (function (_super) {
+        __extends(Sprite, _super);
+        /**
+         * @param  {PIXI.Texture=null} texture
+         */
+        function Sprite(texture) {
+            if (texture === void 0) { texture = null; }
+            return _super.call(this, texture) || this;
+        }
+        /**
+         * @param  {boolean} val
+         */
+        Sprite.prototype.enableBody = function (val) {
+            if (val) {
+            }
+        };
+        /**
+         * @param  {number} aX
+         * @param  {number=aX} aY
+         * @returns void
+         */
+        Sprite.prototype.setAnchor = function (aX, aY) {
+            if (aY === void 0) { aY = aX; }
+            this.anchor = new PIXI.Point(aX, aY);
+        };
+        /**
+         * @param  {number} aX
+         * @param  {number=aX} aY
+         * @returns void
+         */
+        Sprite.prototype.setScale = function (aX, aY) {
+            if (aY === void 0) { aY = aX; }
+            this.scale = new PIXI.Point(aX, aY);
+        };
+        Object.defineProperty(Sprite.prototype, "body", {
+            /**
+             * @returns Box2D
+             */
+            get: function () {
+                return this._body;
+            },
+            /**
+             * @param  {Box2D.Dynamics.b2Body} body
+             */
+            set: function (body) {
+                this._body = body;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @param  {} ...displayObjects
+         */
+        Sprite.prototype.add = function () {
+            var displayObjects = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                displayObjects[_i] = arguments[_i];
+            }
+            for (var i = 0; i < displayObjects.length - 1; i++) {
+                this.addChild(displayObjects[i]);
+            }
+        };
+        return Sprite;
+    }(PIXI.Sprite));
+    Lightning.Sprite = Sprite;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
 /**
  * Notes: Need to add a shaddow parameter and function.
  * This should allow the user to set parameters such is
@@ -50694,149 +50809,7 @@ var Lightning;
         Geometry.Triangle = Triangle;
     })(Geometry = Lightning.Geometry || (Lightning.Geometry = {}));
 })(Lightning || (Lightning = {}));
-/// <reference path="./../../reference.d.ts" />
-var Lightning;
-(function (Lightning) {
-    var Sprite = (function (_super) {
-        __extends(Sprite, _super);
-        /**
-         * @param  {PIXI.Texture=null} texture
-         */
-        function Sprite(texture) {
-            if (texture === void 0) { texture = null; }
-            return _super.call(this, texture) || this;
-        }
-        /**
-         * @param  {boolean} val
-         */
-        Sprite.prototype.enableBody = function (val) {
-            if (val) {
-            }
-        };
-        /**
-         * @param  {number} aX
-         * @param  {number=aX} aY
-         * @returns void
-         */
-        Sprite.prototype.setAnchor = function (aX, aY) {
-            if (aY === void 0) { aY = aX; }
-            this.anchor = new PIXI.Point(aX, aY);
-        };
-        /**
-         * @param  {number} aX
-         * @param  {number=aX} aY
-         * @returns void
-         */
-        Sprite.prototype.setScale = function (aX, aY) {
-            if (aY === void 0) { aY = aX; }
-            this.scale = new PIXI.Point(aX, aY);
-        };
-        Object.defineProperty(Sprite.prototype, "body", {
-            /**
-             * @returns Box2D
-             */
-            get: function () {
-                return this._body;
-            },
-            /**
-             * @param  {Box2D.Dynamics.b2Body} body
-             */
-            set: function (body) {
-                this._body = body;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @param  {} ...displayObjects
-         */
-        Sprite.prototype.add = function () {
-            var displayObjects = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                displayObjects[_i] = arguments[_i];
-            }
-            for (var i = 0; i < displayObjects.length - 1; i++) {
-                this.addChild(displayObjects[i]);
-            }
-        };
-        return Sprite;
-    }(PIXI.Sprite));
-    Lightning.Sprite = Sprite;
-})(Lightning || (Lightning = {}));
-/// <reference path="./../../reference.d.ts" />
-var Lightning;
-(function (Lightning) {
-    var Icons;
-    (function (Icons) {
-        /**
-         * @description Draw a hamburger menu icon
-         *
-         * @param {number} s size of the icon in pixels
-         *
-         * @returns {PIXI.Graphics}
-         */
-        function Hamburger(s) {
-            var graphics = new PIXI.Graphics();
-            graphics.beginFill(0xffffff, 1);
-            graphics.drawRect(0, 0, s, s * 0.15);
-            graphics.drawRect(0, s * 0.4, s, s * 0.15);
-            graphics.drawRect(0, s * 0.8, s, s * 0.15);
-            graphics.endFill();
-            return graphics;
-        }
-        Icons.Hamburger = Hamburger;
-    })(Icons = Lightning.Icons || (Lightning.Icons = {}));
-})(Lightning || (Lightning = {}));
-/// <reference path="./../../reference.d.ts" />
-var Lightning;
-(function (Lightning) {
-    var Button = (function (_super) {
-        __extends(Button, _super);
-        /**
-         * @param  {Engine} game
-         * @param  {} texture=null
-         */
-        function Button(game, texture) {
-            if (texture === void 0) { texture = null; }
-            var _this = _super.call(this, texture) || this;
-            _this._primitive = null;
-            _this.game = game;
-            _this.initalise();
-            return _this;
-        }
-        /**
-         */
-        Button.prototype.initalise = function () {
-            this.interactive = true;
-            this._hitArea = new Lightning.HitArea(this.game, this.texture.width, this.texture.height);
-            this.addChild(this._hitArea);
-        };
-        /**
-         * @param  {number} aX
-         * @param  {number=null} aY
-         * @returns void
-         */
-        Button.prototype.setAnchor = function (aX, aY) {
-            if (aY === void 0) { aY = aX; }
-            this.anchor = new PIXI.Point(aX, aY);
-            this._hitArea.x -= this.width * aX;
-            this._hitArea.y -= this.height * aY;
-        };
-        Object.defineProperty(Button.prototype, "hit", {
-            /**
-             * @returns HitArea
-             */
-            get: function () {
-                return this._hitArea;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return Button;
-    }(Lightning.Sprite));
-    Lightning.Button = Button;
-})(Lightning || (Lightning = {}));
-/// <reference path="./../../reference.d.ts" />
+/// <reference path="./../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
     var HitArea = (function (_super) {
@@ -50998,8 +50971,128 @@ var Lightning;
             }
         };
         return HitArea;
-    }(PIXI.Graphics));
+    }(Lightning.Graphics));
     Lightning.HitArea = HitArea;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Button = (function (_super) {
+        __extends(Button, _super);
+        /**
+         * @param  {Engine} game
+         * @param  {} texture=null
+         */
+        function Button(game, texture) {
+            if (texture === void 0) { texture = null; }
+            var _this = _super.call(this, texture) || this;
+            _this._primitive = null;
+            _this.game = game;
+            _this.initalise();
+            return _this;
+        }
+        /**
+         */
+        Button.prototype.initalise = function () {
+            this.interactive = true;
+            this._hitArea = new Lightning.HitArea(this.game, this.texture.width, this.texture.height);
+            this.addChild(this._hitArea);
+        };
+        /**
+         * @param  {number} aX
+         * @param  {number=null} aY
+         * @returns void
+         */
+        Button.prototype.setAnchor = function (aX, aY) {
+            if (aY === void 0) { aY = aX; }
+            this.anchor = new PIXI.Point(aX, aY);
+            this._hitArea.x -= this.width * aX;
+            this._hitArea.y -= this.height * aY;
+        };
+        Object.defineProperty(Button.prototype, "hit", {
+            /**
+             * @returns HitArea
+             */
+            get: function () {
+                return this._hitArea;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Button;
+    }(Lightning.Sprite));
+    Lightning.Button = Button;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Group = (function (_super) {
+        __extends(Group, _super);
+        function Group() {
+            return _super.call(this) || this;
+        }
+        /**
+         * @param  {} ...displayObjects
+         */
+        Group.prototype.add = function () {
+            var displayObjects = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                displayObjects[_i] = arguments[_i];
+            }
+            for (var i = 0; i < displayObjects.length - 1; i++) {
+                this.addChild(displayObjects[i]);
+            }
+        };
+        return Group;
+    }(PIXI.Container));
+    Lightning.Group = Group;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Particle = (function (_super) {
+        __extends(Particle, _super);
+        function Particle() {
+            return _super.call(this) || this;
+        }
+        return Particle;
+    }(Lightning.Sprite));
+    Lightning.Particle = Particle;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var ParticleEmitter = (function (_super) {
+        __extends(ParticleEmitter, _super);
+        function ParticleEmitter() {
+            var _this = _super.call(this) || this;
+            _this._particles = [];
+            _this._lifeSpan = 1000;
+            _this._emitStrength = 10;
+            _this._emitFrequency = 5;
+            _this._gravity = { x: 0, y: 0 };
+            return _this;
+        }
+        /**
+         * @param  {string} key
+         * @param  {DisplayObject} particle
+         */
+        ParticleEmitter.prototype.add = function (particle) {
+            this._particles.push(particle);
+        };
+        ParticleEmitter.prototype.start = function (time) {
+            var _this = this;
+            if (time === void 0) { time = null; }
+            setInterval(function () {
+                var particle = _this._particles[Math.floor(Math.random() * _this._particles.length)];
+                _this.addChild(particle);
+            }, 1000 / this._emitFrequency);
+        };
+        ParticleEmitter.prototype.stop = function () {
+        };
+        return ParticleEmitter;
+    }(Lightning.Group));
+    Lightning.ParticleEmitter = ParticleEmitter;
 })(Lightning || (Lightning = {}));
 var Tween;
 (function (Tween) {
@@ -52700,12 +52793,15 @@ var Lightning;
             this._physicsActive = false;
             console.log('new game');
             var view = document.getElementById(canvasId);
-            var debug = document.getElementById('debug');
-            if (!debug) {
-                var debugCanvas = document.createElement('canvas');
-                debugCanvas.id = 'debug';
-                document.getElementById('app-container').appendChild(debugCanvas);
-            }
+            /**
+             * Add this to a physics debug enable function
+             */
+            // let debug = document.getElementById('debug');
+            // if(!debug) {
+            //     // let debugCanvas = document.createElement('canvas');
+            //     // debugCanvas.id = 'debug';
+            //     // document.getElementById('app-container').appendChild(debugCanvas);
+            // }
             if (!canvasId) {
                 var viewCanvas = document.createElement('canvas');
                 viewCanvas.id = 'app';
@@ -52817,6 +52913,13 @@ var Lightning;
         Object.defineProperty(Engine.prototype, "height", {
             get: function () {
                 return this._renderer.height;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "center", {
+            get: function () {
+                return { x: this.width * 0.5, y: this.height * 0.5 };
             },
             enumerable: true,
             configurable: true

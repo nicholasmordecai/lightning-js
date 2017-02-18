@@ -18,13 +18,19 @@ namespace Lightning {
         constructor(width, height, canvasId:string = 'app') {
             console.log('new game')
             let view = document.getElementById(canvasId);
-            let debug = document.getElementById('debug');
 
-            if(!debug) {
-                let debugCanvas = document.createElement('canvas');
-                debugCanvas.id = 'debug';
-                document.getElementById('app-container').appendChild(debugCanvas);
-            }
+            /**
+             * Add this to a physics debug enable function
+             */
+
+            // let debug = document.getElementById('debug');
+
+            // if(!debug) {
+            //     // let debugCanvas = document.createElement('canvas');
+            //     // debugCanvas.id = 'debug';
+            //     // document.getElementById('app-container').appendChild(debugCanvas);
+            // }
+
             if(!canvasId) {
                 let viewCanvas = document.createElement('canvas');
                 viewCanvas.id = 'app';
@@ -134,6 +140,10 @@ namespace Lightning {
 
         public get height():number {
             return this._renderer.height;
+        }
+
+        public get center():{x:number, y:number} {
+            return {x: this.width * 0.5, y: this.height * 0.5}
         }
 
         public get renderer():PIXI.CanvasRenderer | PIXI.WebGLRenderer {

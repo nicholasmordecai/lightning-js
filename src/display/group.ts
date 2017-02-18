@@ -1,7 +1,7 @@
-/// <reference path="./../../reference.d.ts" />
+/// <reference path="./../reference.d.ts" />
 
 namespace Lightning {
-    export class Graphics extends PIXI.Graphics {
+    export class Group extends PIXI.Container {
 
         constructor() {
             super();
@@ -15,7 +15,5 @@ namespace Lightning {
                 this.addChild(displayObjects[i]);
              }
         }
-
-        
     }
 }

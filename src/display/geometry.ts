@@ -1,4 +1,4 @@
-/// <reference path="./../../reference.d.ts" />
+/// <reference path="./../reference.d.ts" />
 
 /**
  * Notes: Need to add a shaddow parameter and function.
