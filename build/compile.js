@@ -42,6 +42,56 @@ var Lightning;
 /// <reference path="./../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
+    /**
+     * @description function for calculating scaling fonts
+     *
+     * @param {Object} game reference to the Engine instance
+     * @param {number} size size of the font (in responsive pixels)
+     * @param {string} font name of the font stored in resource cache
+     *
+     * @returns {string} concatinated string to pass directly to the PIXI.extras.BitmapText
+     */
+    function calcFont(game, size, font) {
+        var str = ((game.width) / size).toString() + 'px ' + font;
+        return str;
+    }
+    Lightning.calcFont = calcFont;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Maths = (function () {
+        function Maths() {
+        }
+        Maths.rngInt = function (from, to) {
+            return Math.floor(Math.random() * (to - from) + from);
+        };
+        Maths.rng = function (negative) {
+            if (negative === void 0) { negative = false; }
+            if (negative) {
+                return Math.random();
+            }
+            else {
+                return -Math.random();
+            }
+        };
+        Maths.rngFloat = function (from, to) {
+            return Math.random() * (to - from) + from;
+        };
+        /**
+         * To Implement
+         * random between two positions
+         */
+        Maths.rndPos = function () {
+        };
+        return Maths;
+    }());
+    Lightning.Maths = Maths;
+})(Lightning || (Lightning = {}));
+2;
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
     var DisplayObject = (function (_super) {
         __extends(DisplayObject, _super);
         function DisplayObject() {
@@ -521,9 +571,103 @@ var Lightning;
 (function (Lightning) {
     var Particle = (function (_super) {
         __extends(Particle, _super);
-        function Particle() {
-            return _super.call(this) || this;
+        function Particle(texture, emitter) {
+            var _this = _super.call(this, texture) || this;
+            _this._velX = 0;
+            _this._velY = 0;
+            _this._gX = 0;
+            _this._gY = 0;
+            _this._alphaIncrement = null;
+            _this._rotationIncrement = null;
+            _this._scaleIncrement = null;
+            _this._createdAt = null;
+            _this._lifeSpan = null;
+            _this._deadTime = null;
+            _this._emitter = emitter;
+            _this.setAnchor(0.5);
+            return _this;
         }
+        Particle.prototype.update = function () {
+            if (this._deadTime <= Date.now()) {
+                this._emitter.returnToPool(this);
+                this.alpha = 1;
+                this.scale = new PIXI.Point(1, 1);
+                this.rotation = 0;
+                this._deadTime = null;
+                this._createdAt = null;
+                this._lifeSpan = null;
+            }
+            // update velocity (from gravity)
+            this._velX += this._gX;
+            this._velY += this._gY;
+            // update position
+            this.x += this._velX;
+            this.y += this._velY;
+            // increment alpha
+            if (this._alphaIncrement) {
+                this.alpha += this._alphaIncrement;
+            }
+            // increment rotation
+            if (this._rotationIncrement) {
+                this.rotation += this._rotationIncrement;
+            }
+            // increment scale
+            if (this._scaleIncrement) {
+                this.setScale(this.scale.x + this._scaleIncrement.x, this.scale.y + this._scaleIncrement.y);
+            }
+        };
+        Object.defineProperty(Particle.prototype, "velocity", {
+            set: function (velocity) {
+                this._velX = velocity.x;
+                this._velY = velocity.y;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Particle.prototype, "gravity", {
+            set: function (gravity) {
+                this._gX = gravity.x;
+                this._gY = gravity.y;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Particle.prototype, "lifeSpan", {
+            set: function (time) {
+                this._lifeSpan = time;
+                this._deadTime = this._lifeSpan + Date.now();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Particle.prototype, "alphaIncrement", {
+            set: function (val) {
+                this._alphaIncrement = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Particle.prototype, "rotationIncrement", {
+            set: function (val) {
+                this._rotationIncrement = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Particle.prototype, "scaleIncrement", {
+            set: function (scale) {
+                this._scaleIncrement = { x: scale.x, y: scale.y };
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Particle.prototype, "createdAt", {
+            set: function (val) {
+                this._createdAt = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return Particle;
     }(Lightning.Sprite));
     Lightning.Particle = Particle;
@@ -533,32 +677,213 @@ var Lightning;
 (function (Lightning) {
     var ParticleEmitter = (function (_super) {
         __extends(ParticleEmitter, _super);
-        function ParticleEmitter() {
+        function ParticleEmitter(x, y) {
+            if (x === void 0) { x = 0; }
+            if (y === void 0) { y = 0; }
             var _this = _super.call(this) || this;
-            _this._particles = [];
-            _this._lifeSpan = 1000;
-            _this._emitStrength = 10;
-            _this._emitFrequency = 5;
+            _this._emit = false;
+            _this._nextEmit = null;
+            _this._interval = 500;
+            _this._lastStart = null;
+            _this._time = null;
+            _this._textures = [];
+            _this._deadPool = [];
             _this._gravity = { x: 0, y: 0 };
+            _this._spread = { xFrom: -2, xTo: 2, yFrom: -2, yTo: 2 };
+            _this._lifeSpanRange = { from: 3000, to: 3000 };
+            _this._particleStrength = 1;
+            _this._particleScaleRange = null;
+            _this._particleAlphaRange = null;
+            _this._particleRotationRange = null;
+            _this._particleVelocityRange = null;
+            _this._particleRotationIncrement = null;
+            _this._particleScaleIncrement = null;
+            _this._particleAlphaIncrement = null;
+            _this.x = x;
+            _this.y = y;
             return _this;
         }
+        ParticleEmitter.prototype.update = function () {
+            for (var _i = 0, _a = this.children; _i < _a.length; _i++) {
+                var i = _a[_i];
+                i['update']();
+            }
+            if (this._time !== null && Date.now() > this._lastStart + this._time) {
+                this.stop();
+                return;
+            }
+            if (this._emit && this._nextEmit < Date.now()) {
+                this._nextEmit = Date.now() + this._interval;
+                this.fireEmitter();
+            }
+        };
         /**
          * @param  {string} key
          * @param  {DisplayObject} particle
          */
-        ParticleEmitter.prototype.add = function (particle) {
-            this._particles.push(particle);
+        ParticleEmitter.prototype.add = function () {
+            var params = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                params[_i] = arguments[_i];
+            }
+            for (var _a = 0, params_2 = params; _a < params_2.length; _a++) {
+                var i = params_2[_a];
+                this._textures.push(i);
+            }
         };
         ParticleEmitter.prototype.start = function (time) {
-            var _this = this;
             if (time === void 0) { time = null; }
-            setInterval(function () {
-                var particle = _this._particles[Math.floor(Math.random() * _this._particles.length)];
-                _this.addChild(particle);
-            }, 1000 / this._emitFrequency);
+            if (time === 0) {
+                this.fireEmitter();
+            }
+            else {
+                this._emit = true;
+                this._time = time;
+                this._lastStart = Date.now();
+            }
+        };
+        ParticleEmitter.prototype.fireEmitter = function () {
+            if (this._particleStrength === 1) {
+                this.createParticle();
+            }
+            else {
+                for (var i = 0; i < this._particleStrength; i++) {
+                    this.createParticle();
+                }
+            }
+        };
+        ParticleEmitter.prototype.createParticle = function () {
+            // get the texture from the textures array
+            var texture = this._textures[Math.floor(Math.random() * this._textures.length)];
+            var particle = null;
+            // create new particle
+            if (this._deadPool.length > 0) {
+                particle = this._deadPool.splice(0, 1)[0];
+            }
+            else {
+                // increment the id hash value to create the particle
+                particle = new Lightning.Particle(texture, this);
+            }
+            // set gravity
+            particle.gravity = (this._gravity);
+            // calculate positions
+            var x = Lightning.Maths.rngInt(this._spread.xFrom, this._spread.xTo);
+            var y = Lightning.Maths.rngInt(this._spread.yFrom, this._spread.yTo);
+            particle.x = x;
+            particle.y = y;
+            // calculate random velocity ranges
+            var rndVelX = Lightning.Maths.rngFloat(this._particleVelocityRange.xFrom, this._particleVelocityRange.xTo);
+            var rndVelY = Lightning.Maths.rngFloat(this._particleVelocityRange.yFrom, this._particleVelocityRange.yTo);
+            particle.velocity = ({ x: rndVelX, y: rndVelY });
+            // calculate random life span
+            var rndLifeSpan = Lightning.Maths.rngInt(this._lifeSpanRange.to, this._lifeSpanRange.from);
+            particle.lifeSpan = rndLifeSpan;
+            // calculate alpha
+            if (this._particleAlphaRange) {
+                var alpha = Lightning.Maths.rngFloat(this._particleAlphaRange.from, this._particleAlphaRange.to);
+                particle.alpha = alpha;
+            }
+            // calculate scale
+            if (this._particleScaleRange) {
+                var scaleX = Lightning.Maths.rngFloat(this._particleScaleRange.xFrom, this._particleScaleRange.xTo);
+                // commented this out because of undesiered effects
+                // let scaleY:number = Maths.rngFloat(this._particleScaleRange.yFrom, this._particleScaleRange.yTo);
+                particle.setScale(scaleX, scaleX);
+            }
+            // calculate rotation
+            if (this._particleRotationRange) {
+                var rotation = Lightning.Maths.rngFloat(this._particleRotationRange.from, this._particleRotationRange.to);
+                particle.rotation = rotation;
+            }
+            // calculate rotation increment
+            if (this._particleRotationIncrement) {
+                var rotationIncrement = Lightning.Maths.rngFloat(this._particleRotationIncrement.from, this._particleRotationIncrement.to);
+                particle.rotationIncrement = rotationIncrement;
+            }
+            // calculate alpha increment
+            if (this._particleAlphaIncrement) {
+                var alphaIncrement = Lightning.Maths.rngFloat(this._particleAlphaIncrement.from, this._particleAlphaIncrement.to);
+                particle.alphaIncrement = alphaIncrement;
+            }
+            // calculate scale increment
+            if (this._particleScaleIncrement) {
+                var scaleIncrementX = Lightning.Maths.rngFloat(this._particleScaleIncrement.xFrom, this._particleScaleIncrement.xTo);
+                // commented this out because it was causing the scaling to give undesired effects
+                // let scaleIncrementY:number = Maths.rngFloat(this._particleScaleIncrement.yFrom, this._particleScaleIncrement.yTo);
+                particle.scaleIncrement = { x: scaleIncrementX, y: scaleIncrementX };
+            }
+            particle.createdAt = Date.now();
+            this.addChild(particle);
         };
         ParticleEmitter.prototype.stop = function () {
+            this._emit = false;
         };
+        ParticleEmitter.prototype.returnToPool = function (particle) {
+            var p = this.removeChild(particle);
+            this._deadPool.push(p);
+        };
+        ParticleEmitter.prototype.setSpread = function (xFrom, xTo, yFrom, yTo) {
+            this._spread = { xFrom: xFrom, xTo: xTo, yFrom: yFrom, yTo: yTo };
+        };
+        ParticleEmitter.prototype.setGravity = function (x, y) {
+            if (y === void 0) { y = x; }
+            this._gravity = { x: x, y: y };
+        };
+        ParticleEmitter.prototype.setLifeSpan = function (from, to) {
+            if (to === void 0) { to = from; }
+            this._lifeSpanRange = { from: from, to: to };
+        };
+        ParticleEmitter.prototype.setInterval = function (val) {
+            this._interval = val;
+        };
+        ParticleEmitter.prototype.setVelocityRange = function (xFrom, xTo, yFrom, yTo) {
+            if (yFrom === void 0) { yFrom = xFrom; }
+            if (yTo === void 0) { yTo = xTo; }
+            this._particleVelocityRange = { xFrom: xFrom, xTo: xTo, yFrom: yFrom, yTo: yTo };
+        };
+        ParticleEmitter.prototype.setRotationIncrement = function (from, to) {
+            if (to === void 0) { to = from; }
+            this._particleRotationIncrement = { from: from, to: to };
+        };
+        ParticleEmitter.prototype.setScaleIncrement = function (xFrom, xTo, yFrom, yTo) {
+            if (yFrom === void 0) { yFrom = xFrom; }
+            if (yTo === void 0) { yTo = xTo; }
+            this._particleScaleIncrement = { xFrom: xFrom, xTo: xTo, yFrom: yFrom, yTo: yTo };
+        };
+        ParticleEmitter.prototype.setAlphaIncrement = function (from, to) {
+            if (to === void 0) { to = from; }
+            this._particleAlphaIncrement = { from: from, to: to };
+        };
+        ParticleEmitter.prototype.setScaleRange = function (xFrom, xTo, yFrom, yTo) {
+            if (yFrom === void 0) { yFrom = xFrom; }
+            if (yTo === void 0) { yTo = xTo; }
+            this._particleScaleRange = { xFrom: xFrom, xTo: xTo, yFrom: yFrom, yTo: yTo };
+        };
+        ParticleEmitter.prototype.setAlphaRange = function (from, to) {
+            if (to === void 0) { to = from; }
+            this._particleAlphaRange = { from: from, to: to };
+        };
+        ParticleEmitter.prototype.setRotationRange = function (from, to) {
+            if (to === void 0) { to = from; }
+            this._particleRotationRange = { from: from, to: to };
+        };
+        ParticleEmitter.prototype.setStrength = function (val) {
+            this._particleStrength = val;
+        };
+        Object.defineProperty(ParticleEmitter.prototype, "alive", {
+            get: function () {
+                return this.children.length;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ParticleEmitter.prototype, "pool", {
+            get: function () {
+                return this._deadPool.length;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return ParticleEmitter;
     }(Lightning.Group));
     Lightning.ParticleEmitter = ParticleEmitter;
@@ -2230,24 +2555,6 @@ var Lightning;
         }());
         Signals.SignalManager = SignalManager;
     })(Signals = Lightning.Signals || (Lightning.Signals = {}));
-})(Lightning || (Lightning = {}));
-/// <reference path="./../reference.d.ts" />
-var Lightning;
-(function (Lightning) {
-    /**
-     * @description function for calculating scaling fonts
-     *
-     * @param {Object} game reference to the Engine instance
-     * @param {number} size size of the font (in responsive pixels)
-     * @param {string} font name of the font stored in resource cache
-     *
-     * @returns {string} concatinated string to pass directly to the PIXI.extras.BitmapText
-     */
-    function calcFont(game, size, font) {
-        var str = ((game.width) / size).toString() + 'px ' + font;
-        return str;
-    }
-    Lightning.calcFont = calcFont;
 })(Lightning || (Lightning = {}));
 /// <reference path="./../reference.d.ts" />
 var Lightning;

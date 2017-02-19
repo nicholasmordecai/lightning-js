@@ -1,5 +1,19 @@
 # Changelog
 
+### 0.2.8
+1. Added a Maths component for things like generating random numbers etc
+    1. Maths.rng(); | Maths.rng(true) -- for negative rng
+    2. Maths.rndInt(-10, 10);
+    3. Maths.rndFloat(-2.3, 4.6789);
+2. More work on the particle system
+    1. Life span ranges
+    2. Making the modifiers
+    3. Added pooling system
+    4. Added ranges on creation
+    5. Added increment ranges on update
+    6. Refactored update loop
+    7. Fixed not running single particle batch
+
 ### 0.2.7
 1. Added center values to the game for ease of finding center x and y
 2. Added the DisplayObject class as an extention to Lightning

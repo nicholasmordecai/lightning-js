@@ -23,6 +23,8 @@ gulp.task('concat-dts', function() {
 gulp.task('push-to-test', function() {
     gulp.src('./dist/lightning.js')
         .pipe(gulp.dest('./../lightning-tester/public/js/'));
+    gulp.src('./dist/lightning.d.ts')
+        .pipe(gulp.dest('./../lightning-tester/src/'));
 });
 
 gulp.task('minify', function() {

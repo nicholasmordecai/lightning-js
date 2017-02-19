@@ -11,6 +11,30 @@ declare namespace Lightning {
     }
 }
 declare namespace Lightning {
+    /**
+     * @description function for calculating scaling fonts
+     *
+     * @param {Object} game reference to the Engine instance
+     * @param {number} size size of the font (in responsive pixels)
+     * @param {string} font name of the font stored in resource cache
+     *
+     * @returns {string} concatinated string to pass directly to the PIXI.extras.BitmapText
+     */
+    function calcFont(game: Engine, size: number, font: string): string;
+}
+declare namespace Lightning {
+    class Maths {
+        static rngInt(from: number, to: number): number;
+        static rng(negative?: boolean): number;
+        static rngFloat(from: number, to: number): number;
+        /**
+         * To Implement
+         * random between two positions
+         */
+        static rndPos(): void;
+    }
+}
+declare namespace Lightning {
     class DisplayObject extends PIXI.DisplayObject {
         constructor();
     }
@@ -241,27 +265,103 @@ declare namespace Lightning {
 }
 declare namespace Lightning {
     class Particle extends Sprite {
-        constructor();
-    }
-}
-declare namespace Lightning {
-    class ParticleEmitter extends Group {
-        protected _particles: Array<Particle>;
-        protected _lifeSpan: number;
-        protected _emitStrength: number;
-        protected _emitFrequency: number;
-        protected _gravity: {
+        protected _emitter: ParticleEmitter;
+        protected _velX: number;
+        protected _velY: number;
+        protected _gX: number;
+        protected _gY: number;
+        protected _alphaIncrement: number;
+        protected _rotationIncrement: number;
+        protected _scaleIncrement: {
             x: number;
             y: number;
         };
-        constructor();
+        protected _createdAt: number;
+        protected _lifeSpan: number;
+        protected _deadTime: number;
+        constructor(texture: PIXI.Texture, emitter: any);
+        update(): void;
+        velocity: {
+            x: number;
+            y: number;
+        };
+        gravity: {
+            x: number;
+            y: number;
+        };
+        lifeSpan: number;
+        alphaIncrement: number;
+        rotationIncrement: number;
+        scaleIncrement: {
+            x: number;
+            y: number;
+        };
+        createdAt: number;
+    }
+}
+/**
+ * Pool Sprites
+ */
+interface iPosition {
+    x: number;
+    y: number;
+}
+interface iRange {
+    from: number;
+    to: number;
+}
+interface iPointRange {
+    xFrom: number;
+    xTo: number;
+    yFrom: number;
+    yTo: number;
+}
+declare namespace Lightning {
+    class ParticleEmitter extends Group {
+        protected _emit: boolean;
+        protected _nextEmit: number;
+        protected _interval: number;
+        protected _lastStart: number;
+        protected _time: number;
+        protected _textures: Array<PIXI.Texture>;
+        protected _deadPool: Array<Particle>;
+        protected _gravity: iPosition;
+        protected _spread: iPointRange;
+        protected _lifeSpanRange: iRange;
+        protected _particleStrength: number;
+        protected _particleScaleRange: iPointRange;
+        protected _particleAlphaRange: iRange;
+        protected _particleRotationRange: iRange;
+        protected _particleVelocityRange: iPointRange;
+        protected _particleRotationIncrement: iRange;
+        protected _particleScaleIncrement: iPointRange;
+        protected _particleAlphaIncrement: iRange;
+        constructor(x?: number, y?: number);
+        update(): void;
         /**
          * @param  {string} key
          * @param  {DisplayObject} particle
          */
-        add(particle: Particle): void;
+        add(...params: Array<PIXI.Texture>): void;
         start(time?: number): void;
+        fireEmitter(): void;
+        createParticle(): void;
         stop(): void;
+        returnToPool(particle: Particle): void;
+        setSpread(xFrom: number, xTo: number, yFrom: number, yTo: number): void;
+        setGravity(x: number, y?: number): void;
+        setLifeSpan(from: number, to?: number): void;
+        setInterval(val: number): void;
+        setVelocityRange(xFrom: number, xTo: number, yFrom?: number, yTo?: number): void;
+        setRotationIncrement(from: number, to?: number): void;
+        setScaleIncrement(xFrom: number, xTo: number, yFrom?: number, yTo?: number): void;
+        setAlphaIncrement(from: number, to?: number): void;
+        setScaleRange(xFrom: number, xTo: number, yFrom?: number, yTo?: number): void;
+        setAlphaRange(from: number, to?: number): void;
+        setRotationRange(from: number, to?: number): void;
+        setStrength(val: number): void;
+        readonly alive: number;
+        readonly pool: number;
     }
 }
 declare namespace Tween {
@@ -980,18 +1080,6 @@ declare namespace Lightning.Signals {
          */
         has(name: string): boolean;
     }
-}
-declare namespace Lightning {
-    /**
-     * @description function for calculating scaling fonts
-     *
-     * @param {Object} game reference to the Engine instance
-     * @param {number} size size of the font (in responsive pixels)
-     * @param {string} font name of the font stored in resource cache
-     *
-     * @returns {string} concatinated string to pass directly to the PIXI.extras.BitmapText
-     */
-    function calcFont(game: Engine, size: number, font: string): string;
 }
 declare namespace Lightning {
     class Engine {
