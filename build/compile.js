@@ -104,6 +104,18 @@ var Lightning;
 /// <reference path="./../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
+    var Texture = (function (_super) {
+        __extends(Texture, _super);
+        function Texture() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        return Texture;
+    }(PIXI.Texture));
+    Lightning.Texture = Texture;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
     var Graphics = (function (_super) {
         __extends(Graphics, _super);
         function Graphics() {
@@ -189,6 +201,50 @@ var Lightning;
             for (var i = 0; i < displayObjects.length - 1; i++) {
                 this.addChild(displayObjects[i]);
             }
+        };
+        Sprite.prototype.enableDrag = function (respectPosition) {
+            var _this = this;
+            if (respectPosition === void 0) { respectPosition = false; }
+            this._respectPosition = respectPosition;
+            // check to see if interaction is already enabled
+            if (this.interactive === false) {
+                this.interactive = true;
+            }
+            this.on('mousedown', function (e) {
+                _this.startDrag(e);
+            });
+            this.on('touchstart', function (e) {
+                _this.startDrag(e);
+            });
+            this.on('mouseup', function (e) {
+                _this.stopDrag(e);
+            });
+            this.on('touchend', function (e) {
+                _this.stopDrag(e);
+            });
+            /**
+             * need to think about handling pointer events
+             */
+        };
+        Sprite.prototype.startDrag = function (event) {
+            if (this._respectPosition) {
+                var rpx = event.data.global.x * window.devicePixelRatio - this.position.x;
+                var rpy = event.data.global.y * window.devicePixelRatio - this.position.y;
+                this._respectPositionValues = { x: rpx, y: rpy };
+                console.log(this._respectPositionValues);
+            }
+            else {
+                this._respectPositionValues = { x: 0, y: 0 };
+            }
+            this.on('mousemove', this.onDrag);
+            this.on('touchmove', this.onDrag);
+        };
+        Sprite.prototype.stopDrag = function (event) {
+            this.removeListener('mousemove', this.onDrag);
+            this.removeListener('touchmove', this.onDrag);
+        };
+        Sprite.prototype.onDrag = function (event) {
+            this.position = new PIXI.Point((event.data.global.x * window.devicePixelRatio) - this._respectPositionValues.x, (event.data.global.y * window.devicePixelRatio) - this._respectPositionValues.y);
         };
         return Sprite;
     }(PIXI.Sprite));
@@ -2567,17 +2623,6 @@ var Lightning;
             this._tweens = new Tween.TweenManager(this);
             this._signals = new Lightning.Signals.SignalManager(this);
             this._physicsActive = false;
-            console.log('new game');
-            var view = document.getElementById(canvasId);
-            /**
-             * Add this to a physics debug enable function
-             */
-            // let debug = document.getElementById('debug');
-            // if(!debug) {
-            //     // let debugCanvas = document.createElement('canvas');
-            //     // debugCanvas.id = 'debug';
-            //     // document.getElementById('app-container').appendChild(debugCanvas);
-            // }
             if (!canvasId) {
                 var viewCanvas = document.createElement('canvas');
                 viewCanvas.id = 'app';
@@ -2588,9 +2633,6 @@ var Lightning;
             this._world = new PIXI.Container();
             this._world.scale = new PIXI.Point(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
             this._world.interactive = true;
-            this._world.on('mousedown', function () {
-                // console.log('container mousedown');
-            });
             document.getElementById('app-container').appendChild(this._renderer.view);
             var canvas = document.querySelector('canvas');
             var scale = window.devicePixelRatio;

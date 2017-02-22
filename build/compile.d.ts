@@ -40,6 +40,10 @@ declare namespace Lightning {
     }
 }
 declare namespace Lightning {
+    class Texture extends PIXI.Texture {
+    }
+}
+declare namespace Lightning {
     class Graphics extends PIXI.Graphics {
         constructor();
         /**
@@ -51,6 +55,11 @@ declare namespace Lightning {
 declare namespace Lightning {
     class Sprite extends PIXI.Sprite {
         protected _body: Box2D.Dynamics.b2Body;
+        protected _respectPosition: boolean;
+        protected _respectPositionValues: {
+            x: number;
+            y: number;
+        };
         /**
          * @param  {PIXI.Texture=null} texture
          */
@@ -82,6 +91,10 @@ declare namespace Lightning {
          * @param  {} ...displayObjects
          */
         add(...displayObjects: any[]): void;
+        enableDrag(respectPosition?: boolean): void;
+        startDrag(event: PIXI.interaction.InteractionEvent): void;
+        stopDrag(event: PIXI.interaction.InteractionEvent): void;
+        onDrag(event: PIXI.interaction.InteractionEvent): void;
     }
 }
 /**
@@ -300,7 +313,8 @@ declare namespace Lightning {
     }
 }
 /**
- * Pool Sprites
+ * Fade in / Scale in sprites - optional
+ * Simple / Advanced -- for creating ultra performant particles in the 50k+ range
  */
 interface iPosition {
     x: number;

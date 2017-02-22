@@ -1,5 +1,12 @@
 # Changelog
 
+### 0.2.9 -- in progress
+1. Introduce Lightning.Texture class
+2. Created a physics class to contain anything box2d / phsics related
+3. Fix Display Object not being resolved in the State class
+4. Sprites now have a enableDrag function
+    1. Can pass preserve position which keeps he location change
+
 ### 0.2.8
 1. Added a Maths component for things like generating random numbers etc
     1. Maths.rng(); | Maths.rng(true) -- for negative rng

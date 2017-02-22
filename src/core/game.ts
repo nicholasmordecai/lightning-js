@@ -16,20 +16,6 @@ namespace Lightning {
         
         // game engine constructor
         constructor(width, height, canvasId:string = 'app') {
-            console.log('new game')
-            let view = document.getElementById(canvasId);
-
-            /**
-             * Add this to a physics debug enable function
-             */
-
-            // let debug = document.getElementById('debug');
-
-            // if(!debug) {
-            //     // let debugCanvas = document.createElement('canvas');
-            //     // debugCanvas.id = 'debug';
-            //     // document.getElementById('app-container').appendChild(debugCanvas);
-            // }
 
             if(!canvasId) {
                 let viewCanvas = document.createElement('canvas');
@@ -42,9 +28,6 @@ namespace Lightning {
             this._world = new PIXI.Container();
             this._world.scale = new PIXI.Point(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
             this._world.interactive = true;
-            this._world.on('mousedown', () => {
-                // console.log('container mousedown');
-            });
 
             document.getElementById('app-container').appendChild(this._renderer.view);
 

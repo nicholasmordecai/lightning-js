@@ -1,7 +1,8 @@
 /// <reference path="./../reference.d.ts" />
 
 /**
- * Pool Sprites
+ * Fade in / Scale in sprites - optional
+ * Simple / Advanced -- for creating ultra performant particles in the 50k+ range
  */
 
 declare interface iPosition {
@@ -185,7 +186,6 @@ namespace Lightning {
 
         returnToPool(particle:Particle) {
             let p:any = this.removeChild(particle);
-
             this._deadPool.push(p);
         }
 
