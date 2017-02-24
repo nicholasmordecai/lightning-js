@@ -24,8 +24,24 @@ declare namespace Lightning {
 }
 declare namespace Lightning {
     class Maths {
+        /**
+         * @description generate a random integer between two values
+         * @param  {number} from
+         * @param  {number} to
+         */
         static rngInt(from: number, to: number): number;
+        /**
+         * @description generate a random number
+         *
+         * @param  {boolean=false} negative
+         */
         static rng(negative?: boolean): number;
+        /**
+         * @description generate a random float between two values
+         *
+         * @param  {number} from
+         * @param  {number} to
+         */
         static rngFloat(from: number, to: number): number;
         /**
          * To Implement
@@ -332,12 +348,16 @@ interface iPointRange {
 }
 declare namespace Lightning {
     class ParticleEmitter extends Group {
+        protected game: Engine;
+        protected state: State;
         protected _emit: boolean;
         protected _nextEmit: number;
         protected _interval: number;
         protected _lastStart: number;
         protected _time: number;
         protected _textures: Array<PIXI.Texture>;
+        protected _respectPosition: boolean;
+        protected _respectPositionValues: iPosition;
         protected _deadPool: Array<Particle>;
         protected _gravity: iPosition;
         protected _spread: iPointRange;
@@ -350,7 +370,7 @@ declare namespace Lightning {
         protected _particleRotationIncrement: iRange;
         protected _particleScaleIncrement: iPointRange;
         protected _particleAlphaIncrement: iRange;
-        constructor(x?: number, y?: number);
+        constructor(state: State, x?: number, y?: number);
         update(): void;
         /**
          * @param  {string} key
@@ -362,6 +382,10 @@ declare namespace Lightning {
         createParticle(): void;
         stop(): void;
         returnToPool(particle: Particle): void;
+        startDrag(event: PIXI.interaction.InteractionEvent): void;
+        enableDrag(respectPosition?: boolean): void;
+        stopDrag(event: PIXI.interaction.InteractionEvent): void;
+        onDrag(event: PIXI.interaction.InteractionEvent): void;
         setSpread(xFrom: number, xTo: number, yFrom: number, yTo: number): void;
         setGravity(x: number, y?: number): void;
         setLifeSpan(from: number, to?: number): void;
@@ -376,6 +400,29 @@ declare namespace Lightning {
         setStrength(val: number): void;
         readonly alive: number;
         readonly pool: number;
+    }
+}
+interface iTile {
+    key: string;
+    object: PIXI.extras.TilingSprite;
+    updateX: number;
+    updateY: number;
+    updateRelative: number;
+}
+declare namespace Lightning {
+    class Parallax extends Group {
+        protected game: Engine;
+        protected _tiles: Array<iTile>;
+        protected _width: number;
+        protected _height: number;
+        protected _speed: number;
+        protected _watch: any;
+        constructor(game: Engine, width?: number, height?: number);
+        add(key: string, texture: Texture, xSpeed?: number, ySpeed?: number): void;
+        setUpdate(key: string, x?: number, y?: number): void;
+        setSpeed(val: number): void;
+        update(): void;
+        getTile(key: string): iTile;
     }
 }
 declare namespace Tween {
@@ -1112,6 +1159,8 @@ declare namespace Lightning {
         initState(state: State, params: any): void;
         startPhysics(): void;
         collideOnWorldBounds(): void;
+        generateTexture(...params: any[]): Texture | Array<Texture>;
+        texture(...params: any[]): any;
         backgroundColor: number;
         state: State;
         readonly world: PIXI.Container;

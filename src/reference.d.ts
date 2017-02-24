@@ -16,6 +16,7 @@
 /// <reference path="./display/group.ts" />
 /// <reference path="./display/particle.ts" />
 /// <reference path="./display/particleEmitter.ts" />
+/// <reference path="./display/parallax.ts" />
 /// <reference path="./core/tween-generator/Easing.ts" />
 /// <reference path="./core/tween-generator/Events.ts" />
 /// <reference path="./core/tween-generator/Frame.ts" />

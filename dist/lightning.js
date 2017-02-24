@@ -50594,9 +50594,19 @@ var Lightning;
     var Maths = (function () {
         function Maths() {
         }
+        /**
+         * @description generate a random integer between two values
+         * @param  {number} from
+         * @param  {number} to
+         */
         Maths.rngInt = function (from, to) {
             return Math.floor(Math.random() * (to - from) + from);
         };
+        /**
+         * @description generate a random number
+         *
+         * @param  {boolean=false} negative
+         */
         Maths.rng = function (negative) {
             if (negative === void 0) { negative = false; }
             if (negative) {
@@ -50606,6 +50616,12 @@ var Lightning;
                 return -Math.random();
             }
         };
+        /**
+         * @description generate a random float between two values
+         *
+         * @param  {number} from
+         * @param  {number} to
+         */
         Maths.rngFloat = function (from, to) {
             return Math.random() * (to - from) + from;
         };
@@ -50762,7 +50778,6 @@ var Lightning;
                 var rpx = event.data.global.x * window.devicePixelRatio - this.position.x;
                 var rpy = event.data.global.y * window.devicePixelRatio - this.position.y;
                 this._respectPositionValues = { x: rpx, y: rpy };
-                console.log(this._respectPositionValues);
             }
             else {
                 this._respectPositionValues = { x: 0, y: 0 };
@@ -51264,7 +51279,7 @@ var Lightning;
 (function (Lightning) {
     var ParticleEmitter = (function (_super) {
         __extends(ParticleEmitter, _super);
-        function ParticleEmitter(x, y) {
+        function ParticleEmitter(state, x, y) {
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
             var _this = _super.call(this) || this;
@@ -51275,17 +51290,18 @@ var Lightning;
             _this._time = null;
             _this._textures = [];
             _this._deadPool = [];
-            _this._gravity = { x: 0, y: 0 };
+            _this._gravity = { x: 0, y: 0.2 };
             _this._spread = { xFrom: -2, xTo: 2, yFrom: -2, yTo: 2 };
             _this._lifeSpanRange = { from: 3000, to: 3000 };
             _this._particleStrength = 1;
-            _this._particleScaleRange = null;
-            _this._particleAlphaRange = null;
-            _this._particleRotationRange = null;
-            _this._particleVelocityRange = null;
-            _this._particleRotationIncrement = null;
-            _this._particleScaleIncrement = null;
-            _this._particleAlphaIncrement = null;
+            _this._particleScaleRange = { xFrom: 0.7, xTo: 1, yFrom: 0.7, yTo: 1 };
+            _this._particleAlphaRange = { from: 1, to: 1 };
+            _this._particleRotationRange = { from: 0, to: 1.9 };
+            _this._particleVelocityRange = { xFrom: -1, xTo: 1, yFrom: -4, yTo: -6 };
+            _this._particleRotationIncrement = { from: 0, to: 0 };
+            _this._particleScaleIncrement = { xFrom: 0, xTo: 0, yFrom: 0, yTo: 0 };
+            _this._particleAlphaIncrement = { from: 0, to: 0 };
+            _this.state = state;
             _this.x = x;
             _this.y = y;
             return _this;
@@ -51409,6 +51425,49 @@ var Lightning;
             var p = this.removeChild(particle);
             this._deadPool.push(p);
         };
+        ParticleEmitter.prototype.startDrag = function (event) {
+            if (this._respectPosition) {
+                var rpx = event.data.global.x * window.devicePixelRatio - this.position.x;
+                var rpy = event.data.global.y * window.devicePixelRatio - this.position.y;
+                this._respectPositionValues = { x: rpx, y: rpy };
+            }
+            else {
+                this._respectPositionValues = { x: 0, y: 0 };
+            }
+            this.on('mousemove', this.onDrag);
+            this.on('touchmove', this.onDrag);
+        };
+        ParticleEmitter.prototype.enableDrag = function (respectPosition) {
+            var _this = this;
+            if (respectPosition === void 0) { respectPosition = false; }
+            this._respectPosition = respectPosition;
+            // check to see if interaction is already enabled
+            if (this.interactive === false) {
+                this.interactive = true;
+            }
+            this.on('mousedown', function (e) {
+                _this.startDrag(e);
+            });
+            this.on('touchstart', function (e) {
+                _this.startDrag(e);
+            });
+            this.on('mouseup', function (e) {
+                _this.stopDrag(e);
+            });
+            this.on('touchend', function (e) {
+                _this.stopDrag(e);
+            });
+            /**
+             * need to think about handling pointer events
+             */
+        };
+        ParticleEmitter.prototype.stopDrag = function (event) {
+            this.removeListener('mousemove', this.onDrag);
+            this.removeListener('touchmove', this.onDrag);
+        };
+        ParticleEmitter.prototype.onDrag = function (event) {
+            this.position = new PIXI.Point((event.data.global.x * window.devicePixelRatio) - this._respectPositionValues.x, (event.data.global.y * window.devicePixelRatio) - this._respectPositionValues.y);
+        };
         ParticleEmitter.prototype.setSpread = function (xFrom, xTo, yFrom, yTo) {
             this._spread = { xFrom: xFrom, xTo: xTo, yFrom: yFrom, yTo: yTo };
         };
@@ -51474,6 +51533,70 @@ var Lightning;
         return ParticleEmitter;
     }(Lightning.Group));
     Lightning.ParticleEmitter = ParticleEmitter;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Parallax = (function (_super) {
+        __extends(Parallax, _super);
+        function Parallax(game, width, height) {
+            if (width === void 0) { width = null; }
+            if (height === void 0) { height = null; }
+            var _this = _super.call(this) || this;
+            _this._speed = null;
+            _this._watch = null;
+            _this.game = game;
+            _this._width = width | _this.game.width;
+            _this._height = height | _this.game.height;
+            _this._tiles = [];
+            return _this;
+        }
+        Parallax.prototype.add = function (key, texture, xSpeed, ySpeed) {
+            if (xSpeed === void 0) { xSpeed = -0.3 * (this._tiles.length + 1); }
+            if (ySpeed === void 0) { ySpeed = 0; }
+            var object = new PIXI.extras.TilingSprite(texture, this._width, this._height);
+            this.addChild(object);
+            var tile = { key: key, object: object, updateX: xSpeed, updateY: ySpeed, updateRelative: 0 };
+            this._tiles.push(tile);
+        };
+        Parallax.prototype.setUpdate = function (key, x, y) {
+            if (x === void 0) { x = 0; }
+            if (y === void 0) { y = 0; }
+            var tile = this.getTile(key);
+            tile.updateX = x;
+            tile.updateY = y;
+        };
+        Parallax.prototype.setSpeed = function (val) {
+        };
+        Parallax.prototype.update = function () {
+            for (var _i = 0, _a = this._tiles; _i < _a.length; _i++) {
+                var tile = _a[_i];
+                if (this._watch) {
+                }
+                else {
+                    if (this._speed) {
+                        tile.object.tilePosition.x += tile.updateRelative * this._speed;
+                        tile.object.tilePosition.y += tile.updateRelative * this._speed;
+                    }
+                    else {
+                        tile.object.tilePosition.x += tile.updateX;
+                        tile.object.tilePosition.y += tile.updateY;
+                    }
+                }
+            }
+        };
+        Parallax.prototype.getTile = function (key) {
+            for (var _i = 0, _a = this._tiles; _i < _a.length; _i++) {
+                var tile = _a[_i];
+                if (tile.key === key) {
+                    return tile;
+                }
+            }
+            console.info('no tile with key', key, 'found');
+        };
+        return Parallax;
+    }(Lightning.Group));
+    Lightning.Parallax = Parallax;
 })(Lightning || (Lightning = {}));
 var Tween;
 (function (Tween) {
@@ -53230,6 +53353,42 @@ var Lightning;
             this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
             this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
             var body = Box2D.Dynamics.b2Body;
+        };
+        Engine.prototype.generateTexture = function () {
+            var params = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                params[_i] = arguments[_i];
+            }
+            var textures = [];
+            for (var _a = 0, params_3 = params; _a < params_3.length; _a++) {
+                var i = params_3[_a];
+                textures.push(this._renderer.generateTexture(i));
+            }
+            if (textures.length === 1) {
+                return textures[0];
+            }
+            else {
+                return textures;
+            }
+        };
+        Engine.prototype.texture = function () {
+            var params = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                params[_i] = arguments[_i];
+            }
+            var t = [];
+            if (params.length > 1) {
+                console.log('get multiple textures');
+                for (var _a = 0, params_4 = params; _a < params_4.length; _a++) {
+                    var i = params_4[_a];
+                    t.push(Lightning.Texture.from(i));
+                }
+            }
+            else {
+                console.log('get single texture');
+                t = Lightning.Texture.from(params[0]);
+            }
+            return t;
         };
         Object.defineProperty(Engine.prototype, "backgroundColor", {
             set: function (val) {

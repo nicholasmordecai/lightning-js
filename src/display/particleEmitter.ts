@@ -23,33 +23,39 @@ declare interface iPointRange {
 }
 
 namespace Lightning {
-    export class ParticleEmitter extends Group {
 
+    export class ParticleEmitter extends Group {
+        protected game:Engine;
+        protected state:State;
         protected _emit:boolean = false;
         protected _nextEmit:number = null;
         protected _interval:number = 500;
         protected _lastStart:number = null;
         protected _time:number = null;
         protected _textures:Array<PIXI.Texture> = [];
+
+        protected _respectPosition:boolean;
+        protected _respectPositionValues: iPosition;
         
         protected _deadPool:Array<Particle> = [];
 
-        protected _gravity:iPosition = {x: 0, y: 0};
+        protected _gravity:iPosition = {x: 0, y: 0.2};
         protected _spread:iPointRange= {xFrom: -2, xTo: 2, yFrom: -2, yTo: 2};
         protected _lifeSpanRange:iRange = {from:3000, to:3000};
         protected _particleStrength:number = 1;
 
-        protected _particleScaleRange:iPointRange = null;
-        protected _particleAlphaRange:iRange = null;
-        protected _particleRotationRange:iRange = null;
-        protected _particleVelocityRange:iPointRange = null; 
+        protected _particleScaleRange:iPointRange = {xFrom: 0.7, xTo: 1, yFrom: 0.7, yTo: 1};
+        protected _particleAlphaRange:iRange = {from: 1, to: 1};
+        protected _particleRotationRange:iRange = {from: 0, to: 1.9};
+        protected _particleVelocityRange:iPointRange = {xFrom: -1, xTo: 1, yFrom: -4, yTo: -6}; 
 
-        protected _particleRotationIncrement:iRange = null;
-        protected _particleScaleIncrement:iPointRange = null;
-        protected _particleAlphaIncrement:iRange = null;
+        protected _particleRotationIncrement:iRange = {from: 0, to: 0};
+        protected _particleScaleIncrement:iPointRange = {xFrom: 0, xTo: 0, yFrom: 0, yTo: 0};
+        protected _particleAlphaIncrement:iRange = {from: 0, to: 0};
 
-        constructor(x:number = 0, y:number = 0) {
+        constructor(state:State, x:number = 0, y:number = 0) {
             super();
+            this.state = state;
             this.x = x;
             this.y = y;
         }
@@ -187,6 +193,59 @@ namespace Lightning {
         returnToPool(particle:Particle) {
             let p:any = this.removeChild(particle);
             this._deadPool.push(p);
+        }
+
+                startDrag(event:PIXI.interaction.InteractionEvent) {
+            if(this._respectPosition) {
+                let rpx = event.data.global.x * window.devicePixelRatio - this.position.x;
+                let rpy = event.data.global.y * window.devicePixelRatio - this.position.y;
+                this._respectPositionValues = {x: rpx, y: rpy};
+            } else {
+                this._respectPositionValues = {x: 0, y: 0};
+            }
+            this.on('mousemove', this.onDrag);
+            this.on('touchmove', this.onDrag);
+        }
+
+        enableDrag(respectPosition:boolean = false) {
+            this._respectPosition = respectPosition;
+            
+            // check to see if interaction is already enabled
+            if(this.interactive === false) {
+                this.interactive = true;
+            }
+            
+            this.on('mousedown', (e) => {
+                this.startDrag(e);
+            });
+
+            this.on('touchstart', (e) => {
+                this.startDrag(e);
+            });
+
+            this.on('mouseup', (e) => {
+                this.stopDrag(e);
+            });
+
+            this.on('touchend', (e) => {
+                this.stopDrag(e);
+            });
+
+            /**
+             * need to think about handling pointer events
+             */
+        }
+
+        stopDrag(event:PIXI.interaction.InteractionEvent) {
+            this.removeListener('mousemove', this.onDrag);
+            this.removeListener('touchmove', this.onDrag);
+        }
+
+        onDrag(event:PIXI.interaction.InteractionEvent) {
+            this.position = new PIXI.Point(
+                (event.data.global.x * window.devicePixelRatio) - this._respectPositionValues.x, 
+                (event.data.global.y * window.devicePixelRatio) - this._respectPositionValues.y
+            );
         }
 
         setSpread(xFrom:number, xTo:number, yFrom:number, yTo:number):void {

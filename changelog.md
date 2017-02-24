@@ -1,6 +1,11 @@
 # Changelog
 
-### 0.2.9 -- in progress
+### 0.3.0 -- In progress
+1. Fixed particle emitter default values
+2. Made helper function for generating textures (this.game.genereateTexture(...));
+3. Made helper function for getting textures (this.game.getTexture(...));
+
+### 0.2.9
 1. Introduce Lightning.Texture class
 2. Created a physics class to contain anything box2d / phsics related
 3. Fix Display Object not being resolved in the State class
