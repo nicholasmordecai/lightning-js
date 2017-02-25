@@ -13,36 +13,38 @@ namespace Lightning {
         private _physicsActive:boolean = false;
         private _physicsWorld:Box2D.Dynamics.b2World;
         private _physicsWorldBounds:Box2D.Dynamics.b2BodyDef;
-
-        private _stats = new Stats();
-        private _statsEnabled:boolean = true;
         
         // game engine constructor
-        constructor(width, height) {
-            this._renderer = PIXI.autoDetectRenderer(width, height);
+        constructor(width, height, canvasId:string = 'app') {
+
+            if(!canvasId) {
+                let viewCanvas = document.createElement('canvas');
+                viewCanvas.id = 'app';
+                document.getElementById('app-container').appendChild(viewCanvas);
+            }
+            
+            this._renderer = PIXI.autoDetectRenderer(width, height, {resolution:window.devicePixelRatio});
+            this._renderer.autoResize = true;
             this._world = new PIXI.Container();
+            this._world.scale = new PIXI.Point(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
             this._world.interactive = true;
-            this._world.on('mousedown', () => {
-                // console.log('container mousedown');
-            });
 
             document.getElementById('app-container').appendChild(this._renderer.view);
+
+            let canvas = document.querySelector('canvas');
+            let scale = window.devicePixelRatio;
+            let renderer = PIXI.autoDetectRenderer(width * scale, height * scale, canvas);
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
             
             // init the ticker
             this._ticker = PIXI.ticker.shared;
             this._ticker.autoStart = true;
             this._ticker.add(this.update, this);
-
-            this.resize();
-            if(this._statsEnabled) {
-                this._stats.setMode(0);
-                document.getElementById('app-container').appendChild(this._stats.domElement);
-            }
         }
 
         // gets called on update
         update(time):void {
-            if(this._statsEnabled) this._stats.begin();
             if(this._physicsActive) {
                 this._physicsWorld.Step(1 / 60,  1, 1);
                 this._physicsWorld.ClearForces();
@@ -52,19 +54,6 @@ namespace Lightning {
             }
             this._tweens.update();
             this._renderer.render(this._world);
-            if(this._statsEnabled) this._stats.end();
-        }
-
-        resize() {
-            window.onresize = (event) => {
-                let w:number = window.innerWidth;
-                let h:number = window.innerHeight;    
- 
-                this._renderer.view.style.width = w + "px";    
-                this._renderer.view.style.height = h + "px";    
- 
-                this._renderer.resize(w, h);
-            }
         }
 
         startState(state, ...params) {
@@ -111,6 +100,32 @@ namespace Lightning {
             this._physicsWorldBounds.position.Set(this.height / 100, 0);
             this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
             this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+
+            let body = Box2D.Dynamics.b2Body;
+        }
+
+        generateTexture(...params):any {
+            let t:Texture | Array<Texture> = [];
+            if(params.length > 1) {
+                for(let i of params) {
+                    t.push(this._renderer.generateTexture(i));
+                }
+            } else {
+                t = this._renderer.generateTexture(params[0]);
+            }
+            return t;
+        }
+
+        texture(...params):any {
+            let t:Texture | Array<Texture> = [];
+            if(params.length > 1) {
+                for(let i of params) {
+                    t.push(Texture.from(i));
+                }
+            } else {
+                t = Texture.from(params[0]);
+            }
+            return t;
         }
 
         public set backgroundColor(val:number) {
@@ -131,6 +146,10 @@ namespace Lightning {
 
         public get height():number {
             return this._renderer.height;
+        }
+
+        public get center():{x:number, y:number} {
+            return {x: this.width * 0.5, y: this.height * 0.5}
         }
 
         public get renderer():PIXI.CanvasRenderer | PIXI.WebGLRenderer {

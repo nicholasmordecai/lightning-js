@@ -1,7 +1,7 @@
-/// <reference path="./../../reference.d.ts" />
+/// <reference path="./../reference.d.ts" />
 
-namespace Lightning.UI {
-    export class HitArea extends PIXI.Graphics {
+namespace Lightning {
+    export class HitArea extends Graphics {
 
         private game:Engine;
         private _debug:boolean = false;
@@ -157,7 +157,7 @@ namespace Lightning.UI {
          * 
          * @param fnct
          */
-        tap(fnct:Function):void {
+        onTap(fnct:Function):void {
             this.on('tap', fnct);
         }
 

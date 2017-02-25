@@ -1,12 +1,21 @@
-/// <reference path="./../../reference.d.ts" />
-namespace Lightning.UI {
-    export namespace Shapes {
+/// <reference path="./../reference.d.ts" />
+
+/**
+ * Notes: Need to add a shaddow parameter and function.
+ * This should allow the user to set parameters such is 
+ * 
+ * make a button class that has multiple states for quick dev
+ */
+
+namespace Lightning {
+    export namespace Geometry {
+
         /**
          * @description Draw a square
          * 
          * @param {number} d dimension of the square in pixels
          * 
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
         export function Square(d:number):PIXI.Graphics {
             let graphics = new PIXI.Graphics();
@@ -22,7 +31,7 @@ namespace Lightning.UI {
          * @param {number} w width of the rectangle in pixels
          * @param {number} h height of the rectangle in pixels
          * 
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
         export function Rect(w:number, h:number):PIXI.Graphics {
             let graphics = new PIXI.Graphics();
@@ -38,7 +47,7 @@ namespace Lightning.UI {
          * @param {number} w width of the rectangle in pixels
          * @param {number} h height of the rectangle in pixels
          * 
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
         export function Star(w:number, h:number):PIXI.Graphics {
             let graphics = new PIXI.Graphics();
@@ -55,7 +64,7 @@ namespace Lightning.UI {
          * @param {number} h height of the rectangle in pixels
          * @param {number} d depth of rectangle in pixels
          * 
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
         export function Rect3D(w:number, h:number, d:number):PIXI.Graphics {
             w *= 2, h *=2, d *= 2;
@@ -93,7 +102,7 @@ namespace Lightning.UI {
          * 
          * @param {number} r Radius of the circle in pixels
          * 
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
         export function Circle(r:number):PIXI.Graphics {
             let graphics = new PIXI.Graphics();
@@ -106,17 +115,18 @@ namespace Lightning.UI {
         /**
          * @description Draw a Triangle
          * 
-         * @param {number} r Length of the triangle sides
+         * @param {number} l1 Length of the first triangle side
+         * @param {number} l2 Length of the second triangle side
          * 
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
-        export function Triangle(l:number):PIXI.Graphics {
+        export function Triangle(l1:number, l2:number = l1):PIXI.Graphics {
             let graphics = new PIXI.Graphics();
             graphics.beginFill(0xffffff, 1);
-            graphics.moveTo(l * 0.5, 0);
-            graphics.lineTo(l, l);
-            graphics.lineTo(0, l);
-            graphics.lineTo(l * 0.5, 0);
+            graphics.moveTo(l1 * 0.5, 0);
+            graphics.lineTo(l2, l1);
+            graphics.lineTo(0, l1);
+            graphics.lineTo(l1 * 0.5, 0);
             graphics.endFill();
             return graphics;
         }

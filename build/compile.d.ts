@@ -7,16 +7,126 @@ declare namespace Lightning {
         start(): void;
         update(): void;
         create(): void;
+        add(...params: Array<DisplayObject>): void;
     }
 }
-declare namespace Lightning.UI {
-    namespace Shapes {
+declare namespace Lightning {
+    /**
+     * @description function for calculating scaling fonts
+     *
+     * @param {Object} game reference to the Engine instance
+     * @param {number} size size of the font (in responsive pixels)
+     * @param {string} font name of the font stored in resource cache
+     *
+     * @returns {string} concatinated string to pass directly to the PIXI.extras.BitmapText
+     */
+    function calcFont(game: Engine, size: number, font: string): string;
+}
+declare namespace Lightning {
+    class Maths {
+        /**
+         * @description generate a random integer between two values
+         * @param  {number} from
+         * @param  {number} to
+         */
+        static rngInt(from: number, to: number): number;
+        /**
+         * @description generate a random number
+         *
+         * @param  {boolean=false} negative
+         */
+        static rng(negative?: boolean): number;
+        /**
+         * @description generate a random float between two values
+         *
+         * @param  {number} from
+         * @param  {number} to
+         */
+        static rngFloat(from: number, to: number): number;
+        /**
+         * To Implement
+         * random between two positions
+         */
+        static rndPos(): void;
+    }
+}
+declare namespace Lightning {
+    class DisplayObject extends PIXI.DisplayObject {
+        constructor();
+    }
+}
+declare namespace Lightning {
+    class Texture extends PIXI.Texture {
+    }
+}
+declare namespace Lightning {
+    class Graphics extends PIXI.Graphics {
+        constructor();
+        /**
+         * @param  {} ...displayObjects
+         */
+        add(...displayObjects: any[]): void;
+    }
+}
+declare namespace Lightning {
+    class Sprite extends PIXI.Sprite {
+        protected _body: Box2D.Dynamics.b2Body;
+        protected _respectPosition: boolean;
+        protected _respectPositionValues: {
+            x: number;
+            y: number;
+        };
+        /**
+         * @param  {PIXI.Texture=null} texture
+         */
+        constructor(texture?: PIXI.Texture);
+        /**
+         * @param  {boolean} val
+         */
+        enableBody(val: boolean): void;
+        /**
+         * @param  {number} aX
+         * @param  {number=aX} aY
+         * @returns void
+         */
+        setAnchor(aX: number, aY?: number): void;
+        /**
+         * @param  {number} aX
+         * @param  {number=aX} aY
+         * @returns void
+         */
+        setScale(aX: number, aY?: number): void;
+        /**
+         * @returns Box2D
+         */
+        /**
+         * @param  {Box2D.Dynamics.b2Body} body
+         */
+        body: Box2D.Dynamics.b2Body;
+        /**
+         * @param  {} ...displayObjects
+         */
+        add(...displayObjects: any[]): void;
+        enableDrag(respectPosition?: boolean): void;
+        startDrag(event: PIXI.interaction.InteractionEvent): void;
+        stopDrag(event: PIXI.interaction.InteractionEvent): void;
+        onDrag(event: PIXI.interaction.InteractionEvent): void;
+    }
+}
+/**
+ * Notes: Need to add a shaddow parameter and function.
+ * This should allow the user to set parameters such is
+ *
+ * make a button class that has multiple states for quick dev
+ */
+declare namespace Lightning {
+    namespace Geometry {
         /**
          * @description Draw a square
          *
          * @param {number} d dimension of the square in pixels
          *
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
         function Square(d: number): PIXI.Graphics;
         /**
@@ -25,7 +135,7 @@ declare namespace Lightning.UI {
          * @param {number} w width of the rectangle in pixels
          * @param {number} h height of the rectangle in pixels
          *
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
         function Rect(w: number, h: number): PIXI.Graphics;
         /**
@@ -34,7 +144,7 @@ declare namespace Lightning.UI {
          * @param {number} w width of the rectangle in pixels
          * @param {number} h height of the rectangle in pixels
          *
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
         function Star(w: number, h: number): PIXI.Graphics;
         /**
@@ -44,7 +154,7 @@ declare namespace Lightning.UI {
          * @param {number} h height of the rectangle in pixels
          * @param {number} d depth of rectangle in pixels
          *
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
         function Rect3D(w: number, h: number, d: number): PIXI.Graphics;
         /**
@@ -52,53 +162,22 @@ declare namespace Lightning.UI {
          *
          * @param {number} r Radius of the circle in pixels
          *
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
         function Circle(r: number): PIXI.Graphics;
         /**
          * @description Draw a Triangle
          *
-         * @param {number} r Length of the triangle sides
+         * @param {number} l1 Length of the first triangle side
+         * @param {number} l2 Length of the second triangle side
          *
-         * @returns {PIXI.Graphics}
+         * @returns {Lightning.Graphics}
          */
-        function Triangle(l: number): PIXI.Graphics;
+        function Triangle(l1: number, l2?: number): PIXI.Graphics;
     }
 }
-declare namespace Lightning.UI {
-    class Sprite extends PIXI.Sprite {
-        private _body;
-        constructor(texture?: PIXI.Texture);
-        enableBody(val: boolean): void;
-        setAnchor(aX: any, aY?: any): void;
-        body: any;
-    }
-}
-declare namespace Lightning.UI {
-    namespace Icons {
-        /**
-         * @description Draw a hamburger menu icon
-         *
-         * @param {number} s size of the icon in pixels
-         *
-         * @returns {PIXI.Graphics}
-         */
-        function Hamburger(s: number): PIXI.Graphics;
-    }
-}
-declare namespace Lightning.UI {
-    class Button extends Sprite {
-        private game;
-        private _primitive;
-        private _hitArea;
-        constructor(game: Engine, texture?: any);
-        initalise(): void;
-        setAnchor(aX: any, aY?: any): void;
-        readonly hit: HitArea;
-    }
-}
-declare namespace Lightning.UI {
-    class HitArea extends PIXI.Graphics {
+declare namespace Lightning {
+    class HitArea extends Graphics {
         private game;
         private _debug;
         private _texture;
@@ -170,13 +249,265 @@ declare namespace Lightning.UI {
          *
          * @param fnct
          */
-        tap(fnct: Function): void;
+        onTap(fnct: Function): void;
         /**
          * @description Sets the debug enabled / disabled and the alpha to 0.5 accordingly
          *
          * @param {Array} data passed in from the signal dispatch event
          */
         debug(data: any): void;
+    }
+}
+declare namespace Lightning {
+    class Button extends Sprite {
+        protected game: Engine;
+        protected _primitive: string;
+        protected _hitArea: HitArea;
+        /**
+         * @param  {Engine} game
+         * @param  {} texture=null
+         */
+        constructor(game: Engine, texture?: any);
+        /**
+         */
+        initalise(): void;
+        /**
+         * @param  {number} aX
+         * @param  {number=null} aY
+         * @returns void
+         */
+        setAnchor(aX: number, aY?: number): void;
+        /**
+         * @returns HitArea
+         */
+        readonly hit: HitArea;
+    }
+}
+declare namespace Lightning {
+    class Group extends PIXI.Container {
+        constructor();
+        /**
+         * @param  {} ...displayObjects
+         */
+        add(...displayObjects: any[]): void;
+    }
+}
+declare namespace Lightning {
+    class Particle extends Sprite {
+        protected _emitter: ParticleEmitter;
+        protected _velX: number;
+        protected _velY: number;
+        protected _gX: number;
+        protected _gY: number;
+        protected _alphaIncrement: number;
+        protected _rotationIncrement: number;
+        protected _scaleIncrement: {
+            x: number;
+            y: number;
+        };
+        protected _createdAt: number;
+        protected _lifeSpan: number;
+        protected _deadTime: number;
+        constructor(texture: PIXI.Texture, emitter: any);
+        update(): void;
+        velocity: {
+            x: number;
+            y: number;
+        };
+        gravity: {
+            x: number;
+            y: number;
+        };
+        lifeSpan: number;
+        alphaIncrement: number;
+        rotationIncrement: number;
+        scaleIncrement: {
+            x: number;
+            y: number;
+        };
+        createdAt: number;
+    }
+}
+/**
+ * Fade in / Scale in sprites - optional
+ * Simple / Advanced -- for creating ultra performant particles in the 50k+ range
+ */
+interface iPosition {
+    x: number;
+    y: number;
+}
+interface iRange {
+    from: number;
+    to: number;
+}
+interface iPointRange {
+    xFrom: number;
+    xTo: number;
+    yFrom: number;
+    yTo: number;
+}
+declare namespace Lightning {
+    class ParticleEmitter extends Group {
+        protected game: Engine;
+        protected state: State;
+        protected _emit: boolean;
+        protected _nextEmit: number;
+        protected _interval: number;
+        protected _lastStart: number;
+        protected _time: number;
+        protected _textures: Array<PIXI.Texture>;
+        protected _respectPosition: boolean;
+        protected _respectPositionValues: iPosition;
+        protected _deadPool: Array<Particle>;
+        protected _gravity: iPosition;
+        protected _spread: iPointRange;
+        protected _lifeSpanRange: iRange;
+        protected _particleStrength: number;
+        protected _particleScaleRange: iPointRange;
+        protected _particleAlphaRange: iRange;
+        protected _particleRotationRange: iRange;
+        protected _particleVelocityRange: iPointRange;
+        protected _particleRotationIncrement: iRange;
+        protected _particleScaleIncrement: iPointRange;
+        protected _particleAlphaIncrement: iRange;
+        constructor(state: State, x?: number, y?: number);
+        update(): void;
+        /**
+         * @param  {string} key
+         * @param  {DisplayObject} particle
+         */
+        add(...params: Array<PIXI.Texture>): void;
+        start(time?: number): void;
+        fireEmitter(): void;
+        createParticle(): void;
+        stop(): void;
+        returnToPool(particle: Particle): void;
+        startDrag(event: PIXI.interaction.InteractionEvent): void;
+        enableDrag(respectPosition?: boolean): void;
+        stopDrag(event: PIXI.interaction.InteractionEvent): void;
+        onDrag(event: PIXI.interaction.InteractionEvent): void;
+        setSpread(xFrom: number, xTo: number, yFrom: number, yTo: number): void;
+        setGravity(x: number, y?: number): void;
+        setLifeSpan(from: number, to?: number): void;
+        setInterval(val: number): void;
+        setVelocityRange(xFrom: number, xTo: number, yFrom?: number, yTo?: number): void;
+        setRotationIncrement(from: number, to?: number): void;
+        setScaleIncrement(xFrom: number, xTo: number, yFrom?: number, yTo?: number): void;
+        setAlphaIncrement(from: number, to?: number): void;
+        setScaleRange(xFrom: number, xTo: number, yFrom?: number, yTo?: number): void;
+        setAlphaRange(from: number, to?: number): void;
+        setRotationRange(from: number, to?: number): void;
+        setStrength(val: number): void;
+        readonly alive: number;
+        readonly pool: number;
+    }
+}
+interface iTile {
+    key: string;
+    object: PIXI.extras.TilingSprite;
+    updateX: number;
+    updateY: number;
+    updateRelative: number;
+    index: number;
+}
+declare namespace Lightning {
+    class Parallax extends Group {
+        protected game: Engine;
+        protected _tiles: Array<iTile>;
+        protected _width: number;
+        protected _height: number;
+        protected _scrollSpeed: number;
+        protected _incMultiplier: number;
+        protected _watch: any;
+        protected _watchX: boolean;
+        protected _watchY: boolean;
+        protected _watchOffset: {
+            x: number;
+            y: number;
+        };
+        protected _lastWatch: {
+            x: number;
+            y: number;
+        };
+        protected _watchIncMultiplier: {
+            x: number;
+            y: number;
+        };
+        protected _referenceOffset: {
+            x: number;
+            y: number;
+        };
+        /**
+         * @param  {Engine} game
+         * @param  {number=null} width
+         * @param  {number=null} height
+         */
+        constructor(game: Engine, width?: number, height?: number);
+        /**
+         * @param  {string} key
+         * @param  {Texture} texture
+         * @param  {boolean=false} xy
+         */
+        add(key: string, texture: Texture, xy?: boolean): void;
+        /**
+         * needs a refactor on the watch calculation
+         */
+        update(): void;
+        /**
+         * @param  {string} key
+         */
+        getTile(key: string): iTile;
+        /**
+         * @param  {any} val
+         * @returns void
+         */
+        setWatch(val: any, x?: boolean, y?: boolean): void;
+        /**
+         * @param  {number} x
+         * @param  {number=x} y
+         * @returns void
+         */
+        setWatchOffset(x: number, y?: number): void;
+        /**
+         * @param  {boolean=false} x
+         * @param  {boolean=false} y
+         */
+        setWatchXY(x?: boolean, y?: boolean): void;
+        /**
+         * @param  {number} x
+         * @param  {number=x} y
+         * @returns void
+         */
+        setReferenceOffset(x: number, y?: number): void;
+        /**
+         * @param  {string} key
+         * @param  {number=0} x
+         * @param  {number=0} y
+         * @returns void
+         */
+        setUpdate(key: string, x?: number, y?: number): void;
+        /**
+         * @param  {number} val
+         * @returns void
+         */
+        setScrollSpeed(val: number): void;
+        /**
+         * @param  {number} val
+         * @param  {boolean=false} reset
+         * @param  {boolean=false} xy
+         * @returns void
+         */
+        setIncrementMultiplier(val: number, reset?: boolean, xy?: boolean): void;
+        /**
+         * @param  {number} x
+         * @param  {number=x} y
+         * @returns void
+         */
+        setWatchIncerementMultiplier(x: number, y?: number): void;
+        /**
+         * @returns number
+         */
+        readonly scrollSpeed: number;
     }
 }
 declare namespace Tween {
@@ -907,20 +1238,23 @@ declare namespace Lightning {
         private _physicsActive;
         private _physicsWorld;
         private _physicsWorldBounds;
-        private _stats;
-        private _statsEnabled;
-        constructor(width: any, height: any);
+        constructor(width: any, height: any, canvasId?: string);
         update(time: any): void;
-        resize(): void;
         startState(state: any, ...params: any[]): void;
         initState(state: State, params: any): void;
         startPhysics(): void;
         collideOnWorldBounds(): void;
+        generateTexture(...params: any[]): any;
+        texture(...params: any[]): any;
         backgroundColor: number;
         state: State;
         readonly world: PIXI.Container;
         readonly width: number;
         readonly height: number;
+        readonly center: {
+            x: number;
+            y: number;
+        };
         readonly renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
         readonly tweens: Tween.TweenManager;
         readonly signals: Signals.SignalManager;

@@ -4,11 +4,10 @@
   "compilerOptions": {
     "module": "amd",
     "target": "es5",
-    "moduleResolution": "node",
     "declaration": true,
     "sourceMap": true,
-    "outFile": "build/compile.js",
-    "outDir": "build"
+    "outDir": "build",
+    "outFile": "./build/compile.js"
   },
   "exclude": [
     "node_modules",

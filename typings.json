@@ -1,11 +1,10 @@
 {
   "name": "pixi-amd-ts",
-  "version": false,
   "dependencies": {},
   "globalDevDependencies": {
-    "pixi.js": "file:custom_typings/pixi.js/index.d.ts",
-    "sound.js": "file:custom_typings/sound.js/index.d.ts",
-    "stats.js": "file:custom_typings/stats.js/index.d.ts",
-    "box2d": "file:custom_typings/box2d/index.d.ts"
+    "pixi.js": "file:libs/typings/pixi.js/index.d.ts",
+    "sound.js": "file:libs/typings/sound.js/index.d.ts",
+    "stats.js": "file:libs/typings/stats.js/index.d.ts",
+    "box2d": "file:libs/typings/box2d/index.d.ts"
   }
 }
