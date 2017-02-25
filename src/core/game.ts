@@ -104,27 +104,25 @@ namespace Lightning {
             let body = Box2D.Dynamics.b2Body;
         }
 
-        generateTexture(...params):Texture | Array<Texture> {
-            let textures:Array<Texture> = [];
-            for(let i of params) {
-                textures.push(this._renderer.generateTexture(i));
-            }
-            if(textures.length === 1) {
-                return textures[0];
+        generateTexture(...params):any {
+            let t:Texture | Array<Texture> = [];
+            if(params.length > 1) {
+                for(let i of params) {
+                    t.push(this._renderer.generateTexture(i));
+                }
             } else {
-                return textures;
+                t = this._renderer.generateTexture(params[0]);
             }
+            return t;
         }
 
         texture(...params):any {
             let t:Texture | Array<Texture> = [];
             if(params.length > 1) {
-                console.log('get multiple textures');
                 for(let i of params) {
                     t.push(Texture.from(i));
                 }
             } else {
-                console.log('get single texture')
                 t = Texture.from(params[0]);
             }
             return t;

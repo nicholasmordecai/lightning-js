@@ -3,7 +3,8 @@
 ### 0.3.0 -- In progress
 1. Fixed particle emitter default values
 2. Made helper function for generating textures (this.game.genereateTexture(...));
-3. Made helper function for getting textures (this.game.getTexture(...));
+3. Made helper function for getting textures (this.game.texture(...));
+4. Improved the utility functions on the parallax class
 
 ### 0.2.9
 1. Introduce Lightning.Texture class
