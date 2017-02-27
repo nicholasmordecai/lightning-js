@@ -11,6 +11,16 @@ declare namespace Lightning {
     }
 }
 declare namespace Lightning {
+    class Input {
+        protected game: Engine;
+        private window;
+        private key;
+        constructor(game: Engine);
+        onKeyDown(key: Event): void;
+        addKey(keyCode: string, fn: Function): void;
+    }
+}
+declare namespace Lightning {
     /**
      * @description function for calculating scaling fonts
      *
@@ -111,6 +121,24 @@ declare namespace Lightning {
         startDrag(event: PIXI.interaction.InteractionEvent): void;
         stopDrag(event: PIXI.interaction.InteractionEvent): void;
         onDrag(event: PIXI.interaction.InteractionEvent): void;
+    }
+}
+declare namespace Lightning {
+    class Group extends PIXI.Container {
+        constructor();
+        /**
+         * @param  {} ...displayObjects
+         */
+        add(...displayObjects: any[]): void;
+    }
+}
+/**
+ * Order the world when created
+ */
+declare namespace Lightning {
+    class HUD extends Group {
+        protected game: Engine;
+        constructor(game: Engine);
     }
 }
 /**
@@ -284,15 +312,6 @@ declare namespace Lightning {
     }
 }
 declare namespace Lightning {
-    class Group extends PIXI.Container {
-        constructor();
-        /**
-         * @param  {} ...displayObjects
-         */
-        add(...displayObjects: any[]): void;
-    }
-}
-declare namespace Lightning {
     class Particle extends Sprite {
         protected _emitter: ParticleEmitter;
         protected _velX: number;
@@ -433,6 +452,10 @@ declare namespace Lightning {
             x: number;
             y: number;
         };
+        protected _watchDampner: {
+            x: number;
+            y: number;
+        };
         protected _referenceOffset: {
             x: number;
             y: number;
@@ -450,7 +473,7 @@ declare namespace Lightning {
          */
         add(key: string, texture: Texture, xy?: boolean): void;
         /**
-         * needs a refactor on the watch calculation
+         *
          */
         update(): void;
         /**
@@ -479,6 +502,7 @@ declare namespace Lightning {
          * @returns void
          */
         setReferenceOffset(x: number, y?: number): void;
+        setWatchDampner(x: number, y?: number): void;
         /**
          * @param  {string} key
          * @param  {number=0} x
@@ -1231,10 +1255,12 @@ declare namespace Lightning {
     class Engine {
         private _renderer;
         private _world;
+        private _hud;
         private _ticker;
         private _activateState;
         private _tweens;
         private _signals;
+        private _physics;
         private _physicsActive;
         private _physicsWorld;
         private _physicsWorldBounds;
@@ -1260,5 +1286,6 @@ declare namespace Lightning {
         readonly signals: Signals.SignalManager;
         readonly physics: Box2D.Dynamics.b2World;
         readonly physicsWorldBounds: Box2D.Dynamics.b2BodyDef;
+        readonly hud: HUD;
     }
 }

@@ -1,6 +1,9 @@
 # Changelog
 
-### 0.3.0 -- In progress
+### 0.3.1
+1. Created HUD class
+
+### 0.3.0
 1. Fixed particle emitter default values
 2. Made helper function for generating textures (this.game.genereateTexture(...));
 3. Made helper function for getting textures (this.game.texture(...));

@@ -50573,6 +50573,53 @@ var Lightning;
 /// <reference path="./../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
+    var Input = (function () {
+        function Input(game) {
+            this.game = game;
+            this.window = window.parent || window;
+            this.window.addEventListener('keydown', this.onKeyDown);
+        }
+        Input.prototype.onKeyDown = function (key) {
+            console.log(key);
+        };
+        Input.prototype.addKey = function (keyCode, fn) {
+            var key = {};
+            key.code = keyCode;
+            key.isDown = false;
+            key.isUp = true;
+            key.press = undefined;
+            key.release = undefined;
+            //The `downHandler`
+            key.downHandler = function (event) {
+                if (event.keyCode === key.code) {
+                    if (key.isUp && key.press)
+                        key.press();
+                    key.isDown = true;
+                    key.isUp = false;
+                }
+                event.preventDefault();
+            };
+            //The `upHandler`
+            key.upHandler = function (event) {
+                if (event.keyCode === key.code) {
+                    if (key.isDown && key.release)
+                        key.release();
+                    key.isDown = false;
+                    key.isUp = true;
+                }
+                event.preventDefault();
+            };
+        };
+        return Input;
+    }());
+    Lightning.Input = Input;
+})(Lightning || (Lightning = {}));
+// var realWindow = window.parent || window;
+// realWindow.addEventListener(    "keydown", key.downHandler.bind(key), false  ); 
+// realWindow.addEventListener(    "keyup", key.upHandler.bind(key), false  ); 
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
     /**
      * @description function for calculating scaling fonts
      *
@@ -50795,6 +50842,47 @@ var Lightning;
         return Sprite;
     }(PIXI.Sprite));
     Lightning.Sprite = Sprite;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Group = (function (_super) {
+        __extends(Group, _super);
+        function Group() {
+            return _super.call(this) || this;
+        }
+        /**
+         * @param  {} ...displayObjects
+         */
+        Group.prototype.add = function () {
+            var displayObjects = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                displayObjects[_i] = arguments[_i];
+            }
+            for (var i = 0; i < displayObjects.length - 1; i++) {
+                this.addChild(displayObjects[i]);
+            }
+        };
+        return Group;
+    }(PIXI.Container));
+    Lightning.Group = Group;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+/**
+ * Order the world when created
+ */
+var Lightning;
+(function (Lightning) {
+    var HUD = (function (_super) {
+        __extends(HUD, _super);
+        function HUD(game) {
+            var _this = _super.call(this) || this;
+            _this.game = game;
+            return _this;
+        }
+        return HUD;
+    }(Lightning.Group));
+    Lightning.HUD = HUD;
 })(Lightning || (Lightning = {}));
 /// <reference path="./../reference.d.ts" />
 /**
@@ -51143,30 +51231,6 @@ var Lightning;
         return Button;
     }(Lightning.Sprite));
     Lightning.Button = Button;
-})(Lightning || (Lightning = {}));
-/// <reference path="./../reference.d.ts" />
-var Lightning;
-(function (Lightning) {
-    var Group = (function (_super) {
-        __extends(Group, _super);
-        function Group() {
-            return _super.call(this) || this;
-        }
-        /**
-         * @param  {} ...displayObjects
-         */
-        Group.prototype.add = function () {
-            var displayObjects = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                displayObjects[_i] = arguments[_i];
-            }
-            for (var i = 0; i < displayObjects.length - 1; i++) {
-                this.addChild(displayObjects[i]);
-            }
-        };
-        return Group;
-    }(PIXI.Container));
-    Lightning.Group = Group;
 })(Lightning || (Lightning = {}));
 /// <reference path="./../reference.d.ts" />
 var Lightning;
@@ -51556,6 +51620,7 @@ var Lightning;
             _this._watchOffset = { x: 0, y: 0 };
             _this._lastWatch = { x: 0, y: 0 };
             _this._watchIncMultiplier = { x: 0.8, y: 0.8 };
+            _this._watchDampner = { x: 50, y: 50 };
             _this._referenceOffset = { x: 0, y: 0 };
             _this.game = game;
             _this._width = width | _this.game.width;
@@ -51584,18 +51649,18 @@ var Lightning;
             this._tiles.push(tile);
         };
         /**
-         * needs a refactor on the watch calculation
+         *
          */
         Parallax.prototype.update = function () {
             var x, y = 0;
             if (this._watchX) {
                 var currentPositionX = this._watch.x - this._referenceOffset.x;
-                x = (currentPositionX - this._lastWatch.x) / 50;
+                x = (currentPositionX - this._lastWatch.x) / this._watchDampner.x;
                 this._lastWatch.x = currentPositionX;
             }
             if (this._watchY) {
                 var currentPositionY = this._watch.y - this._referenceOffset.y;
-                y = (currentPositionY - this._lastWatch.y) / 50;
+                y = (currentPositionY - this._lastWatch.y) / this._watchDampner.y;
                 this._lastWatch.y = currentPositionY;
             }
             for (var _i = 0, _a = this._tiles; _i < _a.length; _i++) {
@@ -51656,6 +51721,11 @@ var Lightning;
         Parallax.prototype.setReferenceOffset = function (x, y) {
             if (y === void 0) { y = x; }
             this._referenceOffset = { x: x, y: y };
+        };
+        Parallax.prototype.setWatchDampner = function (x, y) {
+            if (y === void 0) { y = x; }
+            this._watchDampner.x = x;
+            this._watchDampner.y = y;
         };
         /**
          * @param  {string} key
@@ -53404,6 +53474,7 @@ var Lightning;
         // game engine constructor
         function Engine(width, height, canvasId) {
             if (canvasId === void 0) { canvasId = 'app'; }
+            this._hud = null;
             this._activateState = null;
             this._tweens = new Tween.TweenManager(this);
             this._signals = new Lightning.Signals.SignalManager(this);
@@ -53418,6 +53489,7 @@ var Lightning;
             this._world = new PIXI.Container();
             this._world.scale = new PIXI.Point(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
             this._world.interactive = true;
+            var i = new Lightning.Input(this);
             document.getElementById('app-container').appendChild(this._renderer.view);
             var canvas = document.querySelector('canvas');
             var scale = window.devicePixelRatio;
@@ -53592,6 +53664,16 @@ var Lightning;
         Object.defineProperty(Engine.prototype, "physicsWorldBounds", {
             get: function () {
                 return this._physicsWorldBounds;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Engine.prototype, "hud", {
+            get: function () {
+                if (!this._hud) {
+                    this._hud = new Lightning.HUD(this);
+                }
+                return this._hud;
             },
             enumerable: true,
             configurable: true

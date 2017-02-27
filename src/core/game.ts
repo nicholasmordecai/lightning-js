@@ -6,10 +6,12 @@ namespace Lightning {
 
         private _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
         private _world: PIXI.Container;
+        private _hud:HUD = null;
         private _ticker:PIXI.ticker.Ticker;
         private _activateState:State = null;
         private _tweens = new Tween.TweenManager(this);
         private _signals:Signals.SignalManager = new Signals.SignalManager(this);
+        private _physics:any;
         private _physicsActive:boolean = false;
         private _physicsWorld:Box2D.Dynamics.b2World;
         private _physicsWorldBounds:Box2D.Dynamics.b2BodyDef;
@@ -28,6 +30,7 @@ namespace Lightning {
             this._world = new PIXI.Container();
             this._world.scale = new PIXI.Point(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
             this._world.interactive = true;
+            let i = new Input(this);
 
             document.getElementById('app-container').appendChild(this._renderer.view);
 
@@ -170,6 +173,13 @@ namespace Lightning {
 
         public get physicsWorldBounds():Box2D.Dynamics.b2BodyDef {
             return this._physicsWorldBounds
+        }
+
+        public get hud():HUD {
+            if(!this._hud) {
+                this._hud = new HUD(this);
+            }
+            return this._hud;
         }
     }
 }
