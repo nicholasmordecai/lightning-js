@@ -119,6 +119,18 @@ namespace Lightning {
             return t;
         }
 
+        goFullscreen() {
+            if(document.documentElement.requestFullscreen) {
+                document.documentElement['requestFullscreen']();
+            } else if(document.documentElement['mozRequestFullScreen']) {
+                document.documentElement['mozRequestFullScreen']();
+            } else if(document.documentElement.webkitRequestFullscreen) {
+                document.documentElement['webkitRequestFullscreen']();
+            } else if(document.documentElement['msRequestFullscreen']) {
+                document.documentElement['msRequestFullscreen']();
+            }
+        }
+
         texture(...params):any {
             let t:Texture | Array<Texture> = [];
             if(params.length > 1) {

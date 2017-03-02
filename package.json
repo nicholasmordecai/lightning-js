@@ -27,7 +27,7 @@
     "istanbul": "^0.4.5",
     "jsdoc": "^3.4.3",
     "npm-run-all": "^4.0.1",
-    "pixi.js": "^4.3.4",
+    "pixi.js": "^4.4.1",
     "transform-loader": "^0.2.3",
     "typedoc": "^0.5.7",
     "typescript": "^2.1.5",

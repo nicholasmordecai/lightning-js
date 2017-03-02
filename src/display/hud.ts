@@ -13,6 +13,5 @@ namespace Lightning {
             super();
             this.game = game;
         }
-
     }
 }

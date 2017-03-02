@@ -2,6 +2,10 @@
 
 ### 0.3.1
 1. Created HUD class
+2. Created an Input Controller
+3. Fullscreen now implemented
+    1. this.game.goFullscreen(); 
+4. Tweaks to the hit area class
 
 ### 0.3.0
 1. Fixed particle emitter default values
