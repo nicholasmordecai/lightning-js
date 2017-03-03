@@ -1,10 +1,18 @@
 # Changelog
 
+### 0.3.2
+1. Added a BitmapText class
+2. Added a depreciation class to deal with backwards compatability
+3. Cleaned up the reference.d.ts files and fixed them not being added to the global definition file (relook at this at a later date)
+4. Removed the font utils file and put the helper functions into BitmapText
+5. Major overhaul on the states and the state manager
+6. Migrating the physics functionality into a physics manager
+
 ### 0.3.1
-1. Created HUD class
-2. Created an Input Controller
+1. Added HUD class
+2. Added an Input Controller
 3. Fullscreen now implemented
-    1. this.game.goFullscreen(); 
+    1. this.game.goFullscreen();
 4. Tweaks to the hit area class
 5. Updated Pixi.js to 4.4.1
 6. Created a interfaces folder to start separating the interfaces out

@@ -4,6 +4,89 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 /// <reference path="./../reference.d.ts" />
+/// <reference path="./../reference.d.ts" />
+/// <reference path="./../reference.d.ts" />
+/// <reference path="./../reference.d.ts" />
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Maths = (function () {
+        function Maths() {
+        }
+        /**
+         * @description generate a random integer between two values
+         * @param  {number} from
+         * @param  {number} to
+         */
+        Maths.rngInt = function (from, to) {
+            return Math.floor(Math.random() * (to - from) + from);
+        };
+        /**
+         * @description generate a random number
+         *
+         * @param  {boolean=false} negative
+         */
+        Maths.rng = function (negative) {
+            if (negative === void 0) { negative = false; }
+            if (negative) {
+                return Math.random();
+            }
+            else {
+                return -Math.random();
+            }
+        };
+        /**
+         * @description generate a random float between two values
+         *
+         * @param {number} from
+         * @param {number} to
+         */
+        Maths.rngFloat = function (from, to) {
+            return Math.random() * (to - from) + from;
+        };
+        /**
+         * TODO
+         * Generate random position in a given area
+         *
+         * @param {iPoint} from
+         * @param {iPoint} to
+         *
+         * @returns {iPoint}
+         */
+        Maths.rndPos = function () {
+            return { x: 0, y: 0 };
+        };
+        /**
+         * TODO
+         * @description Calculate distance between two positions
+         *
+         * @param {iPoint} pos1
+         * @param {iPoint} pos2
+         *
+         * @returns {iPoint}
+         */
+        Maths.distanceBetween = function () {
+            return { x: 0, y: 0 };
+        };
+        return Maths;
+    }());
+    Lightning.Maths = Maths;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+/**
+ * Redirect functions for when something gets depreciated.
+ * Should try not to do this as often as possible
+ */
+var Lightning;
+(function (Lightning) {
+    var Depreciated = (function () {
+        function Depreciated() {
+        }
+        return Depreciated;
+    }());
+    Lightning.Depreciated = Depreciated;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
     var State = (function (_super) {
@@ -15,15 +98,23 @@ var Lightning;
             }
             var _this = _super.call(this) || this;
             _this.game = game;
+            _this.loader = new PIXI.loaders.Loader();
+            _this.loader.onError.add(_this.preloadError, _this);
+            _this.loader.onLoad.add(_this.preloadSingle, _this);
+            _this.loader.onComplete.add(_this.preloadComplete, _this);
             return _this;
         }
         State.prototype.init = function (params) {
+            this.preload();
         };
-        State.prototype.start = function () {
-        };
-        State.prototype.update = function () {
+        State.prototype.preload = function () {
+            if (Object.keys(this.loader.resources).length < 1) {
+                this.create();
+            }
         };
         State.prototype.create = function () {
+        };
+        State.prototype.update = function () {
         };
         State.prototype.add = function () {
             var params = [];
@@ -35,9 +126,229 @@ var Lightning;
                 this.addChild(i);
             }
         };
+        /**
+         * Called if the loader produces an error
+         */
+        State.prototype.preloadError = function (err) {
+            console.log(err);
+        };
+        /**
+         * Called when a single file has completed loading
+         */
+        State.prototype.preloadSingle = function (loader, resource) {
+            // get the name of the loaded asset
+            var file = resource.name;
+            // remove the directory if you wish
+            file = file.replace(/^.*[\\\/]/, '');
+            var progress = resource.progressChunk;
+        };
+        /**
+         * Called when the loader has finished loading everything
+         */
+        State.prototype.preloadComplete = function (resources) {
+            this.create();
+        };
         return State;
     }(PIXI.Container));
     Lightning.State = State;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var StateManager = (function () {
+        function StateManager(game) {
+            this.game = game;
+            this._states = [];
+            this._activeStates = [];
+        }
+        StateManager.prototype.update = function () {
+            for (var _i = 0, _a = this._activeStates; _i < _a.length; _i++) {
+                var state = _a[_i];
+                state.update();
+            }
+        };
+        StateManager.prototype.init = function (state) {
+            var params = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                params[_i - 1] = arguments[_i];
+            }
+            state.init(params);
+            this.addToActive(state);
+        };
+        StateManager.prototype.start = function (key, autoInit) {
+            if (autoInit === void 0) { autoInit = true; }
+            var params = [];
+            for (var _i = 2; _i < arguments.length; _i++) {
+                params[_i - 2] = arguments[_i];
+            }
+            var map = this.findState(key);
+            this.game.world.addChild(map.state);
+            map.worldIndex = this.game.world.getChildIndex(map.state);
+            if (autoInit) {
+                this.init(map.state, params);
+            }
+        };
+        StateManager.prototype.pause = function () {
+        };
+        StateManager.prototype.unpause = function () {
+        };
+        StateManager.prototype.reset = function () {
+            // let state = this.findState('').state;
+            // let newState = state.constructor();
+        };
+        StateManager.prototype.disable = function (key) {
+            var map = this.findState(key);
+            var state = map.state;
+            map.worldIndex = this.game.world.getChildIndex(map.state);
+            state.visible = false;
+            state.renderable = false;
+            this.game.world.removeChild(state);
+            // get index from array and splice
+            this._activeStates.splice(this.findActiveIndex(state));
+        };
+        StateManager.prototype.enable = function (key, lastIndex, index) {
+            if (lastIndex === void 0) { lastIndex = true; }
+            if (index === void 0) { index = null; }
+            var map = this.findState(key);
+            var state = map.state;
+            state.visible = true;
+            state.renderable = true;
+            if (lastIndex === true) {
+                this.game.world.addChildAt(state, map.worldIndex);
+            }
+            else if (index !== null) {
+                this.game.world.addChildAt(state, index);
+            }
+            else {
+                this.game.world.addChild(state);
+            }
+        };
+        /**
+         * @description Destroy the state entirley
+         * Removes from the world children
+         * Removes from the active states array
+         * sets visible, renderable and all interactivity to false
+         *
+         * @param {string} key
+         *
+         * @returns {boolean}
+         */
+        StateManager.prototype.destroy = function (key) {
+            // get the state
+            var state = this.findState(key).state;
+            // disable properties
+            state.visible = false;
+            state.renderable = false;
+            state.interactive = false;
+            state.interactiveChildren = false;
+            // remove from the game world
+            this.game.world.removeChild(state);
+            // get index from array and splice
+            this._activeStates.splice(this.findActiveIndex(state));
+            // finally, nullify so GC can free up space
+            state = null;
+            return true;
+        };
+        StateManager.prototype.add = function (key, state) {
+            var newMap = {};
+            newMap.key = key;
+            newMap.state = state;
+            newMap.active = false;
+            newMap.worldIndex = null;
+            newMap.fps = 60;
+            this._states.push(newMap);
+        };
+        StateManager.prototype.addToActive = function (state) {
+            var exists = false;
+            for (var _i = 0, _a = this._activeStates; _i < _a.length; _i++) {
+                var i = _a[_i];
+                if (i === state) {
+                    exists = true;
+                }
+            }
+            if (!exists) {
+                this._activeStates.push(state);
+            }
+        };
+        StateManager.prototype.remove = function (key) {
+        };
+        StateManager.prototype.findState = function (key) {
+            for (var _i = 0, _a = this._states; _i < _a.length; _i++) {
+                var i = _a[_i];
+                if (i.key === key) {
+                    return i;
+                }
+            }
+            return null;
+        };
+        StateManager.prototype.findActiveIndex = function (state) {
+            var count = 0;
+            for (var _i = 0, _a = this._activeStates; _i < _a.length; _i++) {
+                var i = _a[_i];
+                if (i === state) {
+                    return count;
+                }
+                count++;
+            }
+            return null;
+        };
+        return StateManager;
+    }());
+    Lightning.StateManager = StateManager;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var PhysicsManager = (function () {
+        function PhysicsManager(game) {
+            this.game = game;
+            this._active = false;
+        }
+        PhysicsManager.prototype.update = function () {
+            if (this._active) {
+            }
+        };
+        PhysicsManager.prototype.startPhysics = function () {
+            this._physicsWorld = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 10), true);
+        };
+        PhysicsManager.prototype.collideOnWorldBounds = function () {
+            this._physicsWorldBounds = new Box2D.Dynamics.b2BodyDef();
+            var polyFixture = new Box2D.Dynamics.b2FixtureDef();
+            polyFixture.shape = new Box2D.Collision.Shapes.b2PolygonShape();
+            polyFixture.density = 1;
+            this._physicsWorldBounds = new Box2D.Dynamics.b2BodyDef();
+            this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_staticBody;
+            //down
+            polyFixture.shape.SetAsBox(10, 1);
+            this._physicsWorldBounds.position.Set(9, this.game.height / 100 + 1);
+            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
+            //left
+            polyFixture.shape.SetAsBox(1, 100);
+            this._physicsWorldBounds.position.Set(-1, 0);
+            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
+            //right
+            this._physicsWorldBounds.position.Set(this.game.height / 100, 0);
+            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
+            this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+            var body = Box2D.Dynamics.b2Body;
+        };
+        Object.defineProperty(PhysicsManager.prototype, "physics", {
+            get: function () {
+                return this._physicsWorld;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PhysicsManager.prototype, "physicsWorldBounds", {
+            get: function () {
+                return this._physicsWorldBounds;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return PhysicsManager;
+    }());
+    Lightning.PhysicsManager = PhysicsManager;
 })(Lightning || (Lightning = {}));
 /// <reference path="./../reference.d.ts" />
 var Lightning;
@@ -86,72 +397,6 @@ var Lightning;
 // var realWindow = window.parent || window;
 // realWindow.addEventListener(    "keydown", key.downHandler.bind(key), false  ); 
 // realWindow.addEventListener(    "keyup", key.upHandler.bind(key), false  ); 
-/// <reference path="./../reference.d.ts" />
-var Lightning;
-(function (Lightning) {
-    /**
-     * @description function for calculating scaling fonts
-     *
-     * @param {Object} game reference to the Engine instance
-     * @param {number} size size of the font (in responsive pixels)
-     * @param {string} font name of the font stored in resource cache
-     *
-     * @returns {string} concatinated string to pass directly to the PIXI.extras.BitmapText
-     */
-    function calcFont(game, size, font) {
-        var str = ((game.width) / size).toString() + 'px ' + font;
-        return str;
-    }
-    Lightning.calcFont = calcFont;
-})(Lightning || (Lightning = {}));
-/// <reference path="./../reference.d.ts" />
-var Lightning;
-(function (Lightning) {
-    var Maths = (function () {
-        function Maths() {
-        }
-        /**
-         * @description generate a random integer between two values
-         * @param  {number} from
-         * @param  {number} to
-         */
-        Maths.rngInt = function (from, to) {
-            return Math.floor(Math.random() * (to - from) + from);
-        };
-        /**
-         * @description generate a random number
-         *
-         * @param  {boolean=false} negative
-         */
-        Maths.rng = function (negative) {
-            if (negative === void 0) { negative = false; }
-            if (negative) {
-                return Math.random();
-            }
-            else {
-                return -Math.random();
-            }
-        };
-        /**
-         * @description generate a random float between two values
-         *
-         * @param  {number} from
-         * @param  {number} to
-         */
-        Maths.rngFloat = function (from, to) {
-            return Math.random() * (to - from) + from;
-        };
-        /**
-         * To Implement
-         * random between two positions
-         */
-        Maths.rndPos = function () {
-        };
-        return Maths;
-    }());
-    Lightning.Maths = Maths;
-})(Lightning || (Lightning = {}));
-2;
 /// <reference path="./../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
@@ -354,6 +599,34 @@ var Lightning;
     Lightning.HUD = HUD;
 })(Lightning || (Lightning = {}));
 /// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var BitmapText = (function (_super) {
+        __extends(BitmapText, _super);
+        function BitmapText() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        // constructor() {
+        //     super();
+        // }
+        /**
+         * @description function for calculating scaling fonts
+         *
+         * @param {Object} game reference to the Engine instance
+         * @param {number} size size of the font (in responsive pixels)
+         * @param {string} font name of the font stored in resource cache
+         *
+         * @returns {string} concatinated string to pass directly to the PIXI.extras.BitmapText
+         */
+        BitmapText.prototype.calcFont = function (game, size, font) {
+            var str = ((game.width) / size).toString() + 'px ' + font;
+            return str;
+        };
+        return BitmapText;
+    }(PIXI.extras.BitmapText));
+    Lightning.BitmapText = BitmapText;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
 /**
  * Notes: Need to add a shaddow parameter and function.
  * This should allow the user to set parameters such is
@@ -499,19 +772,9 @@ var Lightning;
          */
         function HitArea(game, width, height) {
             var _this = _super.call(this) || this;
-            _this._debug = false;
             _this.game = game;
             _this.interactive = true;
-            _this.alpha = 0.2;
-            // check if the hitAreaDebug signal exists, if not then create it.
-            // then add the debug function to that signal.
-            if (_this.game.signals.has('hitAreaDebug')) {
-                _this.game.signals.add('hitAreaDebug', _this.debug, _this);
-            }
-            else {
-                _this.game.signals.create('hitAreaDebug');
-                _this.game.signals.add('hitAreaDebug', _this.debug, _this);
-            }
+            _this.alpha = 0;
             _this.beginFill(0xffffff, 1);
             _this.drawRect(0, 0, width, height);
             _this.endFill();
@@ -629,24 +892,6 @@ var Lightning;
          */
         HitArea.prototype.onTap = function (fnct) {
             this.on('tap', fnct);
-        };
-        /**
-         * @description Sets the debug enabled / disabled and the alpha to 0.5 accordingly
-         *
-         * @param {Array} data passed in from the signal dispatch event
-         */
-        HitArea.prototype.debug = function (data) {
-            /**
-             * data [0] = true / false - debug mode enabled
-             */
-            if (data[0]) {
-                this._debug = true;
-                this.alpha = 0.5;
-            }
-            else {
-                this._debug = false;
-                this.alpha = 0;
-            }
         };
         return HitArea;
     }(Lightning.Graphics));
@@ -808,6 +1053,10 @@ var Lightning;
     Lightning.Particle = Particle;
 })(Lightning || (Lightning = {}));
 /// <reference path="./../reference.d.ts" />
+/**
+ * Fade in / Scale in sprites - optional
+ * Simple / Advanced -- for creating ultra performant particles in the 50k+ range
+ */
 var Lightning;
 (function (Lightning) {
     var ParticleEmitter = (function (_super) {
@@ -2947,7 +3196,6 @@ var Lightning;
             this._activateState = null;
             this._tweens = new Tween.TweenManager(this);
             this._signals = new Lightning.Signals.SignalManager(this);
-            this._physicsActive = false;
             if (!canvasId) {
                 var viewCanvas = document.createElement('canvas');
                 viewCanvas.id = 'app';
@@ -2965,6 +3213,10 @@ var Lightning;
             var renderer = PIXI.autoDetectRenderer(width * scale, height * scale, canvas);
             canvas.style.width = width + 'px';
             canvas.style.height = height + 'px';
+            // create the physicsManager 
+            this._physicsManager = new Lightning.PhysicsManager(this);
+            // create the state StateManager
+            this._stateManager = new Lightning.StateManager(this);
             // init the ticker
             this._ticker = PIXI.ticker.shared;
             this._ticker.autoStart = true;
@@ -2972,59 +3224,10 @@ var Lightning;
         }
         // gets called on update
         Engine.prototype.update = function (time) {
-            if (this._physicsActive) {
-                this._physicsWorld.Step(1 / 60, 1, 1);
-                this._physicsWorld.ClearForces();
-            }
-            if (this._activateState) {
-                this._activateState.update();
-            }
+            this._physicsManager.update();
             this._tweens.update();
+            this._stateManager.update();
             this._renderer.render(this._world);
-        };
-        Engine.prototype.startState = function (state) {
-            var params = [];
-            for (var _i = 1; _i < arguments.length; _i++) {
-                params[_i - 1] = arguments[_i];
-            }
-            var nState = new state(this);
-            this.initState(nState, params);
-        };
-        Engine.prototype.initState = function (state, params) {
-            if (this._activateState === null) {
-                this._world.addChild(state);
-            }
-            else {
-                this._world.removeChild(this._activateState);
-                this._world.addChild(state);
-            }
-            this._activateState = state;
-            state.init(params);
-        };
-        Engine.prototype.startPhysics = function () {
-            this._physicsWorld = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 10), true);
-            this._physicsActive = true;
-        };
-        Engine.prototype.collideOnWorldBounds = function () {
-            this._physicsWorldBounds = new Box2D.Dynamics.b2BodyDef();
-            var polyFixture = new Box2D.Dynamics.b2FixtureDef();
-            polyFixture.shape = new Box2D.Collision.Shapes.b2PolygonShape();
-            polyFixture.density = 1;
-            this._physicsWorldBounds = new Box2D.Dynamics.b2BodyDef();
-            this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_staticBody;
-            //down
-            polyFixture.shape.SetAsBox(10, 1);
-            this._physicsWorldBounds.position.Set(9, this.height / 100 + 1);
-            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
-            //left
-            polyFixture.shape.SetAsBox(1, 100);
-            this._physicsWorldBounds.position.Set(-1, 0);
-            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
-            //right
-            this._physicsWorldBounds.position.Set(this.height / 100, 0);
-            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
-            this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
-            var body = Box2D.Dynamics.b2Body;
         };
         Engine.prototype.generateTexture = function () {
             var params = [];
@@ -3042,6 +3245,20 @@ var Lightning;
                 t = this._renderer.generateTexture(params[0]);
             }
             return t;
+        };
+        Engine.prototype.goFullscreen = function () {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement['requestFullscreen']();
+            }
+            else if (document.documentElement['mozRequestFullScreen']) {
+                document.documentElement['mozRequestFullScreen']();
+            }
+            else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement['webkitRequestFullscreen']();
+            }
+            else if (document.documentElement['msRequestFullscreen']) {
+                document.documentElement['msRequestFullscreen']();
+            }
         };
         Engine.prototype.texture = function () {
             var params = [];
@@ -3063,13 +3280,6 @@ var Lightning;
         Object.defineProperty(Engine.prototype, "backgroundColor", {
             set: function (val) {
                 this._renderer.backgroundColor = val;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "state", {
-            set: function (val) {
-                this._activateState = val;
             },
             enumerable: true,
             configurable: true
@@ -3123,21 +3333,17 @@ var Lightning;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Engine.prototype, "physics", {
+        Object.defineProperty(Engine.prototype, "states", {
             get: function () {
-                return this._physicsWorld;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "physicsWorldBounds", {
-            get: function () {
-                return this._physicsWorldBounds;
+                return this._stateManager;
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(Engine.prototype, "hud", {
+            /**
+             * think about refactoring this
+             */
             get: function () {
                 if (!this._hud) {
                     this._hud = new Lightning.HUD(this);
@@ -3151,4 +3357,10 @@ var Lightning;
     }());
     Lightning.Engine = Engine;
 })(Lightning || (Lightning = {}));
+/**
+ * Start Ticker
+ * Pause Ticker
+ * Ticker FPS?
+ * Individual State FPS?
+ */ 
 //# sourceMappingURL=compile.js.map

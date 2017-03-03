@@ -1,36 +1,32 @@
 /// <reference path="../src/reference.d.ts" />
 declare namespace Lightning {
-    class State extends PIXI.Container {
-        protected game: Engine;
-        constructor(game: Engine, ...params: any[]);
-        init(params: any): void;
-        start(): void;
-        update(): void;
-        create(): void;
-        add(...params: Array<DisplayObject>): void;
+    interface iPoint {
+        x: number;
+        y: number;
     }
 }
 declare namespace Lightning {
-    class Input {
-        protected game: Engine;
-        private window;
-        private key;
-        constructor(game: Engine);
-        onKeyDown(key: Event): void;
-        addKey(keyCode: string, fn: Function): void;
+    interface iRange {
+        from: number;
+        to: number;
     }
 }
 declare namespace Lightning {
-    /**
-     * @description function for calculating scaling fonts
-     *
-     * @param {Object} game reference to the Engine instance
-     * @param {number} size size of the font (in responsive pixels)
-     * @param {string} font name of the font stored in resource cache
-     *
-     * @returns {string} concatinated string to pass directly to the PIXI.extras.BitmapText
-     */
-    function calcFont(game: Engine, size: number, font: string): string;
+    interface iPointRange {
+        xFrom: number;
+        xTo: number;
+        yFrom: number;
+        yTo: number;
+    }
+}
+declare namespace Lightning {
+    interface iStateMap {
+        key: string;
+        worldIndex: number;
+        active: boolean;
+        fps: number;
+        state: Lightning.State;
+    }
 }
 declare namespace Lightning {
     class Maths {
@@ -49,15 +45,118 @@ declare namespace Lightning {
         /**
          * @description generate a random float between two values
          *
-         * @param  {number} from
-         * @param  {number} to
+         * @param {number} from
+         * @param {number} to
          */
         static rngFloat(from: number, to: number): number;
         /**
-         * To Implement
-         * random between two positions
+         * TODO
+         * Generate random position in a given area
+         *
+         * @param {iPoint} from
+         * @param {iPoint} to
+         *
+         * @returns {iPoint}
          */
-        static rndPos(): void;
+        static rndPos(): iPoint;
+        /**
+         * TODO
+         * @description Calculate distance between two positions
+         *
+         * @param {iPoint} pos1
+         * @param {iPoint} pos2
+         *
+         * @returns {iPoint}
+         */
+        static distanceBetween(): iPoint;
+    }
+}
+/**
+ * Redirect functions for when something gets depreciated.
+ * Should try not to do this as often as possible
+ */
+declare namespace Lightning {
+    class Depreciated {
+    }
+}
+declare namespace Lightning {
+    class State extends PIXI.Container {
+        protected game: Engine;
+        loader: PIXI.loaders.Loader;
+        constructor(game: Engine, ...params: any[]);
+        init(params: any): void;
+        preload(): void;
+        create(): void;
+        update(): void;
+        add(...params: Array<DisplayObject>): void;
+        /**
+         * Called if the loader produces an error
+         */
+        preloadError(err: any): void;
+        /**
+         * Called when a single file has completed loading
+         */
+        preloadSingle(loader: PIXI.loaders.Loader, resource: any): void;
+        /**
+         * Called when the loader has finished loading everything
+         */
+        preloadComplete(resources: any): void;
+    }
+}
+declare namespace Lightning {
+    class StateManager {
+        protected game: Engine;
+        protected _states: Array<iStateMap>;
+        protected _activeStates: Array<State>;
+        constructor(game: Engine);
+        update(): void;
+        init(state: State, ...params: any[]): void;
+        start(key: any, autoInit?: boolean, ...params: any[]): void;
+        pause(): void;
+        unpause(): void;
+        reset(): void;
+        disable(key: string): void;
+        enable(key: string, lastIndex?: boolean, index?: number): void;
+        /**
+         * @description Destroy the state entirley
+         * Removes from the world children
+         * Removes from the active states array
+         * sets visible, renderable and all interactivity to false
+         *
+         * @param {string} key
+         *
+         * @returns {boolean}
+         */
+        destroy(key: string): boolean;
+        add(key: string, state: State): void;
+        private addToActive(state);
+        remove(key: string): void;
+        findState(key: string): iStateMap;
+        findActiveIndex(state: State): number;
+    }
+}
+declare namespace Lightning {
+    class PhysicsManager {
+        protected game: Engine;
+        protected _active: boolean;
+        private _physicsWorld;
+        private _physicsWorldBounds;
+        constructor(game: Engine);
+        update(): void;
+        startPhysics(): void;
+        collideOnWorldBounds(): void;
+        readonly physics: Box2D.Dynamics.b2World;
+        readonly physicsWorldBounds: Box2D.Dynamics.b2BodyDef;
+    }
+}
+declare namespace Lightning {
+    class Input {
+        protected game: Engine;
+        private window;
+        private key;
+        constructor(game: Engine);
+        onKeyDown(key: Event): void;
+        addKey(keyCode: string, fn: Function): void;
     }
 }
 declare namespace Lightning {
@@ -141,6 +240,20 @@ declare namespace Lightning {
         constructor(game: Engine);
     }
 }
+declare namespace Lightning {
+    class BitmapText extends PIXI.extras.BitmapText {
+        /**
+         * @description function for calculating scaling fonts
+         *
+         * @param {Object} game reference to the Engine instance
+         * @param {number} size size of the font (in responsive pixels)
+         * @param {string} font name of the font stored in resource cache
+         *
+         * @returns {string} concatinated string to pass directly to the PIXI.extras.BitmapText
+         */
+        calcFont(game: Engine, size: number, font: string): string;
+    }
+}
 /**
  * Notes: Need to add a shaddow parameter and function.
  * This should allow the user to set parameters such is
@@ -207,7 +320,6 @@ declare namespace Lightning {
 declare namespace Lightning {
     class HitArea extends Graphics {
         private game;
-        private _debug;
         private _texture;
         /**
          *
@@ -278,12 +390,6 @@ declare namespace Lightning {
          * @param fnct
          */
         onTap(fnct: Function): void;
-        /**
-         * @description Sets the debug enabled / disabled and the alpha to 0.5 accordingly
-         *
-         * @param {Array} data passed in from the signal dispatch event
-         */
-        debug(data: any): void;
     }
 }
 declare namespace Lightning {
@@ -351,20 +457,6 @@ declare namespace Lightning {
  * Fade in / Scale in sprites - optional
  * Simple / Advanced -- for creating ultra performant particles in the 50k+ range
  */
-interface iPosition {
-    x: number;
-    y: number;
-}
-interface iRange {
-    from: number;
-    to: number;
-}
-interface iPointRange {
-    xFrom: number;
-    xTo: number;
-    yFrom: number;
-    yTo: number;
-}
 declare namespace Lightning {
     class ParticleEmitter extends Group {
         protected game: Engine;
@@ -376,9 +468,9 @@ declare namespace Lightning {
         protected _time: number;
         protected _textures: Array<PIXI.Texture>;
         protected _respectPosition: boolean;
-        protected _respectPositionValues: iPosition;
+        protected _respectPositionValues: iPoint;
         protected _deadPool: Array<Particle>;
-        protected _gravity: iPosition;
+        protected _gravity: iPoint;
         protected _spread: iPointRange;
         protected _lifeSpanRange: iRange;
         protected _particleStrength: number;
@@ -1260,20 +1352,14 @@ declare namespace Lightning {
         private _activateState;
         private _tweens;
         private _signals;
-        private _physics;
-        private _physicsActive;
-        private _physicsWorld;
-        private _physicsWorldBounds;
+        private _stateManager;
+        private _physicsManager;
         constructor(width: any, height: any, canvasId?: string);
         update(time: any): void;
-        startState(state: any, ...params: any[]): void;
-        initState(state: State, params: any): void;
-        startPhysics(): void;
-        collideOnWorldBounds(): void;
         generateTexture(...params: any[]): any;
+        goFullscreen(): void;
         texture(...params: any[]): any;
         backgroundColor: number;
-        state: State;
         readonly world: PIXI.Container;
         readonly width: number;
         readonly height: number;
@@ -1284,8 +1370,10 @@ declare namespace Lightning {
         readonly renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
         readonly tweens: Tween.TweenManager;
         readonly signals: Signals.SignalManager;
-        readonly physics: Box2D.Dynamics.b2World;
-        readonly physicsWorldBounds: Box2D.Dynamics.b2BodyDef;
+        readonly states: StateManager;
+        /**
+         * think about refactoring this
+         */
         readonly hud: HUD;
     }
 }
