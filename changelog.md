@@ -6,6 +6,9 @@
 3. Fullscreen now implemented
     1. this.game.goFullscreen(); 
 4. Tweaks to the hit area class
+5. Updated Pixi.js to 4.4.1
+6. Created a interfaces folder to start separating the interfaces out
+7. Started work on some new abstract helper functions in the Maths utils
 
 ### 0.3.0
 1. Fixed particle emitter default values

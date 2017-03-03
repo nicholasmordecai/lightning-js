@@ -1,6 +1,9 @@
 /// <reference path="../libs/typings/box2d/index.d.ts" />
 /// <reference path="../libs/typings/pixi.js/index.d.ts" />
 /// <reference path="../libs/typings/sound.js/index.d.ts" />
+/// <reference path ="./interfaces/iPoint.d.ts" />
+/// <reference path ="./interfaces/iRange.d.ts" />
+/// <reference path ="./interfaces/iPointRange.d.ts" />
 /// <reference path="./core/state.ts" />
 /// <reference path="./core/game.ts" />
 /// <reference path="./controllers/input.ts" />

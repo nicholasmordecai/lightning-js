@@ -5,23 +5,6 @@
  * Simple / Advanced -- for creating ultra performant particles in the 50k+ range
  */
 
-declare interface iPosition {
-    x: number;
-    y: number;
-}
-
-declare interface iRange {
-    from:number;
-    to:number;
-}
-
-declare interface iPointRange {
-    xFrom:number;
-    xTo:number;
-    yFrom:number;
-    yTo:number;
-}
-
 namespace Lightning {
 
     export class ParticleEmitter extends Group {
@@ -35,11 +18,11 @@ namespace Lightning {
         protected _textures:Array<PIXI.Texture> = [];
 
         protected _respectPosition:boolean;
-        protected _respectPositionValues: iPosition;
+        protected _respectPositionValues: iPoint;
         
         protected _deadPool:Array<Particle> = [];
 
-        protected _gravity:iPosition = {x: 0, y: 0.2};
+        protected _gravity:iPoint = {x: 0, y: 0.2};
         protected _spread:iPointRange= {xFrom: -2, xTo: 2, yFrom: -2, yTo: 2};
         protected _lifeSpanRange:iRange = {from:3000, to:3000};
         protected _particleStrength:number = 1;

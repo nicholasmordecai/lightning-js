@@ -28,19 +28,37 @@ namespace Lightning {
         /**
          * @description generate a random float between two values
          * 
-         * @param  {number} from
-         * @param  {number} to
+         * @param {number} from
+         * @param {number} to
          */
         public static rngFloat(from:number, to:number) {
             return Math.random() * (to - from) + from;  
         }
 
         /**
-         * To Implement 
-         * random between two positions
+         * TODO
+         * Generate random position in a given area
+         * 
+         * @param {iPoint} from
+         * @param {iPoint} to
+         * 
+         * @returns {iPoint}
          */
-        public static rndPos() {
-
+        public static rndPos():iPoint {
+            return {x:0, y: 0};
         }
+
+        /**
+         * TODO
+         * @description Calculate distance between two positions
+         * 
+         * @param {iPoint} pos1
+         * @param {iPoint} pos2
+         * 
+         * @returns {iPoint}
+         */
+         public static distanceBetween():iPoint {
+            return {x:0, y:0};
+         }
     }
-}2
+}
