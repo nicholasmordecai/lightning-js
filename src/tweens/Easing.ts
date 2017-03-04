@@ -1,4 +1,6 @@
-namespace Tween {
+/// <reference path="./../reference.d.ts" />
+
+namespace Lightning {
     export class Easing {
 
         none(x:number, t:number, b:number, c:number, d:number):number {

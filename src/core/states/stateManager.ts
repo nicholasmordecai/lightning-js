@@ -1,10 +1,5 @@
 /// <reference path="./../../reference.d.ts" />
 
-/**
- * TODO
- * 1. State by state FPS (for performance)
- */
-
 namespace Lightning {
     export class StateManager {
 
@@ -228,10 +223,6 @@ namespace Lightning {
          * @description Will create a texture of the state as it currently is and apply it to the state as it's only renderable child. This could be used when large state transitions are happening and the display list gets too large and effects performance
          */
         freeze() {
-
-        }
-
-        remove(key:string) {
 
         }
 

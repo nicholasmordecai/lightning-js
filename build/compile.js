@@ -8,6 +8,8 @@ var __extends = (this && this.__extends) || function (d, b) {
 /// <reference path="./../reference.d.ts" />
 /// <reference path="./../reference.d.ts" />
 /// <reference path="./../reference.d.ts" />
+/// <reference path="./../reference.d.ts" />
+/// <reference path="./../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
     var Maths = (function () {
@@ -68,6 +70,30 @@ var Lightning;
         Maths.distanceBetween = function () {
             return { x: 0, y: 0 };
         };
+        /**
+        * TODO
+        * @description Convert Hex to RGB
+        *
+        * @param {iPoint} pos1
+        * @param {iPoint} pos2
+        *
+        * @returns {iPoint}
+        */
+        Maths.hextoRGB = function () {
+            return { x: 0, y: 0 };
+        };
+        /**
+        * TODO
+        * @description Calculate RGB to Hex
+        *
+        * @param {iPoint} pos1
+        * @param {iPoint} pos2
+        *
+        * @returns {iPoint}
+        */
+        Maths.rgbToHex = function () {
+            return { x: 0, y: 0 };
+        };
         return Maths;
     }());
     Lightning.Maths = Maths;
@@ -86,16 +112,180 @@ var Lightning;
     }());
     Lightning.Depreciated = Depreciated;
 })(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+/**
+ * A helper class for the 'Game'. It's used for all non essential public functions.
+ * This is mostly used to keep the actual engine class neat, slim and easier to develop
+ */
+var Lightning;
+(function (Lightning) {
+    var EngineHelper = (function () {
+        function EngineHelper() {
+        }
+        EngineHelper.prototype.generateTexture = function () {
+            var params = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                params[_i] = arguments[_i];
+            }
+            var t = [];
+            if (params.length > 1) {
+                for (var _a = 0, params_1 = params; _a < params_1.length; _a++) {
+                    var i = params_1[_a];
+                    t.push(this._renderer.generateTexture(i));
+                }
+            }
+            else {
+                t = this._renderer.generateTexture(params[0]);
+            }
+            return t;
+        };
+        EngineHelper.prototype.goFullscreen = function () {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement['requestFullscreen']();
+            }
+            else if (document.documentElement['mozRequestFullScreen']) {
+                document.documentElement['mozRequestFullScreen']();
+            }
+            else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement['webkitRequestFullscreen']();
+            }
+            else if (document.documentElement['msRequestFullscreen']) {
+                document.documentElement['msRequestFullscreen']();
+            }
+        };
+        EngineHelper.prototype.texture = function () {
+            var params = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                params[_i] = arguments[_i];
+            }
+            var t = [];
+            if (params.length > 1) {
+                for (var _a = 0, params_2 = params; _a < params_2.length; _a++) {
+                    var i = params_2[_a];
+                    t.push(Lightning.Texture.from(i));
+                }
+            }
+            else {
+                t = Lightning.Texture.from(params[0]);
+            }
+            return t;
+        };
+        Object.defineProperty(EngineHelper.prototype, "backgroundColor", {
+            set: function (val) {
+                this._renderer.backgroundColor = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EngineHelper.prototype, "world", {
+            get: function () {
+                return this._world;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EngineHelper.prototype, "width", {
+            get: function () {
+                return this._renderer.width;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EngineHelper.prototype, "height", {
+            get: function () {
+                return this._renderer.height;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EngineHelper.prototype, "center", {
+            get: function () {
+                return { x: this.width * 0.5, y: this.height * 0.5 };
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EngineHelper.prototype, "renderer", {
+            get: function () {
+                return this._renderer;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EngineHelper.prototype, "tweens", {
+            get: function () {
+                return this._tweens;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EngineHelper.prototype, "signals", {
+            get: function () {
+                return this._signals;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EngineHelper.prototype, "states", {
+            get: function () {
+                return this._stateManager;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EngineHelper.prototype, "fps", {
+            get: function () {
+                return this._ticker.FPS;
+            },
+            set: function (fps) {
+                this._ticker.FPS = fps;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EngineHelper.prototype, "minFPS", {
+            get: function () {
+                return this._ticker.minFPS;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EngineHelper.prototype, "elapsedTime", {
+            get: function () {
+                return this._ticker.elapsedMS;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EngineHelper.prototype, "deltaTime", {
+            get: function () {
+                return this._ticker.deltaTime;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EngineHelper.prototype, "lastTime", {
+            get: function () {
+                return this._ticker.lastTime;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return EngineHelper;
+    }());
+    Lightning.EngineHelper = EngineHelper;
+})(Lightning || (Lightning = {}));
 /// <reference path="./../../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
     var State = (function (_super) {
         __extends(State, _super);
+        /**
+         * @description State constructor
+         *
+         * @param {Engine} game
+         */
         function State(game) {
-            var params = [];
-            for (var _i = 1; _i < arguments.length; _i++) {
-                params[_i - 1] = arguments[_i];
-            }
             var _this = _super.call(this) || this;
             _this.game = game;
             _this.loader = new PIXI.loaders.Loader();
@@ -104,36 +294,66 @@ var Lightning;
             _this.loader.onComplete.add(_this.preloadComplete, _this);
             return _this;
         }
+        /**
+         * @description Initalization function
+         *
+         * @param {Array} params
+         *
+         * @returns {void}
+         */
         State.prototype.init = function (params) {
             this.preload();
         };
+        /**
+         * @description Preload function. Used as a helper function to preload assets into the texture cache. Will skip and call the create function if there are no resources to load
+         *
+         * @returns {void}
+         */
         State.prototype.preload = function () {
             if (Object.keys(this.loader.resources).length < 1) {
                 this.create();
             }
         };
+        /**
+         * @description Create function. Called after the preload function is complete or there is nothing to preload
+         *
+         * @returns {void}
+         */
         State.prototype.create = function () {
         };
+        /**
+         * @description Update function. This is called by the state manager on every tick
+         */
         State.prototype.update = function () {
         };
+        /**
+         * @description Add children to this state. Helper functions should be migrated at some point
+         *
+         * @returns {boolean}
+         */
         State.prototype.add = function () {
             var params = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 params[_i] = arguments[_i];
             }
-            for (var _a = 0, params_1 = params; _a < params_1.length; _a++) {
-                var i = params_1[_a];
+            for (var _a = 0, params_3 = params; _a < params_3.length; _a++) {
+                var i = params_3[_a];
                 this.addChild(i);
             }
+            return true;
         };
         /**
-         * Called if the loader produces an error
+         * @description Called if the loader produces an error
+         *
+         * @returns {void}
          */
         State.prototype.preloadError = function (err) {
             console.log(err);
         };
         /**
-         * Called when a single file has completed loading
+         * @description Called when a single file has completed loading
+         *
+         * @returns {void}
          */
         State.prototype.preloadSingle = function (loader, resource) {
             // get the name of the loaded asset
@@ -143,7 +363,9 @@ var Lightning;
             var progress = resource.progressChunk;
         };
         /**
-         * Called when the loader has finished loading everything
+         * @description Called when the loader has finished loading everything
+         *
+         * @returns {void}
          */
         State.prototype.preloadComplete = function (resources) {
             this.create();
@@ -156,17 +378,33 @@ var Lightning;
 var Lightning;
 (function (Lightning) {
     var StateManager = (function () {
+        /**
+         * @description StateManager constructor
+         *
+         * @param {Engine} game
+         */
         function StateManager(game) {
             this.game = game;
             this._states = [];
             this._activeStates = [];
         }
+        /**
+         * @description Update loop. Called from the game ticker and is used to call each state update function individually
+         */
         StateManager.prototype.update = function () {
             for (var _i = 0, _a = this._activeStates; _i < _a.length; _i++) {
                 var state = _a[_i];
                 state.update();
             }
         };
+        /**
+         * @description Initalize a single state. Usually called from the start function, though this can be bypassed and a custom state injected via this function
+         *
+         * @param {State} state
+         * @param {Array} params
+         *
+         * @returns {boolean}
+         */
         StateManager.prototype.init = function (state) {
             var params = [];
             for (var _i = 1; _i < arguments.length; _i++) {
@@ -174,7 +412,11 @@ var Lightning;
             }
             state.init(params);
             this.addToActive(state);
+            return true;
         };
+        /**
+         * @description Start a state. This function is called in order to add a state to the world display list and call the init function if the state is to auto initalize
+         */
         StateManager.prototype.start = function (key, autoInit) {
             if (autoInit === void 0) { autoInit = true; }
             var params = [];
@@ -188,24 +430,70 @@ var Lightning;
                 this.init(map.state, params);
             }
         };
-        StateManager.prototype.pause = function () {
+        /**
+         * @description Leaves the state renderable and interactive but disables it's update procedure
+         *
+         * @param {string} key
+         *
+         * @returns {boolean}
+         */
+        StateManager.prototype.pause = function (key) {
+            var state = this.findState(key).state;
+            this._activeStates.splice(this.findActiveIndex(state));
+            return true;
         };
-        StateManager.prototype.unpause = function () {
+        /**
+         * @description Re-enabled the state's update procedure
+         *
+         * @param {string} key
+         *
+         * @returns {boolean}
+         */
+        StateManager.prototype.unpause = function (key) {
+            var state = this.findState(key).state;
+            this.addToActive(state);
+            return true;
         };
+        /**
+         * TODO
+         * @description Will reset the state by nullifying it and calling the constructor to re-initalize it
+         */
         StateManager.prototype.reset = function () {
             // let state = this.findState('').state;
             // let newState = state.constructor();
         };
+        /**
+         * @description Will remove the state from the render list and update loop. It will also set all
+         * interactivity to false as well as visibility and renderable.
+         * Will store it's current position in the display list incase it is to be re-enabled at the same position
+         *
+         * @returns {boolean}
+         */
         StateManager.prototype.disable = function (key) {
             var map = this.findState(key);
             var state = map.state;
+            // store the world index
             map.worldIndex = this.game.world.getChildIndex(map.state);
+            // disable properties
+            state.interactive = false;
+            state.interactiveChildren = false;
             state.visible = false;
             state.renderable = false;
+            // remove from the display list
             this.game.world.removeChild(state);
             // get index from array and splice
             this._activeStates.splice(this.findActiveIndex(state));
+            return true;
         };
+        /**
+         * @description Will re-enable a state exactly as it was before being disabled.
+         * Sets all visibility, interactivity and renderable to true.
+         * If last index is passed, it will use the previous position in the world display list
+         * If the index is passed, it will be added to the world display list where the index is
+         * If last index is false and index is null, then it will get added to the top of the world display list
+         *
+         * @returns {boolean}
+         */
         StateManager.prototype.enable = function (key, lastIndex, index) {
             if (lastIndex === void 0) { lastIndex = true; }
             if (index === void 0) { index = null; }
@@ -213,6 +501,8 @@ var Lightning;
             var state = map.state;
             state.visible = true;
             state.renderable = true;
+            state.interactive = true;
+            state.interactiveChildren = true;
             if (lastIndex === true) {
                 this.game.world.addChildAt(state, map.worldIndex);
             }
@@ -222,6 +512,7 @@ var Lightning;
             else {
                 this.game.world.addChild(state);
             }
+            return true;
         };
         /**
          * @description Destroy the state entirley
@@ -249,6 +540,14 @@ var Lightning;
             state = null;
             return true;
         };
+        /**
+         * @description Adds a new state to the state StateManager
+         *
+         * @param {string} key
+         * @param {State} state
+         *
+         * @returns {boolean}
+         */
         StateManager.prototype.add = function (key, state) {
             var newMap = {};
             newMap.key = key;
@@ -257,7 +556,15 @@ var Lightning;
             newMap.worldIndex = null;
             newMap.fps = 60;
             this._states.push(newMap);
+            return true;
         };
+        /**
+         * @description Adds a state to the active states array if it's not already there
+         *
+         * @param {State} state
+         *
+         * @returns {boolean}
+         */
         StateManager.prototype.addToActive = function (state) {
             var exists = false;
             for (var _i = 0, _a = this._activeStates; _i < _a.length; _i++) {
@@ -268,10 +575,25 @@ var Lightning;
             }
             if (!exists) {
                 this._activeStates.push(state);
+                return true;
+            }
+            else {
+                return false;
             }
         };
-        StateManager.prototype.remove = function (key) {
+        /**
+         * TODO
+         * @description Will create a texture of the state as it currently is and apply it to the state as it's only renderable child. This could be used when large state transitions are happening and the display list gets too large and effects performance
+         */
+        StateManager.prototype.freeze = function () {
         };
+        /**
+         * @description Loop through the states array and match by key. If one is found, then the entire state map is returned
+         *
+         * @param {string} key
+         *
+         * @returns {State}
+         */
         StateManager.prototype.findState = function (key) {
             for (var _i = 0, _a = this._states; _i < _a.length; _i++) {
                 var i = _a[_i];
@@ -281,6 +603,13 @@ var Lightning;
             }
             return null;
         };
+        /**
+         * @description Loops through all active states and matches by a state
+         *
+         * @param {state}
+         *
+         * @returns {number}
+         */
         StateManager.prototype.findActiveIndex = function (state) {
             var count = 0;
             for (var _i = 0, _a = this._activeStates; _i < _a.length; _i++) {
@@ -357,7 +686,8 @@ var Lightning;
         function Input(game) {
             this.game = game;
             this.window = window.parent || window;
-            this.window.addEventListener('keydown', this.onKeyDown);
+            // found an issue using keyboard input inside an iframe.. need to fix asap!
+            //this.window.addEventListener('keydown', this.onKeyDown);
         }
         Input.prototype.onKeyDown = function (key) {
             console.log(key);
@@ -1111,8 +1441,8 @@ var Lightning;
             for (var _i = 0; _i < arguments.length; _i++) {
                 params[_i] = arguments[_i];
             }
-            for (var _a = 0, params_2 = params; _a < params_2.length; _a++) {
-                var i = params_2[_a];
+            for (var _a = 0, params_4 = params; _a < params_4.length; _a++) {
+                var i = params_4[_a];
                 this._textures.push(i);
             }
         };
@@ -1517,8 +1847,9 @@ var Lightning;
     }(Lightning.Group));
     Lightning.Parallax = Parallax;
 })(Lightning || (Lightning = {}));
-var Tween;
-(function (Tween) {
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
     var Easing = (function () {
         function Easing() {
         }
@@ -1693,11 +2024,11 @@ var Tween;
         };
         return Easing;
     }());
-    Tween.Easing = Easing;
-})(Tween || (Tween = {}));
-/// <reference path="./Interfaces/Callback.ts" />
-var Tween;
-(function (Tween) {
+    Lightning.Easing = Easing;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
     var Events = (function () {
         /**
          * Construct a new event class
@@ -1839,15 +2170,14 @@ var Tween;
         };
         return Events;
     }());
-    Tween.Events = Events;
-})(Tween || (Tween = {}));
-/// <reference path="./Interfaces/Property.ts" />
-/// <reference path="./Interfaces/Callback.ts" />
+    Lightning.Events = Events;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
 /**
  * Frame class. Defines what each frame should consist of in an animation
  */
-var Tween;
-(function (Tween) {
+var Lightning;
+(function (Lightning) {
     var Frame = (function () {
         function Frame(frameId, relative) {
             this._frameId = frameId;
@@ -1903,10 +2233,11 @@ var Tween;
         });
         return Frame;
     }());
-    Tween.Frame = Frame;
-})(Tween || (Tween = {}));
-var Tween;
-(function (Tween_1) {
+    Lightning.Frame = Frame;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
     var Tween = (function () {
         function Tween(parent) {
             // ready to play
@@ -1927,14 +2258,14 @@ var Tween;
             this._deleteFlag = false;
             this.tweenManager = parent;
             this._frames = new Array();
-            this._onStartCallbacks = new Tween_1.Events(this);
-            this._onStopCallbacks = new Tween_1.Events(this);
-            this._onLoopCallbacks = new Tween_1.Events(this);
-            this._onPauseCallbacks = new Tween_1.Events(this);
-            this._onTickCallbacks = new Tween_1.Events(this);
-            this._onCompleteCallbacks = new Tween_1.Events(this);
-            this._onDestroyCallbacks = new Tween_1.Events(this);
-            this._onFrameCallbacks = new Tween_1.Events(this);
+            this._onStartCallbacks = new Lightning.Events(this);
+            this._onStopCallbacks = new Lightning.Events(this);
+            this._onLoopCallbacks = new Lightning.Events(this);
+            this._onPauseCallbacks = new Lightning.Events(this);
+            this._onTickCallbacks = new Lightning.Events(this);
+            this._onCompleteCallbacks = new Lightning.Events(this);
+            this._onDestroyCallbacks = new Lightning.Events(this);
+            this._onFrameCallbacks = new Lightning.Events(this);
         }
         /**
          * Create an indivual frame at a specific position
@@ -1958,7 +2289,7 @@ var Tween;
             }
             else {
                 // this frame does not exist, create a new frame object
-                var frame = new Tween_1.Frame(frameId, relative);
+                var frame = new Lightning.Frame(frameId, relative);
                 frame.addProperty(property['prop'], property['val']);
                 this._frames.push(frame);
             }
@@ -1970,7 +2301,7 @@ var Tween;
          * @param  {boolean} relative
          */
         Tween.prototype.extendFrame = function (frameId, properties, relative) {
-            var frame = new Tween_1.Frame(frameId, relative);
+            var frame = new Lightning.Frame(frameId, relative);
             this._frames.push(frame);
             for (var _i = 0, properties_1 = properties; _i < properties_1.length; _i++) {
                 var i = properties_1[_i];
@@ -2296,7 +2627,7 @@ var Tween;
         });
         return Tween;
     }());
-    Tween_1.Tween = Tween;
+    Lightning.Tween = Tween;
     /**
      * Notes
      *
@@ -2304,16 +2635,16 @@ var Tween;
      * 2. Make a starting function that calls the parent to start the tween
      * 3. Potentially make functions to shuffle / reorder the events
     */
-})(Tween || (Tween = {}));
-/// <reference path="./../../reference.d.ts" />
-var Tween;
-(function (Tween) {
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
     var TweenManager = (function () {
         function TweenManager(game) {
             this.game = game;
             this._tweens = [];
             this._running = [];
-            this._easing = new Tween.Easing();
+            this._easing = new Lightning.Easing();
         }
         /**
          * Makes a new instance of a tween
@@ -2328,7 +2659,7 @@ var Tween;
                 return false;
             }
             else {
-                this._tweens[name] = new Tween.Tween(this);
+                this._tweens[name] = new Lightning.Tween(this);
                 return this._tweens[name];
             }
         };
@@ -2344,7 +2675,7 @@ var Tween;
         TweenManager.prototype.create = function (name, props) {
             // if null is passed as a name, then don't give the tween a name or add it to the global array of tweens
             if (name == null) {
-                var tween = new Tween.Tween(this);
+                var tween = new Lightning.Tween(this);
                 this.calculateFrames(tween, props);
                 return tween;
             }
@@ -2361,7 +2692,7 @@ var Tween;
          */
         TweenManager.prototype.createEmpty = function (name) {
             if (name == null) {
-                var tween = new Tween.Tween(this);
+                var tween = new Lightning.Tween(this);
                 return tween;
             }
             else {
@@ -2411,10 +2742,10 @@ var Tween;
                 tween = this.newTween(newName);
             }
             else {
-                tween = new Tween.Tween(this);
+                tween = new Lightning.Tween(this);
             }
             // if tween creation failed, return
-            if (tween instanceof Tween.Tween == false) {
+            if (tween instanceof Lightning.Tween == false) {
                 return;
             }
             ;
@@ -2450,7 +2781,7 @@ var Tween;
             // retrieve the tween
             var tween = this.getTween(name);
             // if this is not a valid tween, return
-            if (tween instanceof Tween.Tween == false) {
+            if (tween instanceof Lightning.Tween == false) {
                 return;
             }
             ;
@@ -2505,7 +2836,7 @@ var Tween;
             // retrieve the tween
             var tween = this.getTween(name);
             // if this is not a valid tween, return
-            if (tween instanceof Tween.Tween == false) {
+            if (tween instanceof Lightning.Tween == false) {
                 return;
             }
             ;
@@ -2599,7 +2930,7 @@ var Tween;
             // look in both this._tweens and this._running for the tween
             var tween = this.getTween(name);
             // if tween creation failed, return
-            if (tween instanceof Tween.Tween == false) {
+            if (tween instanceof Lightning.Tween == false) {
                 return;
             }
             ;
@@ -2665,8 +2996,8 @@ var Tween;
         });
         return TweenManager;
     }());
-    Tween.TweenManager = TweenManager;
-})(Tween || (Tween = {}));
+    Lightning.TweenManager = TweenManager;
+})(Lightning || (Lightning = {}));
 /// <reference path="./../../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
@@ -3063,119 +3394,114 @@ var Lightning;
          */
         var SignalManager = (function () {
             /**
-             * signal manager constructor
-             * @param game
+             * @description Signal Manager constructor
+             *
+             * @param {engine} game
              */
             function SignalManager(game) {
                 this.game = game;
                 this._signals = {};
             }
-            SignalManager.prototype.getInsatance = function () {
+            /**
+             * @description Create a new signal
+             *
+             * @param {string} key
+             *
+             * @returns {Signal}
+             */
+            SignalManager.prototype.create = function (key) {
+                var signal = this._signals[key] = new Signals.Signal();
+                return signal || null;
             };
             /**
-             * create a new signal
-             * @param str
-             * @returns {any}
+             * @description Add a function to a signal
+             *
+             * @param {string} key
+             * @param {function} fn
+             * @param {Object} listenerContext
+             *
+             * @returns {boolean}
              */
-            SignalManager.prototype.create = function (str) {
-                try {
-                    this._signals[str] = new Signals.Signal();
-                    return this._signals[str];
-                }
-                catch (e) {
-                    console.error(e.message);
-                    return null;
-                }
-            };
-            /**
-             * add a function to the signal to fire on dispatch
-             * @param str
-             * @param fnct
-             * @param listenerContext? = null
-             */
-            SignalManager.prototype.add = function (str, fnct, listenerContext) {
+            SignalManager.prototype.add = function (key, fn, listenerContext) {
                 if (listenerContext === void 0) { listenerContext = null; }
+                this.signal(key).add(fn, listenerContext);
+                return true;
+            };
+            /**
+             * @description Add a function to a signal only once
+             *
+             * @param {string} key
+             * @param {function} fn
+             * @param {Object} listenerContext
+             *
+             * @returns {boolean}
+             */
+            SignalManager.prototype.addOnce = function (key, fn, listenerContext) {
+                this.signal(key).addOnce(fn, listenerContext);
+                return true;
+            };
+            /**
+             * @description Destroy the signal
+             * @param {string} key
+             *
+             * @returns {boolean§}
+             */
+            SignalManager.prototype.destroy = function (key) {
+                var s = this.signal(key);
+                s = null;
+                return true;
+            };
+            /**
+             * @description Change the active property on a signal
+             *
+             * @param {string} key
+             * @param {boolean} active
+             *
+             * @returns {boolean}
+             */
+            SignalManager.prototype.active = function (key, active) {
                 try {
-                    var s = this.signal(str);
-                    this.signal(str).add(fnct, listenerContext);
+                    this.signal(key).active = active;
                 }
                 catch (e) {
-                    console.error(e.message);
+                    return false;
                 }
             };
             /**
-             * add a function to the signal to fire only once on dispatch, then automatically destroy the function
-             * @param str
-             * @param fnct
+             * @description dispatch a signal and pass parameters
+             *
+             * @param {string} key
+             * @param {Array} params
              */
-            SignalManager.prototype.addOnce = function (str, fnct) {
-                try {
-                    this.signal(str).addOnce(fnct);
-                }
-                catch (e) {
-                    console.error(e.message);
-                }
-            };
-            /**
-             * destroy the entire signal
-             * @param str
-             */
-            SignalManager.prototype.destroy = function (str) {
-                try {
-                    var s = this.signal(str);
-                    s = null;
-                }
-                catch (e) {
-                    console.error(e.message);
-                }
-            };
-            /**
-             * set the state of the signal (active, inactive)
-             * @param str
-             * @param val
-             */
-            SignalManager.prototype.active = function (str, val) {
-                try {
-                    this.signal(str).active = val;
-                }
-                catch (e) {
-                    console.error(e.message);
-                }
-            };
-            /**
-             * dispatch a signal with all the parameters
-             * @param str
-             * @param params
-             */
-            SignalManager.prototype.dispatch = function (str) {
+            SignalManager.prototype.dispatch = function (key) {
                 var params = [];
                 for (var _i = 1; _i < arguments.length; _i++) {
                     params[_i - 1] = arguments[_i];
                 }
                 try {
-                    this.signal(str).dispatch(params);
+                    this.signal(key).dispatch(params);
+                    return true;
                 }
                 catch (e) {
-                    console.error(e.message);
+                    return false;
                 }
             };
             /**
-             * return a signal
-             * @param str
-             * @returns {any}
+             * @description Returns a signal if it exists, else it will return null
+             *
+             * @param {srting} key
+             *
+             * @returns {Signal}
              */
-            SignalManager.prototype.signal = function (str) {
-                for (var i in this._signals) {
-                    if (i === str) {
-                        return this._signals[i];
-                    }
-                }
-                console.error('No signal exists with the key "' + str + '"');
+            SignalManager.prototype.signal = function (key) {
+                return this.signal(key) || null;
             };
             /**
-             * check if signal is already created
-             * @param name
-             * @return boolean
+             * @description Return true if the signal is created, else return false
+             *
+             * @param {string} name
+             *
+             * @return {boolean}
              */
             SignalManager.prototype.has = function (name) {
                 return this._signals[name] !== undefined;
@@ -3188,179 +3514,78 @@ var Lightning;
 /// <reference path="./../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
-    var Engine = (function () {
-        // game engine constructor
+    var Engine = (function (_super) {
+        __extends(Engine, _super);
+        /**
+         * @description Engine constructor
+         *
+         * @param {number} width
+         * @param {number} height
+         * @param {string} canvasId
+         */
         function Engine(width, height, canvasId) {
             if (canvasId === void 0) { canvasId = 'app'; }
-            this._hud = null;
-            this._activateState = null;
-            this._tweens = new Tween.TweenManager(this);
-            this._signals = new Lightning.Signals.SignalManager(this);
+            var _this = _super.call(this) || this;
+            _this._hud = null;
+            _this._tweens = new Lightning.TweenManager(_this);
+            _this._signals = new Lightning.Signals.SignalManager(_this);
             if (!canvasId) {
                 var viewCanvas = document.createElement('canvas');
                 viewCanvas.id = 'app';
                 document.getElementById('app-container').appendChild(viewCanvas);
             }
-            this._renderer = PIXI.autoDetectRenderer(width, height, { resolution: window.devicePixelRatio });
-            this._renderer.autoResize = true;
-            this._world = new PIXI.Container();
-            this._world.scale = new PIXI.Point(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
-            this._world.interactive = true;
-            var i = new Lightning.Input(this);
-            document.getElementById('app-container').appendChild(this._renderer.view);
-            var canvas = document.querySelector('canvas');
+            _this._renderer = PIXI.autoDetectRenderer(width, height, { resolution: window.devicePixelRatio });
+            _this._renderer.autoResize = true;
+            _this._world = new PIXI.Container();
+            _this._world.scale = new PIXI.Point(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
+            _this._world.interactive = true;
+            var i = new Lightning.Input(_this);
+            document.getElementById('app-container').appendChild(_this._renderer.view);
             var scale = window.devicePixelRatio;
-            var renderer = PIXI.autoDetectRenderer(width * scale, height * scale, canvas);
-            canvas.style.width = width + 'px';
-            canvas.style.height = height + 'px';
+            _this._renderer.resize(width, height);
             // create the physicsManager 
-            this._physicsManager = new Lightning.PhysicsManager(this);
+            _this._physicsManager = new Lightning.PhysicsManager(_this);
             // create the state StateManager
-            this._stateManager = new Lightning.StateManager(this);
+            _this._stateManager = new Lightning.StateManager(_this);
             // init the ticker
-            this._ticker = PIXI.ticker.shared;
-            this._ticker.autoStart = true;
-            this._ticker.add(this.update, this);
+            _this._ticker = PIXI.ticker.shared;
+            _this._ticker.autoStart = true;
+            _this._ticker.add(_this.update, _this);
+            return _this;
         }
-        // gets called on update
+        /**
+         * @description Main entry for every update function. This is called by the ticker on every request frame update
+         *
+         * @param {number} time
+         *
+         * @returns {void}
+         */
         Engine.prototype.update = function (time) {
             this._physicsManager.update();
             this._tweens.update();
             this._stateManager.update();
             this._renderer.render(this._world);
         };
-        Engine.prototype.generateTexture = function () {
-            var params = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                params[_i] = arguments[_i];
-            }
-            var t = [];
-            if (params.length > 1) {
-                for (var _a = 0, params_3 = params; _a < params_3.length; _a++) {
-                    var i = params_3[_a];
-                    t.push(this._renderer.generateTexture(i));
-                }
-            }
-            else {
-                t = this._renderer.generateTexture(params[0]);
-            }
-            return t;
+        /**
+         * @description Start the ticker
+         *
+         * @returns {boolean}
+         */
+        Engine.prototype.start = function () {
+            this._ticker.start();
+            return true;
         };
-        Engine.prototype.goFullscreen = function () {
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement['requestFullscreen']();
-            }
-            else if (document.documentElement['mozRequestFullScreen']) {
-                document.documentElement['mozRequestFullScreen']();
-            }
-            else if (document.documentElement.webkitRequestFullscreen) {
-                document.documentElement['webkitRequestFullscreen']();
-            }
-            else if (document.documentElement['msRequestFullscreen']) {
-                document.documentElement['msRequestFullscreen']();
-            }
+        /**
+         * @description Stop the ticker
+         *
+         * @returns {boolean}
+         */
+        Engine.prototype.stop = function () {
+            this._ticker.stop();
+            return true;
         };
-        Engine.prototype.texture = function () {
-            var params = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                params[_i] = arguments[_i];
-            }
-            var t = [];
-            if (params.length > 1) {
-                for (var _a = 0, params_4 = params; _a < params_4.length; _a++) {
-                    var i = params_4[_a];
-                    t.push(Lightning.Texture.from(i));
-                }
-            }
-            else {
-                t = Lightning.Texture.from(params[0]);
-            }
-            return t;
-        };
-        Object.defineProperty(Engine.prototype, "backgroundColor", {
-            set: function (val) {
-                this._renderer.backgroundColor = val;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "world", {
-            get: function () {
-                return this._world;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "width", {
-            get: function () {
-                return this._renderer.width;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "height", {
-            get: function () {
-                return this._renderer.height;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "center", {
-            get: function () {
-                return { x: this.width * 0.5, y: this.height * 0.5 };
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "renderer", {
-            get: function () {
-                return this._renderer;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "tweens", {
-            get: function () {
-                return this._tweens;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "signals", {
-            get: function () {
-                return this._signals;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "states", {
-            get: function () {
-                return this._stateManager;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Engine.prototype, "hud", {
-            /**
-             * think about refactoring this
-             */
-            get: function () {
-                if (!this._hud) {
-                    this._hud = new Lightning.HUD(this);
-                }
-                return this._hud;
-            },
-            enumerable: true,
-            configurable: true
-        });
         return Engine;
-    }());
+    }(Lightning.EngineHelper));
     Lightning.Engine = Engine;
 })(Lightning || (Lightning = {}));
-/**
- * Start Ticker
- * Pause Ticker
- * Ticker FPS?
- * Individual State FPS?
- */ 
 //# sourceMappingURL=compile.js.map

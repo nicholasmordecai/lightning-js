@@ -1,5 +1,14 @@
 # Changelog
 
+### 0.3.3
+1. Fixes in state manager
+2. Implemented working engine helper class
+    1. Too many to list, but lots of helper functions, setters and getters
+3. Added start and stop ticker as well as setting the ticker FPS
+4. Signal Manager major overhaul
+5. Moved stuff out of the core that doesn't belong there
+6. Started to rebuild the tween engine
+
 ### 0.3.2
 1. Added a BitmapText class
 2. Added a depreciation class to deal with backwards compatability

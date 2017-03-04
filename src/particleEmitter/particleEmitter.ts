@@ -178,7 +178,7 @@ namespace Lightning {
             this._deadPool.push(p);
         }
 
-                startDrag(event:PIXI.interaction.InteractionEvent) {
+        startDrag(event:PIXI.interaction.InteractionEvent) {
             if(this._respectPosition) {
                 let rpx = event.data.global.x * window.devicePixelRatio - this.position.x;
                 let rpy = event.data.global.y * window.devicePixelRatio - this.position.y;

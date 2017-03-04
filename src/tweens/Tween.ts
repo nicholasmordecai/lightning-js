@@ -1,4 +1,6 @@
-namespace Tween {
+/// <reference path="./../reference.d.ts" />
+
+namespace Lightning {
     export class Tween {
 
         // keep a reference to the parent
@@ -81,7 +83,7 @@ namespace Tween {
          * @param  {Array<Property>} properties
          * @param  {boolean} relative
          */
-        extendFrame(frameId:number, properties:Array<Property>, relative:boolean) {
+        extendFrame(frameId:number, properties:Array<iTweenProperty>, relative:boolean) {
             let frame = new Frame(frameId, relative);
             this._frames.push(frame);
             for(let i of properties) {

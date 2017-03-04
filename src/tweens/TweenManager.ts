@@ -1,11 +1,12 @@
-/// <reference path="./../../reference.d.ts" />
+/// <reference path="./../reference.d.ts" />
 
-namespace Tween {
+namespace Lightning {
     export class TweenManager {
 
         private game;
         private _tweens:Array<Tween>;
         private _events:Events;
+        // need an interface for this!
         private _running:Array<any>;
         private _easing:Easing;
 
@@ -173,6 +174,7 @@ namespace Tween {
             };
 
             t.tween.onStartTrigger();
+            
             this._running.push(t);
             return(t);
         }

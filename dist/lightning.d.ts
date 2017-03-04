@@ -29,6 +29,22 @@ declare namespace Lightning {
     }
 }
 declare namespace Lightning {
+    interface iTweenCallback {
+        name: string;
+        funct: Function;
+        functContext: any;
+        functParams: any[];
+        frame: number;
+        once: boolean;
+    }
+}
+declare namespace Lightning {
+    interface iTweenProperty {
+        prop: string;
+        val: number;
+    }
+}
+declare namespace Lightning {
     class Maths {
         /**
          * @description generate a random integer between two values
@@ -69,6 +85,26 @@ declare namespace Lightning {
          * @returns {iPoint}
          */
         static distanceBetween(): iPoint;
+        /**
+        * TODO
+        * @description Convert Hex to RGB
+        *
+        * @param {iPoint} pos1
+        * @param {iPoint} pos2
+        *
+        * @returns {iPoint}
+        */
+        static hextoRGB(): iPoint;
+        /**
+        * TODO
+        * @description Calculate RGB to Hex
+        *
+        * @param {iPoint} pos1
+        * @param {iPoint} pos2
+        *
+        * @returns {iPoint}
+        */
+        static rgbToHex(): iPoint;
     }
 }
 /**
@@ -79,26 +115,99 @@ declare namespace Lightning {
     class Depreciated {
     }
 }
+/**
+ * A helper class for the 'Game'. It's used for all non essential public functions.
+ * This is mostly used to keep the actual engine class neat, slim and easier to develop
+ */
+declare namespace Lightning {
+    class EngineHelper {
+        protected _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
+        protected _world: PIXI.Container;
+        protected _hud: any;
+        protected _ticker: PIXI.ticker.Ticker;
+        protected _activateState: any;
+        protected _tweens: any;
+        protected _signals: Signals.SignalManager;
+        protected _stateManager: StateManager;
+        protected _physicsManager: PhysicsManager;
+        generateTexture(...params: any[]): any;
+        goFullscreen(): void;
+        texture(...params: any[]): any;
+        backgroundColor: number;
+        readonly world: PIXI.Container;
+        readonly width: number;
+        readonly height: number;
+        readonly center: {
+            x: number;
+            y: number;
+        };
+        readonly renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
+        readonly tweens: TweenManager;
+        readonly signals: Signals.SignalManager;
+        readonly states: StateManager;
+        fps: number;
+        readonly minFPS: number;
+        readonly elapsedTime: number;
+        readonly deltaTime: number;
+        readonly lastTime: number;
+    }
+}
 declare namespace Lightning {
     class State extends PIXI.Container {
         protected game: Engine;
         loader: PIXI.loaders.Loader;
-        constructor(game: Engine, ...params: any[]);
-        init(params: any): void;
-        preload(): void;
-        create(): void;
-        update(): void;
-        add(...params: Array<DisplayObject>): void;
         /**
-         * Called if the loader produces an error
+         * @description State constructor
+         *
+         * @param {Engine} game
+         */
+        constructor(game: Engine);
+        /**
+         * @description Initalization function
+         *
+         * @param {Array} params
+         *
+         * @returns {void}
+         */
+        init(params: any): void;
+        /**
+         * @description Preload function. Used as a helper function to preload assets into the texture cache. Will skip and call the create function if there are no resources to load
+         *
+         * @returns {void}
+         */
+        preload(): void;
+        /**
+         * @description Create function. Called after the preload function is complete or there is nothing to preload
+         *
+         * @returns {void}
+         */
+        create(): void;
+        /**
+         * @description Update function. This is called by the state manager on every tick
+         */
+        update(): void;
+        /**
+         * @description Add children to this state. Helper functions should be migrated at some point
+         *
+         * @returns {boolean}
+         */
+        add(...params: Array<DisplayObject>): boolean;
+        /**
+         * @description Called if the loader produces an error
+         *
+         * @returns {void}
          */
         preloadError(err: any): void;
         /**
-         * Called when a single file has completed loading
+         * @description Called when a single file has completed loading
+         *
+         * @returns {void}
          */
         preloadSingle(loader: PIXI.loaders.Loader, resource: any): void;
         /**
-         * Called when the loader has finished loading everything
+         * @description Called when the loader has finished loading everything
+         *
+         * @returns {void}
          */
         preloadComplete(resources: any): void;
     }
@@ -108,15 +217,68 @@ declare namespace Lightning {
         protected game: Engine;
         protected _states: Array<iStateMap>;
         protected _activeStates: Array<State>;
+        /**
+         * @description StateManager constructor
+         *
+         * @param {Engine} game
+         */
         constructor(game: Engine);
+        /**
+         * @description Update loop. Called from the game ticker and is used to call each state update function individually
+         */
         update(): void;
-        init(state: State, ...params: any[]): void;
+        /**
+         * @description Initalize a single state. Usually called from the start function, though this can be bypassed and a custom state injected via this function
+         *
+         * @param {State} state
+         * @param {Array} params
+         *
+         * @returns {boolean}
+         */
+        init(state: State, ...params: any[]): boolean;
+        /**
+         * @description Start a state. This function is called in order to add a state to the world display list and call the init function if the state is to auto initalize
+         */
         start(key: any, autoInit?: boolean, ...params: any[]): void;
-        pause(): void;
-        unpause(): void;
+        /**
+         * @description Leaves the state renderable and interactive but disables it's update procedure
+         *
+         * @param {string} key
+         *
+         * @returns {boolean}
+         */
+        pause(key: string): boolean;
+        /**
+         * @description Re-enabled the state's update procedure
+         *
+         * @param {string} key
+         *
+         * @returns {boolean}
+         */
+        unpause(key: string): boolean;
+        /**
+         * TODO
+         * @description Will reset the state by nullifying it and calling the constructor to re-initalize it
+         */
         reset(): void;
-        disable(key: string): void;
-        enable(key: string, lastIndex?: boolean, index?: number): void;
+        /**
+         * @description Will remove the state from the render list and update loop. It will also set all
+         * interactivity to false as well as visibility and renderable.
+         * Will store it's current position in the display list incase it is to be re-enabled at the same position
+         *
+         * @returns {boolean}
+         */
+        disable(key: string): boolean;
+        /**
+         * @description Will re-enable a state exactly as it was before being disabled.
+         * Sets all visibility, interactivity and renderable to true.
+         * If last index is passed, it will use the previous position in the world display list
+         * If the index is passed, it will be added to the world display list where the index is
+         * If last index is false and index is null, then it will get added to the top of the world display list
+         *
+         * @returns {boolean}
+         */
+        enable(key: string, lastIndex?: boolean, index?: number): boolean;
         /**
          * @description Destroy the state entirley
          * Removes from the world children
@@ -128,10 +290,43 @@ declare namespace Lightning {
          * @returns {boolean}
          */
         destroy(key: string): boolean;
-        add(key: string, state: State): void;
+        /**
+         * @description Adds a new state to the state StateManager
+         *
+         * @param {string} key
+         * @param {State} state
+         *
+         * @returns {boolean}
+         */
+        add(key: string, state: State): boolean;
+        /**
+         * @description Adds a state to the active states array if it's not already there
+         *
+         * @param {State} state
+         *
+         * @returns {boolean}
+         */
         private addToActive(state);
-        remove(key: string): void;
+        /**
+         * TODO
+         * @description Will create a texture of the state as it currently is and apply it to the state as it's only renderable child. This could be used when large state transitions are happening and the display list gets too large and effects performance
+         */
+        freeze(): void;
+        /**
+         * @description Loop through the states array and match by key. If one is found, then the entire state map is returned
+         *
+         * @param {string} key
+         *
+         * @returns {State}
+         */
         findState(key: string): iStateMap;
+        /**
+         * @description Loops through all active states and matches by a state
+         *
+         * @param {state}
+         *
+         * @returns {number}
+         */
         findActiveIndex(state: State): number;
     }
 }
@@ -626,7 +821,7 @@ declare namespace Lightning {
         readonly scrollSpeed: number;
     }
 }
-declare namespace Tween {
+declare namespace Lightning {
     class Easing {
         none(x: number, t: number, b: number, c: number, d: number): number;
         easeInQuad(t: number, b: number, c: number, d: number): number;
@@ -659,18 +854,7 @@ declare namespace Tween {
         easeOutBounce(x: number, t: number, b: number, c: number, d: number): number;
     }
 }
-/**
- * Callback interface. Defines the properties of a callback request for a specific frame in the animation
- */
-interface Callback {
-    name: string;
-    funct: Function;
-    functContext: any;
-    functParams: any[];
-    frame: number;
-    once: boolean;
-}
-declare namespace Tween {
+declare namespace Lightning {
     class Events {
         private tween;
         private _events;
@@ -719,14 +903,10 @@ declare namespace Tween {
         findPosition(ref: string): number;
     }
 }
-interface Property {
-    prop: string;
-    val: number;
-}
 /**
  * Frame class. Defines what each frame should consist of in an animation
  */
-declare namespace Tween {
+declare namespace Lightning {
     class Frame {
         private _frameId;
         private _properties;
@@ -738,12 +918,12 @@ declare namespace Tween {
          */
         addProperty(property: string, val: number): void;
         frameId: number;
-        properties: Array<Property>;
+        properties: Array<iTweenProperty>;
         relative: boolean;
         complex: boolean;
     }
 }
-declare namespace Tween {
+declare namespace Lightning {
     class Tween {
         private tweenManager;
         private _playFlag;
@@ -779,7 +959,7 @@ declare namespace Tween {
          * @param  {Array<Property>} properties
          * @param  {boolean} relative
          */
-        extendFrame(frameId: number, properties: Array<Property>, relative: boolean): void;
+        extendFrame(frameId: number, properties: Array<iTweenProperty>, relative: boolean): void;
         /**
          * Apply the current frame properties to an object
          * @param  {Object} obj
@@ -903,7 +1083,7 @@ declare namespace Tween {
         readonly events: Object;
     }
 }
-declare namespace Tween {
+declare namespace Lightning {
     class TweenManager {
         private game;
         private _tweens;
@@ -1288,93 +1468,118 @@ declare namespace Lightning.Signals {
         private game;
         private _signals;
         /**
-         * signal manager constructor
-         * @param game
+         * @description Signal Manager constructor
+         *
+         * @param {engine} game
          */
         constructor(game: Engine);
-        getInsatance(): void;
         /**
-         * create a new signal
-         * @param str
-         * @returns {any}
+         * @description Create a new signal
+         *
+         * @param {string} key
+         *
+         * @returns {Signal}
          */
-        create(str: string): Signal;
+        create(key: string): Signal;
         /**
-         * add a function to the signal to fire on dispatch
-         * @param str
-         * @param fnct
-         * @param listenerContext? = null
+         * @description Add a function to a signal
+         *
+         * @param {string} key
+         * @param {function} fn
+         * @param {Object} listenerContext
+         *
+         * @returns {boolean}
          */
-        add(str: string, fnct: Function, listenerContext?: any): void;
+        add(key: string, fn: Function, listenerContext?: Object): boolean;
         /**
-         * add a function to the signal to fire only once on dispatch, then automatically destroy the function
-         * @param str
-         * @param fnct
+         * @description Add a function to a signal only once
+         *
+         * @param {string} key
+         * @param {function} fn
+         * @param {Object} listenerContext
+         *
+         * @returns {boolean}
          */
-        addOnce(str: string, fnct: Function): void;
+        addOnce(key: string, fn: Function, listenerContext: Object): boolean;
         /**
-         * destroy the entire signal
-         * @param str
+         * @description Destroy the signal
+         * @param {string} key
+         *
+         * @returns {boolean§}
          */
-        destroy(str: string): void;
+        destroy(key: string): boolean;
         /**
-         * set the state of the signal (active, inactive)
-         * @param str
-         * @param val
+         * @description Change the active property on a signal
+         *
+         * @param {string} key
+         * @param {boolean} active
+         *
+         * @returns {boolean}
          */
-        active(str: string, val: boolean): void;
+        active(key: string, active: boolean): boolean;
         /**
-         * dispatch a signal with all the parameters
-         * @param str
-         * @param params
+         * @description dispatch a signal and pass parameters
+         *
+         * @param {string} key
+         * @param {Array} params
          */
-        dispatch(str: string, ...params: any[]): void;
+        dispatch(key: string, ...params: any[]): boolean;
         /**
-         * return a signal
-         * @param str
-         * @returns {any}
+         * @description Returns a signal if it exists, else it will return null
+         *
+         * @param {srting} key
+         *
+         * @returns {Signal}
          */
-        signal(str: string): Signal;
+        signal(key: string): Signal;
         /**
-         * check if signal is already created
-         * @param name
-         * @return boolean
+         * @description Return true if the signal is created, else return false
+         *
+         * @param {string} name
+         *
+         * @return {boolean}
          */
         has(name: string): boolean;
     }
 }
 declare namespace Lightning {
-    class Engine {
-        private _renderer;
-        private _world;
-        private _hud;
-        private _ticker;
-        private _activateState;
-        private _tweens;
-        private _signals;
-        private _stateManager;
-        private _physicsManager;
-        constructor(width: any, height: any, canvasId?: string);
-        update(time: any): void;
-        generateTexture(...params: any[]): any;
-        goFullscreen(): void;
-        texture(...params: any[]): any;
-        backgroundColor: number;
-        readonly world: PIXI.Container;
-        readonly width: number;
-        readonly height: number;
-        readonly center: {
-            x: number;
-            y: number;
-        };
-        readonly renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
-        readonly tweens: Tween.TweenManager;
-        readonly signals: Signals.SignalManager;
-        readonly states: StateManager;
+    class Engine extends EngineHelper {
+        protected _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
+        protected _world: PIXI.Container;
+        protected _hud: HUD;
+        protected _ticker: PIXI.ticker.Ticker;
+        protected _tweens: TweenManager;
+        protected _signals: Signals.SignalManager;
+        protected _stateManager: StateManager;
+        protected _physicsManager: PhysicsManager;
         /**
-         * think about refactoring this
+         * @description Engine constructor
+         *
+         * @param {number} width
+         * @param {number} height
+         * @param {string} canvasId
          */
-        readonly hud: HUD;
+        constructor(width: any, height: any, canvasId?: string);
+        /**
+         * @description Main entry for every update function. This is called by the ticker on every request frame update
+         *
+         * @param {number} time
+         *
+         * @returns {void}
+         */
+        update(time: any): void;
+        /**
+         * @description Start the ticker
+         *
+         * @returns {boolean}
+         */
+        start(): boolean;
+        /**
+         * @description Stop the ticker
+         *
+         * @returns {boolean}
+         */
+        stop(): boolean;
     }
 }
 

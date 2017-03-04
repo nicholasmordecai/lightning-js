@@ -60,5 +60,31 @@ namespace Lightning {
          public static distanceBetween():iPoint {
             return {x:0, y:0};
          }
+
+         /**
+         * TODO
+         * @description Convert Hex to RGB
+         * 
+         * @param {iPoint} pos1
+         * @param {iPoint} pos2
+         * 
+         * @returns {iPoint}
+         */
+         public static hextoRGB():iPoint {
+            return {x:0, y:0};
+         }
+
+         /**
+         * TODO
+         * @description Calculate RGB to Hex
+         * 
+         * @param {iPoint} pos1
+         * @param {iPoint} pos2
+         * 
+         * @returns {iPoint}
+         */
+         public static rgbToHex():iPoint {
+            return {x:0, y:0};
+         }
     }
 }

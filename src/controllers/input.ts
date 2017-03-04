@@ -11,8 +11,8 @@ namespace Lightning {
         constructor(game:Engine) {
             this.game = game;
             this.window = window.parent || window;
-            
-            this.window.addEventListener('keydown', this.onKeyDown);
+            // found an issue using keyboard input inside an iframe.. need to fix asap!
+            //this.window.addEventListener('keydown', this.onKeyDown);
         }
 
         onKeyDown(key:Event) {

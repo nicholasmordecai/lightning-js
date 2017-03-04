@@ -1,10 +1,10 @@
-/// <reference path="./Interfaces/Callback.ts" />
+/// <reference path="./../reference.d.ts" />
 
-namespace Tween {
+namespace Lightning {
     export class Events {
 
     private tween:Tween;
-    private _events:Callback[];
+    private _events:iTweenCallback[];
 
     /**
      * Construct a new event class
@@ -21,7 +21,7 @@ namespace Tween {
      * @param  {Function} funct
      */
     add(funct:Function, functContext:any = null, ... functParams) {
-        let event = <Callback>{};
+        let event = <iTweenCallback>{};
         event.funct = funct;
         event.frame = null;
         event.functContext = functContext;
@@ -37,7 +37,7 @@ namespace Tween {
      * @param  {Function} funct
      */
     addOnce(funct:Function, functContext:any = null, ... functParams) {
-        let event = <Callback> {};
+        let event = <iTweenCallback> {};
         event.funct = funct;
         event.functContext = functContext;
         event.functParams = functParams;
@@ -48,7 +48,7 @@ namespace Tween {
     }
 
     addAtFrame(funct:Function, frame:number, functContext:any = null, ... functParams) {
-        let event = <Callback> {};
+        let event = <iTweenCallback> {};
         event.funct = funct;
         event.functContext = functContext;
         event.functParams = functParams;
@@ -59,7 +59,7 @@ namespace Tween {
     }
 
     addOnceAtFrame(funct:Function, frame:number, functContext:any = null, ... functParams) {
-        let event = <Callback> {};
+        let event = <iTweenCallback> {};
         event.funct = funct;
         event.functContext = functContext;
         event.functParams = functParams;

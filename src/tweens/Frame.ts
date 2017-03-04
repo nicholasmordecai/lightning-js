@@ -1,14 +1,13 @@
-/// <reference path="./Interfaces/Property.ts" />
-/// <reference path="./Interfaces/Callback.ts" />
+/// <reference path="./../reference.d.ts" />
 
 /**
  * Frame class. Defines what each frame should consist of in an animation
  */
-namespace Tween {
+namespace Lightning {
     export class Frame {
 
         private _frameId:number;
-        private _properties:Array<Property>;
+        private _properties:Array<iTweenProperty>;
         private _relative:boolean;
         private _complex:boolean;
 
@@ -22,7 +21,7 @@ namespace Tween {
          * Add another property to this frame
          */
         addProperty(property:string, val:number) {
-            let p = <Property> {prop: property, val: val};
+            let p = <iTweenProperty> {prop: property, val: val};
             this._properties.push(p);
         }
 
@@ -34,11 +33,11 @@ namespace Tween {
             this._frameId = value;
         }
 
-        get properties(): Array<Property> {
+        get properties(): Array<iTweenProperty> {
             return this._properties;
         }
 
-        set properties(value: Array<Property>) {
+        set properties(value: Array<iTweenProperty>) {
             this._properties = value;
         }
 
