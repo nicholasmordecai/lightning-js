@@ -12,7 +12,7 @@ namespace Lightning {
         protected state:State;
         protected _emit:boolean = false;
         protected _nextEmit:number = null;
-        protected _interval:number = 500;
+        protected _interval:number = 100;
         protected _lastStart:number = null;
         protected _time:number = null;
         protected _textures:Array<PIXI.Texture> = [];

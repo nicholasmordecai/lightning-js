@@ -54,7 +54,7 @@ namespace Lightning {
         /**
          * @description Update function. This is called by the state manager on every tick
          */
-        update():void {
+        update(time:number = null):void {
             
         }
 

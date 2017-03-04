@@ -324,7 +324,8 @@ var Lightning;
         /**
          * @description Update function. This is called by the state manager on every tick
          */
-        State.prototype.update = function () {
+        State.prototype.update = function (time) {
+            if (time === void 0) { time = null; }
         };
         /**
          * @description Add children to this state. Helper functions should be migrated at some point
@@ -391,10 +392,10 @@ var Lightning;
         /**
          * @description Update loop. Called from the game ticker and is used to call each state update function individually
          */
-        StateManager.prototype.update = function () {
+        StateManager.prototype.update = function (time) {
             for (var _i = 0, _a = this._activeStates; _i < _a.length; _i++) {
                 var state = _a[_i];
-                state.update();
+                state.update(time);
             }
         };
         /**
@@ -1397,7 +1398,7 @@ var Lightning;
             var _this = _super.call(this) || this;
             _this._emit = false;
             _this._nextEmit = null;
-            _this._interval = 500;
+            _this._interval = 100;
             _this._lastStart = null;
             _this._time = null;
             _this._textures = [];
@@ -3563,7 +3564,7 @@ var Lightning;
         Engine.prototype.update = function (time) {
             this._physicsManager.update();
             this._tweens.update();
-            this._stateManager.update();
+            this._stateManager.update(time);
             this._renderer.render(this._world);
         };
         /**
@@ -3588,4 +3589,13 @@ var Lightning;
     }(Lightning.EngineHelper));
     Lightning.Engine = Engine;
 })(Lightning || (Lightning = {}));
+/**
+ * TODOS
+ * Implement some sort of global cache system for any kind of object
+ * Implement a storage system based on local storage / global vars if unavilable
+ * Implement the services manager for backend calls
+ * Implement some sort of socket connectivity manager
+ * Write some nice transitions for the state manager
+ * Implement an animatins class for extending pixi animations
+ */ 
 //# sourceMappingURL=compile.js.map

@@ -185,7 +185,7 @@ declare namespace Lightning {
         /**
          * @description Update function. This is called by the state manager on every tick
          */
-        update(): void;
+        update(time?: number): void;
         /**
          * @description Add children to this state. Helper functions should be migrated at some point
          *
@@ -226,7 +226,7 @@ declare namespace Lightning {
         /**
          * @description Update loop. Called from the game ticker and is used to call each state update function individually
          */
-        update(): void;
+        update(time: number): void;
         /**
          * @description Initalize a single state. Usually called from the start function, though this can be bypassed and a custom state injected via this function
          *

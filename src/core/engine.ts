@@ -64,7 +64,7 @@ namespace Lightning {
         update(time):void {
             this._physicsManager.update();
             this._tweens.update();
-            this._stateManager.update();
+            this._stateManager.update(time);
             this._renderer.render(this._world);
         }
 
@@ -89,3 +89,14 @@ namespace Lightning {
         }
     }
 }
+
+/**
+ * TODOS
+ * Implement some sort of global cache system for any kind of object
+ * Implement a storage system based on local storage / global vars if unavilable
+ * Implement the services manager for backend calls
+ * Implement some sort of socket connectivity manager
+ * Write some nice transitions for the state manager
+ * Implement an animatins class for extending pixi animations
+ * Move enableDrag function to the display object
+ */

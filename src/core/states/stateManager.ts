@@ -21,9 +21,9 @@ namespace Lightning {
         /**
          * @description Update loop. Called from the game ticker and is used to call each state update function individually
          */
-        update() {
+        update(time:number) {
             for(let state of this._activeStates) {
-                state.update();
+                state.update(time);
             }
         }
 
