@@ -38,7 +38,8 @@ namespace Lightning {
          * @returns void
          */
         setScale(aX:number, aY:number = aX):void {
-            this.scale = new PIXI.Point(aX, aY);
+            this.scale.x = aX;
+            this.scale.y = aY;
         }
 
         /**

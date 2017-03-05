@@ -1,5 +1,18 @@
 # Changelog
 
+### 0.3.4
+1. Another major overhaul on the particle emitter
+    1. Debug Module
+    2. Return to pool optamisation
+    3. Not removing the children as it's too heavy, isDead property instead
+    4. Responsive to device pixel ratio now
+    5. Made the default values more useful
+2. Re-wrote the particle class for speed gains
+    1. Overwritten multiple sprite class functions (renderCnavas, renderWebGL, destroy..)
+    2. Removed the ability for the particle class to have children
+3. Add a dpr property to the engine. This can only be set at creation and not during runtime
+4. Made the Circle function in the geometry respond to DPR. 
+
 ### 0.3.3
 1. Fixes in state manager
 2. Implemented working engine helper class

@@ -51676,6 +51676,11 @@ var Lightning;
         function Maths() {
         }
         /**
+         * Rng's seem to perform a little crappy. Should think about making some sort of RNG pool??
+         * - An array of pre-randomized numbers, then shuffeled randly. You then index your way through little
+         * - just simply picking the next number in sequence.
+         */
+        /**
          * @description generate a random integer between two values
          * @param  {number} from
          * @param  {number} to
@@ -51927,6 +51932,16 @@ var Lightning;
         Object.defineProperty(EngineHelper.prototype, "lastTime", {
             get: function () {
                 return this._ticker.lastTime;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EngineHelper.prototype, "dpr", {
+            get: function () {
+                return this._dpr;
+            },
+            set: function (val) {
+                this._dpr = val;
             },
             enumerable: true,
             configurable: true
@@ -52471,7 +52486,8 @@ var Lightning;
          */
         Sprite.prototype.setScale = function (aX, aY) {
             if (aY === void 0) { aY = aX; }
-            this.scale = new PIXI.Point(aX, aY);
+            this.scale.x = aX;
+            this.scale.y = aY;
         };
         Object.defineProperty(Sprite.prototype, "body", {
             /**
@@ -52722,6 +52738,8 @@ var Lightning;
          * @returns {Lightning.Graphics}
          */
         function Circle(r) {
+            // think about how to implement responsive graphic drawings
+            r = r * window.devicePixelRatio;
             var graphics = new PIXI.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.arc(75, 75, r, 0, Math.PI * 2, false);
@@ -52942,8 +52960,9 @@ var Lightning;
 (function (Lightning) {
     var Particle = (function (_super) {
         __extends(Particle, _super);
-        function Particle(texture, emitter) {
-            var _this = _super.call(this, texture) || this;
+        function Particle(texture, emitter, minX, maxX, minY, maxY) {
+            var _this = _super.call(this) || this;
+            _this._autoCull = true;
             _this._velX = 0;
             _this._velY = 0;
             _this._gX = 0;
@@ -52951,22 +52970,75 @@ var Lightning;
             _this._alphaIncrement = null;
             _this._rotationIncrement = null;
             _this._scaleIncrement = null;
+            _this._isDead = false;
             _this._createdAt = null;
             _this._lifeSpan = null;
             _this._deadTime = null;
+            _this._texture = texture;
             _this._emitter = emitter;
-            _this.setAnchor(0.5);
+            _this.children = null;
+            _this._minX = minX;
+            _this._minY = minY;
+            _this._maxX = maxX;
+            _this._maxY = maxY;
+            _this.anchor.set(0.5);
             return _this;
+            // check the interaction is turned off completly.. seems to still being called -> processInteractive
         }
+        // override functions to make sure that it doesn't check for chilren, visible etc
+        Particle.prototype.renderWebGL = function (renderer) {
+            if (this.renderable) {
+                this._renderWebGL(renderer);
+            }
+        };
+        Particle.prototype.renderAdvancedWebGL = function (renderer) {
+            // add this object to the batch, only rendered if it has a texture.
+            if (this.renderable) {
+                this._renderWebGL(renderer);
+            }
+            // double check if this is actually needed. feels like it's only called if the texture is changed, in which case.. don't do it!
+            // renderer.flush();
+        };
+        Particle.prototype.renderCanvas = function (renderer) {
+            if (this.renderable) {
+                this._renderCanvas(renderer);
+            }
+        };
+        Particle.prototype.updateTransform = function () {
+            this._boundsID++;
+            this.transform.updateTransform(this.parent.transform);
+            // TODO: check render flags, how to process stuff here
+            this.worldAlpha = this.alpha * this.parent.worldAlpha;
+        };
+        Particle.prototype.destroy = function () {
+            this.removeAllListeners('');
+            if (this.parent) {
+                this.parent.removeChild(this);
+            }
+            this.transform = null;
+            this.parent = null;
+            this._bounds = null;
+            this._mask = null;
+            this.filterArea = null;
+            this.interactive = false;
+            this.interactiveChildren = false;
+        };
+        Particle.prototype.calculateBounds = function () {
+            this._bounds.clear();
+            this._calculateBounds();
+            this._lastBoundsID = this._boundsID;
+        };
         Particle.prototype.update = function () {
+            // get delta time from update instead of getting date.now //
             if (this._deadTime <= Date.now()) {
-                this._emitter.returnToPool(this);
-                this.alpha = 1;
-                this.scale = new PIXI.Point(1, 1);
-                this.rotation = 0;
-                this._deadTime = null;
-                this._createdAt = null;
-                this._lifeSpan = null;
+                this.returnToPool();
+                return;
+            }
+            if (this._autoCull) {
+                if (this.y > this._maxY || this.y < this._minY || this.x > this._maxX || this.x < this._minX) {
+                    this.returnToPool();
+                    return;
+                }
             }
             // update velocity (from gravity)
             this._velX += this._gX;
@@ -52984,8 +53056,15 @@ var Lightning;
             }
             // increment scale
             if (this._scaleIncrement) {
-                this.setScale(this.scale.x + this._scaleIncrement.x, this.scale.y + this._scaleIncrement.y);
+                this.scale.x += this._scaleIncrement.x;
+                this.scale.y += this._scaleIncrement.y;
             }
+        };
+        Particle.prototype.returnToPool = function () {
+            this._isDead = true;
+            this.renderable = false;
+            this.visible = false;
+            this._emitter.returnToPool(this);
         };
         Object.defineProperty(Particle.prototype, "velocity", {
             set: function (velocity) {
@@ -53039,14 +53118,26 @@ var Lightning;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Particle.prototype, "isDead", {
+            get: function () {
+                return this._isDead;
+            },
+            set: function (val) {
+                this._isDead = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return Particle;
-    }(Lightning.Sprite));
+    }(PIXI.Sprite));
     Lightning.Particle = Particle;
 })(Lightning || (Lightning = {}));
 /// <reference path="./../reference.d.ts" />
 /**
  * Fade in / Scale in sprites - optional
  * Simple / Advanced -- for creating ultra performant particles in the 50k+ range
+ * Colour Shift
+ * Strength Range
  */
 var Lightning;
 (function (Lightning) {
@@ -53056,6 +53147,7 @@ var Lightning;
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
             var _this = _super.call(this) || this;
+            _this._debug = false;
             _this._emit = false;
             _this._nextEmit = null;
             _this._interval = 100;
@@ -53063,18 +53155,19 @@ var Lightning;
             _this._time = null;
             _this._textures = [];
             _this._deadPool = [];
-            _this._gravity = { x: 0, y: 0.2 };
-            _this._spread = { xFrom: -2, xTo: 2, yFrom: -2, yTo: 2 };
+            _this._gravity = { x: 0 * window.devicePixelRatio, y: 0.2 * window.devicePixelRatio };
+            _this._spread = { xFrom: -2 * window.devicePixelRatio, xTo: 2 * window.devicePixelRatio, yFrom: -2 * window.devicePixelRatio, yTo: 2 * window.devicePixelRatio };
             _this._lifeSpanRange = { from: 3000, to: 3000 };
             _this._particleStrength = 1;
             _this._particleScaleRange = { xFrom: 0.7, xTo: 1, yFrom: 0.7, yTo: 1 };
             _this._particleAlphaRange = { from: 1, to: 1 };
             _this._particleRotationRange = { from: 0, to: 1.9 };
-            _this._particleVelocityRange = { xFrom: -1, xTo: 1, yFrom: -4, yTo: -6 };
+            _this._particleVelocityRange = { xFrom: -1 * window.devicePixelRatio, xTo: 1 * window.devicePixelRatio, yFrom: -4 * window.devicePixelRatio, yTo: -6 * window.devicePixelRatio };
             _this._particleRotationIncrement = { from: 0, to: 0 };
             _this._particleScaleIncrement = { xFrom: 0, xTo: 0, yFrom: 0, yTo: 0 };
             _this._particleAlphaIncrement = { from: 0, to: 0 };
             _this.state = state;
+            _this.game = state.game;
             _this.x = x;
             _this.y = y;
             return _this;
@@ -53082,12 +53175,16 @@ var Lightning;
         ParticleEmitter.prototype.update = function () {
             for (var _i = 0, _a = this.children; _i < _a.length; _i++) {
                 var i = _a[_i];
-                i['update']();
+                // see if it's more performant to use an array for alivePool, and remove dead object from there
+                if (!i['isDead']) {
+                    i['update']();
+                }
             }
             if (this._time !== null && Date.now() > this._lastStart + this._time) {
                 this.stop();
                 return;
             }
+            // get delta time from update loop
             if (this._emit && this._nextEmit < Date.now()) {
                 this._nextEmit = Date.now() + this._interval;
                 this.fireEmitter();
@@ -53132,15 +53229,19 @@ var Lightning;
             // get the texture from the textures array
             var texture = this._textures[Math.floor(Math.random() * this._textures.length)];
             var particle = null;
-            // create new particle
+            // // create new particle
             if (this._deadPool.length > 0) {
-                particle = this._deadPool.splice(0, 1)[0];
+                particle = this._deadPool.pop();
+                particle.isDead = false;
+                particle.visible = true;
+                particle.renderable = true;
             }
             else {
                 // increment the id hash value to create the particle
-                particle = new Lightning.Particle(texture, this);
+                particle = new Lightning.Particle(texture, this, -this.x, this.game.width - this.x, -this.y, this.game.height - this.y);
+                this.addChild(particle);
             }
-            // set gravity
+            // set gravity -- need to move the gravity into the emitter, not the particle
             particle.gravity = (this._gravity);
             // calculate positions
             var x = Lightning.Maths.rngInt(this._spread.xFrom, this._spread.xTo);
@@ -53164,7 +53265,8 @@ var Lightning;
                 var scaleX = Lightning.Maths.rngFloat(this._particleScaleRange.xFrom, this._particleScaleRange.xTo);
                 // commented this out because of undesiered effects
                 // let scaleY:number = Maths.rngFloat(this._particleScaleRange.yFrom, this._particleScaleRange.yTo);
-                particle.setScale(scaleX, scaleX);
+                particle.scale.x = scaleX;
+                particle.scale.y = scaleX;
             }
             // calculate rotation
             if (this._particleRotationRange) {
@@ -53189,14 +53291,12 @@ var Lightning;
                 particle.scaleIncrement = { x: scaleIncrementX, y: scaleIncrementX };
             }
             particle.createdAt = Date.now();
-            this.addChild(particle);
         };
         ParticleEmitter.prototype.stop = function () {
             this._emit = false;
         };
         ParticleEmitter.prototype.returnToPool = function (particle) {
-            var p = this.removeChild(particle);
-            this._deadPool.push(p);
+            this._deadPool.push(particle);
         };
         ParticleEmitter.prototype.startDrag = function (event) {
             if (this._respectPosition) {
@@ -53209,6 +53309,46 @@ var Lightning;
             }
             this.on('mousemove', this.onDrag);
             this.on('touchmove', this.onDrag);
+        };
+        ParticleEmitter.prototype.enableDebug = function (interval, floatLeft, floatTop) {
+            var _this = this;
+            if (interval === void 0) { interval = 500; }
+            if (floatLeft === void 0) { floatLeft = true; }
+            if (floatTop === void 0) { floatTop = true; }
+            var font = { fontSize: 16 * window.devicePixelRatio, fill: 0xffffff };
+            var gap = 25 * window.devicePixelRatio;
+            this._aliveText = new PIXI.Text('Alive: ' + this.alive, font);
+            this._deadPoolText = new PIXI.Text('Dead: ' + this.pool, font);
+            this._intervalText = new PIXI.Text('Interval: ' + this._interval, font);
+            this._strengthText = new PIXI.Text('Strength: ' + this._particleStrength, font);
+            var x, y;
+            if (floatLeft) {
+                x = this.game.width * 0.02;
+            }
+            else {
+                x = this.game.width * 0.85;
+            }
+            if (floatTop) {
+                y = this.game.height * 0.02;
+            }
+            else {
+                y = this.game.height * 0.75;
+            }
+            this._aliveText.x = x;
+            this._aliveText.y = y;
+            this._deadPoolText.x = x;
+            this._deadPoolText.y = y + gap;
+            this._intervalText.x = x;
+            this._intervalText.y = y + (gap * 2);
+            this._strengthText.x = x;
+            this._strengthText.y = y + (gap * 3);
+            this.state.add(this._aliveText, this._deadPoolText, this._intervalText, this._strengthText);
+            this._debugFn = setInterval(function () {
+                _this._aliveText.text = 'Alive: ' + _this.alive;
+                _this._deadPoolText.text = 'Dead: ' + _this.pool;
+                _this._intervalText.text = 'Interval: ' + _this._interval;
+                _this._strengthText.text = 'Strength: ' + _this._particleStrength;
+            }, interval);
         };
         ParticleEmitter.prototype.enableDrag = function (respectPosition) {
             var _this = this;
@@ -53242,11 +53382,11 @@ var Lightning;
             this.position = new PIXI.Point((event.data.global.x * window.devicePixelRatio) - this._respectPositionValues.x, (event.data.global.y * window.devicePixelRatio) - this._respectPositionValues.y);
         };
         ParticleEmitter.prototype.setSpread = function (xFrom, xTo, yFrom, yTo) {
-            this._spread = { xFrom: xFrom, xTo: xTo, yFrom: yFrom, yTo: yTo };
+            this._spread = { xFrom: xFrom * window.devicePixelRatio, xTo: xTo * window.devicePixelRatio, yFrom: yFrom * window.devicePixelRatio, yTo: yTo * window.devicePixelRatio };
         };
         ParticleEmitter.prototype.setGravity = function (x, y) {
             if (y === void 0) { y = x; }
-            this._gravity = { x: x, y: y };
+            this._gravity = { x: x * window.devicePixelRatio, y: y * window.devicePixelRatio };
         };
         ParticleEmitter.prototype.setLifeSpan = function (from, to) {
             if (to === void 0) { to = from; }
@@ -53258,7 +53398,7 @@ var Lightning;
         ParticleEmitter.prototype.setVelocityRange = function (xFrom, xTo, yFrom, yTo) {
             if (yFrom === void 0) { yFrom = xFrom; }
             if (yTo === void 0) { yTo = xTo; }
-            this._particleVelocityRange = { xFrom: xFrom, xTo: xTo, yFrom: yFrom, yTo: yTo };
+            this._particleVelocityRange = { xFrom: xFrom * window.devicePixelRatio, xTo: xTo * window.devicePixelRatio, yFrom: yFrom * window.devicePixelRatio, yTo: yTo * window.devicePixelRatio };
         };
         ParticleEmitter.prototype.setRotationIncrement = function (from, to) {
             if (to === void 0) { to = from; }
@@ -53291,7 +53431,13 @@ var Lightning;
         };
         Object.defineProperty(ParticleEmitter.prototype, "alive", {
             get: function () {
-                return this.children.length;
+                var c = 0;
+                for (var _i = 0, _a = this.children; _i < _a.length; _i++) {
+                    var i = _a[_i];
+                    if (!i['isDead'])
+                        c++;
+                }
+                return c;
             },
             enumerable: true,
             configurable: true
@@ -55190,19 +55336,19 @@ var Lightning;
             _this._hud = null;
             _this._tweens = new Lightning.TweenManager(_this);
             _this._signals = new Lightning.Signals.SignalManager(_this);
+            _this._dpr = window.devicePixelRatio;
             if (!canvasId) {
                 var viewCanvas = document.createElement('canvas');
                 viewCanvas.id = 'app';
                 document.getElementById('app-container').appendChild(viewCanvas);
             }
-            _this._renderer = PIXI.autoDetectRenderer(width, height, { resolution: window.devicePixelRatio });
+            _this._renderer = PIXI.autoDetectRenderer(width, height, { resolution: _this._dpr });
             _this._renderer.autoResize = true;
             _this._world = new PIXI.Container();
             _this._world.scale = new PIXI.Point(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
             _this._world.interactive = true;
-            var i = new Lightning.Input(_this);
             document.getElementById('app-container').appendChild(_this._renderer.view);
-            var scale = window.devicePixelRatio;
+            // let scale = window.devicePixelRatio;
             _this._renderer.resize(width, height);
             // create the physicsManager 
             _this._physicsManager = new Lightning.PhysicsManager(_this);
@@ -55212,6 +55358,7 @@ var Lightning;
             _this._ticker = PIXI.ticker.shared;
             _this._ticker.autoStart = true;
             _this._ticker.add(_this.update, _this);
+            _this._ticker.minFPS = 30;
             return _this;
         }
         /**
@@ -55257,5 +55404,14 @@ var Lightning;
  * Implement some sort of socket connectivity manager
  * Write some nice transitions for the state manager
  * Implement an animatins class for extending pixi animations
+ * Move enableDrag function to the display object
+ * Particle emitter clear pool
+ * Particle emitter add to world instead of child of the emitter
+ * Super Light Sprite
+ *  Think about how to implement a light sprite for particles so they dont take up so much performance. It sucks on safari!
+ * Particle emitter make a pre-create class that lets you store pooled sprited before the state is started
+ * Think about making a debug module that's a container in it's own right. It should accept x number of text values
+ *  and sort through them accordinly, ensuring nothing is ever overlapped
+ * Need to give responsive device pixel ration some serious consideration
  */ 
 //# sourceMappingURL=compile.js.map

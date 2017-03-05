@@ -47,6 +47,11 @@ declare namespace Lightning {
 declare namespace Lightning {
     class Maths {
         /**
+         * Rng's seem to perform a little crappy. Should think about making some sort of RNG pool??
+         * - An array of pre-randomized numbers, then shuffeled randly. You then index your way through little
+         * - just simply picking the next number in sequence.
+         */
+        /**
          * @description generate a random integer between two values
          * @param  {number} from
          * @param  {number} to
@@ -121,6 +126,7 @@ declare namespace Lightning {
  */
 declare namespace Lightning {
     class EngineHelper {
+        protected _dpr: number;
         protected _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
         protected _world: PIXI.Container;
         protected _hud: any;
@@ -150,11 +156,12 @@ declare namespace Lightning {
         readonly elapsedTime: number;
         readonly deltaTime: number;
         readonly lastTime: number;
+        dpr: number;
     }
 }
 declare namespace Lightning {
     class State extends PIXI.Container {
-        protected game: Engine;
+        game: Engine;
         loader: PIXI.loaders.Loader;
         /**
          * @description State constructor
@@ -613,8 +620,14 @@ declare namespace Lightning {
     }
 }
 declare namespace Lightning {
-    class Particle extends Sprite {
+    class Particle extends PIXI.Sprite {
+        protected _texture: PIXI.Texture;
         protected _emitter: ParticleEmitter;
+        private _minX;
+        private _maxX;
+        private _minY;
+        private _maxY;
+        protected _autoCull: boolean;
         protected _velX: number;
         protected _velY: number;
         protected _gX: number;
@@ -625,11 +638,19 @@ declare namespace Lightning {
             x: number;
             y: number;
         };
+        protected _isDead: boolean;
         protected _createdAt: number;
         protected _lifeSpan: number;
         protected _deadTime: number;
-        constructor(texture: PIXI.Texture, emitter: any);
+        constructor(texture: PIXI.Texture, emitter: ParticleEmitter, minX: number, maxX: number, minY: number, maxY: number);
+        renderWebGL(renderer: any): void;
+        renderAdvancedWebGL(renderer: any): void;
+        renderCanvas(renderer: any): void;
+        updateTransform(): void;
+        destroy(): void;
+        calculateBounds(): void;
         update(): void;
+        returnToPool(): void;
         velocity: {
             x: number;
             y: number;
@@ -646,16 +667,25 @@ declare namespace Lightning {
             y: number;
         };
         createdAt: number;
+        isDead: boolean;
     }
 }
 /**
  * Fade in / Scale in sprites - optional
  * Simple / Advanced -- for creating ultra performant particles in the 50k+ range
+ * Colour Shift
+ * Strength Range
  */
 declare namespace Lightning {
     class ParticleEmitter extends Group {
         protected game: Engine;
         protected state: State;
+        protected _debug: boolean;
+        protected _debugFn: any;
+        protected _aliveText: PIXI.Text;
+        protected _deadPoolText: PIXI.Text;
+        protected _intervalText: PIXI.Text;
+        protected _strengthText: PIXI.Text;
         protected _emit: boolean;
         protected _nextEmit: number;
         protected _interval: number;
@@ -689,6 +719,7 @@ declare namespace Lightning {
         stop(): void;
         returnToPool(particle: Particle): void;
         startDrag(event: PIXI.interaction.InteractionEvent): void;
+        enableDebug(interval?: number, floatLeft?: boolean, floatTop?: boolean): void;
         enableDrag(respectPosition?: boolean): void;
         stopDrag(event: PIXI.interaction.InteractionEvent): void;
         onDrag(event: PIXI.interaction.InteractionEvent): void;
@@ -1544,6 +1575,7 @@ declare namespace Lightning.Signals {
 }
 declare namespace Lightning {
     class Engine extends EngineHelper {
+        protected _dpr: number;
         protected _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
         protected _world: PIXI.Container;
         protected _hud: HUD;

@@ -3,13 +3,25 @@
 /**
  * Fade in / Scale in sprites - optional
  * Simple / Advanced -- for creating ultra performant particles in the 50k+ range
+ * Colour Shift
+ * Strength Range
  */
 
 namespace Lightning {
 
     export class ParticleEmitter extends Group {
+
         protected game:Engine;
         protected state:State;
+
+        protected _debug:boolean = false;
+        // find typings for set interval function
+        protected _debugFn:any;
+        protected _aliveText:PIXI.Text;
+        protected _deadPoolText:PIXI.Text;
+        protected _intervalText:PIXI.Text;
+        protected _strengthText:PIXI.Text;
+
         protected _emit:boolean = false;
         protected _nextEmit:number = null;
         protected _interval:number = 100;
@@ -22,15 +34,15 @@ namespace Lightning {
         
         protected _deadPool:Array<Particle> = [];
 
-        protected _gravity:iPoint = {x: 0, y: 0.2};
-        protected _spread:iPointRange= {xFrom: -2, xTo: 2, yFrom: -2, yTo: 2};
+        protected _gravity:iPoint = {x: 0  * window.devicePixelRatio, y: 0.2  * window.devicePixelRatio};
+        protected _spread:iPointRange= {xFrom: -2  * window.devicePixelRatio, xTo: 2  * window.devicePixelRatio, yFrom: -2  * window.devicePixelRatio, yTo: 2  * window.devicePixelRatio};
         protected _lifeSpanRange:iRange = {from:3000, to:3000};
         protected _particleStrength:number = 1;
 
         protected _particleScaleRange:iPointRange = {xFrom: 0.7, xTo: 1, yFrom: 0.7, yTo: 1};
         protected _particleAlphaRange:iRange = {from: 1, to: 1};
         protected _particleRotationRange:iRange = {from: 0, to: 1.9};
-        protected _particleVelocityRange:iPointRange = {xFrom: -1, xTo: 1, yFrom: -4, yTo: -6}; 
+        protected _particleVelocityRange:iPointRange = {xFrom: -1  * window.devicePixelRatio, xTo: 1  * window.devicePixelRatio, yFrom: -4  * window.devicePixelRatio, yTo: -6  * window.devicePixelRatio}; 
 
         protected _particleRotationIncrement:iRange = {from: 0, to: 0};
         protected _particleScaleIncrement:iPointRange = {xFrom: 0, xTo: 0, yFrom: 0, yTo: 0};
@@ -39,6 +51,7 @@ namespace Lightning {
         constructor(state:State, x:number = 0, y:number = 0) {
             super();
             this.state = state;
+            this.game = state.game;
             this.x = x;
             this.y = y;
         }
@@ -46,7 +59,10 @@ namespace Lightning {
         update():void {
 
             for(let i of this.children) {
-                i['update']();
+                // see if it's more performant to use an array for alivePool, and remove dead object from there
+                if(!i['isDead']) {
+                    i['update']();
+                }
             }
 
             if(this._time !== null && Date.now() > this._lastStart + this._time) {
@@ -54,6 +70,7 @@ namespace Lightning {
                 return;
             }
 
+            // get delta time from update loop
             if(this._emit && this._nextEmit < Date.now()) {
                 this._nextEmit = Date.now() + this._interval;
                 this.fireEmitter();
@@ -82,7 +99,8 @@ namespace Lightning {
 
         fireEmitter() {
             if(this._particleStrength === 1) {
-                this.createParticle(); 
+                this.createParticle();
+                
             } else {
                 for(let i = 0; i < this._particleStrength; i++) {
                     this.createParticle();
@@ -96,15 +114,19 @@ namespace Lightning {
 
             let particle:Particle = null;
 
-            // create new particle
+            // // create new particle
             if(this._deadPool.length > 0) {
-                particle = this._deadPool.splice(0, 1)[0];
+                particle = this._deadPool.pop();
+                particle.isDead = false;
+                particle.visible = true;
+                particle.renderable = true;
             } else {
                 // increment the id hash value to create the particle
-                particle = new Particle(texture, this);
+                particle = new Particle(texture, this, -this.x, this.game.width - this.x, -this.y, this.game.height - this.y);
+                this.addChild(particle);
             }
             
-            // set gravity
+            // set gravity -- need to move the gravity into the emitter, not the particle
             particle.gravity = (this._gravity);
             
             // calculate positions
@@ -133,7 +155,8 @@ namespace Lightning {
                 let scaleX:number = Maths.rngFloat(this._particleScaleRange.xFrom, this._particleScaleRange.xTo);
                 // commented this out because of undesiered effects
                 // let scaleY:number = Maths.rngFloat(this._particleScaleRange.yFrom, this._particleScaleRange.yTo);
-                particle.setScale(scaleX, scaleX);
+                particle.scale.x = scaleX;
+                particle.scale.y = scaleX;
             }
 
             // calculate rotation
@@ -166,7 +189,6 @@ namespace Lightning {
             }
 
             particle.createdAt = Date.now();
-            this.addChild(particle);
         }
 
         stop() {
@@ -174,8 +196,7 @@ namespace Lightning {
         }
 
         returnToPool(particle:Particle) {
-            let p:any = this.removeChild(particle);
-            this._deadPool.push(p);
+            this._deadPool.push(particle);
         }
 
         startDrag(event:PIXI.interaction.InteractionEvent) {
@@ -188,6 +209,50 @@ namespace Lightning {
             }
             this.on('mousemove', this.onDrag);
             this.on('touchmove', this.onDrag);
+        }
+
+        enableDebug(interval:number = 500, floatLeft:boolean = true, floatTop:boolean = true) {
+            let font = { fontSize: 16 * window.devicePixelRatio, fill: 0xffffff }
+            let gap = 25 * window.devicePixelRatio;
+            
+            this._aliveText = new PIXI.Text('Alive: ' + this.alive, font);
+            this._deadPoolText = new PIXI.Text('Dead: ' + this.pool, font);
+            this._intervalText = new PIXI.Text('Interval: ' + this._interval, font);
+            this._strengthText = new PIXI.Text('Strength: ' + this._particleStrength, font);
+
+            let x:number, y:number;
+            if(floatLeft) {
+                x = this.game.width * 0.02;
+            } else {
+                x = this.game.width * 0.85;
+            }
+
+            if(floatTop) {
+                y = this.game.height * 0.02;
+            } else {
+                y = this.game.height * 0.75;
+            }
+
+            this._aliveText.x = x;
+            this._aliveText.y = y;
+            
+            this._deadPoolText.x = x;
+            this._deadPoolText.y = y + gap;
+
+            this._intervalText.x = x;
+            this._intervalText.y = y + (gap * 2);
+
+            this._strengthText.x = x;
+            this._strengthText.y = y + (gap * 3);
+
+            this.state.add(this._aliveText, this._deadPoolText, this._intervalText, this._strengthText);
+
+            this._debugFn = setInterval(() => {
+                this._aliveText.text = 'Alive: ' + this.alive;
+                this._deadPoolText.text = 'Dead: ' + this.pool;
+                this._intervalText.text = 'Interval: ' + this._interval;
+                this._strengthText.text = 'Strength: ' + this._particleStrength;
+            }, interval);
         }
 
         enableDrag(respectPosition:boolean = false) {
@@ -232,11 +297,11 @@ namespace Lightning {
         }
 
         setSpread(xFrom:number, xTo:number, yFrom:number, yTo:number):void {
-            this._spread = {xFrom: xFrom, xTo: xTo, yFrom: yFrom, yTo: yTo};
+            this._spread = {xFrom: xFrom * window.devicePixelRatio, xTo: xTo * window.devicePixelRatio, yFrom: yFrom * window.devicePixelRatio, yTo: yTo * window.devicePixelRatio};
         }
 
         setGravity(x:number, y:number = x):void {
-            this._gravity = {x: x, y: y};
+            this._gravity = {x: x  * window.devicePixelRatio, y: y  * window.devicePixelRatio};
         }
 
         setLifeSpan(from:number, to:number = from):void {
@@ -248,7 +313,7 @@ namespace Lightning {
         }
 
         setVelocityRange(xFrom:number, xTo:number, yFrom:number = xFrom, yTo:number = xTo):void {
-            this._particleVelocityRange = {xFrom: xFrom, xTo: xTo, yFrom: yFrom, yTo: yTo};
+            this._particleVelocityRange = {xFrom: xFrom  * window.devicePixelRatio, xTo: xTo  * window.devicePixelRatio, yFrom: yFrom  * window.devicePixelRatio, yTo: yTo  * window.devicePixelRatio};
         }
 
         setRotationIncrement(from:number, to:number = from):void {
@@ -280,7 +345,11 @@ namespace Lightning {
         }
 
         public get alive():number {
-            return this.children.length;
+            let c:number = 0;
+            for(let i of this.children) {
+                if(!i['isDead']) c++;
+            }
+            return c;
         }
 
         public get pool():number {

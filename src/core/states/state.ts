@@ -3,7 +3,7 @@
 namespace Lightning {
     export class State extends PIXI.Container {
         
-        protected game:Engine;
+        public game:Engine;
         public loader:PIXI.loaders.Loader;
 
         /**

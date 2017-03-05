@@ -4,6 +4,7 @@ namespace Lightning {
 
     export class Engine extends EngineHelper {
 
+        protected _dpr:number;
         protected _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
         protected _world: PIXI.Container;
         protected _hud:HUD = null;
@@ -23,23 +24,25 @@ namespace Lightning {
         constructor(width, height, canvasId:string = 'app') {
             super();
 
+            this._dpr = window.devicePixelRatio;
+
             if(!canvasId) {
                 let viewCanvas = document.createElement('canvas');
                 viewCanvas.id = 'app';
                 document.getElementById('app-container').appendChild(viewCanvas);
             }
             
-            this._renderer = PIXI.autoDetectRenderer(width, height, {resolution:window.devicePixelRatio});
+            this._renderer = PIXI.autoDetectRenderer(width, height, {resolution: this._dpr});
             this._renderer.autoResize = true;
 
             this._world = new PIXI.Container();
             this._world.scale = new PIXI.Point(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
             this._world.interactive = true;
-            let i = new Input(this);
+
 
             document.getElementById('app-container').appendChild(this._renderer.view);
 
-            let scale = window.devicePixelRatio;
+            // let scale = window.devicePixelRatio;
             this._renderer.resize(width, height);
 
             // create the physicsManager 
@@ -52,6 +55,7 @@ namespace Lightning {
             this._ticker = PIXI.ticker.shared;
             this._ticker.autoStart = true;
             this._ticker.add(this.update, this);
+            this._ticker.minFPS = 30;
         }
 
         /**
@@ -99,4 +103,12 @@ namespace Lightning {
  * Write some nice transitions for the state manager
  * Implement an animatins class for extending pixi animations
  * Move enableDrag function to the display object
+ * Particle emitter clear pool
+ * Particle emitter add to world instead of child of the emitter
+ * Super Light Sprite 
+ *  Think about how to implement a light sprite for particles so they dont take up so much performance. It sucks on safari!
+ * Particle emitter make a pre-create class that lets you store pooled sprited before the state is started
+ * Think about making a debug module that's a container in it's own right. It should accept x number of text values
+ *  and sort through them accordinly, ensuring nothing is ever overlapped
+ * Need to give responsive device pixel ration some serious consideration
  */

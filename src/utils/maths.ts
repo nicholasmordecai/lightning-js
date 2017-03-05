@@ -4,6 +4,12 @@ namespace Lightning {
     export class Maths {
 
         /**
+         * Rng's seem to perform a little crappy. Should think about making some sort of RNG pool??
+         * - An array of pre-randomized numbers, then shuffeled randly. You then index your way through little
+         * - just simply picking the next number in sequence.
+         */
+
+        /**
          * @description generate a random integer between two values
          * @param  {number} from
          * @param  {number} to

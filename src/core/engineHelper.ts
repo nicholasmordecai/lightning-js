@@ -8,6 +8,7 @@
 namespace Lightning {
     export class EngineHelper {
 
+        protected _dpr:number;
         protected _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
         protected _world: PIXI.Container;
         protected _hud;
@@ -112,6 +113,14 @@ namespace Lightning {
 
         public get lastTime():number {
             return this._ticker.lastTime;
+        }
+
+        public get dpr():number { 
+            return this._dpr;
+        }
+
+        public set dpr(val:number) {
+            this._dpr = val;
         }
 
         /**
