@@ -111,4 +111,8 @@ namespace Lightning {
  * Think about making a debug module that's a container in it's own right. It should accept x number of text values
  *  and sort through them accordinly, ensuring nothing is ever overlapped
  * Need to give responsive device pixel ration some serious consideration
+ * Build a built in FPS meter in debug module
+ * Explore the posibility of using light ray casting?
+ * Particle emitter presets??
+ * Utalise isMobilejs for mobile detection
  */

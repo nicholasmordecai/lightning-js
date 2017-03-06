@@ -674,7 +674,7 @@ declare namespace Lightning {
  * Fade in / Scale in sprites - optional
  * Simple / Advanced -- for creating ultra performant particles in the 50k+ range
  * Colour Shift
- * Strength Range
+ * Checking the container class in pixi, I should think about refactoring the calculate bounds function.. if it's looping over 10k children to calculate it's bounds, that's going to get expensive!
  */
 declare namespace Lightning {
     class ParticleEmitter extends Group {
@@ -707,7 +707,8 @@ declare namespace Lightning {
         protected _particleScaleIncrement: iPointRange;
         protected _particleAlphaIncrement: iRange;
         constructor(state: State, x?: number, y?: number);
-        update(): void;
+        private tick();
+        updateTransform(): void;
         /**
          * @param  {string} key
          * @param  {DisplayObject} particle
@@ -718,6 +719,10 @@ declare namespace Lightning {
         createParticle(): void;
         stop(): void;
         returnToPool(particle: Particle): void;
+        /**
+         * TODO this seems to break the create particle function for some reason
+         */
+        private clearPool();
         startDrag(event: PIXI.interaction.InteractionEvent): void;
         enableDebug(interval?: number, floatLeft?: boolean, floatTop?: boolean): void;
         enableDrag(respectPosition?: boolean): void;

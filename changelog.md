@@ -1,5 +1,10 @@
 # Changelog
 
+### 0.3.5
+1. More work on particle emitter
+    1. more performance tweaks
+    2. fixed the update loop so it's not controlled by an outside source (I should look at using eventEmitter3 for this?)
+
 ### 0.3.4
 1. Another major overhaul on the particle emitter
     1. Debug Module

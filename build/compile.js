@@ -1337,7 +1337,7 @@ var Lightning;
                 this._renderWebGL(renderer);
             }
             // double check if this is actually needed. feels like it's only called if the texture is changed, in which case.. don't do it!
-            // renderer.flush();
+            renderer.flush();
         };
         Particle.prototype.renderCanvas = function (renderer) {
             if (this.renderable) {
@@ -1389,6 +1389,9 @@ var Lightning;
             // increment alpha
             if (this._alphaIncrement) {
                 this.alpha += this._alphaIncrement;
+                if (this.alpha <= 0) {
+                    this.returnToPool();
+                }
             }
             // increment rotation
             if (this._rotationIncrement) {
@@ -1398,6 +1401,10 @@ var Lightning;
             if (this._scaleIncrement) {
                 this.scale.x += this._scaleIncrement.x;
                 this.scale.y += this._scaleIncrement.y;
+            }
+            // finally, call the update transform function
+            if (!this._isDead) {
+                this.updateTransform();
             }
         };
         Particle.prototype.returnToPool = function () {
@@ -1477,7 +1484,7 @@ var Lightning;
  * Fade in / Scale in sprites - optional
  * Simple / Advanced -- for creating ultra performant particles in the 50k+ range
  * Colour Shift
- * Strength Range
+ * Checking the container class in pixi, I should think about refactoring the calculate bounds function.. if it's looping over 10k children to calculate it's bounds, that's going to get expensive!
  */
 var Lightning;
 (function (Lightning) {
@@ -1512,7 +1519,7 @@ var Lightning;
             _this.y = y;
             return _this;
         }
-        ParticleEmitter.prototype.update = function () {
+        ParticleEmitter.prototype.tick = function () {
             for (var _i = 0, _a = this.children; _i < _a.length; _i++) {
                 var i = _a[_i];
                 // see if it's more performant to use an array for alivePool, and remove dead object from there
@@ -1530,6 +1537,15 @@ var Lightning;
                 this.fireEmitter();
             }
         };
+        ParticleEmitter.prototype.updateTransform = function () {
+            this._boundsID++;
+            this.transform.updateTransform(this.parent.transform);
+            // TODO: check render flags, how to process stuff here
+            this.worldAlpha = this.alpha * this.parent.worldAlpha;
+            // let this class handle the flags to update children or not
+            this.tick();
+        };
+        ;
         /**
          * @param  {string} key
          * @param  {DisplayObject} particle
@@ -1569,17 +1585,18 @@ var Lightning;
             // get the texture from the textures array
             var texture = this._textures[Math.floor(Math.random() * this._textures.length)];
             var particle = null;
+            var isChild = false;
             // // create new particle
             if (this._deadPool.length > 0) {
                 particle = this._deadPool.pop();
                 particle.isDead = false;
                 particle.visible = true;
                 particle.renderable = true;
+                isChild = true;
             }
             else {
                 // increment the id hash value to create the particle
                 particle = new Lightning.Particle(texture, this, -this.x, this.game.width - this.x, -this.y, this.game.height - this.y);
-                this.addChild(particle);
             }
             // set gravity -- need to move the gravity into the emitter, not the particle
             particle.gravity = (this._gravity);
@@ -1631,12 +1648,25 @@ var Lightning;
                 particle.scaleIncrement = { x: scaleIncrementX, y: scaleIncrementX };
             }
             particle.createdAt = Date.now();
+            if (!isChild) {
+                this.addChild(particle);
+            }
+            // call the particle's update transformation to create / re-create it's matrix
+            particle.updateTransform();
         };
         ParticleEmitter.prototype.stop = function () {
             this._emit = false;
         };
         ParticleEmitter.prototype.returnToPool = function (particle) {
             this._deadPool.push(particle);
+        };
+        /**
+         * TODO this seems to break the create particle function for some reason
+         */
+        ParticleEmitter.prototype.clearPool = function () {
+            for (var i = 0; i < this._deadPool.length; i++) {
+                this._deadPool[i].destroy();
+            }
         };
         ParticleEmitter.prototype.startDrag = function (event) {
             if (this._respectPosition) {
@@ -3753,5 +3783,9 @@ var Lightning;
  * Think about making a debug module that's a container in it's own right. It should accept x number of text values
  *  and sort through them accordinly, ensuring nothing is ever overlapped
  * Need to give responsive device pixel ration some serious consideration
+ * Build a built in FPS meter in debug module
+ * Explore the posibility of using light ray casting?
+ * Particle emitter presets??
+ * Utalise isMobilejs for mobile detection
  */ 
 //# sourceMappingURL=compile.js.map

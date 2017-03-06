@@ -54,7 +54,7 @@ namespace Lightning {
             }
 
             // double check if this is actually needed. feels like it's only called if the texture is changed, in which case.. don't do it!
-            // renderer.flush();
+            renderer.flush();
         }
 
         renderCanvas(renderer) {
@@ -67,7 +67,6 @@ namespace Lightning {
             this._boundsID++;
 
             this.transform.updateTransform(this.parent.transform);
-
             // TODO: check render flags, how to process stuff here
             this.worldAlpha = this.alpha * this.parent.worldAlpha;
         }
@@ -118,6 +117,9 @@ namespace Lightning {
             // increment alpha
             if(this._alphaIncrement) {
                 this.alpha += this._alphaIncrement;
+                if(this.alpha <= 0) {
+                    this.returnToPool();
+                }
             }
 
             // increment rotation
@@ -129,6 +131,11 @@ namespace Lightning {
             if(this._scaleIncrement) {
                 this.scale.x += this._scaleIncrement.x;
                 this.scale.y += this._scaleIncrement.y;
+            }
+
+            // finally, call the update transform function
+            if(!this._isDead) {
+                this.updateTransform();                
             }
         }
 

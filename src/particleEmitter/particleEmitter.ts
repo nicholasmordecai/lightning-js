@@ -4,7 +4,7 @@
  * Fade in / Scale in sprites - optional
  * Simple / Advanced -- for creating ultra performant particles in the 50k+ range
  * Colour Shift
- * Strength Range
+ * Checking the container class in pixi, I should think about refactoring the calculate bounds function.. if it's looping over 10k children to calculate it's bounds, that's going to get expensive!
  */
 
 namespace Lightning {
@@ -56,7 +56,7 @@ namespace Lightning {
             this.y = y;
         }
 
-        update():void {
+        private tick():void {
 
             for(let i of this.children) {
                 // see if it's more performant to use an array for alivePool, and remove dead object from there
@@ -76,6 +76,18 @@ namespace Lightning {
                 this.fireEmitter();
             }
         }
+
+        updateTransform() {
+            this._boundsID++;
+
+            this.transform.updateTransform(this.parent.transform);
+
+            // TODO: check render flags, how to process stuff here
+            this.worldAlpha = this.alpha * this.parent.worldAlpha;
+            
+            // let this class handle the flags to update children or not
+            this.tick();
+        };
 
         /**
          * @param  {string} key
@@ -114,16 +126,18 @@ namespace Lightning {
 
             let particle:Particle = null;
 
+            let isChild:boolean = false;
+
             // // create new particle
             if(this._deadPool.length > 0) {
                 particle = this._deadPool.pop();
                 particle.isDead = false;
                 particle.visible = true;
                 particle.renderable = true;
+                isChild = true;
             } else {
                 // increment the id hash value to create the particle
                 particle = new Particle(texture, this, -this.x, this.game.width - this.x, -this.y, this.game.height - this.y);
-                this.addChild(particle);
             }
             
             // set gravity -- need to move the gravity into the emitter, not the particle
@@ -189,6 +203,13 @@ namespace Lightning {
             }
 
             particle.createdAt = Date.now();
+
+            if(!isChild) {
+                this.addChild(particle);
+            }
+
+            // call the particle's update transformation to create / re-create it's matrix
+            particle.updateTransform();
         }
 
         stop() {
@@ -197,6 +218,15 @@ namespace Lightning {
 
         returnToPool(particle:Particle) {
             this._deadPool.push(particle);
+        }
+
+        /**
+         * TODO this seems to break the create particle function for some reason
+         */
+        private clearPool() {
+            for(let i = 0; i < this._deadPool.length; i++) {
+                this._deadPool[i].destroy();
+            }
         }
 
         startDrag(event:PIXI.interaction.InteractionEvent) {
