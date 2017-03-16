@@ -3,8 +3,11 @@
 namespace Lightning {
     export class Group extends PIXI.Container {
 
+        public _events:EventEmitter;
+
         constructor() {
             super();
+            this._events = new EventEmitter;
         }
         
         /**

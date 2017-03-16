@@ -25,6 +25,7 @@ namespace Lightning {
         protected _createdAt:number = null;
         protected _lifeSpan:number = null;
         protected _deadTime:number = null;
+        private _lifeTime:number = null;
     
         constructor(texture:PIXI.Texture, emitter:ParticleEmitter, minX:number, maxX:number, minY:number, maxY:number) {
             super();
@@ -92,9 +93,9 @@ namespace Lightning {
         }
 
 
-        update() {
+        update(time) {
             // get delta time from update instead of getting date.now //
-            if(this._deadTime <= Date.now()) {
+            if(this._deadTime <= this._lifeTime) {
                 this.returnToPool();    
                 return;
             }
@@ -106,9 +107,24 @@ namespace Lightning {
                 }
             }
 
+
+            
+            for(let i of this._emitter.gravityWells) {
+                let G = 6.5;
+                let mass = 50;
+
+                let particleGlobal = this.getGlobalPosition();
+                let gravityGlobal = i.getGlobalPosition();
+
+                let d = this.getDistance(particleGlobal.x, particleGlobal.y, gravityGlobal.x, gravityGlobal.y);
+                let f = G * (mass * 1) / d
+                this._velX += -f;
+                this._velY += -f;
+            }
+
             // update velocity (from gravity)
-            this._velX += this._gX;
-            this._velY += this._gY;
+            // this._velX += this._gX;
+            // this._velY += this._gY;
 
             // update position
             this.x += this._velX;
@@ -135,8 +151,17 @@ namespace Lightning {
 
             // finally, call the update transform function
             if(!this._isDead) {
-                this.updateTransform();                
+                this.updateTransform();
+                this._lifeTime += time;        
             }
+        }
+
+        getDistance = function( x1, y1, x2, y2 ) {
+            return ((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2));
+        };
+
+        getAcceleration(distance, starMass) {
+            return 6.67384 * starMass / (Math.pow(distance, 2));
         }
 
         returnToPool() {
@@ -175,6 +200,10 @@ namespace Lightning {
 
         public set createdAt(val:number) {
             this._createdAt = val;
+        }
+
+        public set lifeTime(val:number) {
+            this._lifeTime = val;
         }
 
         public get isDead():boolean {

@@ -3,16 +3,6 @@
 namespace Lightning {
 
     export class Engine extends EngineHelper {
-
-        protected _dpr:number;
-        protected _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
-        protected _world: PIXI.Container;
-        protected _hud:HUD = null;
-        protected _ticker:PIXI.ticker.Ticker;
-        protected _tweens = new TweenManager(this);
-        protected _signals:Signals.SignalManager = new Signals.SignalManager(this);
-        protected _stateManager:StateManager;
-        protected _physicsManager:PhysicsManager
         
         /**
          * @description Engine constructor
@@ -23,14 +13,16 @@ namespace Lightning {
          */
         constructor(width, height, canvasId:string = 'app') {
             super();
-
+            console.log('Lightning-js | version : 0.4.0');
             this._dpr = window.devicePixelRatio;
-
+            this._eventEmitter = new EventEmitter;
             if(!canvasId) {
                 let viewCanvas = document.createElement('canvas');
                 viewCanvas.id = 'app';
                 document.getElementById('app-container').appendChild(viewCanvas);
             }
+             this._tweens = new TweenManager(this);
+             this._storageManager = new StorageManager();
             
             this._renderer = PIXI.autoDetectRenderer(width, height, {resolution: this._dpr});
             this._renderer.autoResize = true;
@@ -53,9 +45,12 @@ namespace Lightning {
             
             // init the ticker
             this._ticker = PIXI.ticker.shared;
-            this._ticker.autoStart = true;
-            this._ticker.add(this.update, this);
-            this._ticker.minFPS = 30;
+            this._ticker.autoStart = false;
+            //this._ticker.add(this.update, this);
+            setInterval(() => {
+                this.update(1000);
+            }, 1000);
+
         }
 
         /**
@@ -78,7 +73,7 @@ namespace Lightning {
          * @returns {boolean}
          */
         start():boolean {
-            this._ticker.start();
+            //this._ticker.start();
             return true;
         }
 
@@ -97,8 +92,8 @@ namespace Lightning {
 /**
  * TODOS
  * Implement some sort of global cache system for any kind of object
- * Implement a storage system based on local storage / global vars if unavilable
  * Implement the services manager for backend calls
+ * Implement a timer service to create and keep track of timers
  * Implement some sort of socket connectivity manager
  * Write some nice transitions for the state manager
  * Implement an animatins class for extending pixi animations
@@ -115,4 +110,5 @@ namespace Lightning {
  * Explore the posibility of using light ray casting?
  * Particle emitter presets??
  * Utalise isMobilejs for mobile detection
+ * Build a webfont loader
  */

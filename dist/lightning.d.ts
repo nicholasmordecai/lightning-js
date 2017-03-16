@@ -45,6 +45,13 @@ declare namespace Lightning {
     }
 }
 declare namespace Lightning {
+    interface iEventSubscription {
+        fn: Function;
+        ctx: Object;
+        once: boolean;
+    }
+}
+declare namespace Lightning {
     class Maths {
         /**
          * Rng's seem to perform a little crappy. Should think about making some sort of RNG pool??
@@ -120,6 +127,56 @@ declare namespace Lightning {
     class Depreciated {
     }
 }
+declare namespace Lightning {
+    class Event {
+        private _emitter;
+        private _subscribers;
+        private _proporgationAllowed;
+        private _enabled;
+        constructor(emitter: EventEmitter);
+        addSubscriber(fn: Function, ctx: Object, once?: boolean): void;
+        emit(params: any): void;
+        removeSubscriber(subscriber: iEventSubscription): void;
+        enabled: boolean;
+    }
+}
+declare namespace Lightning {
+    class EventEmitter {
+        private _events;
+        constructor();
+        create(key: string, emitOnce?: boolean): Event;
+        subscribe(key: string, fn: Function, ctx?: Object): boolean;
+        subscribeOnce(key: string, fn: Function, ctx?: Object): boolean;
+        emit(key: string, params?: Array<any>): boolean;
+        event(key: string): Event;
+        remove(key: string): boolean;
+        enable(key: string): boolean;
+        disable(key: string): boolean;
+    }
+}
+declare namespace Lightning {
+    class StorageManager {
+        private _isLS;
+        private _map;
+        setItem: Function;
+        getItem: Function;
+        removeItem: Function;
+        exists: Function;
+        length: Function;
+        constructor();
+        private setItemLS(key, val);
+        private setItemFallback(key, val);
+        private getItemLS(key);
+        private getItemFallback(key);
+        private removeItemLS(key);
+        private removeItemFallback(key);
+        private existsLS(key);
+        private existsFallback(key);
+        private lengthLS();
+        private lengthFallback();
+        private localStorageAvailable();
+    }
+}
 /**
  * A helper class for the 'Game'. It's used for all non essential public functions.
  * This is mostly used to keep the actual engine class neat, slim and easier to develop
@@ -129,13 +186,13 @@ declare namespace Lightning {
         protected _dpr: number;
         protected _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
         protected _world: PIXI.Container;
-        protected _hud: any;
+        protected _hud: HUD;
         protected _ticker: PIXI.ticker.Ticker;
-        protected _activateState: any;
-        protected _tweens: any;
-        protected _signals: Signals.SignalManager;
+        protected _tweens: TweenManager;
         protected _stateManager: StateManager;
         protected _physicsManager: PhysicsManager;
+        protected _eventEmitter: EventEmitter;
+        protected _storageManager: StorageManager;
         generateTexture(...params: any[]): any;
         goFullscreen(): void;
         texture(...params: any[]): any;
@@ -149,7 +206,6 @@ declare namespace Lightning {
         };
         readonly renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
         readonly tweens: TweenManager;
-        readonly signals: Signals.SignalManager;
         readonly states: StateManager;
         fps: number;
         readonly minFPS: number;
@@ -157,12 +213,16 @@ declare namespace Lightning {
         readonly deltaTime: number;
         readonly lastTime: number;
         dpr: number;
+        readonly storage: StorageManager;
+        readonly events: EventEmitter;
+        readonly ticker: PIXI.ticker.Ticker;
     }
 }
 declare namespace Lightning {
     class State extends PIXI.Container {
         game: Engine;
         loader: PIXI.loaders.Loader;
+        events: EventEmitter;
         /**
          * @description State constructor
          *
@@ -381,6 +441,7 @@ declare namespace Lightning {
 }
 declare namespace Lightning {
     class Sprite extends PIXI.Sprite {
+        private _events;
         protected _body: Box2D.Dynamics.b2Body;
         protected _respectPosition: boolean;
         protected _respectPositionValues: {
@@ -426,6 +487,7 @@ declare namespace Lightning {
 }
 declare namespace Lightning {
     class Group extends PIXI.Container {
+        _events: EventEmitter;
         constructor();
         /**
          * @param  {} ...displayObjects
@@ -642,6 +704,7 @@ declare namespace Lightning {
         protected _createdAt: number;
         protected _lifeSpan: number;
         protected _deadTime: number;
+        private _lifeTime;
         constructor(texture: PIXI.Texture, emitter: ParticleEmitter, minX: number, maxX: number, minY: number, maxY: number);
         renderWebGL(renderer: any): void;
         renderAdvancedWebGL(renderer: any): void;
@@ -649,7 +712,9 @@ declare namespace Lightning {
         updateTransform(): void;
         destroy(): void;
         calculateBounds(): void;
-        update(): void;
+        update(time: any): void;
+        getDistance: (x1: any, y1: any, x2: any, y2: any) => number;
+        getAcceleration(distance: any, starMass: any): number;
         returnToPool(): void;
         velocity: {
             x: number;
@@ -667,6 +732,7 @@ declare namespace Lightning {
             y: number;
         };
         createdAt: number;
+        lifeTime: number;
         isDead: boolean;
     }
 }
@@ -706,8 +772,9 @@ declare namespace Lightning {
         protected _particleRotationIncrement: iRange;
         protected _particleScaleIncrement: iPointRange;
         protected _particleAlphaIncrement: iRange;
+        gravityWells: Array<any>;
         constructor(state: State, x?: number, y?: number);
-        private tick();
+        private tick(time);
         updateTransform(): void;
         /**
          * @param  {string} key
@@ -1246,349 +1313,8 @@ declare namespace Lightning {
         readonly events: Events;
     }
 }
-declare namespace Lightning.Signals {
-    /**
-     *	@desc       A TypeScript conversion of JS Signals by Miller Medeiros
-    *               Released under the MIT license
-    *				http://millermedeiros.github.com/js-signals/
-    *
-    *	@version	1.0 - 7th March 2013
-    *
-    *	@author 	Richard Davey, TypeScript conversion
-    *	@author		Miller Medeiros, JS Signals
-    *	@author		Robert Penner, AS Signals
-    *
-    *	@url		http://www.photonstorm.com
-    */
-    /**
-     * Custom event broadcaster
-     * <br />- inspired by Robert Penner's AS3 Signals.
-     * @name Signal
-     * @author Miller Medeiros
-     * @constructor
-     */
-    class Signal {
-        /**
-         * @property _bindings
-         * @type Array
-         * @private
-         */
-        private _bindings;
-        /**
-         * @property _prevParams
-         * @type Any
-         * @private
-         */
-        private _prevParams;
-        /**
-         * Signals Version Number
-         * @property VERSION
-         * @type String
-         * @const
-         */
-        static VERSION: string;
-        /**
-         * If Signal should keep record of previously dispatched parameters and
-         * automatically execute listener during `add()`/`addOnce()` if Signal was
-         * already dispatched before.
-         * @type boolean
-         */
-        memorize: boolean;
-        /**
-         * @type boolean
-         * @private
-         */
-        private _shouldPropagate;
-        /**
-         * If Signal is active and should broadcast events.
-         * <p><strong>IMPORTANT:</strong> Setting this property during a dispatch will only affect the next dispatch, if you want to stop the propagation of a signal use `halt()` instead.</p>
-         * @type boolean
-         */
-        active: boolean;
-        /**
-         * @method validateListener
-         * @param {Any} listener
-         * @param {Any} fnName
-         */
-        validateListener(listener: any, fnName: any): void;
-        /**
-         * @param {Function} listener
-         * @param {boolean} isOnce
-         * @param {Object} [listenerContext]
-         * @param {Number} [priority]
-         * @return {SignalBinding}
-         * @private
-         */
-        private _registerListener(listener, isOnce, listenerContext, priority);
-        /**
-         * @method _addBinding
-         * @param {SignalBinding} binding
-         * @private
-         */
-        private _addBinding(binding);
-        /**
-         * @method _indexOfListener
-         * @param {Function} listener
-         * @return {number}
-         * @private
-         */
-        private _indexOfListener(listener, context);
-        /**
-         * Check if listener was attached to Signal.
-         * @param {Function} listener
-         * @param {Object} [context]
-         * @return {boolean} if Signal has the specified listener.
-         */
-        has(listener: any, context?: any): boolean;
-        /**
-         * Add a listener to the signal.
-         * @param {Function} listener Signal handler function.
-         * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-         * @param {Number} [priority] The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
-         * @return {SignalBinding} An Object representing the binding between the Signal and listener.
-         */
-        add(listener: any, listenerContext?: any, priority?: number): SignalBinding;
-        /**
-         * Add listener to the signal that should be removed after first execution (will be executed only once).
-         * @param {Function} listener Signal handler function.
-         * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-         * @param {Number} [priority] The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
-         * @return {SignalBinding} An Object representing the binding between the Signal and listener.
-         */
-        addOnce(listener: any, listenerContext?: any, priority?: number): SignalBinding;
-        /**
-         * Remove a single listener from the dispatch queue.
-         * @param {Function} listener Handler function that should be removed.
-         * @param {Object} [context] Execution context (since you can add the same handler multiple times if executing in a different context).
-         * @return {Function} Listener handler function.
-         */
-        remove(listener: any, context?: any): any;
-        /**
-         * Remove all listeners from the Signal.
-         */
-        removeAll(): void;
-        /**
-         * @return {number} Number of listeners attached to the Signal.
-         */
-        getNumListeners(): number;
-        /**
-         * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
-         * <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
-         * @see Signal.prototype.disable
-         */
-        halt(): void;
-        /**
-         * Dispatch/Broadcast Signal to all listeners added to the queue.
-         * @param {...*} [params] Parameters that should be passed to each handler.
-         */
-        dispatch(...paramsArr: any[]): void;
-        /**
-         * Forget memorized arguments.
-         * @see Signal.memorize
-         */
-        forget(): void;
-        /**
-         * Remove all bindings from signal and destroy any reference to external objects (destroy Signal object).
-         * <p><strong>IMPORTANT:</strong> calling any method on the signal instance after calling dispose will throw errors.</p>
-         */
-        dispose(): void;
-        /**
-         * @return {string} String representation of the object.
-         */
-        toString(): string;
-    }
-}
-declare namespace Lightning.Signals {
-    class SignalBinding {
-        /**
-         * Object that represents a binding between a Signal and a listener function.
-         * <br />- <strong>This is an internal constructor and shouldn't be called by regular users.</strong>
-         * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
-         * @author Miller Medeiros
-         * @constructor
-         * @internal
-         * @name SignalBinding
-         * @param {Signal} signal Reference to Signal object tha
-         * listener is currently bound to.
-         * @param {Function} listener Handler function bound to the signal.
-         * @param {boolean} isOnce If binding should be executed just once.
-         * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-         * @param {Number} [priority] The priority level of the event listener. (default = 0).
-         */
-        constructor(signal: Signal, listener: any, isOnce: boolean, listenerContext: any, priority?: number);
-        /**
-         * Handler function bound to the signal.
-         * @type Function
-         * @private
-         */
-        private _listener;
-        /**
-         * If binding should be executed just once.
-         * @type boolean
-         * @private
-         */
-        private _isOnce;
-        /**
-         * Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-         * @memberOf SignalBinding.prototype
-         * @name context
-         * @type Object|undefined|null
-         */
-        context: any;
-        /**
-         * Reference to Signal object that listener is currently bound to.
-         * @type Signal
-         * @private
-         */
-        private _signal;
-        /**
-         * Listener priority
-         * @type Number
-         */
-        priority: number;
-        /**
-         * If binding is active and should be executed.
-         * @type boolean
-         */
-        active: boolean;
-        /**
-         * Default parameters passed to listener during `Signal.dispatch` and `SignalBinding.execute`. (curried parameters)
-         * @type Array|null
-         */
-        params: any;
-        /**
-         * Call listener passing arbitrary parameters.
-         * <p>If binding was added using `Signal.addOnce()` it will be automatically removed from signal dispatch queue, this method is used internally for the signal dispatch.</p>
-         * @param {Array} [paramsArr] Array of parameters that should be passed to the listener
-         * @return {*} Value returned by the listener.
-         */
-        execute(paramsArr?: any[]): any;
-        /**
-         * Detach binding from signal.
-         * - alias to: mySignal.remove(myBinding.getListener());
-         * @return {Function|null} Handler function bound to the signal or `null` if binding was previously detached.
-         */
-        detach(): any;
-        /**
-         * @return {Boolean} `true` if binding is still bound to the signal and have a listener.
-         */
-        isBound(): boolean;
-        /**
-         * @return {boolean} If SignalBinding will only be executed once.
-         */
-        isOnce(): boolean;
-        /**
-         * @return {Function} Handler function bound to the signal.
-         */
-        getListener(): any;
-        /**
-         * @return {Signal} Signal that listener is currently bound to.
-         */
-        getSignal(): Signal;
-        /**
-         * Delete instance properties
-         * @private
-         */
-        _destroy(): void;
-        /**
-         * @return {string} String representation of the object.
-         */
-        toString(): string;
-    }
-}
-declare namespace Lightning.Signals {
-    /**
-     * Signal Manager class for storing, manipulating and general management of signals throughout the game
-     */
-    class SignalManager {
-        private game;
-        private _signals;
-        /**
-         * @description Signal Manager constructor
-         *
-         * @param {engine} game
-         */
-        constructor(game: Engine);
-        /**
-         * @description Create a new signal
-         *
-         * @param {string} key
-         *
-         * @returns {Signal}
-         */
-        create(key: string): Signal;
-        /**
-         * @description Add a function to a signal
-         *
-         * @param {string} key
-         * @param {function} fn
-         * @param {Object} listenerContext
-         *
-         * @returns {boolean}
-         */
-        add(key: string, fn: Function, listenerContext?: Object): boolean;
-        /**
-         * @description Add a function to a signal only once
-         *
-         * @param {string} key
-         * @param {function} fn
-         * @param {Object} listenerContext
-         *
-         * @returns {boolean}
-         */
-        addOnce(key: string, fn: Function, listenerContext: Object): boolean;
-        /**
-         * @description Destroy the signal
-         * @param {string} key
-         *
-         * @returns {boolean§}
-         */
-        destroy(key: string): boolean;
-        /**
-         * @description Change the active property on a signal
-         *
-         * @param {string} key
-         * @param {boolean} active
-         *
-         * @returns {boolean}
-         */
-        active(key: string, active: boolean): boolean;
-        /**
-         * @description dispatch a signal and pass parameters
-         *
-         * @param {string} key
-         * @param {Array} params
-         */
-        dispatch(key: string, ...params: any[]): boolean;
-        /**
-         * @description Returns a signal if it exists, else it will return null
-         *
-         * @param {srting} key
-         *
-         * @returns {Signal}
-         */
-        signal(key: string): Signal;
-        /**
-         * @description Return true if the signal is created, else return false
-         *
-         * @param {string} name
-         *
-         * @return {boolean}
-         */
-        has(name: string): boolean;
-    }
-}
 declare namespace Lightning {
     class Engine extends EngineHelper {
-        protected _dpr: number;
-        protected _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
-        protected _world: PIXI.Container;
-        protected _hud: HUD;
-        protected _ticker: PIXI.ticker.Ticker;
-        protected _tweens: TweenManager;
-        protected _signals: Signals.SignalManager;
-        protected _stateManager: StateManager;
-        protected _physicsManager: PhysicsManager;
         /**
          * @description Engine constructor
          *

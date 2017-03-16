@@ -1,5 +1,30 @@
 # Changelog
 
+### 0.4.0
+1. States now automatically have their own event emitter separate from the core engine
+2. CLI gets under way
+    1. Commands include add, build, create, dev and publish
+    2. Yargs created with aliases for the commands and command options
+3. Groups get event emitter
+4. Sprites get event emitter
+5. Clean up of the engine and engine helper class
+6. Brand new shiny storage manager that facilitates non localStorage fallback as default
+7. Particle Emitter fixes
+    1. Function callback from ticker instead of hijacking update transformation
+    2. Particles now use ticker time to calculate lifeTime vs deadTime instead of Date.now() - good performance saver
+
+### 0.3.6
+1. Brand new shiny ultra fast light weight super duper event emitter :D
+    1. Will be inherited by all main objects in Lightning.
+    2. Allows an event manager to be added to a state, so when the state is destroyed, so are those events and subscriptions
+    3. Allows for denial of even propogation
+    4. Can subscribe for many triggers, or once
+    5. Can enable or disable events on the fly
+2. Started development on the Cli
+    1. Got the npm -g to install globally with a path variable to make it a globally accessable script
+        1. used a shebang, however on windows it will create a *.cmd file so it's cross platform
+        2. Created the basis of the folder structure within the cli
+
 ### 0.3.5
 1. More work on particle emitter
     1. more performance tweaks

@@ -48,20 +48,33 @@ namespace Lightning {
         protected _particleScaleIncrement:iPointRange = {xFrom: 0, xTo: 0, yFrom: 0, yTo: 0};
         protected _particleAlphaIncrement:iRange = {from: 0, to: 0};
 
+        public gravityWells:Array<any>;
+
         constructor(state:State, x:number = 0, y:number = 0) {
             super();
             this.state = state;
             this.game = state.game;
             this.x = x;
             this.y = y;
+            this.gravityWells = [];
+
+            let t = Lightning.Geometry.Circle(10);
+            let sprite = new Lightning.Sprite(this.game.generateTexture(t));
+            sprite.setAnchor(0.5);
+            sprite.tint = 0xff22aa;
+            this.game.world.addChild(sprite);
+            sprite.x = this.game.center.x- 75;
+            sprite.y = this.game.center.y - 75;
+            sprite['gM'] = 1000;
+            this.gravityWells.push(sprite);
+            this.game.ticker.add(this.tick, this);
         }
 
-        private tick():void {
-
+        private tick(time:number):void {
             for(let i of this.children) {
                 // see if it's more performant to use an array for alivePool, and remove dead object from there
                 if(!i['isDead']) {
-                    i['update']();
+                    i['update'](time);
                 }
             }
 
@@ -86,7 +99,7 @@ namespace Lightning {
             this.worldAlpha = this.alpha * this.parent.worldAlpha;
             
             // let this class handle the flags to update children or not
-            this.tick();
+            // this.tick();
         };
 
         /**
@@ -203,6 +216,7 @@ namespace Lightning {
             }
 
             particle.createdAt = Date.now();
+            particle.lifeTime = 0;
 
             if(!isChild) {
                 this.addChild(particle);

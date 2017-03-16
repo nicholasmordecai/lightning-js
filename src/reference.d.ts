@@ -13,6 +13,8 @@
 /// <reference path ="./interfaces/iStateMap.ts" />
 /// <reference path ="./interfaces/iTweenCallback.ts" />
 /// <reference path ="./interfaces/iTweenProperty.ts" />
+/// <reference path ="./interfaces/iEventSubscription.ts" />
+
 /**
  * Utils
  */
@@ -21,6 +23,9 @@
 /**
  * Core
  */
+/// <reference path="./core/events/event.ts" />
+/// <reference path="./core/events/eventEmitter.ts" />
+/// <reference path="./core/storage/storageManager.ts" />
 /// <reference path="./core/engine.ts" />
 /// <reference path="./core/engineHelper.ts" />
 /// <reference path="./core/states/state.ts" />
@@ -52,6 +57,3 @@
 /// <reference path="./tweens/Frame.ts" />
 /// <reference path="./tweens/Tween.ts" />
 /// <reference path="./tweens/TweenManager.ts" />
-/// <reference path="./core/signals/signal.ts" />
-/// <reference path="./core/signals/signalBinding.ts" />
-/// <reference path="./core/signals/signalManager.ts" />
