@@ -3,9 +3,6 @@
 namespace Lightning {
 
     export class Engine extends EngineHelper {
-
-        private timer:Timer;
-        private num:number = 35;
         
         /**
          * @description Engine constructor
@@ -49,13 +46,6 @@ namespace Lightning {
             this._ticker = PIXI.ticker.shared;
             this._ticker.autoStart = false;
             this._ticker.add(this.update, this);
-
-            this.timer = new Timer(this, 1000, true, false, true);
-            this.timer.add(this.foo, this);
-        }
-
-        public foo() {
-            console.log(this.num);
         }
 
         /**

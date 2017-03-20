@@ -1349,8 +1349,6 @@ declare namespace Lightning {
 }
 declare namespace Lightning {
     class Engine extends EngineHelper {
-        private timer;
-        private num;
         /**
          * @description Engine constructor
          *
@@ -1359,7 +1357,6 @@ declare namespace Lightning {
          * @param {string} canvasId
          */
         constructor(width: any, height: any, canvasId?: string);
-        foo(): void;
         /**
          * @description Main entry for every update function. This is called by the ticker on every request frame update
          *

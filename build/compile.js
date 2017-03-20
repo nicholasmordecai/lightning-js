@@ -555,7 +555,6 @@ var Lightning;
             this._lastTick = 0;
         };
         Timer.prototype.destroy = function () {
-            console.log('destroyed!');
         };
         Timer.prototype.remove = function () {
         };
@@ -3572,7 +3571,6 @@ var Lightning;
         function Engine(width, height, canvasId) {
             if (canvasId === void 0) { canvasId = 'app'; }
             var _this = _super.call(this) || this;
-            _this.num = 35;
             console.log('Lightning-js | version : 0.4.0');
             _this._dpr = window.devicePixelRatio;
             _this._eventEmitter = new Lightning.EventEmitter;
@@ -3599,13 +3597,8 @@ var Lightning;
             _this._ticker = PIXI.ticker.shared;
             _this._ticker.autoStart = false;
             _this._ticker.add(_this.update, _this);
-            _this.timer = new Lightning.Timer(_this, 1000, true, false, true);
-            _this.timer.add(_this.foo, _this);
             return _this;
         }
-        Engine.prototype.foo = function () {
-            console.log(this.num);
-        };
         /**
          * @description Main entry for every update function. This is called by the ticker on every request frame update
          *
