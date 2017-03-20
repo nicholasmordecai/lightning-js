@@ -51671,6 +51671,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 /// <reference path="./../reference.d.ts" />
 /// <reference path="./../reference.d.ts" />
 /// <reference path="./../reference.d.ts" />
+/// <reference path="./../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
     var Maths = (function () {
@@ -51801,7 +51802,7 @@ var Lightning;
                 return;
             for (var i = 0; i < this._subscribers.length; i++) {
                 var subscription = this._subscribers[i];
-                subscription.fn(params, subscription.ctx);
+                subscription.fn.call(subscription.ctx, params);
                 if (subscription.once) {
                     this.removeSubscriber(subscription);
                 }
@@ -52157,6 +52158,70 @@ var Lightning;
         return EngineHelper;
     }());
     Lightning.EngineHelper = EngineHelper;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Timer = (function () {
+        function Timer(game, interval, autoStart, loop, autoDestroy) {
+            if (autoStart === void 0) { autoStart = true; }
+            if (loop === void 0) { loop = true; }
+            if (autoDestroy === void 0) { autoDestroy = false; }
+            this._events = new Lightning.EventEmitter();
+            this._currentTime = 0;
+            this._lastTick = 0;
+            this._active = false;
+            this.game = game;
+            this._interval = interval;
+            this._isLoop = loop;
+            this._autoDestroy = autoDestroy;
+            this._events.create('tick');
+            this._events.create('start');
+            this._events.create('stop');
+            this._events.create('reset');
+            this._events.create('destroy');
+            if (autoStart) {
+                this._active = true;
+            }
+            this.game.ticker.add(this.update, this);
+        }
+        Timer.prototype.update = function (time) {
+            if (this._active) {
+                this._currentTime += this.game.ticker.elapsedMS;
+                if (this._currentTime >= this._lastTick + this._interval) {
+                    this._lastTick = this._currentTime;
+                    this._events.emit('tick', time);
+                    if (this._isLoop === false) {
+                        this.stop();
+                    }
+                }
+            }
+        };
+        Timer.prototype.add = function (fn, ctx) {
+            if (ctx === void 0) { ctx = null; }
+            this._events.subscribe('tick', fn, ctx);
+        };
+        Timer.prototype.start = function () {
+            this._active = true;
+        };
+        Timer.prototype.stop = function () {
+            this._active = false;
+            if (this._autoDestroy) {
+                this.destroy();
+            }
+        };
+        Timer.prototype.reset = function () {
+            this._currentTime = 0;
+            this._lastTick = 0;
+        };
+        Timer.prototype.destroy = function () {
+            console.log('destroyed!');
+        };
+        Timer.prototype.remove = function () {
+        };
+        return Timer;
+    }());
+    Lightning.Timer = Timer;
 })(Lightning || (Lightning = {}));
 /// <reference path="./../../reference.d.ts" />
 var Lightning;
@@ -53171,9 +53236,9 @@ var Lightning;
 /// <reference path="./../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
-    var Particle = (function (_super) {
-        __extends(Particle, _super);
-        function Particle(texture, emitter, minX, maxX, minY, maxY) {
+    var ParticleBase = (function (_super) {
+        __extends(ParticleBase, _super);
+        function ParticleBase() {
             var _this = _super.call(this) || this;
             _this._autoCull = true;
             _this._velX = 0;
@@ -53188,9 +53253,113 @@ var Lightning;
             _this._lifeSpan = null;
             _this._deadTime = null;
             _this._lifeTime = null;
-            _this.getDistance = function (x1, y1, x2, y2) {
-                return ((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2));
-            };
+            return _this;
+        }
+        ParticleBase.prototype.updateSimple = function (time) {
+            // get delta time from update instead of getting date.now //
+            if (this._deadTime <= this._lifeTime) {
+                this.returnToPool();
+                return;
+            }
+            if (this._autoCull) {
+                if (this.y > this._maxY || this.y < this._minY || this.x > this._maxX || this.x < this._minX) {
+                    this.returnToPool();
+                    return;
+                }
+            }
+            // increment alpha
+            if (this._alphaIncrement) {
+                this.alpha += this._alphaIncrement;
+                if (this.alpha <= 0) {
+                    this.returnToPool();
+                }
+            }
+            // increment rotation
+            if (this._rotationIncrement) {
+                this.rotation += this._rotationIncrement;
+            }
+            // increment scale
+            if (this._scaleIncrement) {
+                this.scale.x += this._scaleIncrement.x;
+                this.scale.y += this._scaleIncrement.y;
+            }
+            // update velocity (from gravity)
+            this._velX += this._gX;
+            this._velY += this._gY;
+            // update position
+            this.x += this._velX;
+            this.y += this._velY;
+            if (!this._isDead) {
+                this.updateTransform();
+                this._lifeTime += time;
+            }
+        };
+        ParticleBase.prototype.updateComplex = function (time) {
+            if (this._deadTime <= this._lifeTime) {
+                this.returnToPool();
+                return;
+            }
+            for (var _i = 0, _a = this._emitter.gravityWells; _i < _a.length; _i++) {
+                var i = _a[_i];
+                var mass = i['mass'];
+                var particleGlobal = this.getGlobalPosition();
+                var gravityGlobal = i.getGlobalPosition();
+                // let d = this.getDistance(particleGlobal.x, particleGlobal.y, gravityGlobal.x, gravityGlobal.y);
+                var d = 0;
+                // if(d < 100) {
+                //     this.returnToPool();
+                //     return;
+                // }
+                // let G = 6.5;
+                // for(let i of this._emitter.gravityWells) {
+                //     let mass = i['mass'];
+                //     let particleGlobal = this.getGlobalPosition();
+                //     let gravityGlobal = i.getGlobalPosition();
+                //     let d = this.getDistance(particleGlobal.x, particleGlobal.y, gravityGlobal.x, gravityGlobal.y);
+                //     // if(d < 100) {
+                //     //     this.returnToPool();
+                //     //     return;
+                //     // }
+                //     let f = G * (mass * 1) / d
+                //     if(particleGlobal.x - gravityGlobal.x < 0) {
+                //         this._velX += f;
+                //     } else {
+                //         this._velX += -f;
+                //     }
+                //     if(particleGlobal.y - gravityGlobal.y < 0) {
+                //         this._velY += f;
+                //     } else {
+                //         this._velY += -f;
+                //     }
+                // }
+                var f = this._emitter.nGravity * (mass * 1) / d;
+                if (particleGlobal.x - gravityGlobal.x < 0) {
+                    this._velX += f;
+                }
+                else {
+                    this._velX += -f;
+                }
+                if (particleGlobal.y - gravityGlobal.y < 0) {
+                    this._velY += f;
+                }
+                else {
+                    this._velY += -f;
+                }
+            }
+        };
+        return ParticleBase;
+    }(PIXI.Sprite));
+    Lightning.ParticleBase = ParticleBase;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Particle = (function (_super) {
+        __extends(Particle, _super);
+        function Particle(texture, emitter, minX, maxX, minY, maxY) {
+            var _this = _super.call(this) || this;
+            _this.returnToPool = _this._returnToPool;
+            _this.update = _this.updateSimple;
             _this._texture = texture;
             _this._emitter = emitter;
             _this.children = null;
@@ -53234,10 +53403,6 @@ var Lightning;
             }
             this.transform = null;
             this.parent = null;
-            this._bounds = null;
-            this._mask = null;
-            this.filterArea = null;
-            this.interactive = false;
             this.interactiveChildren = false;
         };
         Particle.prototype.calculateBounds = function () {
@@ -53245,61 +53410,7 @@ var Lightning;
             this._calculateBounds();
             this._lastBoundsID = this._boundsID;
         };
-        Particle.prototype.update = function (time) {
-            // get delta time from update instead of getting date.now //
-            if (this._deadTime <= this._lifeTime) {
-                this.returnToPool();
-                return;
-            }
-            if (this._autoCull) {
-                if (this.y > this._maxY || this.y < this._minY || this.x > this._maxX || this.x < this._minX) {
-                    this.returnToPool();
-                    return;
-                }
-            }
-            for (var _i = 0, _a = this._emitter.gravityWells; _i < _a.length; _i++) {
-                var i = _a[_i];
-                var G = 6.5;
-                var mass = 50;
-                var particleGlobal = this.getGlobalPosition();
-                var gravityGlobal = i.getGlobalPosition();
-                var d = this.getDistance(particleGlobal.x, particleGlobal.y, gravityGlobal.x, gravityGlobal.y);
-                var f = G * (mass * 1) / d;
-                this._velX += -f;
-                this._velY += -f;
-            }
-            // update velocity (from gravity)
-            // this._velX += this._gX;
-            // this._velY += this._gY;
-            // update position
-            this.x += this._velX;
-            this.y += this._velY;
-            // increment alpha
-            if (this._alphaIncrement) {
-                this.alpha += this._alphaIncrement;
-                if (this.alpha <= 0) {
-                    this.returnToPool();
-                }
-            }
-            // increment rotation
-            if (this._rotationIncrement) {
-                this.rotation += this._rotationIncrement;
-            }
-            // increment scale
-            if (this._scaleIncrement) {
-                this.scale.x += this._scaleIncrement.x;
-                this.scale.y += this._scaleIncrement.y;
-            }
-            // finally, call the update transform function
-            if (!this._isDead) {
-                this.updateTransform();
-                this._lifeTime += time;
-            }
-        };
-        Particle.prototype.getAcceleration = function (distance, starMass) {
-            return 6.67384 * starMass / (Math.pow(distance, 2));
-        };
-        Particle.prototype.returnToPool = function () {
+        Particle.prototype._returnToPool = function () {
             this._isDead = true;
             this.renderable = false;
             this.visible = false;
@@ -53375,7 +53486,7 @@ var Lightning;
             configurable: true
         });
         return Particle;
-    }(PIXI.Sprite));
+    }(Lightning.ParticleBase));
     Lightning.Particle = Particle;
 })(Lightning || (Lightning = {}));
 /// <reference path="./../reference.d.ts" />
@@ -53402,6 +53513,7 @@ var Lightning;
             _this._textures = [];
             _this._deadPool = [];
             _this._gravity = { x: 0 * window.devicePixelRatio, y: 0.2 * window.devicePixelRatio };
+            _this._nGravity = 6.5;
             _this._spread = { xFrom: -2 * window.devicePixelRatio, xTo: 2 * window.devicePixelRatio, yFrom: -2 * window.devicePixelRatio, yTo: 2 * window.devicePixelRatio };
             _this._lifeSpanRange = { from: 3000, to: 3000 };
             _this._particleStrength = 1;
@@ -53417,15 +53529,26 @@ var Lightning;
             _this.x = x;
             _this.y = y;
             _this.gravityWells = [];
-            var t = Lightning.Geometry.Circle(10);
+            _this.obstacles = [];
+            var t = Lightning.Geometry.Rect(50, 50);
             var sprite = new Lightning.Sprite(_this.game.generateTexture(t));
+            sprite['mass'] = 4;
             sprite.setAnchor(0.5);
             sprite.tint = 0xff22aa;
             _this.game.world.addChild(sprite);
             sprite.x = _this.game.center.x - 75;
-            sprite.y = _this.game.center.y - 75;
-            sprite['gM'] = 1000;
-            _this.gravityWells.push(sprite);
+            sprite.y = _this.game.center.y - 100;
+            sprite.enableDrag();
+            _this.obstacles.push(sprite);
+            var sprite2 = new Lightning.Sprite(_this.game.generateTexture(t));
+            sprite2.enableDrag();
+            sprite2.setAnchor(0.5);
+            sprite2['mass'] = 6;
+            sprite2.tint = 0x00aa22;
+            _this.game.world.addChild(sprite2);
+            sprite2.x = _this.game.center.x + 75;
+            sprite2.y = _this.game.center.y + 120;
+            _this.obstacles.push(sprite2);
             _this.game.ticker.add(_this.tick, _this);
             return _this;
         }
@@ -53452,8 +53575,6 @@ var Lightning;
             this.transform.updateTransform(this.parent.transform);
             // TODO: check render flags, how to process stuff here
             this.worldAlpha = this.alpha * this.parent.worldAlpha;
-            // let this class handle the flags to update children or not
-            // this.tick();
         };
         ;
         /**
@@ -53726,6 +53847,16 @@ var Lightning;
         Object.defineProperty(ParticleEmitter.prototype, "pool", {
             get: function () {
                 return this._deadPool.length;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ParticleEmitter.prototype, "nGravity", {
+            get: function () {
+                return this._nGravity;
+            },
+            set: function (val) {
+                this._nGravity = val;
             },
             enumerable: true,
             configurable: true
@@ -55101,6 +55232,7 @@ var Lightning;
         function Engine(width, height, canvasId) {
             if (canvasId === void 0) { canvasId = 'app'; }
             var _this = _super.call(this) || this;
+            _this.num = 35;
             console.log('Lightning-js | version : 0.4.0');
             _this._dpr = window.devicePixelRatio;
             _this._eventEmitter = new Lightning.EventEmitter;
@@ -55126,12 +55258,14 @@ var Lightning;
             // init the ticker
             _this._ticker = PIXI.ticker.shared;
             _this._ticker.autoStart = false;
-            //this._ticker.add(this.update, this);
-            setInterval(function () {
-                _this.update(1000);
-            }, 1000);
+            _this._ticker.add(_this.update, _this);
+            _this.timer = new Lightning.Timer(_this, 1000, true, false, true);
+            _this.timer.add(_this.foo, _this);
             return _this;
         }
+        Engine.prototype.foo = function () {
+            console.log(this.num);
+        };
         /**
          * @description Main entry for every update function. This is called by the ticker on every request frame update
          *
@@ -55140,7 +55274,6 @@ var Lightning;
          * @returns {void}
          */
         Engine.prototype.update = function (time) {
-            console.log('hi');
             this._physicsManager.update();
             this._tweens.update();
             this._stateManager.update(time);

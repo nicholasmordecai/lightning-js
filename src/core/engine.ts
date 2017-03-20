@@ -3,6 +3,9 @@
 namespace Lightning {
 
     export class Engine extends EngineHelper {
+
+        private timer:Timer;
+        private num:number = 35;
         
         /**
          * @description Engine constructor
@@ -31,7 +34,6 @@ namespace Lightning {
             this._world.scale = new PIXI.Point(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
             this._world.interactive = true;
 
-
             document.getElementById('app-container').appendChild(this._renderer.view);
 
             // let scale = window.devicePixelRatio;
@@ -46,11 +48,14 @@ namespace Lightning {
             // init the ticker
             this._ticker = PIXI.ticker.shared;
             this._ticker.autoStart = false;
-            //this._ticker.add(this.update, this);
-            setInterval(() => {
-                this.update(1000);
-            }, 1000);
+            this._ticker.add(this.update, this);
 
+            this.timer = new Timer(this, 1000, true, false, true);
+            this.timer.add(this.foo, this);
+        }
+
+        public foo() {
+            console.log(this.num);
         }
 
         /**

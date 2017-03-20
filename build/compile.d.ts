@@ -52,6 +52,11 @@ declare namespace Lightning {
     }
 }
 declare namespace Lightning {
+    interface iParticle {
+        lifeSpan: number;
+    }
+}
+declare namespace Lightning {
     class Maths {
         /**
          * Rng's seem to perform a little crappy. Should think about making some sort of RNG pool??
@@ -216,6 +221,26 @@ declare namespace Lightning {
         readonly storage: StorageManager;
         readonly events: EventEmitter;
         readonly ticker: PIXI.ticker.Ticker;
+    }
+}
+declare namespace Lightning {
+    class Timer {
+        private game;
+        private _events;
+        private _currentTime;
+        private _lastTick;
+        private _autoDestroy;
+        private _isLoop;
+        private _interval;
+        private _active;
+        constructor(game: Engine, interval: number, autoStart?: boolean, loop?: boolean, autoDestroy?: boolean);
+        update(time: any): void;
+        add(fn: Function, ctx?: Object): void;
+        start(): void;
+        stop(): void;
+        reset(): void;
+        destroy(): void;
+        remove(): void;
     }
 }
 declare namespace Lightning {
@@ -682,13 +707,13 @@ declare namespace Lightning {
     }
 }
 declare namespace Lightning {
-    class Particle extends PIXI.Sprite {
+    class ParticleBase extends PIXI.Sprite {
         protected _texture: PIXI.Texture;
         protected _emitter: ParticleEmitter;
-        private _minX;
-        private _maxX;
-        private _minY;
-        private _maxY;
+        protected _minX: number;
+        protected _maxX: number;
+        protected _minY: number;
+        protected _maxY: number;
         protected _autoCull: boolean;
         protected _velX: number;
         protected _velY: number;
@@ -704,7 +729,16 @@ declare namespace Lightning {
         protected _createdAt: number;
         protected _lifeSpan: number;
         protected _deadTime: number;
-        private _lifeTime;
+        protected _lifeTime: number;
+        update: (time: number) => void;
+        returnToPool: () => void;
+        constructor();
+        updateSimple(time: number): void;
+        updateComplex(time: number): void;
+    }
+}
+declare namespace Lightning {
+    class Particle extends ParticleBase {
         constructor(texture: PIXI.Texture, emitter: ParticleEmitter, minX: number, maxX: number, minY: number, maxY: number);
         renderWebGL(renderer: any): void;
         renderAdvancedWebGL(renderer: any): void;
@@ -712,10 +746,7 @@ declare namespace Lightning {
         updateTransform(): void;
         destroy(): void;
         calculateBounds(): void;
-        update(time: any): void;
-        getDistance: (x1: any, y1: any, x2: any, y2: any) => number;
-        getAcceleration(distance: any, starMass: any): number;
-        returnToPool(): void;
+        _returnToPool(): void;
         velocity: {
             x: number;
             y: number;
@@ -762,6 +793,7 @@ declare namespace Lightning {
         protected _respectPositionValues: iPoint;
         protected _deadPool: Array<Particle>;
         protected _gravity: iPoint;
+        protected _nGravity: number;
         protected _spread: iPointRange;
         protected _lifeSpanRange: iRange;
         protected _particleStrength: number;
@@ -773,6 +805,7 @@ declare namespace Lightning {
         protected _particleScaleIncrement: iPointRange;
         protected _particleAlphaIncrement: iRange;
         gravityWells: Array<any>;
+        obstacles: Array<any>;
         constructor(state: State, x?: number, y?: number);
         private tick(time);
         updateTransform(): void;
@@ -809,6 +842,7 @@ declare namespace Lightning {
         setStrength(val: number): void;
         readonly alive: number;
         readonly pool: number;
+        nGravity: number;
     }
 }
 interface iTile {
@@ -1315,6 +1349,8 @@ declare namespace Lightning {
 }
 declare namespace Lightning {
     class Engine extends EngineHelper {
+        private timer;
+        private num;
         /**
          * @description Engine constructor
          *
@@ -1323,6 +1359,7 @@ declare namespace Lightning {
          * @param {string} canvasId
          */
         constructor(width: any, height: any, canvasId?: string);
+        foo(): void;
         /**
          * @description Main entry for every update function. This is called by the ticker on every request frame update
          *

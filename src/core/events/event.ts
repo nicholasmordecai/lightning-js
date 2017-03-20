@@ -26,7 +26,7 @@ namespace Lightning {
             if(!this._enabled) return;
             for(let i:number = 0; i < this._subscribers.length; i++) {
                 let subscription:iEventSubscription = this._subscribers[i];
-                subscription.fn(params, subscription.ctx);
+                subscription.fn.call(subscription.ctx, params);
 
                 if(subscription.once) {
                     this.removeSubscriber(subscription);

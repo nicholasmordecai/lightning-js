@@ -14,6 +14,7 @@
 /// <reference path ="./interfaces/iTweenCallback.ts" />
 /// <reference path ="./interfaces/iTweenProperty.ts" />
 /// <reference path ="./interfaces/iEventSubscription.ts" />
+/// <reference path ="./interfaces/iParticle.ts" />
 
 /**
  * Utils
@@ -28,6 +29,7 @@
 /// <reference path="./core/storage/storageManager.ts" />
 /// <reference path="./core/engine.ts" />
 /// <reference path="./core/engineHelper.ts" />
+/// <reference path="./core/timer/timer.ts" />
 /// <reference path="./core/states/state.ts" />
 /// <reference path="./core/states/stateManager.ts" />
 /// <reference path="./core/physics/physicsManager.ts" />
@@ -49,6 +51,7 @@
 /// <reference path="./display/geometry.ts" />
 /// <reference path="./display/hitarea.ts" />
 /// <reference path="./display/button.ts" />
+/// <reference path="./particleEmitter/particleBase.ts" />
 /// <reference path="./particleEmitter/particle.ts" />
 /// <reference path="./particleEmitter/particleEmitter.ts" />
 /// <reference path="./parallax/parallax.ts" />
