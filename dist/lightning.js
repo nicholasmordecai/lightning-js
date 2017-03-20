@@ -51658,11 +51658,16 @@ if (typeof window !== 'undefined')
 	// add the window object
 	window.Stats = Stats || {};
 }
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 /// <reference path="./../reference.d.ts" />
 /// <reference path="./../reference.d.ts" />
 /// <reference path="./../reference.d.ts" />
@@ -51734,8 +51739,10 @@ var Lightning;
          *
          * @returns {iPoint}
          */
-        Maths.distanceBetween = function () {
-            return { x: 0, y: 0 };
+        Maths.distanceBetween = function (obj1, obj2) {
+            var xs = obj1.x - obj2.x;
+            var ys = obj1.y - obj2.y;
+            return Math.sqrt(xs * xs + ys * ys);
         };
         /**
         * TODO
@@ -51746,8 +51753,12 @@ var Lightning;
         *
         * @returns {iPoint}
         */
-        Maths.hextoRGB = function () {
-            return { x: 0, y: 0 };
+        Maths.hextoRGB = function (hex, out) {
+            out = out || [];
+            out[0] = ((hex >> 16) & 0xFF) / 255;
+            out[1] = ((hex >> 8) & 0xFF) / 255;
+            out[2] = (hex & 0xFF) / 255;
+            return out;
         };
         /**
         * TODO
@@ -51758,8 +51769,8 @@ var Lightning;
         *
         * @returns {iPoint}
         */
-        Maths.rgbToHex = function () {
-            return { x: 0, y: 0 };
+        Maths.rgbToHex = function (r, g, b) {
+            return "0x" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
         };
         return Maths;
     }());
@@ -52584,6 +52595,7 @@ var Lightning;
         }
         PhysicsManager.prototype.update = function () {
             if (this._active) {
+                // start updating the physics stuff here
             }
         };
         PhysicsManager.prototype.startPhysics = function () {

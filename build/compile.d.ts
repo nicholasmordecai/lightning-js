@@ -101,7 +101,7 @@ declare namespace Lightning {
          *
          * @returns {iPoint}
          */
-        static distanceBetween(): iPoint;
+        static distanceBetween(obj1: any, obj2: any): any;
         /**
         * TODO
         * @description Convert Hex to RGB
@@ -111,7 +111,7 @@ declare namespace Lightning {
         *
         * @returns {iPoint}
         */
-        static hextoRGB(): iPoint;
+        static hextoRGB(hex: any, out: any): any;
         /**
         * TODO
         * @description Calculate RGB to Hex
@@ -121,7 +121,7 @@ declare namespace Lightning {
         *
         * @returns {iPoint}
         */
-        static rgbToHex(): iPoint;
+        static rgbToHex(r: number, g: number, b: number): any;
     }
 }
 /**
