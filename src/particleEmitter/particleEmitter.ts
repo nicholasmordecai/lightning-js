@@ -35,6 +35,7 @@ namespace Lightning {
         protected _deadPool:Array<Particle> = [];
 
         protected _gravity:iPoint = {x: 0  * window.devicePixelRatio, y: 0.2  * window.devicePixelRatio};
+        protected _nGravity:number = 6.5;
         protected _spread:iPointRange= {xFrom: -2  * window.devicePixelRatio, xTo: 2  * window.devicePixelRatio, yFrom: -2  * window.devicePixelRatio, yTo: 2  * window.devicePixelRatio};
         protected _lifeSpanRange:iRange = {from:3000, to:3000};
         protected _particleStrength:number = 1;
@@ -48,20 +49,48 @@ namespace Lightning {
         protected _particleScaleIncrement:iPointRange = {xFrom: 0, xTo: 0, yFrom: 0, yTo: 0};
         protected _particleAlphaIncrement:iRange = {from: 0, to: 0};
 
+        public gravityWells:Array<any>;
+        public obstacles:Array<any>;
+
         constructor(state:State, x:number = 0, y:number = 0) {
             super();
             this.state = state;
             this.game = state.game;
             this.x = x;
             this.y = y;
+            this.gravityWells = [];
+            this.obstacles = [];
+
+            let t = Lightning.Geometry.Rect(50, 50);
+
+            let sprite = new Lightning.Sprite(this.game.generateTexture(t));
+            sprite['mass'] = 4;
+            sprite.setAnchor(0.5);
+            sprite.tint = 0xff22aa;
+            this.game.world.addChild(sprite);
+            sprite.x = this.game.center.x- 75;
+            sprite.y = this.game.center.y - 100;
+
+            sprite.enableDrag();
+            this.obstacles.push(sprite);
+
+            let sprite2 = new Lightning.Sprite(this.game.generateTexture(t));
+            sprite2.enableDrag();
+            sprite2.setAnchor(0.5);
+            sprite2['mass'] = 6;
+            sprite2.tint = 0x00aa22;
+            this.game.world.addChild(sprite2);
+            sprite2.x = this.game.center.x + 75;
+            sprite2.y = this.game.center.y + 120;
+            this.obstacles.push(sprite2);
+            this.game.ticker.add(this.tick, this);
         }
 
-        private tick():void {
-
+        private tick(time:number):void {
             for(let i of this.children) {
                 // see if it's more performant to use an array for alivePool, and remove dead object from there
                 if(!i['isDead']) {
-                    i['update']();
+                    i['update'](time);
                 }
             }
 
@@ -84,9 +113,6 @@ namespace Lightning {
 
             // TODO: check render flags, how to process stuff here
             this.worldAlpha = this.alpha * this.parent.worldAlpha;
-            
-            // let this class handle the flags to update children or not
-            this.tick();
         };
 
         /**
@@ -203,6 +229,7 @@ namespace Lightning {
             }
 
             particle.createdAt = Date.now();
+            particle.lifeTime = 0;
 
             if(!isChild) {
                 this.addChild(particle);
@@ -384,6 +411,14 @@ namespace Lightning {
 
         public get pool():number {
             return this._deadPool.length;
+        }
+
+        public get nGravity():number {
+            return this._nGravity;
+        }
+
+        public set nGravity(val:number) {
+            this._nGravity = val;
         }
     }
 }

@@ -5,6 +5,7 @@ namespace Lightning {
         
         public game:Engine;
         public loader:PIXI.loaders.Loader;
+        public events:EventEmitter;
 
         /**
          * @description State constructor
@@ -14,6 +15,7 @@ namespace Lightning {
         constructor(game:Engine) {
             super();
             this.game = game;
+            this.events = new EventEmitter();
             this.loader = new PIXI.loaders.Loader();
             this.loader.onError.add(this.preloadError, this);
             this.loader.onLoad.add(this.preloadSingle, this);

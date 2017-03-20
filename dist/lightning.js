@@ -51675,6 +51675,8 @@ var __extends = (this && this.__extends) || (function () {
 /// <reference path="./../reference.d.ts" />
 /// <reference path="./../reference.d.ts" />
 /// <reference path="./../reference.d.ts" />
+/// <reference path="./../reference.d.ts" />
+/// <reference path="./../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
     var Maths = (function () {
@@ -51788,6 +51790,199 @@ var Lightning;
     }());
     Lightning.Depreciated = Depreciated;
 })(Lightning || (Lightning = {}));
+/// <reference path="./../../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Event = (function () {
+        function Event(emitter) {
+            this._proporgationAllowed = true;
+            this._enabled = true;
+            this._emitter = emitter;
+            this._subscribers = [];
+        }
+        Event.prototype.addSubscriber = function (fn, ctx, once) {
+            if (once === void 0) { once = false; }
+            var subscriber = {};
+            subscriber.fn = fn;
+            subscriber.ctx = ctx;
+            subscriber.once = once;
+            this._subscribers.push(subscriber);
+        };
+        Event.prototype.emit = function (params) {
+            if (!this._enabled)
+                return;
+            for (var i = 0; i < this._subscribers.length; i++) {
+                var subscription = this._subscribers[i];
+                subscription.fn.call(subscription.ctx, params);
+                if (subscription.once) {
+                    this.removeSubscriber(subscription);
+                }
+                if (!this._proporgationAllowed) {
+                    return;
+                }
+            }
+        };
+        Event.prototype.removeSubscriber = function (subscriber) {
+            for (var i = 0; i < this._subscribers.length; i++) {
+                if (this._subscribers[i] === subscriber) {
+                    this._subscribers.splice(i, 1);
+                }
+            }
+        };
+        Object.defineProperty(Event.prototype, "enabled", {
+            get: function () {
+                return this._enabled;
+            },
+            set: function (val) {
+                this._enabled = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Event;
+    }());
+    Lightning.Event = Event;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var EventEmitter = (function () {
+        function EventEmitter() {
+            this._events = {};
+        }
+        EventEmitter.prototype.create = function (key, emitOnce) {
+            if (emitOnce === void 0) { emitOnce = false; }
+            var event = new Lightning.Event(this);
+            this._events[key] = event;
+            return event;
+        };
+        EventEmitter.prototype.subscribe = function (key, fn, ctx) {
+            if (ctx === void 0) { ctx = null; }
+            this._events[key].addSubscriber(fn, ctx);
+            return true;
+        };
+        EventEmitter.prototype.subscribeOnce = function (key, fn, ctx) {
+            if (ctx === void 0) { ctx = null; }
+            this._events[key].addSubscriber(fn, ctx, true);
+            return true;
+        };
+        EventEmitter.prototype.emit = function (key, params) {
+            if (params === void 0) { params = null; }
+            this._events[key].emit(params);
+            return true;
+        };
+        EventEmitter.prototype.event = function (key) {
+            return this._events[key];
+        };
+        EventEmitter.prototype.remove = function (key) {
+            this._events[key] = null;
+            return true;
+        };
+        EventEmitter.prototype.enable = function (key) {
+            this._events[key].enabled = true;
+            return true;
+        };
+        EventEmitter.prototype.disable = function (key) {
+            this._events[key].enabled = false;
+            return true;
+        };
+        return EventEmitter;
+    }());
+    Lightning.EventEmitter = EventEmitter;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var StorageManager = (function () {
+        function StorageManager() {
+            this._isLS = false;
+            this.setItem = this.setItemFallback;
+            this.getItem = this.getItemFallback;
+            this.removeItem = this.removeItemFallback;
+            this.exists = this.existsFallback;
+            this.length = this.lengthFallback;
+            this._map = {};
+            if (this.localStorageAvailable()) {
+                this._isLS = true;
+                this.setItem = this.setItemLS;
+                this.getItem = this.getItemLS;
+                this.removeItem = this.removeItemLS;
+                this.exists = this.existsLS;
+                this.length = this.lengthLS;
+            }
+        }
+        StorageManager.prototype.setItemLS = function (key, val) {
+            localStorage.setItem(key, val);
+            return true;
+        };
+        StorageManager.prototype.setItemFallback = function (key, val) {
+            this._map[key] = val;
+            return true;
+        };
+        StorageManager.prototype.getItemLS = function (key) {
+            return localStorage.getItem(key) || null;
+        };
+        StorageManager.prototype.getItemFallback = function (key) {
+            return this._map[key].val;
+        };
+        StorageManager.prototype.removeItemLS = function (key) {
+            localStorage.removeItem(key);
+            return true;
+        };
+        StorageManager.prototype.removeItemFallback = function (key) {
+            if (this.exists(key)) {
+                this._map[key] = null;
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        StorageManager.prototype.existsLS = function (key) {
+            if (localStorage.getItem(key) === null) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        };
+        StorageManager.prototype.existsFallback = function (key) {
+            if (this._map[key]) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        StorageManager.prototype.lengthLS = function () {
+            var _lsTotal = 0, _xLen, _x;
+            for (_x in localStorage) {
+                _xLen = ((localStorage[_x].length + _x.length) * 2);
+                _lsTotal += _xLen;
+                console.log(_x.substr(0, 50) + " = " + (_xLen / 1024).toFixed(2) + " KB");
+            }
+            ;
+            console.log("Total = " + (_lsTotal / 1024).toFixed(2) + " KB");
+            return _lsTotal;
+        };
+        StorageManager.prototype.lengthFallback = function () {
+            return Object.keys(this._map).length;
+        };
+        StorageManager.prototype.localStorageAvailable = function () {
+            var a = 'a';
+            try {
+                localStorage.setItem(a, a);
+                localStorage.removeItem(a);
+                return true;
+            }
+            catch (e) {
+                return false;
+            }
+        };
+        return StorageManager;
+    }());
+    Lightning.StorageManager = StorageManager;
+})(Lightning || (Lightning = {}));
 /// <reference path="./../reference.d.ts" />
 /**
  * A helper class for the 'Game'. It's used for all non essential public functions.
@@ -51895,13 +52090,6 @@ var Lightning;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(EngineHelper.prototype, "signals", {
-            get: function () {
-                return this._signals;
-            },
-            enumerable: true,
-            configurable: true
-        });
         Object.defineProperty(EngineHelper.prototype, "states", {
             get: function () {
                 return this._stateManager;
@@ -51957,9 +52145,93 @@ var Lightning;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(EngineHelper.prototype, "storage", {
+            get: function () {
+                return this._storageManager;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EngineHelper.prototype, "events", {
+            get: function () {
+                return this._eventEmitter;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EngineHelper.prototype, "ticker", {
+            get: function () {
+                return this._ticker;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return EngineHelper;
     }());
     Lightning.EngineHelper = EngineHelper;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Timer = (function () {
+        function Timer(game, interval, autoStart, loop, autoDestroy) {
+            if (autoStart === void 0) { autoStart = true; }
+            if (loop === void 0) { loop = true; }
+            if (autoDestroy === void 0) { autoDestroy = false; }
+            this._events = new Lightning.EventEmitter();
+            this._currentTime = 0;
+            this._lastTick = 0;
+            this._active = false;
+            this.game = game;
+            this._interval = interval;
+            this._isLoop = loop;
+            this._autoDestroy = autoDestroy;
+            this._events.create('tick');
+            this._events.create('start');
+            this._events.create('stop');
+            this._events.create('reset');
+            this._events.create('destroy');
+            if (autoStart) {
+                this._active = true;
+            }
+            this.game.ticker.add(this.update, this);
+        }
+        Timer.prototype.update = function (time) {
+            if (this._active) {
+                this._currentTime += this.game.ticker.elapsedMS;
+                if (this._currentTime >= this._lastTick + this._interval) {
+                    this._lastTick = this._currentTime;
+                    this._events.emit('tick', time);
+                    if (this._isLoop === false) {
+                        this.stop();
+                    }
+                }
+            }
+        };
+        Timer.prototype.add = function (fn, ctx) {
+            if (ctx === void 0) { ctx = null; }
+            this._events.subscribe('tick', fn, ctx);
+        };
+        Timer.prototype.start = function () {
+            this._active = true;
+        };
+        Timer.prototype.stop = function () {
+            this._active = false;
+            if (this._autoDestroy) {
+                this.destroy();
+            }
+        };
+        Timer.prototype.reset = function () {
+            this._currentTime = 0;
+            this._lastTick = 0;
+        };
+        Timer.prototype.destroy = function () {
+        };
+        Timer.prototype.remove = function () {
+        };
+        return Timer;
+    }());
+    Lightning.Timer = Timer;
 })(Lightning || (Lightning = {}));
 /// <reference path="./../../reference.d.ts" />
 var Lightning;
@@ -51974,6 +52246,7 @@ var Lightning;
         function State(game) {
             var _this = _super.call(this) || this;
             _this.game = game;
+            _this.events = new Lightning.EventEmitter();
             _this.loader = new PIXI.loaders.Loader();
             _this.loader.onError.add(_this.preloadError, _this);
             _this.loader.onLoad.add(_this.preloadSingle, _this);
@@ -52433,7 +52706,7 @@ var Lightning;
     var Texture = (function (_super) {
         __extends(Texture, _super);
         function Texture() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            return _super.apply(this, arguments) || this;
         }
         return Texture;
     }(PIXI.Texture));
@@ -52473,7 +52746,9 @@ var Lightning;
          */
         function Sprite(texture) {
             if (texture === void 0) { texture = null; }
-            return _super.call(this, texture) || this;
+            var _this = _super.call(this, texture) || this;
+            _this._events = new Lightning.EventEmitter();
+            return _this;
         }
         /**
          * @param  {boolean} val
@@ -52582,7 +52857,9 @@ var Lightning;
     var Group = (function (_super) {
         __extends(Group, _super);
         function Group() {
-            return _super.call(this) || this;
+            var _this = _super.call(this) || this;
+            _this._events = new Lightning.EventEmitter;
+            return _this;
         }
         /**
          * @param  {} ...displayObjects
@@ -52623,7 +52900,7 @@ var Lightning;
     var BitmapText = (function (_super) {
         __extends(BitmapText, _super);
         function BitmapText() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            return _super.apply(this, arguments) || this;
         }
         // constructor() {
         //     super();
@@ -52970,9 +53247,9 @@ var Lightning;
 /// <reference path="./../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
-    var Particle = (function (_super) {
-        __extends(Particle, _super);
-        function Particle(texture, emitter, minX, maxX, minY, maxY) {
+    var ParticleBase = (function (_super) {
+        __extends(ParticleBase, _super);
+        function ParticleBase() {
             var _this = _super.call(this) || this;
             _this._autoCull = true;
             _this._velX = 0;
@@ -52986,6 +53263,114 @@ var Lightning;
             _this._createdAt = null;
             _this._lifeSpan = null;
             _this._deadTime = null;
+            _this._lifeTime = null;
+            return _this;
+        }
+        ParticleBase.prototype.updateSimple = function (time) {
+            // get delta time from update instead of getting date.now //
+            if (this._deadTime <= this._lifeTime) {
+                this.returnToPool();
+                return;
+            }
+            if (this._autoCull) {
+                if (this.y > this._maxY || this.y < this._minY || this.x > this._maxX || this.x < this._minX) {
+                    this.returnToPool();
+                    return;
+                }
+            }
+            // increment alpha
+            if (this._alphaIncrement) {
+                this.alpha += this._alphaIncrement;
+                if (this.alpha <= 0) {
+                    this.returnToPool();
+                }
+            }
+            // increment rotation
+            if (this._rotationIncrement) {
+                this.rotation += this._rotationIncrement;
+            }
+            // increment scale
+            if (this._scaleIncrement) {
+                this.scale.x += this._scaleIncrement.x;
+                this.scale.y += this._scaleIncrement.y;
+            }
+            // update velocity (from gravity)
+            this._velX += this._gX;
+            this._velY += this._gY;
+            // update position
+            this.x += this._velX;
+            this.y += this._velY;
+            if (!this._isDead) {
+                this.updateTransform();
+                this._lifeTime += time;
+            }
+        };
+        ParticleBase.prototype.updateComplex = function (time) {
+            if (this._deadTime <= this._lifeTime) {
+                this.returnToPool();
+                return;
+            }
+            for (var _i = 0, _a = this._emitter.gravityWells; _i < _a.length; _i++) {
+                var i = _a[_i];
+                var mass = i['mass'];
+                var particleGlobal = this.getGlobalPosition();
+                var gravityGlobal = i.getGlobalPosition();
+                // let d = this.getDistance(particleGlobal.x, particleGlobal.y, gravityGlobal.x, gravityGlobal.y);
+                var d = 0;
+                // if(d < 100) {
+                //     this.returnToPool();
+                //     return;
+                // }
+                // let G = 6.5;
+                // for(let i of this._emitter.gravityWells) {
+                //     let mass = i['mass'];
+                //     let particleGlobal = this.getGlobalPosition();
+                //     let gravityGlobal = i.getGlobalPosition();
+                //     let d = this.getDistance(particleGlobal.x, particleGlobal.y, gravityGlobal.x, gravityGlobal.y);
+                //     // if(d < 100) {
+                //     //     this.returnToPool();
+                //     //     return;
+                //     // }
+                //     let f = G * (mass * 1) / d
+                //     if(particleGlobal.x - gravityGlobal.x < 0) {
+                //         this._velX += f;
+                //     } else {
+                //         this._velX += -f;
+                //     }
+                //     if(particleGlobal.y - gravityGlobal.y < 0) {
+                //         this._velY += f;
+                //     } else {
+                //         this._velY += -f;
+                //     }
+                // }
+                var f = this._emitter.nGravity * (mass * 1) / d;
+                if (particleGlobal.x - gravityGlobal.x < 0) {
+                    this._velX += f;
+                }
+                else {
+                    this._velX += -f;
+                }
+                if (particleGlobal.y - gravityGlobal.y < 0) {
+                    this._velY += f;
+                }
+                else {
+                    this._velY += -f;
+                }
+            }
+        };
+        return ParticleBase;
+    }(PIXI.Sprite));
+    Lightning.ParticleBase = ParticleBase;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Particle = (function (_super) {
+        __extends(Particle, _super);
+        function Particle(texture, emitter, minX, maxX, minY, maxY) {
+            var _this = _super.call(this) || this;
+            _this.returnToPool = _this._returnToPool;
+            _this.update = _this.updateSimple;
             _this._texture = texture;
             _this._emitter = emitter;
             _this.children = null;
@@ -53029,10 +53414,6 @@ var Lightning;
             }
             this.transform = null;
             this.parent = null;
-            this._bounds = null;
-            this._mask = null;
-            this.filterArea = null;
-            this.interactive = false;
             this.interactiveChildren = false;
         };
         Particle.prototype.calculateBounds = function () {
@@ -53040,46 +53421,7 @@ var Lightning;
             this._calculateBounds();
             this._lastBoundsID = this._boundsID;
         };
-        Particle.prototype.update = function () {
-            // get delta time from update instead of getting date.now //
-            if (this._deadTime <= Date.now()) {
-                this.returnToPool();
-                return;
-            }
-            if (this._autoCull) {
-                if (this.y > this._maxY || this.y < this._minY || this.x > this._maxX || this.x < this._minX) {
-                    this.returnToPool();
-                    return;
-                }
-            }
-            // update velocity (from gravity)
-            this._velX += this._gX;
-            this._velY += this._gY;
-            // update position
-            this.x += this._velX;
-            this.y += this._velY;
-            // increment alpha
-            if (this._alphaIncrement) {
-                this.alpha += this._alphaIncrement;
-                if (this.alpha <= 0) {
-                    this.returnToPool();
-                }
-            }
-            // increment rotation
-            if (this._rotationIncrement) {
-                this.rotation += this._rotationIncrement;
-            }
-            // increment scale
-            if (this._scaleIncrement) {
-                this.scale.x += this._scaleIncrement.x;
-                this.scale.y += this._scaleIncrement.y;
-            }
-            // finally, call the update transform function
-            if (!this._isDead) {
-                this.updateTransform();
-            }
-        };
-        Particle.prototype.returnToPool = function () {
+        Particle.prototype._returnToPool = function () {
             this._isDead = true;
             this.renderable = false;
             this.visible = false;
@@ -53137,6 +53479,13 @@ var Lightning;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Particle.prototype, "lifeTime", {
+            set: function (val) {
+                this._lifeTime = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(Particle.prototype, "isDead", {
             get: function () {
                 return this._isDead;
@@ -53148,7 +53497,7 @@ var Lightning;
             configurable: true
         });
         return Particle;
-    }(PIXI.Sprite));
+    }(Lightning.ParticleBase));
     Lightning.Particle = Particle;
 })(Lightning || (Lightning = {}));
 /// <reference path="./../reference.d.ts" />
@@ -53175,6 +53524,7 @@ var Lightning;
             _this._textures = [];
             _this._deadPool = [];
             _this._gravity = { x: 0 * window.devicePixelRatio, y: 0.2 * window.devicePixelRatio };
+            _this._nGravity = 6.5;
             _this._spread = { xFrom: -2 * window.devicePixelRatio, xTo: 2 * window.devicePixelRatio, yFrom: -2 * window.devicePixelRatio, yTo: 2 * window.devicePixelRatio };
             _this._lifeSpanRange = { from: 3000, to: 3000 };
             _this._particleStrength = 1;
@@ -53189,14 +53539,36 @@ var Lightning;
             _this.game = state.game;
             _this.x = x;
             _this.y = y;
+            _this.gravityWells = [];
+            _this.obstacles = [];
+            var t = Lightning.Geometry.Rect(50, 50);
+            var sprite = new Lightning.Sprite(_this.game.generateTexture(t));
+            sprite['mass'] = 4;
+            sprite.setAnchor(0.5);
+            sprite.tint = 0xff22aa;
+            _this.game.world.addChild(sprite);
+            sprite.x = _this.game.center.x - 75;
+            sprite.y = _this.game.center.y - 100;
+            sprite.enableDrag();
+            _this.obstacles.push(sprite);
+            var sprite2 = new Lightning.Sprite(_this.game.generateTexture(t));
+            sprite2.enableDrag();
+            sprite2.setAnchor(0.5);
+            sprite2['mass'] = 6;
+            sprite2.tint = 0x00aa22;
+            _this.game.world.addChild(sprite2);
+            sprite2.x = _this.game.center.x + 75;
+            sprite2.y = _this.game.center.y + 120;
+            _this.obstacles.push(sprite2);
+            _this.game.ticker.add(_this.tick, _this);
             return _this;
         }
-        ParticleEmitter.prototype.tick = function () {
+        ParticleEmitter.prototype.tick = function (time) {
             for (var _i = 0, _a = this.children; _i < _a.length; _i++) {
                 var i = _a[_i];
                 // see if it's more performant to use an array for alivePool, and remove dead object from there
                 if (!i['isDead']) {
-                    i['update']();
+                    i['update'](time);
                 }
             }
             if (this._time !== null && Date.now() > this._lastStart + this._time) {
@@ -53214,8 +53586,6 @@ var Lightning;
             this.transform.updateTransform(this.parent.transform);
             // TODO: check render flags, how to process stuff here
             this.worldAlpha = this.alpha * this.parent.worldAlpha;
-            // let this class handle the flags to update children or not
-            this.tick();
         };
         ;
         /**
@@ -53320,6 +53690,7 @@ var Lightning;
                 particle.scaleIncrement = { x: scaleIncrementX, y: scaleIncrementX };
             }
             particle.createdAt = Date.now();
+            particle.lifeTime = 0;
             if (!isChild) {
                 this.addChild(particle);
             }
@@ -53487,6 +53858,16 @@ var Lightning;
         Object.defineProperty(ParticleEmitter.prototype, "pool", {
             get: function () {
                 return this._deadPool.length;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ParticleEmitter.prototype, "nGravity", {
+            get: function () {
+                return this._nGravity;
+            },
+            set: function (val) {
+                this._nGravity = val;
             },
             enumerable: true,
             configurable: true
@@ -54847,519 +55228,6 @@ var Lightning;
     }());
     Lightning.TweenManager = TweenManager;
 })(Lightning || (Lightning = {}));
-/// <reference path="./../../reference.d.ts" />
-var Lightning;
-(function (Lightning) {
-    var Signals;
-    (function (Signals) {
-        /**
-         *	@desc       A TypeScript conversion of JS Signals by Miller Medeiros
-        *               Released under the MIT license
-        *				http://millermedeiros.github.com/js-signals/
-        *
-        *	@version	1.0 - 7th March 2013
-        *
-        *	@author 	Richard Davey, TypeScript conversion
-        *	@author		Miller Medeiros, JS Signals
-        *	@author		Robert Penner, AS Signals
-        *
-        *	@url		http://www.photonstorm.com
-        */
-        /**
-         * Custom event broadcaster
-         * <br />- inspired by Robert Penner's AS3 Signals.
-         * @name Signal
-         * @author Miller Medeiros
-         * @constructor
-         */
-        var Signal = (function () {
-            function Signal() {
-                /**
-                 * @property _bindings
-                 * @type Array
-                 * @private
-                 */
-                this._bindings = [];
-                /**
-                 * @property _prevParams
-                 * @type Any
-                 * @private
-                 */
-                this._prevParams = null;
-                /**
-                 * If Signal should keep record of previously dispatched parameters and
-                 * automatically execute listener during `add()`/`addOnce()` if Signal was
-                 * already dispatched before.
-                 * @type boolean
-                 */
-                this.memorize = false;
-                /**
-                 * @type boolean
-                 * @private
-                 */
-                this._shouldPropagate = true;
-                /**
-                 * If Signal is active and should broadcast events.
-                 * <p><strong>IMPORTANT:</strong> Setting this property during a dispatch will only affect the next dispatch, if you want to stop the propagation of a signal use `halt()` instead.</p>
-                 * @type boolean
-                 */
-                this.active = true;
-            }
-            /**
-             * @method validateListener
-             * @param {Any} listener
-             * @param {Any} fnName
-             */
-            Signal.prototype.validateListener = function (listener, fnName) {
-                if (typeof listener !== 'function') {
-                    throw new Error('listener is a required param of {fn}() and should be a Function.'.replace('{fn}', fnName));
-                }
-            };
-            /**
-             * @param {Function} listener
-             * @param {boolean} isOnce
-             * @param {Object} [listenerContext]
-             * @param {Number} [priority]
-             * @return {SignalBinding}
-             * @private
-             */
-            Signal.prototype._registerListener = function (listener, isOnce, listenerContext, priority) {
-                var prevIndex = this._indexOfListener(listener, listenerContext);
-                var binding;
-                if (prevIndex !== -1) {
-                    binding = this._bindings[prevIndex];
-                    if (binding.isOnce() !== isOnce) {
-                        throw new Error('You cannot add' + (isOnce ? '' : 'Once') + '() then add' + (!isOnce ? '' : 'Once') + '() the same listener without removing the relationship first.');
-                    }
-                }
-                else {
-                    binding = new Signals.SignalBinding(this, listener, isOnce, listenerContext, priority);
-                    this._addBinding(binding);
-                }
-                if (this.memorize && this._prevParams) {
-                    binding.execute(this._prevParams);
-                }
-                return binding;
-            };
-            /**
-             * @method _addBinding
-             * @param {SignalBinding} binding
-             * @private
-             */
-            Signal.prototype._addBinding = function (binding) {
-                //simplified insertion sort
-                var n = this._bindings.length;
-                do {
-                    --n;
-                } while (this._bindings[n] && binding.priority <= this._bindings[n].priority);
-                this._bindings.splice(n + 1, 0, binding);
-            };
-            /**
-             * @method _indexOfListener
-             * @param {Function} listener
-             * @return {number}
-             * @private
-             */
-            Signal.prototype._indexOfListener = function (listener, context) {
-                var n = this._bindings.length;
-                var cur;
-                while (n--) {
-                    cur = this._bindings[n];
-                    if (cur.getListener() === listener && cur.context === context) {
-                        return n;
-                    }
-                }
-                return -1;
-            };
-            /**
-             * Check if listener was attached to Signal.
-             * @param {Function} listener
-             * @param {Object} [context]
-             * @return {boolean} if Signal has the specified listener.
-             */
-            Signal.prototype.has = function (listener, context) {
-                if (context === void 0) { context = null; }
-                return this._indexOfListener(listener, context) !== -1;
-            };
-            /**
-             * Add a listener to the signal.
-             * @param {Function} listener Signal handler function.
-             * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-             * @param {Number} [priority] The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
-             * @return {SignalBinding} An Object representing the binding between the Signal and listener.
-             */
-            Signal.prototype.add = function (listener, listenerContext, priority) {
-                if (listenerContext === void 0) { listenerContext = null; }
-                if (priority === void 0) { priority = 0; }
-                this.validateListener(listener, 'add');
-                return this._registerListener(listener, false, listenerContext, priority);
-            };
-            /**
-             * Add listener to the signal that should be removed after first execution (will be executed only once).
-             * @param {Function} listener Signal handler function.
-             * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-             * @param {Number} [priority] The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
-             * @return {SignalBinding} An Object representing the binding between the Signal and listener.
-             */
-            Signal.prototype.addOnce = function (listener, listenerContext, priority) {
-                if (listenerContext === void 0) { listenerContext = null; }
-                if (priority === void 0) { priority = 0; }
-                this.validateListener(listener, 'addOnce');
-                return this._registerListener(listener, true, listenerContext, priority);
-            };
-            /**
-             * Remove a single listener from the dispatch queue.
-             * @param {Function} listener Handler function that should be removed.
-             * @param {Object} [context] Execution context (since you can add the same handler multiple times if executing in a different context).
-             * @return {Function} Listener handler function.
-             */
-            Signal.prototype.remove = function (listener, context) {
-                if (context === void 0) { context = null; }
-                this.validateListener(listener, 'remove');
-                var i = this._indexOfListener(listener, context);
-                if (i !== -1) {
-                    this._bindings[i]._destroy(); //no reason to a SignalBinding exist if it isn't attached to a signal
-                    this._bindings.splice(i, 1);
-                }
-                return listener;
-            };
-            /**
-             * Remove all listeners from the Signal.
-             */
-            Signal.prototype.removeAll = function () {
-                var n = this._bindings.length;
-                while (n--) {
-                    this._bindings[n]._destroy();
-                }
-                this._bindings.length = 0;
-            };
-            /**
-             * @return {number} Number of listeners attached to the Signal.
-             */
-            Signal.prototype.getNumListeners = function () {
-                return this._bindings.length;
-            };
-            /**
-             * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
-             * <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
-             * @see Signal.prototype.disable
-             */
-            Signal.prototype.halt = function () {
-                this._shouldPropagate = false;
-            };
-            /**
-             * Dispatch/Broadcast Signal to all listeners added to the queue.
-             * @param {...*} [params] Parameters that should be passed to each handler.
-             */
-            Signal.prototype.dispatch = function () {
-                var paramsArr = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    paramsArr[_i] = arguments[_i];
-                }
-                if (!this.active) {
-                    return;
-                }
-                var n = this._bindings.length;
-                var bindings;
-                if (this.memorize) {
-                    this._prevParams = paramsArr;
-                }
-                if (!n) {
-                    //should come after memorize
-                    return;
-                }
-                bindings = this._bindings.slice(0); //clone array in case add/remove items during dispatch
-                this._shouldPropagate = true; //in case `halt` was called before dispatch or during the previous dispatch.
-                //execute all callbacks until end of the list or until a callback returns `false` or stops propagation
-                //reverse loop since listeners with higher priority will be added at the end of the list
-                do {
-                    n--;
-                } while (bindings[n] && this._shouldPropagate && bindings[n].execute(paramsArr) !== false);
-            };
-            /**
-             * Forget memorized arguments.
-             * @see Signal.memorize
-             */
-            Signal.prototype.forget = function () {
-                this._prevParams = null;
-            };
-            /**
-             * Remove all bindings from signal and destroy any reference to external objects (destroy Signal object).
-             * <p><strong>IMPORTANT:</strong> calling any method on the signal instance after calling dispose will throw errors.</p>
-             */
-            Signal.prototype.dispose = function () {
-                this.removeAll();
-                delete this._bindings;
-                delete this._prevParams;
-            };
-            /**
-             * @return {string} String representation of the object.
-             */
-            Signal.prototype.toString = function () {
-                return '[Signal active:' + this.active + ' numListeners:' + this.getNumListeners() + ']';
-            };
-            return Signal;
-        }());
-        /**
-         * Signals Version Number
-         * @property VERSION
-         * @type String
-         * @const
-         */
-        Signal.VERSION = '1.0.0';
-        Signals.Signal = Signal;
-    })(Signals = Lightning.Signals || (Lightning.Signals = {}));
-})(Lightning || (Lightning = {}));
-/// <reference path="./../../reference.d.ts" />
-var Lightning;
-(function (Lightning) {
-    var Signals;
-    (function (Signals) {
-        /*
-        *	@desc   	An object that represents a binding between a Signal and a listener function.
-        *               Released under the MIT license
-        *				http://millermedeiros.github.com/js-signals/
-        *
-        *	@version	1.0 - 7th March 2013
-        *
-        *	@author 	Richard Davey, TypeScript conversion
-        *	@author		Miller Medeiros, JS Signals
-        *	@author		Robert Penner, AS Signals
-        *
-        *	@url		http://www.kiwijs.org
-        *
-        */
-        var SignalBinding = (function () {
-            /**
-             * Object that represents a binding between a Signal and a listener function.
-             * <br />- <strong>This is an internal constructor and shouldn't be called by regular users.</strong>
-             * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
-             * @author Miller Medeiros
-             * @constructor
-             * @internal
-             * @name SignalBinding
-             * @param {Signal} signal Reference to Signal object tha
-             * listener is currently bound to.
-             * @param {Function} listener Handler function bound to the signal.
-             * @param {boolean} isOnce If binding should be executed just once.
-             * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-             * @param {Number} [priority] The priority level of the event listener. (default = 0).
-             */
-            function SignalBinding(signal, listener, isOnce, listenerContext, priority) {
-                if (priority === void 0) { priority = 0; }
-                /**
-                 * If binding is active and should be executed.
-                 * @type boolean
-                 */
-                this.active = true;
-                /**
-                 * Default parameters passed to listener during `Signal.dispatch` and `SignalBinding.execute`. (curried parameters)
-                 * @type Array|null
-                 */
-                this.params = null;
-                this._listener = listener;
-                this._isOnce = isOnce;
-                this.context = listenerContext;
-                this._signal = signal;
-                this.priority = priority || 0;
-            }
-            /**
-             * Call listener passing arbitrary parameters.
-             * <p>If binding was added using `Signal.addOnce()` it will be automatically removed from signal dispatch queue, this method is used internally for the signal dispatch.</p>
-             * @param {Array} [paramsArr] Array of parameters that should be passed to the listener
-             * @return {*} Value returned by the listener.
-             */
-            SignalBinding.prototype.execute = function (paramsArr) {
-                var handlerReturn;
-                var params;
-                if (this.active && !!this._listener) {
-                    params = this.params ? this.params.concat(paramsArr) : paramsArr;
-                    handlerReturn = this._listener.apply(this.context, params);
-                    if (this._isOnce) {
-                        this.detach();
-                    }
-                }
-                return handlerReturn;
-            };
-            /**
-             * Detach binding from signal.
-             * - alias to: mySignal.remove(myBinding.getListener());
-             * @return {Function|null} Handler function bound to the signal or `null` if binding was previously detached.
-             */
-            SignalBinding.prototype.detach = function () {
-                return this.isBound() ? this._signal.remove(this._listener, this.context) : null;
-            };
-            /**
-             * @return {Boolean} `true` if binding is still bound to the signal and have a listener.
-             */
-            SignalBinding.prototype.isBound = function () {
-                return (!!this._signal && !!this._listener);
-            };
-            /**
-             * @return {boolean} If SignalBinding will only be executed once.
-             */
-            SignalBinding.prototype.isOnce = function () {
-                return this._isOnce;
-            };
-            /**
-             * @return {Function} Handler function bound to the signal.
-             */
-            SignalBinding.prototype.getListener = function () {
-                return this._listener;
-            };
-            /**
-             * @return {Signal} Signal that listener is currently bound to.
-             */
-            SignalBinding.prototype.getSignal = function () {
-                return this._signal;
-            };
-            /**
-             * Delete instance properties
-             * @private
-             */
-            SignalBinding.prototype._destroy = function () {
-                delete this._signal;
-                delete this._listener;
-                delete this.context;
-            };
-            /**
-             * @return {string} String representation of the object.
-             */
-            SignalBinding.prototype.toString = function () {
-                return '[SignalBinding isOnce:' + this._isOnce + ', isBound:' + this.isBound() + ', active:' + this.active + ']';
-            };
-            return SignalBinding;
-        }());
-        Signals.SignalBinding = SignalBinding;
-    })(Signals = Lightning.Signals || (Lightning.Signals = {}));
-})(Lightning || (Lightning = {}));
-/// <reference path="./../../reference.d.ts" />
-var Lightning;
-(function (Lightning) {
-    var Signals;
-    (function (Signals) {
-        /**
-         * Signal Manager class for storing, manipulating and general management of signals throughout the game
-         */
-        var SignalManager = (function () {
-            /**
-             * @description Signal Manager constructor
-             *
-             * @param {engine} game
-             */
-            function SignalManager(game) {
-                this.game = game;
-                this._signals = {};
-            }
-            /**
-             * @description Create a new signal
-             *
-             * @param {string} key
-             *
-             * @returns {Signal}
-             */
-            SignalManager.prototype.create = function (key) {
-                var signal = this._signals[key] = new Signals.Signal();
-                return signal || null;
-            };
-            /**
-             * @description Add a function to a signal
-             *
-             * @param {string} key
-             * @param {function} fn
-             * @param {Object} listenerContext
-             *
-             * @returns {boolean}
-             */
-            SignalManager.prototype.add = function (key, fn, listenerContext) {
-                if (listenerContext === void 0) { listenerContext = null; }
-                this.signal(key).add(fn, listenerContext);
-                return true;
-            };
-            /**
-             * @description Add a function to a signal only once
-             *
-             * @param {string} key
-             * @param {function} fn
-             * @param {Object} listenerContext
-             *
-             * @returns {boolean}
-             */
-            SignalManager.prototype.addOnce = function (key, fn, listenerContext) {
-                this.signal(key).addOnce(fn, listenerContext);
-                return true;
-            };
-            /**
-             * @description Destroy the signal
-             * @param {string} key
-             *
-             * @returns {boolean§}
-             */
-            SignalManager.prototype.destroy = function (key) {
-                var s = this.signal(key);
-                s = null;
-                return true;
-            };
-            /**
-             * @description Change the active property on a signal
-             *
-             * @param {string} key
-             * @param {boolean} active
-             *
-             * @returns {boolean}
-             */
-            SignalManager.prototype.active = function (key, active) {
-                try {
-                    this.signal(key).active = active;
-                }
-                catch (e) {
-                    return false;
-                }
-            };
-            /**
-             * @description dispatch a signal and pass parameters
-             *
-             * @param {string} key
-             * @param {Array} params
-             */
-            SignalManager.prototype.dispatch = function (key) {
-                var params = [];
-                for (var _i = 1; _i < arguments.length; _i++) {
-                    params[_i - 1] = arguments[_i];
-                }
-                try {
-                    this.signal(key).dispatch(params);
-                    return true;
-                }
-                catch (e) {
-                    return false;
-                }
-            };
-            /**
-             * @description Returns a signal if it exists, else it will return null
-             *
-             * @param {srting} key
-             *
-             * @returns {Signal}
-             */
-            SignalManager.prototype.signal = function (key) {
-                return this.signal(key) || null;
-            };
-            /**
-             * @description Return true if the signal is created, else return false
-             *
-             * @param {string} name
-             *
-             * @return {boolean}
-             */
-            SignalManager.prototype.has = function (name) {
-                return this._signals[name] !== undefined;
-            };
-            return SignalManager;
-        }());
-        Signals.SignalManager = SignalManager;
-    })(Signals = Lightning.Signals || (Lightning.Signals = {}));
-})(Lightning || (Lightning = {}));
 /// <reference path="./../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
@@ -55375,15 +55243,16 @@ var Lightning;
         function Engine(width, height, canvasId) {
             if (canvasId === void 0) { canvasId = 'app'; }
             var _this = _super.call(this) || this;
-            _this._hud = null;
-            _this._tweens = new Lightning.TweenManager(_this);
-            _this._signals = new Lightning.Signals.SignalManager(_this);
+            console.log('Lightning-js | version : 0.4.0');
             _this._dpr = window.devicePixelRatio;
+            _this._eventEmitter = new Lightning.EventEmitter;
             if (!canvasId) {
                 var viewCanvas = document.createElement('canvas');
                 viewCanvas.id = 'app';
                 document.getElementById('app-container').appendChild(viewCanvas);
             }
+            _this._tweens = new Lightning.TweenManager(_this);
+            _this._storageManager = new Lightning.StorageManager();
             _this._renderer = PIXI.autoDetectRenderer(width, height, { resolution: _this._dpr });
             _this._renderer.autoResize = true;
             _this._world = new PIXI.Container();
@@ -55398,9 +55267,8 @@ var Lightning;
             _this._stateManager = new Lightning.StateManager(_this);
             // init the ticker
             _this._ticker = PIXI.ticker.shared;
-            _this._ticker.autoStart = true;
+            _this._ticker.autoStart = false;
             _this._ticker.add(_this.update, _this);
-            _this._ticker.minFPS = 30;
             return _this;
         }
         /**
@@ -55422,7 +55290,7 @@ var Lightning;
          * @returns {boolean}
          */
         Engine.prototype.start = function () {
-            this._ticker.start();
+            //this._ticker.start();
             return true;
         };
         /**
@@ -55441,8 +55309,8 @@ var Lightning;
 /**
  * TODOS
  * Implement some sort of global cache system for any kind of object
- * Implement a storage system based on local storage / global vars if unavilable
  * Implement the services manager for backend calls
+ * Implement a timer service to create and keep track of timers
  * Implement some sort of socket connectivity manager
  * Write some nice transitions for the state manager
  * Implement an animatins class for extending pixi animations
@@ -55459,5 +55327,6 @@ var Lightning;
  * Explore the posibility of using light ray casting?
  * Particle emitter presets??
  * Utalise isMobilejs for mobile detection
+ * Build a webfont loader
  */ 
 //# sourceMappingURL=compile.js.map

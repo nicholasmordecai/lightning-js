@@ -1,6 +1,8 @@
 const gulp = require('gulp');
 const concat = require('gulp-concat');
 const minify = require('gulp-minify');
+const webserver = require('gulp-webserver');
+
 
 
 const sourceFiles = [ './libs/pixi.js', './libs/Box2D.js', './libs/howler.js', './libs/stats.min.js', './build/*.js' ];
@@ -37,4 +39,13 @@ gulp.task('minify', function() {
         exclude: ['tasks'],
     }))
     .pipe(gulp.dest('dist'))
+});
+
+gulp.task('webserver', function() {
+    gulp.src('')
+        .pipe(webserver({
+        port:'9090',
+        livereload: true,
+        open: true
+    }));
 });

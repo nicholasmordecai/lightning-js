@@ -11,13 +11,13 @@ namespace Lightning {
         protected _dpr:number;
         protected _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
         protected _world: PIXI.Container;
-        protected _hud;
+        protected _hud:HUD;
         protected _ticker:PIXI.ticker.Ticker;
-        protected _activateState;
-        protected _tweens;
-        protected _signals:Signals.SignalManager;
+        protected _tweens:TweenManager
         protected _stateManager:StateManager;
         protected _physicsManager:PhysicsManager
+        protected _eventEmitter:EventEmitter;
+        protected _storageManager:StorageManager;
 
         public generateTexture(...params):any {
             let t:Texture | Array<Texture> = [];
@@ -83,10 +83,6 @@ namespace Lightning {
             return this._tweens;
         }
 
-        public get signals():Signals.SignalManager {
-            return this._signals;
-        }
-
         public get states():StateManager {
             return this._stateManager;
         }
@@ -121,6 +117,18 @@ namespace Lightning {
 
         public set dpr(val:number) {
             this._dpr = val;
+        }
+
+        public get storage():StorageManager {
+            return this._storageManager;
+        }
+
+        public get events():EventEmitter {
+            return this._eventEmitter;
+        }
+
+        public get ticker():PIXI.ticker.Ticker {
+            return this._ticker;
         }
 
         /**

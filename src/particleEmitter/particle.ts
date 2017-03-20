@@ -1,33 +1,12 @@
 /// <reference path="./../reference.d.ts" />
 
 namespace Lightning {
-    export class Particle extends PIXI.Sprite {
-
-        protected _texture:PIXI.Texture;
-        protected _emitter:ParticleEmitter;
-
-        private _minX:number;
-        private _maxX:number;
-        private _minY:number;
-        private _maxY:number;
-        protected _autoCull:boolean = true;
-
-        protected _velX:number = 0;
-        protected _velY:number = 0;
-        protected _gX:number = 0;
-        protected _gY:number = 0;
-
-        protected _alphaIncrement:number = null;
-        protected _rotationIncrement:number = null;
-        protected _scaleIncrement:{x:number, y:number} = null;
-
-        protected _isDead:boolean = false;
-        protected _createdAt:number = null;
-        protected _lifeSpan:number = null;
-        protected _deadTime:number = null;
+    export class Particle extends ParticleBase {
     
         constructor(texture:PIXI.Texture, emitter:ParticleEmitter, minX:number, maxX:number, minY:number, maxY:number) {
             super();
+            this.returnToPool = this._returnToPool;
+            this.update = this.updateSimple;
             this._texture = texture;
             this._emitter = emitter;
             this.children = null;
@@ -36,7 +15,6 @@ namespace Lightning {
             this._maxX = maxX;
             this._maxY = maxY;
             this.anchor.set(0.5);
-
             // check the interaction is turned off completly.. seems to still being called -> processInteractive
         }
 
@@ -65,7 +43,6 @@ namespace Lightning {
 
         updateTransform() {
             this._boundsID++;
-
             this.transform.updateTransform(this.parent.transform);
             // TODO: check render flags, how to process stuff here
             this.worldAlpha = this.alpha * this.parent.worldAlpha;
@@ -78,10 +55,6 @@ namespace Lightning {
             }
             this.transform = null;
             this.parent = null;
-            this._bounds = null;
-            this._mask = null;
-            this.filterArea = null;
-            this.interactive = false;
             this.interactiveChildren = false;
         }
 
@@ -91,55 +64,7 @@ namespace Lightning {
             this._lastBoundsID = this._boundsID;
         }
 
-
-        update() {
-            // get delta time from update instead of getting date.now //
-            if(this._deadTime <= Date.now()) {
-                this.returnToPool();    
-                return;
-            }
-
-            if(this._autoCull) {
-                if(this.y > this._maxY || this.y < this._minY || this.x > this._maxX || this.x < this._minX) {
-                    this.returnToPool();
-                    return;
-                }
-            }
-
-            // update velocity (from gravity)
-            this._velX += this._gX;
-            this._velY += this._gY;
-
-            // update position
-            this.x += this._velX;
-            this.y += this._velY;
-
-            // increment alpha
-            if(this._alphaIncrement) {
-                this.alpha += this._alphaIncrement;
-                if(this.alpha <= 0) {
-                    this.returnToPool();
-                }
-            }
-
-            // increment rotation
-            if(this._rotationIncrement) {
-                this.rotation += this._rotationIncrement;
-            }
-
-            // increment scale
-            if(this._scaleIncrement) {
-                this.scale.x += this._scaleIncrement.x;
-                this.scale.y += this._scaleIncrement.y;
-            }
-
-            // finally, call the update transform function
-            if(!this._isDead) {
-                this.updateTransform();                
-            }
-        }
-
-        returnToPool() {
+        _returnToPool():void {
             this._isDead = true;
             this.renderable = false;
             this.visible = false;
@@ -175,6 +100,10 @@ namespace Lightning {
 
         public set createdAt(val:number) {
             this._createdAt = val;
+        }
+
+        public set lifeTime(val:number) {
+            this._lifeTime = val;
         }
 
         public get isDead():boolean {
