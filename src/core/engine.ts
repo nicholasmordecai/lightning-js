@@ -39,6 +39,9 @@ namespace Lightning {
             // create the physicsManager 
             this._physicsManager = new PhysicsManager(this);
 
+            // create a new services manager
+            this._serviceManager = new ServiceManager(this);
+
             // create the state StateManager
             this._stateManager = new StateManager(this);
             

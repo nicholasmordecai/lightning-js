@@ -15,7 +15,14 @@
 /// <reference path ="./interfaces/iTweenProperty.ts" />
 /// <reference path ="./interfaces/iEventSubscription.ts" />
 /// <reference path ="./interfaces/iParticle.ts" />
+/// <reference path ="./interfaces/iServiceAction.ts" />
 
+/**
+ * Controllers
+ */
+/// <reference path="./controllers/services/request.ts" />
+/// <reference path="./controllers/services/service.ts" />
+/// <reference path="./controllers/services/serviceManager.ts" />
 /**
  * Utils
  */
@@ -24,6 +31,7 @@
 /**
  * Core
  */
+/// <reference path="./core/cache/cache.ts" />
 /// <reference path="./core/events/event.ts" />
 /// <reference path="./core/events/eventEmitter.ts" />
 /// <reference path="./core/storage/storageManager.ts" />

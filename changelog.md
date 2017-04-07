@@ -12,6 +12,9 @@
 7. Particle Emitter fixes
     1. Function callback from ticker instead of hijacking update transformation
     2. Particles now use ticker time to calculate lifeTime vs deadTime instead of Date.now() - good performance saver
+8. Fix in state manager (not waiting for preload to complete before)
+9. Created a Timer class
+10. Fixed context issues on event emitter (consider a rename for more standard convention)
 
 ### 0.3.6
 1. Brand new shiny ultra fast light weight super duper event emitter :D

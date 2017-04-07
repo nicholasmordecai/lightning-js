@@ -101,7 +101,7 @@ namespace Lightning {
          * 
          * @returns {void}
          */
-        preloadComplete(resources):void {
+        preloadComplete(loader, resources):void {
             this.create();
         }
     }

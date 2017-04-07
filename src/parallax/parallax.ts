@@ -63,7 +63,8 @@ namespace Lightning {
          * 
          */
         update() {
-            let x:number, y:number = 0;
+            let x:number = 0;
+            let y:number = 0;
 
             if(this._watchX) {
                 let currentPositionX = this._watch.x - this._referenceOffset.x;
@@ -82,7 +83,6 @@ namespace Lightning {
                 tile.object.tilePosition.y += tile.updateY * this._scrollSpeed;
                 tile.object.tilePosition.x += x * tile.index * this._watchIncMultiplier.x;
                 tile.object.tilePosition.y -= y * tile.index * this._watchIncMultiplier.y;
-
             }
         }
         

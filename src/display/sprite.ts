@@ -7,6 +7,7 @@ namespace Lightning {
         protected _body:Box2D.Dynamics.b2Body;
         protected _respectPosition:boolean;
         protected _respectPositionValues: {x:number, y:number};
+        protected _input:Input;
 
         /**
          * @param  {PIXI.Texture=null} texture
@@ -14,6 +15,11 @@ namespace Lightning {
         constructor(texture:PIXI.Texture = null) {
             super(texture);
             this._events = new EventEmitter();
+        }
+
+        enableInput() {
+            this.interactive = true;
+            this._input = new Input(this);
         }
         
         /**
@@ -118,6 +124,10 @@ namespace Lightning {
                 (event.data.global.x * window.devicePixelRatio) - this._respectPositionValues.x, 
                 (event.data.global.y * window.devicePixelRatio) - this._respectPositionValues.y
             );
+        }
+
+        public get input():Input {
+            return this._input;
         }
     }
 }
