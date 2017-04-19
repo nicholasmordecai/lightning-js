@@ -1,4 +1,4 @@
-[![build status](https://gitlab.com/Sprite-Storm/lightning/badges/dev/build.svg)](https://gitlab.com/Sprite-Storm/lightning/commits/dev)
+[![CircleCI](https://circleci.com/gh/megmut/lightning-js.svg?style=svg)](https://circleci.com/gh/megmut/lightning-js)
 
 
 # Ligtning 0.4.1
