@@ -10,13 +10,14 @@
   "scripts": {
     "start": "",
     "compile": "tsc",
+    "ts-compile": "tsc --outfile build/lightning.js",
     "concat": "gulp concat",
     "concat-dts": "gulp concat-dts",
     "push-test": "gulp push-to-test",
     "minify": "gulp minify",
     "docs": "./node_modules/.bin/typedoc --mode file --out docs/ src/",
-    "build": "npm-run-all compile concat concat-dts minify",
-    "build:dev": "npm-run-all compile concat concat-dts push-test",
+    "build": "npm-run-all compile ts-compile concat concat-dts minify",
+    "build:dev": "npm-run-all ts-compile concat concat-dts push-test",
     "test": "./node_modules/karma/bin/karma start karma.conf.js"
   },
   "author": "Nicholas Mordecai",
