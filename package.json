@@ -10,7 +10,7 @@
   "scripts": {
     "start": "",
     "compile": "tsc",
-    "ts-compile": "tsc --outfile build/lightning.js",
+    "ts-compile": "tsc --outfile build/compile.js",
     "concat": "gulp concat",
     "concat-dts": "gulp concat-dts",
     "push-test": "gulp push-to-test",
