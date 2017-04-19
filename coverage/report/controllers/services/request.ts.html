@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for controllers/services/request.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">controllers/services/</a> request.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">19.64% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>11/56</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">10% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>2/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">18.18% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>2/11</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">20% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>10/50</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/// &lt;reference path="./../../reference.d.ts" /&gt;
+&nbsp;
+namespace Lightning {
+&nbsp;
+    export class Request {
+&nbsp;
+        private service:Service;
+        private _endpoint:string;
+        private _actionType:string;
+        private _headers:Array&lt;{content:string, value:any}&gt;;
+        private _body:any;
+        private _cb:Function;
+        private _ctx:Object;
+&nbsp;
+        private _responseData:string;
+        private <span class="cstat-no" title="statement not covered" >_requestSucceeded:boolean = false;</span>
+&nbsp;
+        private <span class="cstat-no" title="statement not covered" >_timeout:number = 10000;</span>
+        private <span class="cstat-no" title="statement not covered" >_retries:number = 5;</span>
+        private <span class="cstat-no" title="statement not covered" >_currentAttempt:number = 0;</span>
+&nbsp;
+&nbsp;
+<span class="fstat-no" title="function not covered" >        constructor(service:Service, actionType:string, <span class="cstat-no" title="statement not covered" >headers:Array&lt;{content:string, value:any}&gt; = null,</span> <span class="cstat-no" title="statement not covered" >body:Object = null,</span> <span class="cstat-no" title="statement not covered" >cb:Function = null,</span> <span class="cstat-no" title="statement not covered" >ctx:Object = null)</span></span> {
+<span class="cstat-no" title="statement not covered" >            this.service = service;</span>
+<span class="cstat-no" title="statement not covered" >            this._endpoint = service.endpoint;</span>
+<span class="cstat-no" title="statement not covered" >            this._actionType = actionType;</span>
+<span class="cstat-no" title="statement not covered" >            this._headers = headers;</span>
+<span class="cstat-no" title="statement not covered" >            this._body = body;</span>
+<span class="cstat-no" title="statement not covered" >            this._cb = cb;</span>
+<span class="cstat-no" title="statement not covered" >            this._ctx = ctx;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public dispose() {</span>
+<span class="cstat-no" title="statement not covered" >            this.service.despose(this);</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >        public call() {</span></span>
+<span class="cstat-no" title="statement not covered" >            this._currentAttempt ++;</span>
+<span class="cstat-no" title="statement not covered" >            var xhr: XMLHttpRequest = this.createRequest();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            xhr.onerror = <span class="fstat-no" title="function not covered" >(err)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                this._responseData = "Error occurred calling " + this._endpoint + ". Message: " + err.message;</span>
+<span class="cstat-no" title="statement not covered" >                this._requestSucceeded = false;</span>
+<span class="cstat-no" title="statement not covered" >                this.handleFailure(xhr);</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            xhr.onload = <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                if (this.requestWasSuccessful(xhr.status)) {</span>
+<span class="cstat-no" title="statement not covered" >                    this._responseData = xhr.responseText;</span>
+<span class="cstat-no" title="statement not covered" >                    this._requestSucceeded = true;</span>
+<span class="cstat-no" title="statement not covered" >                    this.endRequest();</span>
+                }
+                else {
+<span class="cstat-no" title="statement not covered" >                    this.handleFailure(xhr);</span>
+                }
+            };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            try {</span>
+<span class="cstat-no" title="statement not covered" >                 xhr.send(this._body);</span>
+            } catch(err) {
+<span class="cstat-no" title="statement not covered" >                this.handleFailure(xhr);</span>
+            }
+           
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            return this._responseData;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        private handleFailure(xhr:XMLHttpRequest)</span> {
+<span class="cstat-no" title="statement not covered" >            if(this._retries &gt; this._currentAttempt) {</span>
+<span class="cstat-no" title="statement not covered" >                this.call();</span>
+            } else {
+<span class="cstat-no" title="statement not covered" >                this._responseData = "Request responded with an error status: " + xhr.status.toString() + " - " + xhr.statusText;</span>
+<span class="cstat-no" title="statement not covered" >                this._requestSucceeded = false;</span>
+<span class="cstat-no" title="statement not covered" >                this.endRequest();</span>
+            }
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        private requestWasSuccessful(statusCode: number)</span>: boolean {
+<span class="cstat-no" title="statement not covered" >            return (((statusCode &gt; 99) &amp;&amp; (statusCode &lt; 299)) ? true : false);</span>
+        }
+        
+<span class="fstat-no" title="function not covered" >        private endRequest() {</span>
+<span class="cstat-no" title="statement not covered" >            if(this._cb) {</span>
+<span class="cstat-no" title="statement not covered" >                this._cb.call(this._ctx, this._requestSucceeded, this._responseData);</span>
+<span class="cstat-no" title="statement not covered" >                this.dispose();</span>
+            }
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        private createRequest() {</span>
+<span class="cstat-no" title="statement not covered" >            let xhr: XMLHttpRequest = new XMLHttpRequest();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            xhr.open(this._actionType, this._endpoint, true); </span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            return xhr;</span>
+        }
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 19 2017 22:34:31 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

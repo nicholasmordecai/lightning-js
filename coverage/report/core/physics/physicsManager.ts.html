@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for core/physics/physicsManager.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">core/physics/</a> physicsManager.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">31.25% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>10/32</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">25% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>1/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">25% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>2/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">29.03% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>9/31</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/// &lt;reference path="./../../reference.d.ts" /&gt;
+&nbsp;
+namespace <span class="branch-1 cbranch-no" title="branch not covered" >Lightning </span>{
+    export class PhysicsManager {
+        
+        protected game:Engine;
+        protected _active:boolean;
+        private _physicsWorld:Box2D.Dynamics.b2World;
+        private _physicsWorldBounds:Box2D.Dynamics.b2BodyDef;
+&nbsp;
+<span class="fstat-no" title="function not covered" >        constructor(game:Engine)</span> {
+<span class="cstat-no" title="statement not covered" >            this.game = game;</span>
+<span class="cstat-no" title="statement not covered" >            this._active = false;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        update() {</span>
+<span class="cstat-no" title="statement not covered" >            if(this._active) {</span>
+                // start updating the physics stuff here
+            }
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        startPhysics() {</span>
+<span class="cstat-no" title="statement not covered" >            this._physicsWorld = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 10),  true);</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        collideOnWorldBounds():void {</span>
+<span class="cstat-no" title="statement not covered" >            this._physicsWorldBounds = new Box2D.Dynamics.b2BodyDef();</span>
+<span class="cstat-no" title="statement not covered" >            let polyFixture:Box2D.Dynamics.b2FixtureDef = new Box2D.Dynamics.b2FixtureDef();</span>
+<span class="cstat-no" title="statement not covered" >            polyFixture.shape = new Box2D.Collision.Shapes.b2PolygonShape();</span>
+<span class="cstat-no" title="statement not covered" >            polyFixture.density = 1;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            this._physicsWorldBounds = new Box2D.Dynamics.b2BodyDef();</span>
+<span class="cstat-no" title="statement not covered" >            this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_staticBody;</span>
+        
+            //down
+<span class="cstat-no" title="statement not covered" >            polyFixture.shape.SetAsBox(10, 1);</span>
+<span class="cstat-no" title="statement not covered" >            this._physicsWorldBounds.position.Set(9, this.game.height / 100 + 1);</span>
+<span class="cstat-no" title="statement not covered" >            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);</span>
+            
+            //left
+<span class="cstat-no" title="statement not covered" >            polyFixture.shape.SetAsBox(1, 100);</span>
+<span class="cstat-no" title="statement not covered" >            this._physicsWorldBounds.position.Set(-1, 0);</span>
+<span class="cstat-no" title="statement not covered" >            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);</span>
+            
+            //right
+<span class="cstat-no" title="statement not covered" >            this._physicsWorldBounds.position.Set(this.game.height / 100, 0);</span>
+<span class="cstat-no" title="statement not covered" >            this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);</span>
+<span class="cstat-no" title="statement not covered" >            this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_dynamicBody;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            let body = Box2D.Dynamics.b2Body;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public get physics():Box2D.Dynamics.b2World {</span>
+<span class="cstat-no" title="statement not covered" >            return this._physicsWorld;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public get physicsWorldBounds():Box2D.Dynamics.b2BodyDef {</span>
+<span class="cstat-no" title="statement not covered" >            return this._physicsWorldBounds</span>
+        }
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 19 2017 22:34:31 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

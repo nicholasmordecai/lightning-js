@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for core/states/state.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">core/states/</a> state.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">41.18% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>14/34</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">12.5% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>1/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">18.18% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>2/11</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">41.38% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>12/29</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/// &lt;reference path="./../../reference.d.ts" /&gt;
+&nbsp;
+namespace <span class="branch-1 cbranch-no" title="branch not covered" >Lightning </span>{
+    export class State extends PIXI.Container {
+        
+        public game:Engine;
+        public loader:PIXI.loaders.Loader;
+        public events:EventEmitter;
+&nbsp;
+        /**
+         * @description State constructor
+         * 
+         * @param {Engine} game
+         */
+<span class="fstat-no" title="function not covered" >        constructor(game:Engine)</span> {
+            super();
+<span class="cstat-no" title="statement not covered" >            this.game = game;</span>
+<span class="cstat-no" title="statement not covered" >            this.events = new EventEmitter();</span>
+<span class="cstat-no" title="statement not covered" >            this.loader = new PIXI.loaders.Loader();</span>
+<span class="cstat-no" title="statement not covered" >            this.loader.onError.add(this.preloadError, this);</span>
+<span class="cstat-no" title="statement not covered" >            this.loader.onLoad.add(this.preloadSingle, this);</span>
+<span class="cstat-no" title="statement not covered" >            this.loader.onComplete.add(this.preloadComplete, this);</span>
+        }
+&nbsp;
+        /**
+         * @description Initalization function
+         * 
+         * @param {Array} params
+         * 
+         * @returns {void}
+         */
+<span class="fstat-no" title="function not covered" >        init(params)</span>:void {
+<span class="cstat-no" title="statement not covered" >            this.preload();</span>
+        }
+&nbsp;
+        /**
+         * @description Preload function. Used as a helper function to preload assets into the texture cache. Will skip and call the create function if there are no resources to load
+         * 
+         * @returns {void}
+         */
+<span class="fstat-no" title="function not covered" >        preload():void {</span>
+<span class="cstat-no" title="statement not covered" >            if(Object.keys(this.loader.resources).length &lt; 1) {</span>
+<span class="cstat-no" title="statement not covered" >                this.create();</span>
+            }
+        }
+&nbsp;
+        /**
+         * @description Create function. Called after the preload function is complete or there is nothing to preload
+         * 
+         * @returns {void}
+         */
+<span class="fstat-no" title="function not covered" >        create():void {</span>
+&nbsp;
+        }
+&nbsp;
+        /**
+         * @description Update function. This is called by the state manager on every tick
+         */
+<span class="fstat-no" title="function not covered" >        update(<span class="cstat-no" title="statement not covered" >time:number = null)</span></span>:void {
+            
+        }
+&nbsp;
+        /**
+         * @description Add children to this state. Helper functions should be migrated at some point
+         * 
+         * @returns {boolean}
+         */
+<span class="fstat-no" title="function not covered" >        add(<span class="cstat-no" title="statement not covered" >...params:Array&lt;DisplayObject&gt;)</span>:boolean {</span>
+<span class="cstat-no" title="statement not covered" >            for(<span class="cstat-no" title="statement not covered" >let i </span>of params) {</span>
+<span class="cstat-no" title="statement not covered" >                this.addChild(i);</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            return true;</span>
+        }
+&nbsp;
+        /**
+         * @description Called if the loader produces an error
+         * 
+         * @returns {void}
+         */
+<span class="fstat-no" title="function not covered" >        preloadError(err)</span>:void {
+<span class="cstat-no" title="statement not covered" >            console.log(err);</span>
+        }
+&nbsp;
+        /**
+         * @description Called when a single file has completed loading
+         * 
+         * @returns {void}
+         */
+<span class="fstat-no" title="function not covered" >        preloadSingle(loader:PIXI.loaders.Loader, resource)</span>:void {
+            // get the name of the loaded asset
+<span class="cstat-no" title="statement not covered" >            let file:string = resource.name;</span>
+            // remove the directory if you wish
+<span class="cstat-no" title="statement not covered" >            file = file.replace(/^.*[\\\/]/, '');</span>
+            
+<span class="cstat-no" title="statement not covered" >            let progress:number = resource.progressChunk;</span>
+        }
+&nbsp;
+        /**
+         * @description Called when the loader has finished loading everything
+         * 
+         * @returns {void}
+         */
+<span class="fstat-no" title="function not covered" >        preloadComplete(loader, resources)</span>:void {
+<span class="cstat-no" title="statement not covered" >            this.create();</span>
+        }
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 19 2017 22:34:31 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

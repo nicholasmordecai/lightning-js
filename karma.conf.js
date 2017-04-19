@@ -15,8 +15,9 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'dist/lightning.js',
-      'test/*.js'
+      './node_modules/pixi.js/dist/pixi.min.js',
+      './build/compile.js',
+      './test/**/*.js',
     ],
 
 
@@ -26,7 +27,12 @@ module.exports = function(config) {
       "karma-chrome-launcher",
       "karma-firefox-launcher",
       "karma-phantomjs-launcher",
-      "karma-safari-launcher"
+      "karma-safari-launcher",
+      'karma-typescript',
+      'karma-coverage',
+      'karma-remap-istanbul',
+      'karma-remap-coverage',
+      'karma-sourcemap-loader'
     ],
 
 
@@ -38,14 +44,24 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      './build/compile.js.map': ['sourcemap'],
+      './build/compile.js': ['coverage']
     },
 
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['spec'],
+    reporters: ['spec', 'coverage', 'karma-remap-istanbul'],
 
+    remapIstanbulReporter: {
+        remapOptions: {}, //additional remap options
+        reportOptions: {}, //additional report options
+        reports: {
+          lcovonly: 'coverage/lcov.info',
+          html: 'coverage/report'
+        }
+      },
 
     // web server port
     port: 9876,

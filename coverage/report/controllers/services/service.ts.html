@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for controllers/services/service.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">controllers/services/</a> service.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">25% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>11/44</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">3.57% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>1/28</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">22.22% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>2/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">31.25% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>10/32</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/// &lt;reference path="./../../reference.d.ts" /&gt;
+&nbsp;
+namespace <span class="branch-1 cbranch-no" title="branch not covered" >Lightning </span>{
+&nbsp;
+    export class Service {
+&nbsp;
+        private manager:ServiceManager;
+        private _endpoint:string;
+        private _headers:Array&lt;{content:string, value:string}&gt;;
+        private <span class="cstat-no" title="statement not covered" >_requests:Array&lt;Request&gt; = [];</span>
+        private <span class="cstat-no" title="statement not covered" >_actions:{[key: string]:iServiceAction} = {};</span>
+        private _key:string
+&nbsp;
+<span class="fstat-no" title="function not covered" >        constructor(manager:ServiceManager, key:string, endpoint:string, <span class="cstat-no" title="statement not covered" >headers:Array&lt;{content:string, value:any}&gt; = null)</span></span> {
+<span class="cstat-no" title="statement not covered" >            this.manager = manager;</span>
+<span class="cstat-no" title="statement not covered" >            this._key = key;</span>
+<span class="cstat-no" title="statement not covered" >            this._endpoint = endpoint;</span>
+<span class="cstat-no" title="statement not covered" >            this._headers = headers;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public registerAction(key:string, route:string, <span class="cstat-no" title="statement not covered" >actionType:string = 'GET',</span> <span class="cstat-no" title="statement not covered" >headers:Array&lt;{content:string, value:any}&gt; = null,</span> <span class="cstat-no" title="statement not covered" >body:any = null,</span> <span class="cstat-no" title="statement not covered" >cb:Function = null,</span> <span class="cstat-no" title="statement not covered" >ctx:Object = null)</span></span>:iServiceAction {
+<span class="cstat-no" title="statement not covered" >            let action = &lt;iServiceAction&gt; {</span>
+                route: this._endpoint + route,
+                actionType: actionType,
+                headers: headers || this._headers,
+                cb: cb,
+                ctx: ctx
+            }
+<span class="cstat-no" title="statement not covered" >            this._actions[key] = action;</span>
+<span class="cstat-no" title="statement not covered" >            return action;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public call(key:string, <span class="cstat-no" title="statement not covered" >body:any = null)</span></span>:Request {
+<span class="cstat-no" title="statement not covered" >            let action = this._actions[key];</span>
+<span class="cstat-no" title="statement not covered" >            let request = new Request(this, action.actionType, action.headers);</span>
+<span class="cstat-no" title="statement not covered" >            request.call();</span>
+<span class="cstat-no" title="statement not covered" >            return request;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public destroy() {</span>
+<span class="cstat-no" title="statement not covered" >            this.manager.destroy(this._key);</span>
+<span class="cstat-no" title="statement not covered" >            return true;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public despose(request:Request)</span> {
+<span class="cstat-no" title="statement not covered" >            for(var i = 0; i &lt; this._requests.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >                if(request === this._requests[i]) {</span>
+<span class="cstat-no" title="statement not covered" >                    this._requests[i] = null;</span>
+<span class="cstat-no" title="statement not covered" >                    return true;</span>
+                }
+            }
+<span class="cstat-no" title="statement not covered" >            return false;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public create(actionType:string, <span class="cstat-no" title="statement not covered" >headers:Array&lt;{content:string, value:any}&gt; = null,</span> <span class="cstat-no" title="statement not covered" >body:Object = null,</span> <span class="cstat-no" title="statement not covered" >cb:Function = null,</span> <span class="cstat-no" title="statement not covered" >ctx:Object = null)</span></span>:Request {
+<span class="cstat-no" title="statement not covered" >            return new Request(this, actionType, headers, body, cb, ctx);</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public get endpoint():string {</span>
+<span class="cstat-no" title="statement not covered" >            return this._endpoint</span>
+        }
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 19 2017 22:34:31 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
