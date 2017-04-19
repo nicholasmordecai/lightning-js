@@ -99,14 +99,25 @@ namespace Lightning {
  * Particle emitter clear pool
  * Particle emitter add to world instead of child of the emitter
  * Super Light Sprite 
- *  Think about how to implement a light sprite for particles so they dont take up so much performance. It sucks on safari!
+ * Think about how to implement a light sprite for particles so they dont take up so much performance. It sucks on safari!
  * Particle emitter make a pre-create class that lets you store pooled sprited before the state is started
  * Think about making a debug module that's a container in it's own right. It should accept x number of text values
- *  and sort through them accordinly, ensuring nothing is ever overlapped
+ *   and sort through them accordinly, ensuring nothing is ever overlapped
  * Need to give responsive device pixel ration some serious consideration
  * Build a built in FPS meter in debug module
  * Explore the posibility of using light ray casting?
  * Particle emitter presets??
  * Utalise isMobilejs for mobile detection
  * Build a webfont loader
+ */
+
+/**
+ * TODO ORDER
+ * 
+ * 1. Implement a timer service to create and keep track of timers
+ * 2. Implement the services manager for backend calls
+ * 3. Move enableDrag function to the display object
+ * 4. Build a decent Debug class
+ *  4.1 Count total objects
+ *  4.2 Count all textures on the GPU (possible sizes also)
  */

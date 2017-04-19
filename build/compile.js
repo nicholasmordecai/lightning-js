@@ -1,8 +1,13 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 /// <reference path="./../reference.d.ts" />
 /// <reference path="./../reference.d.ts" />
 /// <reference path="./../reference.d.ts" />
@@ -295,6 +300,45 @@ var Lightning;
     }());
     Lightning.Depreciated = Depreciated;
 })(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Debug = (function () {
+        function Debug(engine) {
+            this.engine = engine;
+        }
+        /**
+         * @description recursive pattern to loop over every child and recursivly loop over all of it's children and returning a count of them all from the root object.
+         * You can use a specific root display object, or you can leave blank and it will default to the world stage.
+         *
+         * Example:
+         * this.game.debug.displayCount();
+         * this.game.debug.displayCount(myContainer);
+         *
+         * @see {Lightning.Engine}
+         *
+         * @param rootObject
+         * @returns {number}
+         */
+        Debug.prototype.displayCount = function (rootObject) {
+            if (rootObject === void 0) { rootObject = this.engine.world; }
+            return (function (d) {
+                var c = 0;
+                var r = function (d) {
+                    c++;
+                    for (var _i = 0, _a = d['children']; _i < _a.length; _i++) {
+                        var i = _a[_i];
+                        r(i);
+                    }
+                };
+                r(d);
+                return c;
+            })(rootObject);
+        };
+        return Debug;
+    }());
+    Lightning.Debug = Debug;
+})(Lightning || (Lightning = {}));
 /// <reference path="./../../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
@@ -426,24 +470,50 @@ var Lightning;
                 this.length = this.lengthLS;
             }
         }
+        /**
+         *
+         * @param key
+         * @param val
+         */
         StorageManager.prototype.setItemLS = function (key, val) {
             localStorage.setItem(key, val);
             return true;
         };
+        /**
+         *
+         * @param key
+         * @param val
+         */
         StorageManager.prototype.setItemFallback = function (key, val) {
             this._map[key] = val;
             return true;
         };
+        /**
+         *
+         * @param key
+         */
         StorageManager.prototype.getItemLS = function (key) {
             return localStorage.getItem(key) || null;
         };
+        /**
+         *
+         * @param key
+         */
         StorageManager.prototype.getItemFallback = function (key) {
             return this._map[key].val;
         };
+        /**
+         *
+         * @param key
+         */
         StorageManager.prototype.removeItemLS = function (key) {
             localStorage.removeItem(key);
             return true;
         };
+        /**
+         *
+         * @param key
+         */
         StorageManager.prototype.removeItemFallback = function (key) {
             if (this.exists(key)) {
                 this._map[key] = null;
@@ -453,6 +523,10 @@ var Lightning;
                 return false;
             }
         };
+        /**
+         *
+         * @param key
+         */
         StorageManager.prototype.existsLS = function (key) {
             if (localStorage.getItem(key) === null) {
                 return false;
@@ -461,6 +535,10 @@ var Lightning;
                 return true;
             }
         };
+        /**
+         *
+         * @param key
+         */
         StorageManager.prototype.existsFallback = function (key) {
             if (this._map[key]) {
                 return true;
@@ -469,6 +547,9 @@ var Lightning;
                 return false;
             }
         };
+        /**
+         *
+         */
         StorageManager.prototype.lengthLS = function () {
             var _lsTotal = 0, _xLen, _x;
             for (_x in localStorage) {
@@ -480,9 +561,15 @@ var Lightning;
             console.log("Total = " + (_lsTotal / 1024).toFixed(2) + " KB");
             return _lsTotal;
         };
+        /**
+         *
+         */
         StorageManager.prototype.lengthFallback = function () {
             return Object.keys(this._map).length;
         };
+        /**
+         *
+         */
         StorageManager.prototype.localStorageAvailable = function () {
             var a = 'a';
             try {
@@ -1120,6 +1207,7 @@ var Lightning;
         }
         PhysicsManager.prototype.update = function () {
             if (this._active) {
+                // start updating the physics stuff here
             }
         };
         PhysicsManager.prototype.startPhysics = function () {
@@ -1164,7 +1252,7 @@ var Lightning;
     }());
     Lightning.PhysicsManager = PhysicsManager;
 })(Lightning || (Lightning = {}));
-/// <reference path="./../reference.d.ts" />
+/// <reference path="./../../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
     var Input = (function () {
@@ -1302,7 +1390,7 @@ var Lightning;
     var Texture = (function (_super) {
         __extends(Texture, _super);
         function Texture() {
-            return _super.apply(this, arguments) || this;
+            return _super !== null && _super.apply(this, arguments) || this;
         }
         return Texture;
     }(PIXI.Texture));
@@ -1447,6 +1535,13 @@ var Lightning;
         Sprite.prototype.onDrag = function (event) {
             this.position = new PIXI.Point((event.data.global.x * window.devicePixelRatio) - this._respectPositionValues.x, (event.data.global.y * window.devicePixelRatio) - this._respectPositionValues.y);
         };
+        Object.defineProperty(Sprite.prototype, "input", {
+            get: function () {
+                return this._input;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return Sprite;
     }(PIXI.Sprite));
     Lightning.Sprite = Sprite;
@@ -1500,7 +1595,7 @@ var Lightning;
     var BitmapText = (function (_super) {
         __extends(BitmapText, _super);
         function BitmapText() {
-            return _super.apply(this, arguments) || this;
+            return _super !== null && _super.apply(this, arguments) || this;
         }
         // constructor() {
         //     super();
@@ -3920,15 +4015,25 @@ var Lightning;
  * Particle emitter clear pool
  * Particle emitter add to world instead of child of the emitter
  * Super Light Sprite
- *  Think about how to implement a light sprite for particles so they dont take up so much performance. It sucks on safari!
+ * Think about how to implement a light sprite for particles so they dont take up so much performance. It sucks on safari!
  * Particle emitter make a pre-create class that lets you store pooled sprited before the state is started
  * Think about making a debug module that's a container in it's own right. It should accept x number of text values
- *  and sort through them accordinly, ensuring nothing is ever overlapped
+ *   and sort through them accordinly, ensuring nothing is ever overlapped
  * Need to give responsive device pixel ration some serious consideration
  * Build a built in FPS meter in debug module
  * Explore the posibility of using light ray casting?
  * Particle emitter presets??
  * Utalise isMobilejs for mobile detection
  * Build a webfont loader
+ */
+/**
+ * TODO ORDER
+ *
+ * 1. Implement a timer service to create and keep track of timers
+ * 2. Implement the services manager for backend calls
+ * 3. Move enableDrag function to the display object
+ * 4. Build a decent Debug class
+ *  4.1 Count total objects
+ *  4.2 Count all textures on the GPU (possible sizes also)
  */ 
 //# sourceMappingURL=compile.js.map

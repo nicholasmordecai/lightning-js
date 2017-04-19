@@ -28,6 +28,7 @@
  */
 /// <reference path="./utils/maths.ts" />
 /// <reference path="./utils/depreciated.ts" />
+/// <reference path="./utils/debug.ts" />
 /**
  * Core
  */
@@ -44,7 +45,7 @@
 /**
  * Controllers
  */
-/// <reference path="./controllers/input.ts" />
+/// <reference path="./controllers/input/input.ts" />
 /**
  * Display
  */

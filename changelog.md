@@ -1,5 +1,12 @@
 # Changelog
 
+### 0.4.1
+1. Moved touch input into input folder within controllers
+2. Created spaces for keyboard and gesture input controllers
+3. More work on the CLI
+    1. Rudimentary build script
+    2. Hijacking NPM for the dev server script
+
 ### 0.4.0
 1. States now automatically have their own event emitter separate from the core engine
 2. CLI gets under way

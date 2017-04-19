@@ -1,3 +1,5 @@
+var npm = require('npm');
+
 exports.command = ['dev', 'd']
  
 exports.describe = 'Start a dev server'
@@ -11,5 +13,9 @@ exports.builder = {
 }
  
 exports.handler = function (argv) {
-    
+    console.log('starting dev');
+    npm.load({}, function (er) {
+      if (er) { return; }
+      npm.commands.run(['start']);
+    });
 }

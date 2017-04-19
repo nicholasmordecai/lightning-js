@@ -65,8 +65,8 @@
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
 				<p><a href="https://gitlab.com/Sprite-Storm/lightning/commits/dev"><img src="https://gitlab.com/Sprite-Storm/lightning/badges/dev/build.svg" alt="build status"></a></p>
-				<h1 id="ligtning-0-3-0">Ligtning 0.3.0</h1>
-				<p>A template for building mobile games in pixi, box2d and typescript</p>
+				<h1 id="ligtning-0-4-1">Ligtning 0.4.1</h1>
+				<p>A complete HTML5 game development library built on Pixi.js (4.4.1)</p>
 				<h2 id="getting-started">Getting Started</h2>
 				<h3 id="prerequisites">Prerequisites</h3>
 				<ul>
@@ -76,112 +76,71 @@
 						</blockquote>
 					</li>
 				</ul>
-				<pre><code><span class="hljs-attribute">Give examples</span>
-</code></pre><h3 id="installing">Installing</h3>
+				<p>For changes to the library, gulp and tsc must be installed globally. If they are not already, please install them:</p>
 				<pre><code class="lang-sh"><span class="hljs-comment"># OSX</span>
-$ sudo npm install -g webpack tsc
+$ sudo npm install -g gulp tsc
 
 <span class="hljs-comment"># Windows (Elivated permissions may be required)</span>
-$ npm install -g webpack tsc
+$ npm install -g gulp tsc
 </code></pre>
-				<p>Next, go ahead and clone the project.</p>
-				<pre><code class="lang-sh">$ git <span class="hljs-built_in">clone</span> git@gitlab.com:Sprite-Storm/Lightning.git
+				<h3 id="installing">Installing</h3>
+				<p>Next, go ahead and install the project.</p>
+				<pre><code class="lang-sh">npm install -g lightning-js
 </code></pre>
-				<p>If you want to make changes to the development branch, please switch to the dev branch. If you want to implement your own feature request, please make a seperate branch and once completed, make a merge request. You can make a pull request from the gitlab dashboard, or from the command line.</p>
-				<pre><code class="lang-sh"><span class="hljs-comment"># switch branch</span>
-$ git checkout dev
-
-<span class="hljs-comment"># make new branch and switch to the new branch</span>
-$ git checkout -b myCoolFeature
-
-<span class="hljs-comment"># CI pull request</span>
-$ git request-pull v1.0 git@gitlab.com:Sprite-Storm/Lightning.git dev
+				<h3 id="creating-a-new-project">Creating a New Project</h3>
+				<p>Lightning comes with some pre-built templates for you to work from. You don&#39;t have to use them, but it can be a good help.</p>
+				<p>To create a new project, run the command:</p>
+				<pre><code class="lang-sh">lightning create myNewProjectName
 </code></pre>
-				<p>Once you have made a pull request to the dev branch, your feature will be implemented into the latest development version, and released with the version.</p>
-				<h3 id="coding-style">Coding Style</h3>
-				<p>Trying to stick to one format of coding style to make collaboration easier. Below is an example of a class.</p>
-				<pre><code class="lang-js"><span class="hljs-comment">/**
- * Button class for adding a hit area and input controls to a sprite
- */</span>
-namespace Lightning.Utils {
-    <span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Button</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">UI</span>.<span class="hljs-title">Sprite</span> </span>{
-        <span class="hljs-comment">/**
-         * @description Constructor of button class
-         * 
-         * @param {number} width width of the hitarea
-         * @param {number} height height of the hitarea
-         */</span>
-        <span class="hljs-keyword">constructor</span>(width:number, height:number) {
-            <span class="hljs-keyword">super</span>();
-        }
-
-        <span class="hljs-comment">/**
-         * @description Add a function to the event listner for inputs
-         * 
-         * @param {string} eventName the name of the event ('mousedown', 'touchend'...)
-         * @param {Function} fnct the function to callback when the event is emitted
-         */</span>
-        on(eventName:string, <span class="hljs-attr">fnct</span>:<span class="hljs-built_in">Function</span>):boolean {
-            ...
-            return <span class="hljs-literal">true</span>;
-        }
-    }
-}
+				<blockquote>
+					<p>running the above command will create a blank slate. You will get all the build tools, folder structure, essential npm modules, however you won&#39;t find a single line of code in there.</p>
+				</blockquote>
+				<p>To use of of the templates provided, please use the --template paramater:</p>
+				<pre><code class="lang-sh">lightning create myNewProjectName --template flappy-bird
 </code></pre>
-				<h2 id="running">Running</h2>
-				<p>You can let Webpack serve the files, and TSC watch for changes. When TSC detctes a change, it will run build the files, at which point Webpack will detect a change to the built file, and re-bundle and update your browser. To start this, you can use:</p>
-				<pre><code class="lang-sh">$ npm start
+				<p>Here is a list of templates</p>
+				<ul>
+					<li>basic</li>
+					<li>flappy-bird -comming soon-</li>
+					<li>side-scroller -comming soon-</li>
+					<li>space-shooter -comming soon-</li>
+				</ul>
+				<h3 id="running-your-project">Running your project</h3>
+				<p>These templates use gulp to serve the game in development mode. Any changes to any of the files will result in the browser automatically being updated.</p>
+				<blockquote>
+					<p>This was initially done with webpack, however in the best interest of keeping things light weight and easily configurable, I opted for gulp. I also had some issues when webpack was serving .svg files.</p>
+				</blockquote>
+				<p>Starting the dev server</p>
+				<pre><code class="lang-sh"><span class="hljs-built_in">cd</span> myNewProjectName
+lightning dev
 </code></pre>
-				<h2 id="deployment">Deployment</h2>
-				<p>Building the library is fairly easy. TSC takes care of all the typescript compilation and Webpack takes care of the bundling. We produce .d.ts files for the typing definitions and the sourmaps for easier debugging. </p>
-				<p>To run deployment, you can simple run:</p>
-				<pre><code class="lang-sh">$ npm run production
+				<p>You can use the options like so:</p>
+				<pre><code class="lang-sh">lightning dev --port 7878 --watch <span class="hljs-literal">false</span> --browserify <span class="hljs-literal">false</span>
 </code></pre>
-				<p>To run the building or the bundling seperatly, you can use:</p>
-				<pre><code class="lang-sh"><span class="hljs-comment"># builds the typescript files into a single javascript file</span>
-$ npm run build
-
-<span class="hljs-comment"># bundles the external libraries and the single javascript output from TSC</span>
-$ npm run bundle
+				<p>There are some options you can pass to the dev command:</p>
+				<ul>
+					<li>--port {number} default = 3000</li>
+					<li>--watch {boolean} default = true</li>
+					<li>--browserify {boolean} default = true</li>
+				</ul>
+				<h3 id="building-and-releasing">Building and Releasing</h3>
+				<p>Running production builds are very important. Although you could release your game from the public folder that would have been created above, it will not be minified, uglified, version bumped, tested or wrapped.</p>
+				<blockquote>
+					<p>These features haven&#39;t been developed yet!</p>
+				</blockquote>
+				<p>To run a standard production build:</p>
+				<pre><code class="lang-sh">lightning build --production
 </code></pre>
-				<h2 id="running-the-tests">Running the tests</h2>
-				<p>Tests are built with Mocha, and coverage with coveralls &amp; istanbul. Tests are written in javascript and reside in the test folder. Here is an example of what a test looks like.</p>
-				<pre><code class="lang-js"><span class="hljs-meta">"use strict"</span>;
-<span class="hljs-keyword">var</span> index = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../bin/index'</span>);
-<span class="hljs-keyword">var</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'assert'</span>);
-
-describe(<span class="hljs-string">'index'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">var</span> subject;
-
-    beforeEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-        subject = <span class="hljs-keyword">new</span> index[<span class="hljs-string">"default"</span>]();
-    });
-
-        describe(<span class="hljs-string">'#isObect'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-        it(<span class="hljs-string">'should check if object is a valid object (not array)'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>) </span>{
-            <span class="hljs-keyword">let</span> testData = {<span class="hljs-attr">test</span>: <span class="hljs-literal">true</span>};
-            <span class="hljs-keyword">let</span> result = subject.isObject(testData);
-            assert.equal(<span class="hljs-literal">true</span>, result, <span class="hljs-string">'expected: '</span> + <span class="hljs-literal">true</span> + <span class="hljs-string">', result: '</span> + result);
-            done();
-        });
-    });
-});
-</code></pre>
-				<p>To run these tests, you can use the following npm script:</p>
-				<pre><code class="lang-sh">$ npm <span class="hljs-built_in">test</span>
-</code></pre>
-				<p>To get the coverage of code, run this:</p>
-				<pre><code class="lang-sh">$ npm run coverage
-</code></pre>
-				<p>To get output of coverage for indepth test identification, use:</p>
-				<pre><code class="lang-sh">$ npm run coveralls
-</code></pre>
-				<p>This will produce a html page with all of your code being displayed along side the number of times each statement is hit, each function is called / tested and what your overall coverage. This report will be published along side this repository at some point.</p>
-				<h2 id="versioning">Versioning</h2>
-				<p>We use standard version controll naming for this project.
-					X.0.0 - Major Release
-					1.X.0 - Minor Release
-				1.0.X - Patch</p>
+				<p>There are optional parameters to running a production build.</p>
+				<ul>
+					<li>--exclude {array} = []</li>
+					<li>--ios {boolean} = false</li>
+					<li>--android {boolean} = fale</li>
+					<li>--desktop {boolean} = false</li>
+					<li>--minify {boolean} = true</li>
+					<li>--uglify {boolean} = true</li>
+					<li>--browserify {boolean} true</li>
+				</ul>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -191,93 +150,18 @@ describe(<span class="hljs-string">'index'</span>, <span class="hljs-function"><
 						<a href="globals.html"><em>Globals</em></a>
 					</li>
 					<li class="label tsd-is-external">
-						<span>Internals</span>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_core_game_.html">"core/game"</a>
-					</li>
-					<li class="label tsd-is-external">
 						<span>Externals</span>
 					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_core_signals_signal_.html">"core/signals/signal"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_core_signals_signalbinding_.html">"core/signals/signal<wbr>Binding"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_core_signals_signalmanager_.html">"core/signals/signal<wbr>Manager"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_core_state_.html">"core/state"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_core_tween_generator_easing_.html">"core/tween-<wbr>generator/<wbr>Easing"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_core_tween_generator_events_.html">"core/tween-<wbr>generator/<wbr>Events"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_core_tween_generator_frame_.html">"core/tween-<wbr>generator/<wbr>Frame"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_core_tween_generator_interfaces_callback_.html">"core/tween-<wbr>generator/<wbr>Interfaces/<wbr>Callback"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_core_tween_generator_interfaces_property_.html">"core/tween-<wbr>generator/<wbr>Interfaces/<wbr>Property"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_core_tween_generator_tween_.html">"core/tween-<wbr>generator/<wbr>Tween"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_core_tween_generator_tweenmanager_.html">"core/tween-<wbr>generator/<wbr>Tween<wbr>Manager"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_display_hud_.html">"display/HUD"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_display_button_.html">"display/button"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_display_displayobject_.html">"display/display<wbr>Object"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_display_geometry_.html">"display/geometry"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_display_graphics_.html">"display/graphics"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_display_group_.html">"display/group"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_display_hitarea_.html">"display/hitarea"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_display_parallax_.html">"display/parallax"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_display_particle_.html">"display/particle"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_display_particleemitter_.html">"display/particle<wbr>Emitter"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_display_sprite_.html">"display/sprite"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_display_texture_.html">"display/texture"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_utils_font_.html">"utils/font"</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_utils_maths_.html">"utils/maths"</a>
+					<li class=" tsd-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="modules/lightning.html">Lightning</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-interface tsd-is-external tsd-is-not-exported">
+						<a href="interfaces/itile.html" class="tsd-kind-icon">i<wbr>Tile</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

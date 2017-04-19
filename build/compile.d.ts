@@ -210,6 +210,26 @@ declare namespace Lightning {
     class Depreciated {
     }
 }
+declare module Lightning {
+    class Debug {
+        private engine;
+        constructor(engine: Engine);
+        /**
+         * @description recursive pattern to loop over every child and recursivly loop over all of it's children and returning a count of them all from the root object.
+         * You can use a specific root display object, or you can leave blank and it will default to the world stage.
+         *
+         * Example:
+         * this.game.debug.displayCount();
+         * this.game.debug.displayCount(myContainer);
+         *
+         * @see {Lightning.Engine}
+         *
+         * @param rootObject
+         * @returns {number}
+         */
+        private displayCount(rootObject?);
+    }
+}
 declare namespace Lightning {
     class Cache {
     }
@@ -248,19 +268,63 @@ declare namespace Lightning {
         setItem: Function;
         getItem: Function;
         removeItem: Function;
+        removeAll: Function;
         exists: Function;
         length: Function;
         constructor();
+        /**
+         *
+         * @param key
+         * @param val
+         */
         private setItemLS(key, val);
+        /**
+         *
+         * @param key
+         * @param val
+         */
         private setItemFallback(key, val);
+        /**
+         *
+         * @param key
+         */
         private getItemLS(key);
+        /**
+         *
+         * @param key
+         */
         private getItemFallback(key);
+        /**
+         *
+         * @param key
+         */
         private removeItemLS(key);
+        /**
+         *
+         * @param key
+         */
         private removeItemFallback(key);
+        /**
+         *
+         * @param key
+         */
         private existsLS(key);
+        /**
+         *
+         * @param key
+         */
         private existsFallback(key);
+        /**
+         *
+         */
         private lengthLS();
+        /**
+         *
+         */
         private lengthFallback();
+        /**
+         *
+         */
         private localStorageAvailable();
     }
 }
@@ -652,6 +716,7 @@ declare namespace Lightning {
         startDrag(event: PIXI.interaction.InteractionEvent): void;
         stopDrag(event: PIXI.interaction.InteractionEvent): void;
         onDrag(event: PIXI.interaction.InteractionEvent): void;
+        readonly input: Input;
     }
 }
 declare namespace Lightning {

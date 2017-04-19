@@ -1,6 +1,8 @@
-exports.command = ['build', 'b']
+var npm = require('npm');
+
+exports.command = ['build', 'b'];
  
-exports.describe = 'Build your game'
+exports.describe = 'Build your game';
  
 exports.builder = {
   browserify: {
@@ -11,5 +13,9 @@ exports.builder = {
 }
  
 exports.handler = function (argv) {
-  console.log(argv.port)
+    console.log('starting dev');
+    npm.load({}, function (er) {
+      if (er) { return; }
+      npm.commands.run(['build'], 'foobar');
+    });
 }

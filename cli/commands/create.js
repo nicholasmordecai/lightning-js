@@ -1,5 +1,6 @@
 const fs = require('fs');
-var copydir = require('copy-dir');
+const copydir = require('copy-dir');
+const fsExtra = require('fs-extra')
 
 exports.command = ['create', 'c'];
  
@@ -35,8 +36,9 @@ function copyTemplate(name, template) {
             console.log(err);
         } else {
             console.log('Template Coppied');
-            var exec = require('child_process').exec;
-            var cmd = 'npm --prefix ./newProject install ./newProject';
+            copyLibs();
+            // var exec = require('child_process').exec;
+            // var cmd = 'npm --prefix ./newProject install ./newProject';
             // console.log('attempt to install node modules');
             // exec(cmd, function(error, stdout, stderr) {
             //   console.log(error);
@@ -44,3 +46,10 @@ function copyTemplate(name, template) {
         }
     });
 };
+
+function copyLibs() {
+    fsExtra.copy('/usr/local/lib/node_modules/lightning-js/dist/lightning.js', './public/js', err => {
+      if (err) return console.error(err)
+      console.log('coppied lightning.js to public/js');
+    });
+}
