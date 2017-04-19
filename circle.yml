@@ -2,8 +2,3 @@ machine:
   node:
     # Circle will use node v6.9.1
     version: 6.9.1
-  pre:
-    npm install -g gulp
-  test:
-    override:
-      - npm test
