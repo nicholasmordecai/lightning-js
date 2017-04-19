@@ -8,7 +8,7 @@
  */
 
 namespace Lightning {
-    export namespace Geometry {
+    export class Geometry {
 
         /**
          * @description Draw a square
@@ -17,7 +17,7 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        export function Square(d:number):PIXI.Graphics {
+        public static Square(d:number):PIXI.Graphics {
             let graphics = new PIXI.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.drawRect(0, 0, d, d);
@@ -33,7 +33,7 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        export function Rect(w:number, h:number):PIXI.Graphics {
+        public static Rect(w:number, h:number):PIXI.Graphics {
             let graphics = new PIXI.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.drawRect(0, 0, w, h);
@@ -49,7 +49,7 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        export function Star(w:number, h:number):PIXI.Graphics {
+        public static Star(w:number, h:number):PIXI.Graphics {
             let graphics = new PIXI.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.drawRect(0, 0, w, h);
@@ -66,7 +66,7 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        export function Rect3D(w:number, h:number, d:number):PIXI.Graphics {
+        public static Rect3D(w:number, h:number, d:number):PIXI.Graphics {
             w *= 2, h *=2, d *= 2;
             let graphics = new PIXI.Graphics();
             // draw front
@@ -104,7 +104,7 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        export function Circle(r:number):PIXI.Graphics {
+        public static Circle(r:number):PIXI.Graphics {
             // think about how to implement responsive graphic drawings
             r = r * window.devicePixelRatio;
             let graphics = new PIXI.Graphics();
@@ -122,7 +122,7 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        export function Triangle(l1:number, l2:number = l1):PIXI.Graphics {
+        public static Triangle(l1:number, l2:number = l1):PIXI.Graphics {
             let graphics = new PIXI.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.moveTo(l1 * 0.5, 0);

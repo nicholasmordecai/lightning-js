@@ -1,7 +1,7 @@
 [![build status](https://gitlab.com/Sprite-Storm/lightning/badges/master/build.svg)](https://gitlab.com/Sprite-Storm/lightning/commits/master)
 
 
-# Ligtning 0.4.0
+# Ligtning 0.4.1
 
 A complete HTML5 game development library built on Pixi.js (4.4.1)
 
@@ -28,7 +28,7 @@ $ npm install -g gulp tsc
 Next, go ahead and install the project.
 
 ```sh
-npm install -g typescript
+npm install -g lightning-js
 ```
 
 ### Creating a New Project

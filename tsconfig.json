@@ -6,8 +6,7 @@
     "target": "es5",
     "declaration": true,
     "sourceMap": true,
-    "outDir": "build",
-    "outFile": "./build/compile.js"
+    "outDir": "build/src"
   },
   "exclude": [
     "node_modules",

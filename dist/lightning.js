@@ -51677,6 +51677,176 @@ var __extends = (this && this.__extends) || (function () {
 /// <reference path="./../reference.d.ts" />
 /// <reference path="./../reference.d.ts" />
 /// <reference path="./../reference.d.ts" />
+/// <reference path="./../../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Request = (function () {
+        function Request(service, actionType, headers, body, cb, ctx) {
+            if (headers === void 0) { headers = null; }
+            if (body === void 0) { body = null; }
+            if (cb === void 0) { cb = null; }
+            if (ctx === void 0) { ctx = null; }
+            this._requestSucceeded = false;
+            this._timeout = 10000;
+            this._retries = 5;
+            this._currentAttempt = 0;
+            this.service = service;
+            this._endpoint = service.endpoint;
+            this._actionType = actionType;
+            this._headers = headers;
+            this._body = body;
+            this._cb = cb;
+            this._ctx = ctx;
+        }
+        Request.prototype.dispose = function () {
+            this.service.despose(this);
+        };
+        Request.prototype.call = function () {
+            var _this = this;
+            this._currentAttempt++;
+            var xhr = this.createRequest();
+            xhr.onerror = function (err) {
+                _this._responseData = "Error occurred calling " + _this._endpoint + ". Message: " + err.message;
+                _this._requestSucceeded = false;
+                _this.handleFailure(xhr);
+            };
+            xhr.onload = function () {
+                if (_this.requestWasSuccessful(xhr.status)) {
+                    _this._responseData = xhr.responseText;
+                    _this._requestSucceeded = true;
+                    _this.endRequest();
+                }
+                else {
+                    _this.handleFailure(xhr);
+                }
+            };
+            try {
+                xhr.send(this._body);
+            }
+            catch (err) {
+                this.handleFailure(xhr);
+            }
+            return this._responseData;
+        };
+        Request.prototype.handleFailure = function (xhr) {
+            if (this._retries > this._currentAttempt) {
+                this.call();
+            }
+            else {
+                this._responseData = "Request responded with an error status: " + xhr.status.toString() + " - " + xhr.statusText;
+                this._requestSucceeded = false;
+                this.endRequest();
+            }
+        };
+        Request.prototype.requestWasSuccessful = function (statusCode) {
+            return (((statusCode > 99) && (statusCode < 299)) ? true : false);
+        };
+        Request.prototype.endRequest = function () {
+            if (this._cb) {
+                this._cb.call(this._ctx, this._requestSucceeded, this._responseData);
+                this.dispose();
+            }
+        };
+        Request.prototype.createRequest = function () {
+            var xhr = new XMLHttpRequest();
+            xhr.open(this._actionType, this._endpoint, true);
+            return xhr;
+        };
+        return Request;
+    }());
+    Lightning.Request = Request;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Service = (function () {
+        function Service(manager, key, endpoint, headers) {
+            if (headers === void 0) { headers = null; }
+            this._requests = [];
+            this._actions = {};
+            this.manager = manager;
+            this._key = key;
+            this._endpoint = endpoint;
+            this._headers = headers;
+        }
+        Service.prototype.registerAction = function (key, route, actionType, headers, body, cb, ctx) {
+            if (actionType === void 0) { actionType = 'GET'; }
+            if (headers === void 0) { headers = null; }
+            if (body === void 0) { body = null; }
+            if (cb === void 0) { cb = null; }
+            if (ctx === void 0) { ctx = null; }
+            var action = {
+                route: this._endpoint + route,
+                actionType: actionType,
+                headers: headers || this._headers,
+                cb: cb,
+                ctx: ctx
+            };
+            this._actions[key] = action;
+            return action;
+        };
+        Service.prototype.call = function (key, body) {
+            if (body === void 0) { body = null; }
+            var action = this._actions[key];
+            var request = new Lightning.Request(this, action.actionType, action.headers);
+            request.call();
+            return request;
+        };
+        Service.prototype.destroy = function () {
+            this.manager.destroy(this._key);
+            return true;
+        };
+        Service.prototype.despose = function (request) {
+            for (var i = 0; i < this._requests.length; i++) {
+                if (request === this._requests[i]) {
+                    this._requests[i] = null;
+                    return true;
+                }
+            }
+            return false;
+        };
+        Service.prototype.create = function (actionType, headers, body, cb, ctx) {
+            if (headers === void 0) { headers = null; }
+            if (body === void 0) { body = null; }
+            if (cb === void 0) { cb = null; }
+            if (ctx === void 0) { ctx = null; }
+            return new Lightning.Request(this, actionType, headers, body, cb, ctx);
+        };
+        Object.defineProperty(Service.prototype, "endpoint", {
+            get: function () {
+                return this._endpoint;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Service;
+    }());
+    Lightning.Service = Service;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var ServiceManager = (function () {
+        function ServiceManager(game) {
+            this._services = {};
+            this.game = game;
+        }
+        ServiceManager.prototype.create = function (key, endpoint, headers) {
+            if (headers === void 0) { headers = null; }
+            var service = new Lightning.Service(this, key, endpoint, headers);
+            this._services[key] = service;
+        };
+        ServiceManager.prototype.getService = function (key) {
+            return this._services[key] || null;
+        };
+        ServiceManager.prototype.destroy = function (key) {
+            this._services[key] = null;
+        };
+        return ServiceManager;
+    }());
+    Lightning.ServiceManager = ServiceManager;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
     var Maths = (function () {
@@ -51789,6 +51959,55 @@ var Lightning;
         return Depreciated;
     }());
     Lightning.Depreciated = Depreciated;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Debug = (function () {
+        function Debug(engine) {
+            this.engine = engine;
+        }
+        /**
+         * @description recursive pattern to loop over every child and recursivly loop over all of it's children and returning a count of them all from the root object.
+         * You can use a specific root display object, or you can leave blank and it will default to the world stage.
+         *
+         * Example:
+         * this.game.debug.displayCount();
+         * this.game.debug.displayCount(myContainer);
+         *
+         * @see {Lightning.Engine}
+         *
+         * @param rootObject
+         * @returns {number}
+         */
+        Debug.prototype.displayCount = function (rootObject) {
+            if (rootObject === void 0) { rootObject = this.engine.world; }
+            return (function (d) {
+                var c = 0;
+                var r = function (d) {
+                    c++;
+                    for (var _i = 0, _a = d['children']; _i < _a.length; _i++) {
+                        var i = _a[_i];
+                        r(i);
+                    }
+                };
+                r(d);
+                return c;
+            })(rootObject);
+        };
+        return Debug;
+    }());
+    Lightning.Debug = Debug;
+})(Lightning || (Lightning = {}));
+/// <reference path="./../../reference.d.ts" />
+var Lightning;
+(function (Lightning) {
+    var Cache = (function () {
+        function Cache() {
+        }
+        return Cache;
+    }());
+    Lightning.Cache = Cache;
 })(Lightning || (Lightning = {}));
 /// <reference path="./../../reference.d.ts" />
 var Lightning;
@@ -51911,24 +52130,50 @@ var Lightning;
                 this.length = this.lengthLS;
             }
         }
+        /**
+         *
+         * @param key
+         * @param val
+         */
         StorageManager.prototype.setItemLS = function (key, val) {
             localStorage.setItem(key, val);
             return true;
         };
+        /**
+         *
+         * @param key
+         * @param val
+         */
         StorageManager.prototype.setItemFallback = function (key, val) {
             this._map[key] = val;
             return true;
         };
+        /**
+         *
+         * @param key
+         */
         StorageManager.prototype.getItemLS = function (key) {
             return localStorage.getItem(key) || null;
         };
+        /**
+         *
+         * @param key
+         */
         StorageManager.prototype.getItemFallback = function (key) {
             return this._map[key].val;
         };
+        /**
+         *
+         * @param key
+         */
         StorageManager.prototype.removeItemLS = function (key) {
             localStorage.removeItem(key);
             return true;
         };
+        /**
+         *
+         * @param key
+         */
         StorageManager.prototype.removeItemFallback = function (key) {
             if (this.exists(key)) {
                 this._map[key] = null;
@@ -51938,6 +52183,10 @@ var Lightning;
                 return false;
             }
         };
+        /**
+         *
+         * @param key
+         */
         StorageManager.prototype.existsLS = function (key) {
             if (localStorage.getItem(key) === null) {
                 return false;
@@ -51946,6 +52195,10 @@ var Lightning;
                 return true;
             }
         };
+        /**
+         *
+         * @param key
+         */
         StorageManager.prototype.existsFallback = function (key) {
             if (this._map[key]) {
                 return true;
@@ -51954,6 +52207,9 @@ var Lightning;
                 return false;
             }
         };
+        /**
+         *
+         */
         StorageManager.prototype.lengthLS = function () {
             var _lsTotal = 0, _xLen, _x;
             for (_x in localStorage) {
@@ -51965,9 +52221,15 @@ var Lightning;
             console.log("Total = " + (_lsTotal / 1024).toFixed(2) + " KB");
             return _lsTotal;
         };
+        /**
+         *
+         */
         StorageManager.prototype.lengthFallback = function () {
             return Object.keys(this._map).length;
         };
+        /**
+         *
+         */
         StorageManager.prototype.localStorageAvailable = function () {
             var a = 'a';
             try {
@@ -52166,6 +52428,16 @@ var Lightning;
             enumerable: true,
             configurable: true
         });
+        EngineHelper.prototype.service = function (key) {
+            return this._serviceManager.getService(key);
+        };
+        Object.defineProperty(EngineHelper.prototype, "services", {
+            get: function () {
+                return this._serviceManager;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return EngineHelper;
     }());
     Lightning.EngineHelper = EngineHelper;
@@ -52327,7 +52599,7 @@ var Lightning;
          *
          * @returns {void}
          */
-        State.prototype.preloadComplete = function (resources) {
+        State.prototype.preloadComplete = function (loader, resources) {
             this.create();
         };
         return State;
@@ -52640,54 +52912,126 @@ var Lightning;
     }());
     Lightning.PhysicsManager = PhysicsManager;
 })(Lightning || (Lightning = {}));
-/// <reference path="./../reference.d.ts" />
+/// <reference path="./../../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
     var Input = (function () {
-        function Input(game) {
-            this.game = game;
-            this.window = window.parent || window;
-            // found an issue using keyboard input inside an iframe.. need to fix asap!
-            //this.window.addEventListener('keydown', this.onKeyDown);
+        function Input(parent) {
+            this.parent = parent;
         }
-        Input.prototype.onKeyDown = function (key) {
-            console.log(key);
+        /**
+         * @description Pass a function to be added to the click events
+         * @param fnct
+         */
+        Input.prototype.onClick = function (fnct) {
+            this.parent.on('click', fnct);
         };
-        Input.prototype.addKey = function (keyCode, fn) {
-            var key = {};
-            key.code = keyCode;
-            key.isDown = false;
-            key.isUp = true;
-            key.press = undefined;
-            key.release = undefined;
-            //The `downHandler`
-            key.downHandler = function (event) {
-                if (event.keyCode === key.code) {
-                    if (key.isUp && key.press)
-                        key.press();
-                    key.isDown = true;
-                    key.isUp = false;
-                }
-                event.preventDefault();
-            };
-            //The `upHandler`
-            key.upHandler = function (event) {
-                if (event.keyCode === key.code) {
-                    if (key.isDown && key.release)
-                        key.release();
-                    key.isDown = false;
-                    key.isUp = true;
-                }
-                event.preventDefault();
-            };
+        /**
+         * @description Pass a function to be added to the mouse, pointer and touch down events
+         * @param fnct
+         */
+        Input.prototype.down = function (fnct) {
+            this.parent.on('mousedown', fnct);
+            this.parent.on('touchend', fnct);
+            if (this['pointertap'] !== undefined) {
+                this.parent.on('pointertap', fnct);
+            }
+            if (this['pointerdown'] !== undefined) {
+                this.parent.on('pointerdown', fnct);
+            }
+        };
+        /**
+         * @description Pass a function to be added to the mouse, touch and pointer up events
+         * @param fnct
+         */
+        Input.prototype.up = function (fnct) {
+            this.parent.on('mouseup', fnct);
+            this.parent.on('touchend', fnct);
+            if (this['pointerup'] !== undefined) {
+                this.parent.on('pointerup', fnct);
+            }
+        };
+        /**
+         * @description Pass a function to be added to the mouse, pointer and touch up outside events
+         * @param fnct
+         */
+        Input.prototype.upOutside = function (fnct) {
+            this.parent.on('mouseupoutside', fnct);
+            this.parent.on('touchendoutside', fnct);
+            if (this['pointerupoutside'] !== undefined) {
+                this.parent.on('pointerupoutside', fnct);
+            }
+        };
+        /**
+         * @description Pass a function to be added to the mouse and pointer over events
+         * @param fnct
+         */
+        Input.prototype.over = function (fnct) {
+            this.parent.on('mouseover', fnct);
+            if (this['pointerover'] !== undefined) {
+                this.parent.on('pointerover', fnct);
+            }
+        };
+        /**
+         * @description Pass a function to be added to the mouse and pointer out events
+         * @param fnct
+         */
+        Input.prototype.out = function (fnct) {
+            this.parent.on('mouseout', fnct);
+            if (this['pointerout'] !== undefined) {
+                this.parent.on('pointerout', fnct);
+            }
+        };
+        /**
+         * @description Pass a function to be added to the mouse and pointer move event
+         * @param fnct
+         */
+        Input.prototype.move = function (fnct) {
+            this.parent.on('mousemove', fnct);
+            if (this['pointermove'] !== undefined) {
+                this.parent.on('pointermove', fnct);
+            }
+        };
+        /**
+         * @description Pass a function to be added to the right click events
+         * @param fnct
+         */
+        Input.prototype.rightClick = function (fnct) {
+            this.parent.on('rightclick', fnct);
+        };
+        /**
+         * @description Pass a function to be added to the right down events
+         * @param fnct
+         */
+        Input.prototype.rightDown = function (fnct) {
+            this.parent.on('rightdown', fnct);
+        };
+        /**
+         * @description Pass a function to be added to the right up events
+         * @param fnct
+         */
+        Input.prototype.rightUp = function (fnct) {
+            this.parent.on('rightup', fnct);
+        };
+        /**
+         * @description Pass a function to be added to the right up outside events
+         * @param fnct
+         */
+        Input.prototype.rightUpOutside = function (fnct) {
+            this.parent.on('rightupoutside', fnct);
+        };
+        /**
+         * @description Pass a function to be added to the tap event
+         *
+         * @param fnct
+         */
+        Input.prototype.onTap = function (fnct) {
+            this.parent.on('tap', fnct);
         };
         return Input;
     }());
     Lightning.Input = Input;
 })(Lightning || (Lightning = {}));
-// var realWindow = window.parent || window;
-// realWindow.addEventListener(    "keydown", key.downHandler.bind(key), false  ); 
-// realWindow.addEventListener(    "keyup", key.upHandler.bind(key), false  ); 
 /// <reference path="./../reference.d.ts" />
 var Lightning;
 (function (Lightning) {
@@ -52706,7 +53050,7 @@ var Lightning;
     var Texture = (function (_super) {
         __extends(Texture, _super);
         function Texture() {
-            return _super.apply(this, arguments) || this;
+            return _super !== null && _super.apply(this, arguments) || this;
         }
         return Texture;
     }(PIXI.Texture));
@@ -52750,6 +53094,10 @@ var Lightning;
             _this._events = new Lightning.EventEmitter();
             return _this;
         }
+        Sprite.prototype.enableInput = function () {
+            this.interactive = true;
+            this._input = new Lightning.Input(this);
+        };
         /**
          * @param  {boolean} val
          */
@@ -52847,6 +53195,13 @@ var Lightning;
         Sprite.prototype.onDrag = function (event) {
             this.position = new PIXI.Point((event.data.global.x * window.devicePixelRatio) - this._respectPositionValues.x, (event.data.global.y * window.devicePixelRatio) - this._respectPositionValues.y);
         };
+        Object.defineProperty(Sprite.prototype, "input", {
+            get: function () {
+                return this._input;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return Sprite;
     }(PIXI.Sprite));
     Lightning.Sprite = Sprite;
@@ -52900,7 +53255,7 @@ var Lightning;
     var BitmapText = (function (_super) {
         __extends(BitmapText, _super);
         function BitmapText() {
-            return _super.apply(this, arguments) || this;
+            return _super !== null && _super.apply(this, arguments) || this;
         }
         // constructor() {
         //     super();
@@ -53267,7 +53622,6 @@ var Lightning;
             return _this;
         }
         ParticleBase.prototype.updateSimple = function (time) {
-            // get delta time from update instead of getting date.now //
             if (this._deadTime <= this._lifeTime) {
                 this.returnToPool();
                 return;
@@ -53930,7 +54284,8 @@ var Lightning;
          *
          */
         Parallax.prototype.update = function () {
-            var x, y = 0;
+            var x = 0;
+            var y = 0;
             if (this._watchX) {
                 var currentPositionX = this._watch.x - this._referenceOffset.x;
                 x = (currentPositionX - this._lastWatch.x) / this._watchDampner.x;
@@ -55263,6 +55618,8 @@ var Lightning;
             _this._renderer.resize(width, height);
             // create the physicsManager 
             _this._physicsManager = new Lightning.PhysicsManager(_this);
+            // create a new services manager
+            _this._serviceManager = new Lightning.ServiceManager(_this);
             // create the state StateManager
             _this._stateManager = new Lightning.StateManager(_this);
             // init the ticker
@@ -55318,15 +55675,25 @@ var Lightning;
  * Particle emitter clear pool
  * Particle emitter add to world instead of child of the emitter
  * Super Light Sprite
- *  Think about how to implement a light sprite for particles so they dont take up so much performance. It sucks on safari!
+ * Think about how to implement a light sprite for particles so they dont take up so much performance. It sucks on safari!
  * Particle emitter make a pre-create class that lets you store pooled sprited before the state is started
  * Think about making a debug module that's a container in it's own right. It should accept x number of text values
- *  and sort through them accordinly, ensuring nothing is ever overlapped
+ *   and sort through them accordinly, ensuring nothing is ever overlapped
  * Need to give responsive device pixel ration some serious consideration
  * Build a built in FPS meter in debug module
  * Explore the posibility of using light ray casting?
  * Particle emitter presets??
  * Utalise isMobilejs for mobile detection
  * Build a webfont loader
+ */
+/**
+ * TODO ORDER
+ *
+ * 1. Implement a timer service to create and keep track of timers
+ * 2. Implement the services manager for backend calls
+ * 3. Move enableDrag function to the display object
+ * 4. Build a decent Debug class
+ *  4.1 Count total objects
+ *  4.2 Count all textures on the GPU (possible sizes also)
  */ 
 //# sourceMappingURL=compile.js.map

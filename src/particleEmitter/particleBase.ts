@@ -35,7 +35,6 @@ namespace Lightning {
         }
 
         public updateSimple(time:number) {
-            // get delta time from update instead of getting date.now //
             if(this._deadTime <= this._lifeTime) {
                 this.returnToPool();    
                 return;

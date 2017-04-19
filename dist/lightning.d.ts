@@ -57,6 +57,84 @@ declare namespace Lightning {
     }
 }
 declare namespace Lightning {
+    interface iServiceAction {
+        route: string;
+        headers: Array<{
+            content: string;
+            value: string;
+        }>;
+        actionType: string;
+        body: any;
+        cb: Function;
+        ctx: Object;
+    }
+}
+declare namespace Lightning {
+    class Request {
+        private service;
+        private _endpoint;
+        private _actionType;
+        private _headers;
+        private _body;
+        private _cb;
+        private _ctx;
+        private _responseData;
+        private _requestSucceeded;
+        private _timeout;
+        private _retries;
+        private _currentAttempt;
+        constructor(service: Service, actionType: string, headers?: Array<{
+            content: string;
+            value: any;
+        }>, body?: Object, cb?: Function, ctx?: Object);
+        dispose(): void;
+        call(): string;
+        private handleFailure(xhr);
+        private requestWasSuccessful(statusCode);
+        private endRequest();
+        private createRequest();
+    }
+}
+declare namespace Lightning {
+    class Service {
+        private manager;
+        private _endpoint;
+        private _headers;
+        private _requests;
+        private _actions;
+        private _key;
+        constructor(manager: ServiceManager, key: string, endpoint: string, headers?: Array<{
+            content: string;
+            value: any;
+        }>);
+        registerAction(key: string, route: string, actionType?: string, headers?: Array<{
+            content: string;
+            value: any;
+        }>, body?: any, cb?: Function, ctx?: Object): iServiceAction;
+        call(key: string, body?: any): Request;
+        destroy(): boolean;
+        despose(request: Request): boolean;
+        create(actionType: string, headers?: Array<{
+            content: string;
+            value: any;
+        }>, body?: Object, cb?: Function, ctx?: Object): Request;
+        readonly endpoint: string;
+    }
+}
+declare namespace Lightning {
+    class ServiceManager {
+        private game;
+        private _services;
+        constructor(game: Engine);
+        create(key: string, endpoint: string, headers?: Array<{
+            content: string;
+            value: any;
+        }>): void;
+        getService(key: string): Service;
+        destroy(key: string): void;
+    }
+}
+declare namespace Lightning {
     class Maths {
         /**
          * Rng's seem to perform a little crappy. Should think about making some sort of RNG pool??
@@ -132,6 +210,30 @@ declare namespace Lightning {
     class Depreciated {
     }
 }
+declare module Lightning {
+    class Debug {
+        private engine;
+        constructor(engine: Engine);
+        /**
+         * @description recursive pattern to loop over every child and recursivly loop over all of it's children and returning a count of them all from the root object.
+         * You can use a specific root display object, or you can leave blank and it will default to the world stage.
+         *
+         * Example:
+         * this.game.debug.displayCount();
+         * this.game.debug.displayCount(myContainer);
+         *
+         * @see {Lightning.Engine}
+         *
+         * @param rootObject
+         * @returns {number}
+         */
+        private displayCount(rootObject?);
+    }
+}
+declare namespace Lightning {
+    class Cache {
+    }
+}
 declare namespace Lightning {
     class Event {
         private _emitter;
@@ -166,19 +268,63 @@ declare namespace Lightning {
         setItem: Function;
         getItem: Function;
         removeItem: Function;
+        removeAll: Function;
         exists: Function;
         length: Function;
         constructor();
+        /**
+         *
+         * @param key
+         * @param val
+         */
         private setItemLS(key, val);
+        /**
+         *
+         * @param key
+         * @param val
+         */
         private setItemFallback(key, val);
+        /**
+         *
+         * @param key
+         */
         private getItemLS(key);
+        /**
+         *
+         * @param key
+         */
         private getItemFallback(key);
+        /**
+         *
+         * @param key
+         */
         private removeItemLS(key);
+        /**
+         *
+         * @param key
+         */
         private removeItemFallback(key);
+        /**
+         *
+         * @param key
+         */
         private existsLS(key);
+        /**
+         *
+         * @param key
+         */
         private existsFallback(key);
+        /**
+         *
+         */
         private lengthLS();
+        /**
+         *
+         */
         private lengthFallback();
+        /**
+         *
+         */
         private localStorageAvailable();
     }
 }
@@ -198,6 +344,7 @@ declare namespace Lightning {
         protected _physicsManager: PhysicsManager;
         protected _eventEmitter: EventEmitter;
         protected _storageManager: StorageManager;
+        protected _serviceManager: ServiceManager;
         generateTexture(...params: any[]): any;
         goFullscreen(): void;
         texture(...params: any[]): any;
@@ -221,6 +368,8 @@ declare namespace Lightning {
         readonly storage: StorageManager;
         readonly events: EventEmitter;
         readonly ticker: PIXI.ticker.Ticker;
+        service(key: string): Service;
+        readonly services: ServiceManager;
     }
 }
 declare namespace Lightning {
@@ -301,7 +450,7 @@ declare namespace Lightning {
          *
          * @returns {void}
          */
-        preloadComplete(resources: any): void;
+        preloadComplete(loader: any, resources: any): void;
     }
 }
 declare namespace Lightning {
@@ -438,12 +587,69 @@ declare namespace Lightning {
 }
 declare namespace Lightning {
     class Input {
-        protected game: Engine;
-        private window;
-        private key;
-        constructor(game: Engine);
-        onKeyDown(key: Event): void;
-        addKey(keyCode: string, fn: Function): void;
+        private parent;
+        constructor(parent: DisplayObject);
+        /**
+         * @description Pass a function to be added to the click events
+         * @param fnct
+         */
+        onClick(fnct: Function): void;
+        /**
+         * @description Pass a function to be added to the mouse, pointer and touch down events
+         * @param fnct
+         */
+        down(fnct: Function): void;
+        /**
+         * @description Pass a function to be added to the mouse, touch and pointer up events
+         * @param fnct
+         */
+        up(fnct: Function): void;
+        /**
+         * @description Pass a function to be added to the mouse, pointer and touch up outside events
+         * @param fnct
+         */
+        upOutside(fnct: Function): void;
+        /**
+         * @description Pass a function to be added to the mouse and pointer over events
+         * @param fnct
+         */
+        over(fnct: Function): void;
+        /**
+         * @description Pass a function to be added to the mouse and pointer out events
+         * @param fnct
+         */
+        out(fnct: Function): void;
+        /**
+         * @description Pass a function to be added to the mouse and pointer move event
+         * @param fnct
+         */
+        move(fnct: Function): void;
+        /**
+         * @description Pass a function to be added to the right click events
+         * @param fnct
+         */
+        rightClick(fnct: Function): void;
+        /**
+         * @description Pass a function to be added to the right down events
+         * @param fnct
+         */
+        rightDown(fnct: Function): void;
+        /**
+         * @description Pass a function to be added to the right up events
+         * @param fnct
+         */
+        rightUp(fnct: Function): void;
+        /**
+         * @description Pass a function to be added to the right up outside events
+         * @param fnct
+         */
+        rightUpOutside(fnct: Function): void;
+        /**
+         * @description Pass a function to be added to the tap event
+         *
+         * @param fnct
+         */
+        onTap(fnct: Function): void;
     }
 }
 declare namespace Lightning {
@@ -473,10 +679,12 @@ declare namespace Lightning {
             x: number;
             y: number;
         };
+        protected _input: Input;
         /**
          * @param  {PIXI.Texture=null} texture
          */
         constructor(texture?: PIXI.Texture);
+        enableInput(): void;
         /**
          * @param  {boolean} val
          */
@@ -508,6 +716,7 @@ declare namespace Lightning {
         startDrag(event: PIXI.interaction.InteractionEvent): void;
         stopDrag(event: PIXI.interaction.InteractionEvent): void;
         onDrag(event: PIXI.interaction.InteractionEvent): void;
+        readonly input: Input;
     }
 }
 declare namespace Lightning {

@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for particleEmitter/particle.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">particleEmitter/</a> particle.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">32.35% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>22/68</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">8.33% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>1/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">10% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>2/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">30.3% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>20/66</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/// &lt;reference path="./../reference.d.ts" /&gt;
+&nbsp;
+namespace <span class="branch-1 cbranch-no" title="branch not covered" >Lightning </span>{
+    export class Particle extends ParticleBase {
+    
+<span class="fstat-no" title="function not covered" >        constructor(texture:PIXI.Texture, emitter:ParticleEmitter, minX:number, maxX:number, minY:number, maxY:number)</span> {
+            super();
+<span class="cstat-no" title="statement not covered" >            this.returnToPool = this._returnToPool;</span>
+<span class="cstat-no" title="statement not covered" >            this.update = this.updateSimple;</span>
+<span class="cstat-no" title="statement not covered" >            this._texture = texture;</span>
+<span class="cstat-no" title="statement not covered" >            this._emitter = emitter;</span>
+<span class="cstat-no" title="statement not covered" >            this.children = null;</span>
+<span class="cstat-no" title="statement not covered" >            this._minX = minX;</span>
+<span class="cstat-no" title="statement not covered" >            this._minY = minY;</span>
+<span class="cstat-no" title="statement not covered" >            this._maxX = maxX;</span>
+<span class="cstat-no" title="statement not covered" >            this._maxY = maxY;</span>
+<span class="cstat-no" title="statement not covered" >            this.anchor.set(0.5);</span>
+            // check the interaction is turned off completly.. seems to still being called -&gt; processInteractive
+        }
+&nbsp;
+        // override functions to make sure that it doesn't check for chilren, visible etc
+<span class="fstat-no" title="function not covered" >        renderWebGL(renderer)</span> {
+<span class="cstat-no" title="statement not covered" >            if(this.renderable) {</span>
+<span class="cstat-no" title="statement not covered" >                this._renderWebGL(renderer);</span>
+            }
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        renderAdvancedWebGL(renderer)</span> {
+            // add this object to the batch, only rendered if it has a texture.
+<span class="cstat-no" title="statement not covered" >            if(this.renderable) {</span>
+<span class="cstat-no" title="statement not covered" >                this._renderWebGL(renderer);</span>
+            }
+&nbsp;
+            // double check if this is actually needed. feels like it's only called if the texture is changed, in which case.. don't do it!
+<span class="cstat-no" title="statement not covered" >            renderer.flush();</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        renderCanvas(renderer)</span> {
+<span class="cstat-no" title="statement not covered" >            if(this.renderable) {</span>
+<span class="cstat-no" title="statement not covered" >                this._renderCanvas(renderer);</span>
+            }
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        updateTransform() {</span>
+<span class="cstat-no" title="statement not covered" >            this._boundsID++;</span>
+<span class="cstat-no" title="statement not covered" >            this.transform.updateTransform(this.parent.transform);</span>
+            // TODO: check render flags, how to process stuff here
+<span class="cstat-no" title="statement not covered" >            this.worldAlpha = this.alpha * this.parent.worldAlpha;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        destroy() {</span>
+<span class="cstat-no" title="statement not covered" >            this.removeAllListeners('');</span>
+<span class="cstat-no" title="statement not covered" >            if (this.parent) {</span>
+<span class="cstat-no" title="statement not covered" >                this.parent.removeChild(this);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            this.transform = null;</span>
+<span class="cstat-no" title="statement not covered" >            this.parent = null;</span>
+<span class="cstat-no" title="statement not covered" >            this.interactiveChildren = false;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        calculateBounds() {</span>
+<span class="cstat-no" title="statement not covered" >            this._bounds.clear();</span>
+<span class="cstat-no" title="statement not covered" >            this._calculateBounds();</span>
+<span class="cstat-no" title="statement not covered" >            this._lastBoundsID = this._boundsID;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        _returnToPool():void {</span>
+<span class="cstat-no" title="statement not covered" >            this._isDead = true;</span>
+<span class="cstat-no" title="statement not covered" >            this.renderable = false;</span>
+<span class="cstat-no" title="statement not covered" >            this.visible = false;</span>
+<span class="cstat-no" title="statement not covered" >            this._emitter.returnToPool(this);</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public set velocity(velocity:{x:number, y:number})</span> {
+<span class="cstat-no" title="statement not covered" >            this._velX = velocity.x;</span>
+<span class="cstat-no" title="statement not covered" >            this._velY = velocity.y;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public set gravity(gravity:{x:number, y:number})</span> {
+<span class="cstat-no" title="statement not covered" >            this._gX = gravity.x;</span>
+<span class="cstat-no" title="statement not covered" >            this._gY = gravity.y;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public set lifeSpan(time:number)</span> {
+<span class="cstat-no" title="statement not covered" >            this._lifeSpan = time;</span>
+<span class="cstat-no" title="statement not covered" >            this._deadTime = this._lifeSpan + Date.now();</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public set alphaIncrement(val:number)</span> {
+<span class="cstat-no" title="statement not covered" >            this._alphaIncrement = val;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public set rotationIncrement(val:number)</span> {
+<span class="cstat-no" title="statement not covered" >            this._rotationIncrement = val;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public set scaleIncrement(scale:{x:number, y:number})</span> {
+<span class="cstat-no" title="statement not covered" >            this._scaleIncrement = {x: scale.x, y: scale.y}</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public set createdAt(val:number)</span> {
+<span class="cstat-no" title="statement not covered" >            this._createdAt = val;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public set lifeTime(val:number)</span> {
+<span class="cstat-no" title="statement not covered" >            this._lifeTime = val;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public get isDead():boolean {</span>
+<span class="cstat-no" title="statement not covered" >            return this._isDead;</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        public set isDead(val:boolean)</span> {
+<span class="cstat-no" title="statement not covered" >            this._isDead = val;</span>
+        }
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 19 2017 22:34:31 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

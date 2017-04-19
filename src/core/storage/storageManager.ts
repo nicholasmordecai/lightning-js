@@ -10,6 +10,7 @@ namespace Lightning {
         public setItem:Function = this.setItemFallback;
         public getItem:Function = this.getItemFallback;
         public removeItem:Function = this.removeItemFallback;
+        public removeAll:Function;
         public exists:Function = this.existsFallback;
         public length:Function = this.lengthFallback;
     
@@ -25,29 +26,55 @@ namespace Lightning {
             }
         }
 
+        /**
+         * 
+         * @param key 
+         * @param val 
+         */
         private setItemLS(key:string, val:any):boolean {
             localStorage.setItem(key, val);
             return true;
         }
 
+        /**
+         * 
+         * @param key 
+         * @param val 
+         */
         private setItemFallback(key:string, val:any):boolean {
             this._map[key] = val;
             return true;
         }
 
+        /**
+         * 
+         * @param key 
+         */
         private getItemLS(key:string):any {
             return localStorage.getItem(key) || null;
         }
 
+        /**
+         * 
+         * @param key 
+         */
         private getItemFallback(key:string):any {
             return this._map[key].val
         }
 
+        /**
+         * 
+         * @param key 
+         */
         private removeItemLS(key:string):boolean {
             localStorage.removeItem(key);
             return true;
         }
 
+        /**
+         * 
+         * @param key 
+         */
         private removeItemFallback(key:string):boolean {
             if(this.exists(key)) {
                 this._map[key] = null;
@@ -57,6 +84,10 @@ namespace Lightning {
             }
         }
 
+        /**
+         * 
+         * @param key 
+         */
         private existsLS(key:string):boolean {
             if (localStorage.getItem(key) === null) {
                 return false;
@@ -65,6 +96,10 @@ namespace Lightning {
             }
         }
 
+        /**
+         * 
+         * @param key 
+         */
         private existsFallback(key:string):boolean {
             if(this._map[key]) {
                 return true;
@@ -73,15 +108,24 @@ namespace Lightning {
             }
         }
 
+        /**
+         * 
+         */
         private lengthLS():number {
             var _lsTotal=0,_xLen,_x;for(_x in localStorage){_xLen= ((localStorage[_x].length + _x.length)* 2);_lsTotal+=_xLen; console.log(_x.substr(0,50)+" = "+ (_xLen/1024).toFixed(2)+" KB")};console.log("Total = " + (_lsTotal / 1024).toFixed(2) + " KB");
             return _lsTotal;
         }
 
+        /**
+         * 
+         */
         private lengthFallback():number {
             return Object.keys(this._map).length;
         }
 
+        /**
+         * 
+         */
         private localStorageAvailable() {
             var a = 'a';
             try {

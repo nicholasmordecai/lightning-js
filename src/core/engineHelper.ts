@@ -18,6 +18,7 @@ namespace Lightning {
         protected _physicsManager:PhysicsManager
         protected _eventEmitter:EventEmitter;
         protected _storageManager:StorageManager;
+        protected _serviceManager:ServiceManager;
 
         public generateTexture(...params):any {
             let t:Texture | Array<Texture> = [];
@@ -129,6 +130,14 @@ namespace Lightning {
 
         public get ticker():PIXI.ticker.Ticker {
             return this._ticker;
+        }
+
+        public service(key:string):Service {
+            return this._serviceManager.getService(key);
+        }
+
+        public get services():ServiceManager {
+            return this._serviceManager;
         }
 
         /**

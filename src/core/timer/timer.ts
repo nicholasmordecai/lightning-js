@@ -48,7 +48,6 @@ namespace Lightning {
 
         public start() {
             this._active = true;
-
         }
 
         public stop() {

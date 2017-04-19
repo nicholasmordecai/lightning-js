@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for parallax/parallax.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">parallax/</a> parallax.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">17.76% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>19/107</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">2.17% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>1/46</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">12.5% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>2/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">19.54% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>17/87</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/// &lt;reference path="./../reference.d.ts" /&gt;
+&nbsp;
+declare interface iTile {
+    key:string;
+    object:PIXI.extras.TilingSprite;
+    updateX:number;
+    updateY:number;
+    updateRelative:number;
+    index:number;
+}
+&nbsp;
+namespace <span class="branch-1 cbranch-no" title="branch not covered" >Lightning </span>{
+    export class Parallax extends Group {
+&nbsp;
+        protected game:Engine;
+        protected _tiles:Array&lt;iTile&gt;;
+        protected _width:number;
+        protected _height:number
+        protected <span class="cstat-no" title="statement not covered" >_scrollSpeed:number = 1;</span>
+        protected <span class="cstat-no" title="statement not covered" >_incMultiplier:number = 0.3</span>
+        protected <span class="cstat-no" title="statement not covered" >_watch:any = null;</span>
+        protected <span class="cstat-no" title="statement not covered" >_watchX:boolean = false;</span>
+        protected <span class="cstat-no" title="statement not covered" >_watchY:boolean = false;</span>
+        protected <span class="cstat-no" title="statement not covered" >_watchOffset:{x:number, y:number} = {x:0, y:0};</span>
+        protected <span class="cstat-no" title="statement not covered" >_lastWatch:{x:number, y:number} = {x:0, y:0};</span>
+        protected <span class="cstat-no" title="statement not covered" >_watchIncMultiplier:{x:number, y:number} = {x:0.8, y:0.8};</span>
+        protected <span class="cstat-no" title="statement not covered" >_watchDampner:{x:number, y:number} = {x:50, y:50};</span>
+        protected <span class="cstat-no" title="statement not covered" >_referenceOffset:{x:number, y:number} = {x:0, y:0};</span>
+        
+        /**
+         * @param  {Engine} game
+         * @param  {number=null} width
+         * @param  {number=null} height
+         */
+<span class="fstat-no" title="function not covered" >        constructor(game:Engine, <span class="cstat-no" title="statement not covered" >width:number = null,</span> <span class="cstat-no" title="statement not covered" >height:number = null)</span></span> {
+            super();
+<span class="cstat-no" title="statement not covered" >            this.game = game;</span>
+<span class="cstat-no" title="statement not covered" >            this._width = width | this.game.width;</span>
+<span class="cstat-no" title="statement not covered" >            this._height = height | this.game.height;</span>
+<span class="cstat-no" title="statement not covered" >            this._tiles = [];</span>
+        }
+        
+        /**
+         * @param  {string} key
+         * @param  {Texture} texture
+         * @param  {boolean=false} xy
+         */
+<span class="fstat-no" title="function not covered" >        add(key:string, texture:Texture, <span class="cstat-no" title="statement not covered" >xy:boolean = false)</span></span> {
+<span class="cstat-no" title="statement not covered" >            let xSpeed:number = 0;</span>
+<span class="cstat-no" title="statement not covered" >            let ySpeed:number = 0;</span>
+<span class="cstat-no" title="statement not covered" >            if(xy) {</span>
+<span class="cstat-no" title="statement not covered" >                ySpeed = this._incMultiplier * (this._tiles.length +1);</span>
+            } else {
+<span class="cstat-no" title="statement not covered" >                xSpeed = this._incMultiplier * (this._tiles.length +1);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            let object = new PIXI.extras.TilingSprite(texture, this._width, this._height);</span>
+<span class="cstat-no" title="statement not covered" >            this.addChild(object);</span>
+<span class="cstat-no" title="statement not covered" >            let tile = &lt;iTile&gt;{key: key, object, updateX: xSpeed, updateY: ySpeed, updateRelative:0, index: this._tiles.length + 1};</span>
+<span class="cstat-no" title="statement not covered" >            this._tiles.push(tile);</span>
+        }
+&nbsp;
+        /**
+         * 
+         */
+<span class="fstat-no" title="function not covered" >        update() {</span>
+<span class="cstat-no" title="statement not covered" >            let x:number = 0;</span>
+<span class="cstat-no" title="statement not covered" >            let y:number = 0;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            if(this._watchX) {</span>
+<span class="cstat-no" title="statement not covered" >                let currentPositionX = this._watch.x - this._referenceOffset.x;</span>
+<span class="cstat-no" title="statement not covered" >                x = (currentPositionX - this._lastWatch.x) / this._watchDampner.x;</span>
+<span class="cstat-no" title="statement not covered" >                this._lastWatch.x = currentPositionX;</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            if(this._watchY) {</span>
+<span class="cstat-no" title="statement not covered" >                let currentPositionY = this._watch.y - this._referenceOffset.y;</span>
+<span class="cstat-no" title="statement not covered" >                y = (currentPositionY - this._lastWatch.y) / this._watchDampner.y;</span>
+<span class="cstat-no" title="statement not covered" >                this._lastWatch.y = currentPositionY;</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            for(<span class="cstat-no" title="statement not covered" >let tile </span>of this._tiles) {    </span>
+<span class="cstat-no" title="statement not covered" >                tile.object.tilePosition.x += tile.updateX * this._scrollSpeed;</span>
+<span class="cstat-no" title="statement not covered" >                tile.object.tilePosition.y += tile.updateY * this._scrollSpeed;</span>
+<span class="cstat-no" title="statement not covered" >                tile.object.tilePosition.x += x * tile.index * this._watchIncMultiplier.x;</span>
+<span class="cstat-no" title="statement not covered" >                tile.object.tilePosition.y -= y * tile.index * this._watchIncMultiplier.y;</span>
+            }
+        }
+        
+        /**
+         * @param  {string} key
+         */
+<span class="fstat-no" title="function not covered" >        getTile(key:string)</span> {
+<span class="cstat-no" title="statement not covered" >            for(<span class="cstat-no" title="statement not covered" >let tile </span>of this._tiles) {</span>
+<span class="cstat-no" title="statement not covered" >                if(tile.key === key) {</span>
+<span class="cstat-no" title="statement not covered" >                    return tile;</span>
+                }
+            }
+<span class="cstat-no" title="statement not covered" >            console.info('no tile with key', key, 'found');</span>
+        }
+&nbsp;
+        /**
+         * @param  {any} val
+         * @returns void
+         */
+<span class="fstat-no" title="function not covered" >        setWatch(val:any, <span class="cstat-no" title="statement not covered" >x:boolean = true,</span> <span class="cstat-no" title="statement not covered" >y:boolean = true)</span></span>:void {
+<span class="cstat-no" title="statement not covered" >            this._watch = val;</span>
+<span class="cstat-no" title="statement not covered" >            this._watchX = x;</span>
+<span class="cstat-no" title="statement not covered" >            this._watchY = y;</span>
+        }
+&nbsp;
+        /**
+         * @param  {number} x
+         * @param  {number=x} y
+         * @returns void
+         */
+<span class="fstat-no" title="function not covered" >        setWatchOffset(x:number, <span class="cstat-no" title="statement not covered" >y:number = x)</span></span>:void {
+<span class="cstat-no" title="statement not covered" >            this._watchOffset = {x: x, y: y};</span>
+        }
+&nbsp;
+        /**
+         * @param  {boolean=false} x
+         * @param  {boolean=false} y
+         */
+<span class="fstat-no" title="function not covered" >        setWatchXY(<span class="cstat-no" title="statement not covered" >x:boolean = false,</span> <span class="cstat-no" title="statement not covered" >y:boolean = false)</span></span> {
+<span class="cstat-no" title="statement not covered" >            this._watchX = x;</span>
+<span class="cstat-no" title="statement not covered" >            this._watchY = y;</span>
+        }
+&nbsp;
+        /**
+         * @param  {number} x
+         * @param  {number=x} y
+         * @returns void
+         */
+<span class="fstat-no" title="function not covered" >        setReferenceOffset(x:number, <span class="cstat-no" title="statement not covered" >y:number = x)</span></span>:void {
+<span class="cstat-no" title="statement not covered" >            this._referenceOffset = {x: x, y: y};</span>
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        setWatchDampner(x:number, <span class="cstat-no" title="statement not covered" >y:number = x)</span></span> {
+<span class="cstat-no" title="statement not covered" >            this._watchDampner.x = x;</span>
+<span class="cstat-no" title="statement not covered" >            this._watchDampner.y = y;</span>
+        }
+&nbsp;
+        /**
+         * @param  {string} key
+         * @param  {number=0} x
+         * @param  {number=0} y
+         * @returns void
+         */
+<span class="fstat-no" title="function not covered" >        setUpdate(key:string, <span class="cstat-no" title="statement not covered" >x:number = 0,</span> <span class="cstat-no" title="statement not covered" >y:number = 0)</span></span>:void {
+<span class="cstat-no" title="statement not covered" >            let tile = this.getTile(key);</span>
+<span class="cstat-no" title="statement not covered" >            tile.updateX = x;</span>
+<span class="cstat-no" title="statement not covered" >            tile.updateY = y;</span>
+        }
+&nbsp;
+        /**
+         * @param  {number} val
+         * @returns void
+         */
+<span class="fstat-no" title="function not covered" >        setScrollSpeed(val:number)</span>:void {
+<span class="cstat-no" title="statement not covered" >            this._scrollSpeed = val;</span>
+        }
+&nbsp;
+        /**
+         * @param  {number} val
+         * @param  {boolean=false} reset
+         * @param  {boolean=false} xy
+         * @returns void
+         */
+<span class="fstat-no" title="function not covered" >        setIncrementMultiplier(val:number, <span class="cstat-no" title="statement not covered" >reset:boolean = false,</span> <span class="cstat-no" title="statement not covered" >xy:boolean = false)</span></span>:void {
+<span class="cstat-no" title="statement not covered" >            this._scrollSpeed = val;</span>
+<span class="cstat-no" title="statement not covered" >            if(reset) {</span>
+<span class="cstat-no" title="statement not covered" >                for(<span class="cstat-no" title="statement not covered" >let tile </span>of this._tiles) {</span>
+<span class="cstat-no" title="statement not covered" >                    if(xy) {</span>
+<span class="cstat-no" title="statement not covered" >                        let xSpeed:number = 0</span>
+<span class="cstat-no" title="statement not covered" >                        let ySpeed:number = this._incMultiplier * (this._tiles.length +1);</span>
+<span class="cstat-no" title="statement not covered" >                        tile.updateX = xSpeed;</span>
+<span class="cstat-no" title="statement not covered" >                        tile.updateY = ySpeed;</span>
+                    } else {
+<span class="cstat-no" title="statement not covered" >                        let xSpeed:number = this._incMultiplier * (this._tiles.length +1);</span>
+<span class="cstat-no" title="statement not covered" >                        let ySpeed:number = 0</span>
+<span class="cstat-no" title="statement not covered" >                        tile.updateX = xSpeed;</span>
+<span class="cstat-no" title="statement not covered" >                        tile.updateY = ySpeed;</span>
+                    }
+                }
+            }
+        }
+&nbsp;
+        /**
+         * @param  {number} x
+         * @param  {number=x} y
+         * @returns void
+         */
+<span class="fstat-no" title="function not covered" >        setWatchIncerementMultiplier(x:number, <span class="cstat-no" title="statement not covered" >y:number = x)</span></span>:void {
+<span class="cstat-no" title="statement not covered" >            this._watchIncMultiplier.x = x;</span>
+<span class="cstat-no" title="statement not covered" >            this._watchIncMultiplier.y = y;</span>
+        }
+&nbsp;
+        /**
+         * @returns number
+         */
+<span class="fstat-no" title="function not covered" >        get scrollSpeed():number {</span>
+<span class="cstat-no" title="statement not covered" >            return this._scrollSpeed;</span>
+        }
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 19 2017 22:34:31 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
