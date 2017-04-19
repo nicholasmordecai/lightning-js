@@ -1,4 +1,4 @@
-[![build status](https://gitlab.com/Sprite-Storm/lightning/badges/dev/build.svg)](https://gitlab.com/Sprite-Storm/lightning/commits/dev)
+[![build status](https://gitlab.com/Sprite-Storm/lightning/badges/master/build.svg)](https://gitlab.com/Sprite-Storm/lightning/commits/master)
 
 
 # Ligtning 0.4.0
