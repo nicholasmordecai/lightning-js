@@ -1,0 +1,10 @@
+"use strict";
+exports.DARK = 0x161520;
+exports.BG = 0x222232;
+exports.PURPLE = 0x565691;
+exports.LIGHTBLUE = 0xAEDEDB;
+exports.GOLD = 0xF0D66F;
+exports.DIAMOND = 0x3BB0DD;
+exports.ORANGE = 0xF04F50;
+exports.WHITE = 0xFFFFFF;
+exports.SHADDOW = 0x181825;

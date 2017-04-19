@@ -1,29 +1,68 @@
 /// <reference path="../src/reference.d.ts" />
 declare namespace Lightning {
-    class State extends PIXI.Container {
-        protected game: Engine;
-        constructor(game: Engine, ...params: any[]);
-        init(params: any): void;
-        start(): void;
-        update(): void;
-        create(): void;
-        add(...params: Array<DisplayObject>): void;
+    interface iPoint {
+        x: number;
+        y: number;
     }
 }
 declare namespace Lightning {
-    /**
-     * @description function for calculating scaling fonts
-     *
-     * @param {Object} game reference to the Engine instance
-     * @param {number} size size of the font (in responsive pixels)
-     * @param {string} font name of the font stored in resource cache
-     *
-     * @returns {string} concatinated string to pass directly to the PIXI.extras.BitmapText
-     */
-    function calcFont(game: Engine, size: number, font: string): string;
+    interface iRange {
+        from: number;
+        to: number;
+    }
+}
+declare namespace Lightning {
+    interface iPointRange {
+        xFrom: number;
+        xTo: number;
+        yFrom: number;
+        yTo: number;
+    }
+}
+declare namespace Lightning {
+    interface iStateMap {
+        key: string;
+        worldIndex: number;
+        active: boolean;
+        fps: number;
+        state: Lightning.State;
+    }
+}
+declare namespace Lightning {
+    interface iTweenCallback {
+        name: string;
+        funct: Function;
+        functContext: any;
+        functParams: any[];
+        frame: number;
+        once: boolean;
+    }
+}
+declare namespace Lightning {
+    interface iTweenProperty {
+        prop: string;
+        val: number;
+    }
+}
+declare namespace Lightning {
+    interface iEventSubscription {
+        fn: Function;
+        ctx: Object;
+        once: boolean;
+    }
+}
+declare namespace Lightning {
+    interface iParticle {
+        lifeSpan: number;
+    }
 }
 declare namespace Lightning {
     class Maths {
+        /**
+         * Rng's seem to perform a little crappy. Should think about making some sort of RNG pool??
+         * - An array of pre-randomized numbers, then shuffeled randly. You then index your way through little
+         * - just simply picking the next number in sequence.
+         */
         /**
          * @description generate a random integer between two values
          * @param  {number} from
@@ -39,15 +78,372 @@ declare namespace Lightning {
         /**
          * @description generate a random float between two values
          *
-         * @param  {number} from
-         * @param  {number} to
+         * @param {number} from
+         * @param {number} to
          */
         static rngFloat(from: number, to: number): number;
         /**
-         * To Implement
-         * random between two positions
+         * TODO
+         * Generate random position in a given area
+         *
+         * @param {iPoint} from
+         * @param {iPoint} to
+         *
+         * @returns {iPoint}
          */
-        static rndPos(): void;
+        static rndPos(): iPoint;
+        /**
+         * TODO
+         * @description Calculate distance between two positions
+         *
+         * @param {iPoint} pos1
+         * @param {iPoint} pos2
+         *
+         * @returns {iPoint}
+         */
+        static distanceBetween(obj1: any, obj2: any): any;
+        /**
+        * TODO
+        * @description Convert Hex to RGB
+        *
+        * @param {iPoint} pos1
+        * @param {iPoint} pos2
+        *
+        * @returns {iPoint}
+        */
+        static hextoRGB(hex: any, out: any): any;
+        /**
+        * TODO
+        * @description Calculate RGB to Hex
+        *
+        * @param {iPoint} pos1
+        * @param {iPoint} pos2
+        *
+        * @returns {iPoint}
+        */
+        static rgbToHex(r: number, g: number, b: number): any;
+    }
+}
+/**
+ * Redirect functions for when something gets depreciated.
+ * Should try not to do this as often as possible
+ */
+declare namespace Lightning {
+    class Depreciated {
+    }
+}
+declare namespace Lightning {
+    class Event {
+        private _emitter;
+        private _subscribers;
+        private _proporgationAllowed;
+        private _enabled;
+        constructor(emitter: EventEmitter);
+        addSubscriber(fn: Function, ctx: Object, once?: boolean): void;
+        emit(params: any): void;
+        removeSubscriber(subscriber: iEventSubscription): void;
+        enabled: boolean;
+    }
+}
+declare namespace Lightning {
+    class EventEmitter {
+        private _events;
+        constructor();
+        create(key: string, emitOnce?: boolean): Event;
+        subscribe(key: string, fn: Function, ctx?: Object): boolean;
+        subscribeOnce(key: string, fn: Function, ctx?: Object): boolean;
+        emit(key: string, params?: Array<any>): boolean;
+        event(key: string): Event;
+        remove(key: string): boolean;
+        enable(key: string): boolean;
+        disable(key: string): boolean;
+    }
+}
+declare namespace Lightning {
+    class StorageManager {
+        private _isLS;
+        private _map;
+        setItem: Function;
+        getItem: Function;
+        removeItem: Function;
+        exists: Function;
+        length: Function;
+        constructor();
+        private setItemLS(key, val);
+        private setItemFallback(key, val);
+        private getItemLS(key);
+        private getItemFallback(key);
+        private removeItemLS(key);
+        private removeItemFallback(key);
+        private existsLS(key);
+        private existsFallback(key);
+        private lengthLS();
+        private lengthFallback();
+        private localStorageAvailable();
+    }
+}
+/**
+ * A helper class for the 'Game'. It's used for all non essential public functions.
+ * This is mostly used to keep the actual engine class neat, slim and easier to develop
+ */
+declare namespace Lightning {
+    class EngineHelper {
+        protected _dpr: number;
+        protected _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
+        protected _world: PIXI.Container;
+        protected _hud: HUD;
+        protected _ticker: PIXI.ticker.Ticker;
+        protected _tweens: TweenManager;
+        protected _stateManager: StateManager;
+        protected _physicsManager: PhysicsManager;
+        protected _eventEmitter: EventEmitter;
+        protected _storageManager: StorageManager;
+        generateTexture(...params: any[]): any;
+        goFullscreen(): void;
+        texture(...params: any[]): any;
+        backgroundColor: number;
+        readonly world: PIXI.Container;
+        readonly width: number;
+        readonly height: number;
+        readonly center: {
+            x: number;
+            y: number;
+        };
+        readonly renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
+        readonly tweens: TweenManager;
+        readonly states: StateManager;
+        fps: number;
+        readonly minFPS: number;
+        readonly elapsedTime: number;
+        readonly deltaTime: number;
+        readonly lastTime: number;
+        dpr: number;
+        readonly storage: StorageManager;
+        readonly events: EventEmitter;
+        readonly ticker: PIXI.ticker.Ticker;
+    }
+}
+declare namespace Lightning {
+    class Timer {
+        private game;
+        private _events;
+        private _currentTime;
+        private _lastTick;
+        private _autoDestroy;
+        private _isLoop;
+        private _interval;
+        private _active;
+        constructor(game: Engine, interval: number, autoStart?: boolean, loop?: boolean, autoDestroy?: boolean);
+        update(time: any): void;
+        add(fn: Function, ctx?: Object): void;
+        start(): void;
+        stop(): void;
+        reset(): void;
+        destroy(): void;
+        remove(): void;
+    }
+}
+declare namespace Lightning {
+    class State extends PIXI.Container {
+        game: Engine;
+        loader: PIXI.loaders.Loader;
+        events: EventEmitter;
+        /**
+         * @description State constructor
+         *
+         * @param {Engine} game
+         */
+        constructor(game: Engine);
+        /**
+         * @description Initalization function
+         *
+         * @param {Array} params
+         *
+         * @returns {void}
+         */
+        init(params: any): void;
+        /**
+         * @description Preload function. Used as a helper function to preload assets into the texture cache. Will skip and call the create function if there are no resources to load
+         *
+         * @returns {void}
+         */
+        preload(): void;
+        /**
+         * @description Create function. Called after the preload function is complete or there is nothing to preload
+         *
+         * @returns {void}
+         */
+        create(): void;
+        /**
+         * @description Update function. This is called by the state manager on every tick
+         */
+        update(time?: number): void;
+        /**
+         * @description Add children to this state. Helper functions should be migrated at some point
+         *
+         * @returns {boolean}
+         */
+        add(...params: Array<DisplayObject>): boolean;
+        /**
+         * @description Called if the loader produces an error
+         *
+         * @returns {void}
+         */
+        preloadError(err: any): void;
+        /**
+         * @description Called when a single file has completed loading
+         *
+         * @returns {void}
+         */
+        preloadSingle(loader: PIXI.loaders.Loader, resource: any): void;
+        /**
+         * @description Called when the loader has finished loading everything
+         *
+         * @returns {void}
+         */
+        preloadComplete(resources: any): void;
+    }
+}
+declare namespace Lightning {
+    class StateManager {
+        protected game: Engine;
+        protected _states: Array<iStateMap>;
+        protected _activeStates: Array<State>;
+        /**
+         * @description StateManager constructor
+         *
+         * @param {Engine} game
+         */
+        constructor(game: Engine);
+        /**
+         * @description Update loop. Called from the game ticker and is used to call each state update function individually
+         */
+        update(time: number): void;
+        /**
+         * @description Initalize a single state. Usually called from the start function, though this can be bypassed and a custom state injected via this function
+         *
+         * @param {State} state
+         * @param {Array} params
+         *
+         * @returns {boolean}
+         */
+        init(state: State, ...params: any[]): boolean;
+        /**
+         * @description Start a state. This function is called in order to add a state to the world display list and call the init function if the state is to auto initalize
+         */
+        start(key: any, autoInit?: boolean, ...params: any[]): void;
+        /**
+         * @description Leaves the state renderable and interactive but disables it's update procedure
+         *
+         * @param {string} key
+         *
+         * @returns {boolean}
+         */
+        pause(key: string): boolean;
+        /**
+         * @description Re-enabled the state's update procedure
+         *
+         * @param {string} key
+         *
+         * @returns {boolean}
+         */
+        unpause(key: string): boolean;
+        /**
+         * TODO
+         * @description Will reset the state by nullifying it and calling the constructor to re-initalize it
+         */
+        reset(): void;
+        /**
+         * @description Will remove the state from the render list and update loop. It will also set all
+         * interactivity to false as well as visibility and renderable.
+         * Will store it's current position in the display list incase it is to be re-enabled at the same position
+         *
+         * @returns {boolean}
+         */
+        disable(key: string): boolean;
+        /**
+         * @description Will re-enable a state exactly as it was before being disabled.
+         * Sets all visibility, interactivity and renderable to true.
+         * If last index is passed, it will use the previous position in the world display list
+         * If the index is passed, it will be added to the world display list where the index is
+         * If last index is false and index is null, then it will get added to the top of the world display list
+         *
+         * @returns {boolean}
+         */
+        enable(key: string, lastIndex?: boolean, index?: number): boolean;
+        /**
+         * @description Destroy the state entirley
+         * Removes from the world children
+         * Removes from the active states array
+         * sets visible, renderable and all interactivity to false
+         *
+         * @param {string} key
+         *
+         * @returns {boolean}
+         */
+        destroy(key: string): boolean;
+        /**
+         * @description Adds a new state to the state StateManager
+         *
+         * @param {string} key
+         * @param {State} state
+         *
+         * @returns {boolean}
+         */
+        add(key: string, state: State): boolean;
+        /**
+         * @description Adds a state to the active states array if it's not already there
+         *
+         * @param {State} state
+         *
+         * @returns {boolean}
+         */
+        private addToActive(state);
+        /**
+         * TODO
+         * @description Will create a texture of the state as it currently is and apply it to the state as it's only renderable child. This could be used when large state transitions are happening and the display list gets too large and effects performance
+         */
+        freeze(): void;
+        /**
+         * @description Loop through the states array and match by key. If one is found, then the entire state map is returned
+         *
+         * @param {string} key
+         *
+         * @returns {State}
+         */
+        findState(key: string): iStateMap;
+        /**
+         * @description Loops through all active states and matches by a state
+         *
+         * @param {state}
+         *
+         * @returns {number}
+         */
+        findActiveIndex(state: State): number;
+    }
+}
+declare namespace Lightning {
+    class PhysicsManager {
+        protected game: Engine;
+        protected _active: boolean;
+        private _physicsWorld;
+        private _physicsWorldBounds;
+        constructor(game: Engine);
+        update(): void;
+        startPhysics(): void;
+        collideOnWorldBounds(): void;
+        readonly physics: Box2D.Dynamics.b2World;
+        readonly physicsWorldBounds: Box2D.Dynamics.b2BodyDef;
+    }
+}
+declare namespace Lightning {
+    class Input {
+        protected game: Engine;
+        private window;
+        private key;
+        constructor(game: Engine);
+        onKeyDown(key: Event): void;
+        addKey(keyCode: string, fn: Function): void;
     }
 }
 declare namespace Lightning {
@@ -70,6 +466,7 @@ declare namespace Lightning {
 }
 declare namespace Lightning {
     class Sprite extends PIXI.Sprite {
+        private _events;
         protected _body: Box2D.Dynamics.b2Body;
         protected _respectPosition: boolean;
         protected _respectPositionValues: {
@@ -111,6 +508,39 @@ declare namespace Lightning {
         startDrag(event: PIXI.interaction.InteractionEvent): void;
         stopDrag(event: PIXI.interaction.InteractionEvent): void;
         onDrag(event: PIXI.interaction.InteractionEvent): void;
+    }
+}
+declare namespace Lightning {
+    class Group extends PIXI.Container {
+        _events: EventEmitter;
+        constructor();
+        /**
+         * @param  {} ...displayObjects
+         */
+        add(...displayObjects: any[]): void;
+    }
+}
+/**
+ * Order the world when created
+ */
+declare namespace Lightning {
+    class HUD extends Group {
+        protected game: Engine;
+        constructor(game: Engine);
+    }
+}
+declare namespace Lightning {
+    class BitmapText extends PIXI.extras.BitmapText {
+        /**
+         * @description function for calculating scaling fonts
+         *
+         * @param {Object} game reference to the Engine instance
+         * @param {number} size size of the font (in responsive pixels)
+         * @param {string} font name of the font stored in resource cache
+         *
+         * @returns {string} concatinated string to pass directly to the PIXI.extras.BitmapText
+         */
+        calcFont(game: Engine, size: number, font: string): string;
     }
 }
 /**
@@ -179,7 +609,6 @@ declare namespace Lightning {
 declare namespace Lightning {
     class HitArea extends Graphics {
         private game;
-        private _debug;
         private _texture;
         /**
          *
@@ -250,12 +679,6 @@ declare namespace Lightning {
          * @param fnct
          */
         onTap(fnct: Function): void;
-        /**
-         * @description Sets the debug enabled / disabled and the alpha to 0.5 accordingly
-         *
-         * @param {Array} data passed in from the signal dispatch event
-         */
-        debug(data: any): void;
     }
 }
 declare namespace Lightning {
@@ -284,17 +707,14 @@ declare namespace Lightning {
     }
 }
 declare namespace Lightning {
-    class Group extends PIXI.Container {
-        constructor();
-        /**
-         * @param  {} ...displayObjects
-         */
-        add(...displayObjects: any[]): void;
-    }
-}
-declare namespace Lightning {
-    class Particle extends Sprite {
+    class ParticleBase extends PIXI.Sprite {
+        protected _texture: PIXI.Texture;
         protected _emitter: ParticleEmitter;
+        protected _minX: number;
+        protected _maxX: number;
+        protected _minY: number;
+        protected _maxY: number;
+        protected _autoCull: boolean;
         protected _velX: number;
         protected _velY: number;
         protected _gX: number;
@@ -305,11 +725,28 @@ declare namespace Lightning {
             x: number;
             y: number;
         };
+        protected _isDead: boolean;
         protected _createdAt: number;
         protected _lifeSpan: number;
         protected _deadTime: number;
-        constructor(texture: PIXI.Texture, emitter: any);
-        update(): void;
+        protected _lifeTime: number;
+        update: (time: number) => void;
+        returnToPool: () => void;
+        constructor();
+        updateSimple(time: number): void;
+        updateComplex(time: number): void;
+    }
+}
+declare namespace Lightning {
+    class Particle extends ParticleBase {
+        constructor(texture: PIXI.Texture, emitter: ParticleEmitter, minX: number, maxX: number, minY: number, maxY: number);
+        renderWebGL(renderer: any): void;
+        renderAdvancedWebGL(renderer: any): void;
+        renderCanvas(renderer: any): void;
+        updateTransform(): void;
+        destroy(): void;
+        calculateBounds(): void;
+        _returnToPool(): void;
         velocity: {
             x: number;
             y: number;
@@ -326,30 +763,26 @@ declare namespace Lightning {
             y: number;
         };
         createdAt: number;
+        lifeTime: number;
+        isDead: boolean;
     }
 }
 /**
  * Fade in / Scale in sprites - optional
  * Simple / Advanced -- for creating ultra performant particles in the 50k+ range
+ * Colour Shift
+ * Checking the container class in pixi, I should think about refactoring the calculate bounds function.. if it's looping over 10k children to calculate it's bounds, that's going to get expensive!
  */
-interface iPosition {
-    x: number;
-    y: number;
-}
-interface iRange {
-    from: number;
-    to: number;
-}
-interface iPointRange {
-    xFrom: number;
-    xTo: number;
-    yFrom: number;
-    yTo: number;
-}
 declare namespace Lightning {
     class ParticleEmitter extends Group {
         protected game: Engine;
         protected state: State;
+        protected _debug: boolean;
+        protected _debugFn: any;
+        protected _aliveText: PIXI.Text;
+        protected _deadPoolText: PIXI.Text;
+        protected _intervalText: PIXI.Text;
+        protected _strengthText: PIXI.Text;
         protected _emit: boolean;
         protected _nextEmit: number;
         protected _interval: number;
@@ -357,9 +790,10 @@ declare namespace Lightning {
         protected _time: number;
         protected _textures: Array<PIXI.Texture>;
         protected _respectPosition: boolean;
-        protected _respectPositionValues: iPosition;
+        protected _respectPositionValues: iPoint;
         protected _deadPool: Array<Particle>;
-        protected _gravity: iPosition;
+        protected _gravity: iPoint;
+        protected _nGravity: number;
         protected _spread: iPointRange;
         protected _lifeSpanRange: iRange;
         protected _particleStrength: number;
@@ -370,8 +804,11 @@ declare namespace Lightning {
         protected _particleRotationIncrement: iRange;
         protected _particleScaleIncrement: iPointRange;
         protected _particleAlphaIncrement: iRange;
+        gravityWells: Array<any>;
+        obstacles: Array<any>;
         constructor(state: State, x?: number, y?: number);
-        update(): void;
+        private tick(time);
+        updateTransform(): void;
         /**
          * @param  {string} key
          * @param  {DisplayObject} particle
@@ -382,7 +819,12 @@ declare namespace Lightning {
         createParticle(): void;
         stop(): void;
         returnToPool(particle: Particle): void;
+        /**
+         * TODO this seems to break the create particle function for some reason
+         */
+        private clearPool();
         startDrag(event: PIXI.interaction.InteractionEvent): void;
+        enableDebug(interval?: number, floatLeft?: boolean, floatTop?: boolean): void;
         enableDrag(respectPosition?: boolean): void;
         stopDrag(event: PIXI.interaction.InteractionEvent): void;
         onDrag(event: PIXI.interaction.InteractionEvent): void;
@@ -400,6 +842,7 @@ declare namespace Lightning {
         setStrength(val: number): void;
         readonly alive: number;
         readonly pool: number;
+        nGravity: number;
     }
 }
 interface iTile {
@@ -433,6 +876,10 @@ declare namespace Lightning {
             x: number;
             y: number;
         };
+        protected _watchDampner: {
+            x: number;
+            y: number;
+        };
         protected _referenceOffset: {
             x: number;
             y: number;
@@ -450,7 +897,7 @@ declare namespace Lightning {
          */
         add(key: string, texture: Texture, xy?: boolean): void;
         /**
-         * needs a refactor on the watch calculation
+         *
          */
         update(): void;
         /**
@@ -479,6 +926,7 @@ declare namespace Lightning {
          * @returns void
          */
         setReferenceOffset(x: number, y?: number): void;
+        setWatchDampner(x: number, y?: number): void;
         /**
          * @param  {string} key
          * @param  {number=0} x
@@ -510,7 +958,7 @@ declare namespace Lightning {
         readonly scrollSpeed: number;
     }
 }
-declare namespace Tween {
+declare namespace Lightning {
     class Easing {
         none(x: number, t: number, b: number, c: number, d: number): number;
         easeInQuad(t: number, b: number, c: number, d: number): number;
@@ -543,18 +991,7 @@ declare namespace Tween {
         easeOutBounce(x: number, t: number, b: number, c: number, d: number): number;
     }
 }
-/**
- * Callback interface. Defines the properties of a callback request for a specific frame in the animation
- */
-interface Callback {
-    name: string;
-    funct: Function;
-    functContext: any;
-    functParams: any[];
-    frame: number;
-    once: boolean;
-}
-declare namespace Tween {
+declare namespace Lightning {
     class Events {
         private tween;
         private _events;
@@ -603,14 +1040,10 @@ declare namespace Tween {
         findPosition(ref: string): number;
     }
 }
-interface Property {
-    prop: string;
-    val: number;
-}
 /**
  * Frame class. Defines what each frame should consist of in an animation
  */
-declare namespace Tween {
+declare namespace Lightning {
     class Frame {
         private _frameId;
         private _properties;
@@ -622,12 +1055,12 @@ declare namespace Tween {
          */
         addProperty(property: string, val: number): void;
         frameId: number;
-        properties: Array<Property>;
+        properties: Array<iTweenProperty>;
         relative: boolean;
         complex: boolean;
     }
 }
-declare namespace Tween {
+declare namespace Lightning {
     class Tween {
         private tweenManager;
         private _playFlag;
@@ -663,7 +1096,7 @@ declare namespace Tween {
          * @param  {Array<Property>} properties
          * @param  {boolean} relative
          */
-        extendFrame(frameId: number, properties: Array<Property>, relative: boolean): void;
+        extendFrame(frameId: number, properties: Array<iTweenProperty>, relative: boolean): void;
         /**
          * Apply the current frame properties to an object
          * @param  {Object} obj
@@ -787,7 +1220,7 @@ declare namespace Tween {
         readonly events: Object;
     }
 }
-declare namespace Tween {
+declare namespace Lightning {
     class TweenManager {
         private game;
         private _tweens;
@@ -914,351 +1347,35 @@ declare namespace Tween {
         readonly events: Events;
     }
 }
-declare namespace Lightning.Signals {
-    /**
-     *	@desc       A TypeScript conversion of JS Signals by Miller Medeiros
-    *               Released under the MIT license
-    *				http://millermedeiros.github.com/js-signals/
-    *
-    *	@version	1.0 - 7th March 2013
-    *
-    *	@author 	Richard Davey, TypeScript conversion
-    *	@author		Miller Medeiros, JS Signals
-    *	@author		Robert Penner, AS Signals
-    *
-    *	@url		http://www.photonstorm.com
-    */
-    /**
-     * Custom event broadcaster
-     * <br />- inspired by Robert Penner's AS3 Signals.
-     * @name Signal
-     * @author Miller Medeiros
-     * @constructor
-     */
-    class Signal {
-        /**
-         * @property _bindings
-         * @type Array
-         * @private
-         */
-        private _bindings;
-        /**
-         * @property _prevParams
-         * @type Any
-         * @private
-         */
-        private _prevParams;
-        /**
-         * Signals Version Number
-         * @property VERSION
-         * @type String
-         * @const
-         */
-        static VERSION: string;
-        /**
-         * If Signal should keep record of previously dispatched parameters and
-         * automatically execute listener during `add()`/`addOnce()` if Signal was
-         * already dispatched before.
-         * @type boolean
-         */
-        memorize: boolean;
-        /**
-         * @type boolean
-         * @private
-         */
-        private _shouldPropagate;
-        /**
-         * If Signal is active and should broadcast events.
-         * <p><strong>IMPORTANT:</strong> Setting this property during a dispatch will only affect the next dispatch, if you want to stop the propagation of a signal use `halt()` instead.</p>
-         * @type boolean
-         */
-        active: boolean;
-        /**
-         * @method validateListener
-         * @param {Any} listener
-         * @param {Any} fnName
-         */
-        validateListener(listener: any, fnName: any): void;
-        /**
-         * @param {Function} listener
-         * @param {boolean} isOnce
-         * @param {Object} [listenerContext]
-         * @param {Number} [priority]
-         * @return {SignalBinding}
-         * @private
-         */
-        private _registerListener(listener, isOnce, listenerContext, priority);
-        /**
-         * @method _addBinding
-         * @param {SignalBinding} binding
-         * @private
-         */
-        private _addBinding(binding);
-        /**
-         * @method _indexOfListener
-         * @param {Function} listener
-         * @return {number}
-         * @private
-         */
-        private _indexOfListener(listener, context);
-        /**
-         * Check if listener was attached to Signal.
-         * @param {Function} listener
-         * @param {Object} [context]
-         * @return {boolean} if Signal has the specified listener.
-         */
-        has(listener: any, context?: any): boolean;
-        /**
-         * Add a listener to the signal.
-         * @param {Function} listener Signal handler function.
-         * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-         * @param {Number} [priority] The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
-         * @return {SignalBinding} An Object representing the binding between the Signal and listener.
-         */
-        add(listener: any, listenerContext?: any, priority?: number): SignalBinding;
-        /**
-         * Add listener to the signal that should be removed after first execution (will be executed only once).
-         * @param {Function} listener Signal handler function.
-         * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-         * @param {Number} [priority] The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
-         * @return {SignalBinding} An Object representing the binding between the Signal and listener.
-         */
-        addOnce(listener: any, listenerContext?: any, priority?: number): SignalBinding;
-        /**
-         * Remove a single listener from the dispatch queue.
-         * @param {Function} listener Handler function that should be removed.
-         * @param {Object} [context] Execution context (since you can add the same handler multiple times if executing in a different context).
-         * @return {Function} Listener handler function.
-         */
-        remove(listener: any, context?: any): any;
-        /**
-         * Remove all listeners from the Signal.
-         */
-        removeAll(): void;
-        /**
-         * @return {number} Number of listeners attached to the Signal.
-         */
-        getNumListeners(): number;
-        /**
-         * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
-         * <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
-         * @see Signal.prototype.disable
-         */
-        halt(): void;
-        /**
-         * Dispatch/Broadcast Signal to all listeners added to the queue.
-         * @param {...*} [params] Parameters that should be passed to each handler.
-         */
-        dispatch(...paramsArr: any[]): void;
-        /**
-         * Forget memorized arguments.
-         * @see Signal.memorize
-         */
-        forget(): void;
-        /**
-         * Remove all bindings from signal and destroy any reference to external objects (destroy Signal object).
-         * <p><strong>IMPORTANT:</strong> calling any method on the signal instance after calling dispose will throw errors.</p>
-         */
-        dispose(): void;
-        /**
-         * @return {string} String representation of the object.
-         */
-        toString(): string;
-    }
-}
-declare namespace Lightning.Signals {
-    class SignalBinding {
-        /**
-         * Object that represents a binding between a Signal and a listener function.
-         * <br />- <strong>This is an internal constructor and shouldn't be called by regular users.</strong>
-         * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
-         * @author Miller Medeiros
-         * @constructor
-         * @internal
-         * @name SignalBinding
-         * @param {Signal} signal Reference to Signal object tha
-         * listener is currently bound to.
-         * @param {Function} listener Handler function bound to the signal.
-         * @param {boolean} isOnce If binding should be executed just once.
-         * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-         * @param {Number} [priority] The priority level of the event listener. (default = 0).
-         */
-        constructor(signal: Signal, listener: any, isOnce: boolean, listenerContext: any, priority?: number);
-        /**
-         * Handler function bound to the signal.
-         * @type Function
-         * @private
-         */
-        private _listener;
-        /**
-         * If binding should be executed just once.
-         * @type boolean
-         * @private
-         */
-        private _isOnce;
-        /**
-         * Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-         * @memberOf SignalBinding.prototype
-         * @name context
-         * @type Object|undefined|null
-         */
-        context: any;
-        /**
-         * Reference to Signal object that listener is currently bound to.
-         * @type Signal
-         * @private
-         */
-        private _signal;
-        /**
-         * Listener priority
-         * @type Number
-         */
-        priority: number;
-        /**
-         * If binding is active and should be executed.
-         * @type boolean
-         */
-        active: boolean;
-        /**
-         * Default parameters passed to listener during `Signal.dispatch` and `SignalBinding.execute`. (curried parameters)
-         * @type Array|null
-         */
-        params: any;
-        /**
-         * Call listener passing arbitrary parameters.
-         * <p>If binding was added using `Signal.addOnce()` it will be automatically removed from signal dispatch queue, this method is used internally for the signal dispatch.</p>
-         * @param {Array} [paramsArr] Array of parameters that should be passed to the listener
-         * @return {*} Value returned by the listener.
-         */
-        execute(paramsArr?: any[]): any;
-        /**
-         * Detach binding from signal.
-         * - alias to: mySignal.remove(myBinding.getListener());
-         * @return {Function|null} Handler function bound to the signal or `null` if binding was previously detached.
-         */
-        detach(): any;
-        /**
-         * @return {Boolean} `true` if binding is still bound to the signal and have a listener.
-         */
-        isBound(): boolean;
-        /**
-         * @return {boolean} If SignalBinding will only be executed once.
-         */
-        isOnce(): boolean;
-        /**
-         * @return {Function} Handler function bound to the signal.
-         */
-        getListener(): any;
-        /**
-         * @return {Signal} Signal that listener is currently bound to.
-         */
-        getSignal(): Signal;
-        /**
-         * Delete instance properties
-         * @private
-         */
-        _destroy(): void;
-        /**
-         * @return {string} String representation of the object.
-         */
-        toString(): string;
-    }
-}
-declare namespace Lightning.Signals {
-    /**
-     * Signal Manager class for storing, manipulating and general management of signals throughout the game
-     */
-    class SignalManager {
-        private game;
-        private _signals;
-        /**
-         * signal manager constructor
-         * @param game
-         */
-        constructor(game: Engine);
-        getInsatance(): void;
-        /**
-         * create a new signal
-         * @param str
-         * @returns {any}
-         */
-        create(str: string): Signal;
-        /**
-         * add a function to the signal to fire on dispatch
-         * @param str
-         * @param fnct
-         * @param listenerContext? = null
-         */
-        add(str: string, fnct: Function, listenerContext?: any): void;
-        /**
-         * add a function to the signal to fire only once on dispatch, then automatically destroy the function
-         * @param str
-         * @param fnct
-         */
-        addOnce(str: string, fnct: Function): void;
-        /**
-         * destroy the entire signal
-         * @param str
-         */
-        destroy(str: string): void;
-        /**
-         * set the state of the signal (active, inactive)
-         * @param str
-         * @param val
-         */
-        active(str: string, val: boolean): void;
-        /**
-         * dispatch a signal with all the parameters
-         * @param str
-         * @param params
-         */
-        dispatch(str: string, ...params: any[]): void;
-        /**
-         * return a signal
-         * @param str
-         * @returns {any}
-         */
-        signal(str: string): Signal;
-        /**
-         * check if signal is already created
-         * @param name
-         * @return boolean
-         */
-        has(name: string): boolean;
-    }
-}
 declare namespace Lightning {
-    class Engine {
-        private _renderer;
-        private _world;
-        private _ticker;
-        private _activateState;
-        private _tweens;
-        private _signals;
-        private _physicsActive;
-        private _physicsWorld;
-        private _physicsWorldBounds;
+    class Engine extends EngineHelper {
+        /**
+         * @description Engine constructor
+         *
+         * @param {number} width
+         * @param {number} height
+         * @param {string} canvasId
+         */
         constructor(width: any, height: any, canvasId?: string);
+        /**
+         * @description Main entry for every update function. This is called by the ticker on every request frame update
+         *
+         * @param {number} time
+         *
+         * @returns {void}
+         */
         update(time: any): void;
-        startState(state: any, ...params: any[]): void;
-        initState(state: State, params: any): void;
-        startPhysics(): void;
-        collideOnWorldBounds(): void;
-        generateTexture(...params: any[]): any;
-        texture(...params: any[]): any;
-        backgroundColor: number;
-        state: State;
-        readonly world: PIXI.Container;
-        readonly width: number;
-        readonly height: number;
-        readonly center: {
-            x: number;
-            y: number;
-        };
-        readonly renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
-        readonly tweens: Tween.TweenManager;
-        readonly signals: Signals.SignalManager;
-        readonly physics: Box2D.Dynamics.b2World;
-        readonly physicsWorldBounds: Box2D.Dynamics.b2BodyDef;
+        /**
+         * @description Start the ticker
+         *
+         * @returns {boolean}
+         */
+        start(): boolean;
+        /**
+         * @description Stop the ticker
+         *
+         * @returns {boolean}
+         */
+        stop(): boolean;
     }
 }

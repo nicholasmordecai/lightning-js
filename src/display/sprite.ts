@@ -3,6 +3,7 @@
 namespace Lightning {
     export class Sprite extends PIXI.Sprite {
         
+        private _events:EventEmitter;
         protected _body:Box2D.Dynamics.b2Body;
         protected _respectPosition:boolean;
         protected _respectPositionValues: {x:number, y:number};
@@ -12,6 +13,7 @@ namespace Lightning {
          */
         constructor(texture:PIXI.Texture = null) {
             super(texture);
+            this._events = new EventEmitter();
         }
         
         /**
@@ -38,7 +40,8 @@ namespace Lightning {
          * @returns void
          */
         setScale(aX:number, aY:number = aX):void {
-            this.scale = new PIXI.Point(aX, aY);
+            this.scale.x = aX;
+            this.scale.y = aY;
         }
 
         /**

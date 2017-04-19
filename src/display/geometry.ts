@@ -105,6 +105,8 @@ namespace Lightning {
          * @returns {Lightning.Graphics}
          */
         export function Circle(r:number):PIXI.Graphics {
+            // think about how to implement responsive graphic drawings
+            r = r * window.devicePixelRatio;
             let graphics = new PIXI.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.arc(75, 75, r, 0, Math.PI*2, false);

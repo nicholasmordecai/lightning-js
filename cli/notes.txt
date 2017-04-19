@@ -1,0 +1,49 @@
+use yargs or something silmiar to build a cli for lightning
+also consider creating a lightning.json file for the general game configuration
+    could be very useful when it comes to developing templates etc
+
+        name: 'new game',
+        version: 1.0.3,
+        author: Megaman,
+        releaseDate: 05.03.2018,
+        components: {
+            box2d: true,
+            particle-emitter: true,
+            parallax: true,
+            tweens: true
+        }
+        publish: {
+            android: true,
+            ios: true,
+            desktop: true
+            html5: true
+        },
+        tools: {
+            browserify: false,
+            minify: true,
+            typeDefinitions: false,
+            maps: false
+        }
+
+examples of commands
+
+// creating new projects
+lightning -p myNewProject
+lightning -p myNewProject -template sideScroller
+
+// manipulating the project you're currently in the directory of
+lightning -a state
+lightning -a controller
+lightning -a service
+lightning -a prefab
+
+// running build tools and development tasks
+lightning -b dev
+lightning -b build
+lightning -b publish
+lightning -b publish desktop ios android web
+lightning -b info // size, lines, etc
+
+// run update commands and allow user to override the engine version used to build
+lightning -v
+lightning -v -f 0.3.4

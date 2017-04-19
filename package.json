@@ -1,9 +1,12 @@
 {
   "name": "lightning-js",
-  "version": "0.3.0",
+  "version": "0.3.6",
   "description": "A modern, fast framework built on Pixi.js for all WebGL and Canvas games and apps.",
   "main": "dist/lightning.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "lightning": "./cli/index.js"
+  },
   "scripts": {
     "start": "",
     "compile": "tsc",
@@ -11,6 +14,7 @@
     "concat-dts": "gulp concat-dts",
     "push-test": "gulp push-to-test",
     "minify": "gulp minify",
+    "docs": "typedoc --out docs/ src/",
     "build": "npm-run-all compile concat concat-dts minify",
     "build:dev": "npm-run-all compile concat concat-dts push-test"
   },
@@ -23,14 +27,24 @@
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-minify": "0.0.15",
+    "gulp-webserver": "^0.9.1",
     "istanbul": "^0.4.5",
-    "npm-run-all": "^4.0.1",
-    "pixi.js": "^4.3.4",
-    "transform-loader": "^0.2.3",
-    "typedoc": "^0.5.5",
-    "typescript": "^2.1.5",
+    "jsdoc": "^3.4.3",
+    "karma-firefox-launcher": "^1.0.1",
+    "npm-run-all": "^4.0.2",
+    "pixi.js": "^4.4.1",
+    "transform-loader": "^0.2.4",
+    "typedoc": "^0.5.7",
+    "typescript": "^2.2.1",
     "typescript-compiler": "^1.4.1-2",
-    "typings": "^2.1.0",
-    "yargs": "^6.6.0"
+    "typings": "^2.1.0"
+  },
+  "dependencies": {
+    "casperjs": "^1.1.3",
+    "chalk": "^1.1.3",
+    "copy-dir": "^0.3.0",
+    "npm-run-all": "^4.0.2",
+    "phantomjs": "^2.1.7",
+    "yargs": "^7.0.1"
   }
 }

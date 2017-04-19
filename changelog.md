@@ -1,6 +1,76 @@
 # Changelog
 
-### 0.3.0 -- In progress
+### 0.4.0
+1. States now automatically have their own event emitter separate from the core engine
+2. CLI gets under way
+    1. Commands include add, build, create, dev and publish
+    2. Yargs created with aliases for the commands and command options
+3. Groups get event emitter
+4. Sprites get event emitter
+5. Clean up of the engine and engine helper class
+6. Brand new shiny storage manager that facilitates non localStorage fallback as default
+7. Particle Emitter fixes
+    1. Function callback from ticker instead of hijacking update transformation
+    2. Particles now use ticker time to calculate lifeTime vs deadTime instead of Date.now() - good performance saver
+
+### 0.3.6
+1. Brand new shiny ultra fast light weight super duper event emitter :D
+    1. Will be inherited by all main objects in Lightning.
+    2. Allows an event manager to be added to a state, so when the state is destroyed, so are those events and subscriptions
+    3. Allows for denial of even propogation
+    4. Can subscribe for many triggers, or once
+    5. Can enable or disable events on the fly
+2. Started development on the Cli
+    1. Got the npm -g to install globally with a path variable to make it a globally accessable script
+        1. used a shebang, however on windows it will create a *.cmd file so it's cross platform
+        2. Created the basis of the folder structure within the cli
+
+### 0.3.5
+1. More work on particle emitter
+    1. more performance tweaks
+    2. fixed the update loop so it's not controlled by an outside source (I should look at using eventEmitter3 for this?)
+
+### 0.3.4
+1. Another major overhaul on the particle emitter
+    1. Debug Module
+    2. Return to pool optamisation
+    3. Not removing the children as it's too heavy, isDead property instead
+    4. Responsive to device pixel ratio now
+    5. Made the default values more useful
+2. Re-wrote the particle class for speed gains
+    1. Overwritten multiple sprite class functions (renderCnavas, renderWebGL, destroy..)
+    2. Removed the ability for the particle class to have children
+3. Add a dpr property to the engine. This can only be set at creation and not during runtime
+4. Made the Circle function in the geometry respond to DPR. 
+
+### 0.3.3
+1. Fixes in state manager
+2. Implemented working engine helper class
+    1. Too many to list, but lots of helper functions, setters and getters
+3. Added start and stop ticker as well as setting the ticker FPS
+4. Signal Manager major overhaul
+5. Moved stuff out of the core that doesn't belong there
+6. Started to rebuild the tween engine
+
+### 0.3.2
+1. Added a BitmapText class
+2. Added a depreciation class to deal with backwards compatability
+3. Cleaned up the reference.d.ts files and fixed them not being added to the global definition file (relook at this at a later date)
+4. Removed the font utils file and put the helper functions into BitmapText
+5. Major overhaul on the states and the state manager
+6. Migrating the physics functionality into a physics manager
+
+### 0.3.1
+1. Added HUD class
+2. Added an Input Controller
+3. Fullscreen now implemented
+    1. this.game.goFullscreen();
+4. Tweaks to the hit area class
+5. Updated Pixi.js to 4.4.1
+6. Created a interfaces folder to start separating the interfaces out
+7. Started work on some new abstract helper functions in the Maths utils
+
+### 0.3.0
 1. Fixed particle emitter default values
 2. Made helper function for generating textures (this.game.genereateTexture(...));
 3. Made helper function for getting textures (this.game.texture(...));
