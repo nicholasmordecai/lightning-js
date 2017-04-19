@@ -1,8 +1,0 @@
-image: node:6.9.1
-before_script:
-- npm install
-- npm install -g gulp
-build:
-  script:
-  - npm run compile
-  - npm run build
