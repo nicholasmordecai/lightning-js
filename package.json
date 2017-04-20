@@ -8,6 +8,7 @@
     "lightning": "./cli/index.js"
   },
   "scripts": {
+    "postinstall": "npm run build",
     "start": "",
     "compile": "tsc",
     "ts-compile": "tsc --outfile build/compile.js",
