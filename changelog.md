@@ -1,11 +1,26 @@
 # Changelog
 
+### 0.4.2
+
 ### 0.4.1
 1. Moved touch input into input folder within controllers
 2. Created spaces for keyboard and gesture input controllers
 3. More work on the CLI
     1. Rudimentary build script
     2. Hijacking NPM for the dev server script
+4. Aded karma and jasmine for testing
+    1. Chrome Testing Suite
+    2. Firefox Testing Suite
+    3. PhantomJS Testing Suite
+5. Automated the testing procedure under 'npm test'
+6. Created an additional build step to allow TSC to construct both the individual files, and a single out file
+    1. This was mostly for the remapping that takes place for testing
+7. Built test coverage to the project. This is reliate on 6
+8. Fixed the auto docs generator. Would still like to improve this
+9. Removed the exampled.md file as this is now taken care of with the docs
+10. Moved this project from Gitlab to Github
+    1. Introduced CircleCI automated testing and continious integration by way of circle.yml
+11. Created a config file in the template projects that the CLI will consume
 
 ### 0.4.0
 1. States now automatically have their own event emitter separate from the core engine
