@@ -1,6 +1,10 @@
 # Changelog
 
 ### 0.4.2
+1. Created a dev environment to build lightning on
+    1. Adjusted the tsconfig file
+    2. Made a dev project to serve with browserSync
+2.
 
 ### 0.4.1
 1. Moved touch input into input folder within controllers

@@ -13,7 +13,7 @@ namespace Lightning {
          * @param {Engine} game
          */
         constructor(game:Engine) {
-            super();
+            super(); 
             this.game = game;
             this.events = new EventEmitter();
             this.loader = new PIXI.loaders.Loader();

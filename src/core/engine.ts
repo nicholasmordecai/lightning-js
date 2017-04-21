@@ -13,7 +13,13 @@ namespace Lightning {
          */
         constructor(width, height, canvasId:string = 'app') {
             super();
-            console.log('Lightning-js | version : 0.4.0');
+            console.log('Lightning-js | version : 0.4.1');
+            console.log(`%c
+            ^__^
+            (oo)\\_______
+            (__)\\       )\\/\\
+                ||----w |
+                ||     ||`, "font-family:monospace")
             this._dpr = window.devicePixelRatio;
             this._eventEmitter = new EventEmitter;
             if(!canvasId) {
@@ -40,7 +46,7 @@ namespace Lightning {
             this._physicsManager = new PhysicsManager(this);
 
             // create a new services manager
-            this._serviceManager = new ServiceManager(this);
+            this._serviceManager = new ServiceManager(this); 
 
             // create the state StateManager
             this._stateManager = new StateManager(this);
