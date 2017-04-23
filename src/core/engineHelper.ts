@@ -20,6 +20,17 @@ namespace Lightning {
         protected _storageManager:StorageManager;
         protected _serviceManager:ServiceManager;
 
+        public displayInfo() {
+            console.log(`%c
+             __    _     _   _       _         
+            |  |  |_|___| |_| |_ ___|_|___ ___ 
+            |  |__| | . |   |  _|   | |   | . |
+            |_____|_|_  |_|_|_| |_|_|_|_|_|_  |
+                    |___|                 |___|
+             `, "font-family:monospace");
+             console.log('Lightning-js | version : 0.4.1');
+        }
+
         public generateTexture(...params):any {
             let t:Texture | Array<Texture> = [];
             if(params.length > 1) {
@@ -54,6 +65,10 @@ namespace Lightning {
                 t = Texture.from(params[0]);
             }
             return t;
+        }
+
+        public recycle(obj:any) {
+            obj = null;
         }
 
         public set backgroundColor(val:number) {

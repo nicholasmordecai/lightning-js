@@ -11,33 +11,29 @@ namespace Lightning {
          * @param {number} height
          * @param {string} canvasId
          */
-        constructor(width, height, canvasId:string = 'app') {
+        constructor(width, height, wrapperId:string = null) {
             super();
-            console.log('Lightning-js | version : 0.4.1');
-            console.log(`%c
-            ^__^
-            (oo)\\_______
-            (__)\\       )\\/\\
-                ||----w |
-                ||     ||`, "font-family:monospace")
+
+            // setup the canvas
+            let wrapper = document.createElement('div');
+            wrapper.id = wrapperId || '';
+
+            document.body.appendChild(wrapper);
             this._dpr = window.devicePixelRatio;
-            this._eventEmitter = new EventEmitter;
-            if(!canvasId) {
-                let viewCanvas = document.createElement('canvas');
-                viewCanvas.id = 'app';
-                document.getElementById('app-container').appendChild(viewCanvas);
-            }
-             this._tweens = new TweenManager(this);
-             this._storageManager = new StorageManager();
             
             this._renderer = PIXI.autoDetectRenderer(width, height, {resolution: this._dpr});
             this._renderer.autoResize = true;
+            wrapper.appendChild(this._renderer.view);
 
             this._world = new PIXI.Container();
             this._world.scale = new PIXI.Point(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
             this._world.interactive = true;
 
-            document.getElementById('app-container').appendChild(this._renderer.view);
+            this._tweens = new TweenManager(this);
+            this._storageManager = new StorageManager();
+            this._eventEmitter = new EventEmitter();
+            
+            
 
             // let scale = window.devicePixelRatio;
             this._renderer.resize(width, height);

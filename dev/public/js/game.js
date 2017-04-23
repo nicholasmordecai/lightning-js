@@ -44,7 +44,7 @@ new Game(width, height);
 // };
 // app.initialize(); 
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_cd5860e8.js","/")
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_c209d625.js","/")
 },{"./states/boot":2,"./states/game":3,"./states/menu":4,"./states/preload":5,"buffer":7,"fsovz6":8}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -94,11 +94,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var GameState = (function (_super) {
     __extends(GameState, _super);
     function GameState() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.test = 1;
+        return _this;
     }
     GameState.prototype.create = function () {
-    };
-    GameState.prototype.test = function () {
+        var timer = new Lightning.Timer(this.game);
+        // let t1 = timer.events.subscribe('tick', function(params, event, time) {
+        //     console.log(this.test)
+        // }, this, 'hello', 123, true, null);
+        // let t1 = timer.events.subscribe('tick', (params, event, time) => {
+        //     console.log(params, this.test)
+        // }, null, 3);
+        // timer.events.remove('tick', t1);
+        var e = new Lightning.EventEmitter();
+        var event = e.create('test');
+        var i = e.subscribe('test', function () {
+            console.log('hi');
+        });
+        console.log(i);
     };
     return GameState;
 }(Lightning.State));

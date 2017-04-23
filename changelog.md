@@ -4,7 +4,17 @@
 1. Created a dev environment to build lightning on
     1. Adjusted the tsconfig file
     2. Made a dev project to serve with browserSync
-2.
+2. More work on event emitter
+    1. Added removal of subscriptions
+    2. Returned correct subscription object
+    3. Changed the interface and added the passing of parameters
+    4. Fixed the sending of some parameters
+    5. Better documentation
+    6. Allow event emitter to be enabledand disables
+3. Timer work
+4. Upgraded PIXI to 4.5.1
+5. Changed the creation of the wrapper div and the canvas
+6. 
 
 ### 0.4.1
 1. Moved touch input into input folder within controllers

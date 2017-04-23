@@ -5,19 +5,27 @@ namespace Lightning {
     export class Timer {
 
         private game:Engine;
-        private _events:EventEmitter = new EventEmitter();
-        private _currentTime:number = 0;
-        private _lastTick:number = 0;
+        private _events:EventEmitter;
+        private _currentTime:number;
+        private _lastTick:number;
         private _autoDestroy:boolean;
         private _isLoop:boolean;
         private _interval:number;
-        private _active:boolean = false;
+        private _active:boolean;
 
-        constructor(game:Engine, interval:number, autoStart:boolean = true, loop:boolean = true, autoDestroy:boolean = false) {
+        constructor(game:Engine, interval:number = 1000, autoStart:boolean = true, loop:boolean = true, autoDestroy:boolean = false) {
             this.game = game;
+
+            // set initial properties
             this._interval = interval;
             this._isLoop = loop;
             this._autoDestroy = autoDestroy;
+            this._lastTick = 0;
+            this._currentTime = 0;
+            this._active = false;
+
+            // create events
+            this._events = new EventEmitter();
             this._events.create('tick');
             this._events.create('start');
             this._events.create('stop');
@@ -26,6 +34,8 @@ namespace Lightning {
             if(autoStart) {
                 this._active = true;
             }
+
+            // put this update as a callback inside the engine ticker
             this.game.ticker.add(this.update, this);
         }
 
@@ -42,9 +52,9 @@ namespace Lightning {
             }
         }
 
-        public add(fn:Function, ctx:Object = null) {
-            this._events.subscribe('tick', fn, ctx);
-        }
+        // public add(fn:Function, ctx:Object = null) {
+        //     this._events.subscribe('tick', fn, ctx);
+        // }
 
         public start() {
             this._active = true;
@@ -63,11 +73,15 @@ namespace Lightning {
         }
 
         public destroy() {
-            
+
         }
 
         public remove() {
+            
+        }
 
+        public get events():EventEmitter {
+            return this._events;
         }
     }
 }
