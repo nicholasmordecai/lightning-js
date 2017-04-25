@@ -90,6 +90,4 @@ describe('# Event Emitter', function() {
         eventEmitter.remove('test');
         expect(eventEmitter.event('test')).toBe(null);
     });
-
-
 });

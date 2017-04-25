@@ -13,20 +13,21 @@ namespace Lightning {
         protected _world: PIXI.Container;
         protected _hud:HUD;
         protected _ticker:PIXI.ticker.Ticker;
-        protected _tweens:TweenManager
+        // protected _tweens:TweenManager
         protected _stateManager:StateManager;
         protected _physicsManager:PhysicsManager
         protected _eventEmitter:EventEmitter;
         protected _storageManager:StorageManager;
         protected _serviceManager:ServiceManager;
+        protected _debug:Debug;
 
         public displayInfo() {
             console.log(`%c
-             __    _     _   _       _         
-            |  |  |_|___| |_| |_ ___|_|___ ___ 
-            |  |__| | . |   |  _|   | |   | . |
-            |_____|_|_  |_|_|_| |_|_|_|_|_|_  |
-                    |___|                 |___|
+ __    _     _   _       _         
+|  |  |_|___| |_| |_ ___|_|___ ___ 
+|  |__| | . |   |  _|   | |   | . |
+|_____|_|_  |_|_|_| |_|_|_|_|_|_  |
+        |___|                 |___|
              `, "font-family:monospace");
              console.log('Lightning-js | version : 0.4.1');
         }
@@ -67,6 +68,10 @@ namespace Lightning {
             return t;
         }
 
+        public enableDebug(game:Engine) {
+            this._debug = new Debug(game);
+        }
+
         public recycle(obj:any) {
             obj = null;
         }
@@ -95,9 +100,9 @@ namespace Lightning {
             return this._renderer;
         }
 
-        public get tweens():TweenManager {
-            return this._tweens;
-        }
+        // public get tweens():TweenManager {
+        //     return this._tweens;
+        // }
 
         public get states():StateManager {
             return this._stateManager;
@@ -155,14 +160,8 @@ namespace Lightning {
             return this._serviceManager;
         }
 
-        /**
-         * think about refactoring this
-         */
-        // public get hud():HUD {
-        //     if(!this._hud) {
-        //         this._hud = new HUD(this);
-        //     }
-        //     return this._hud;
-        // }
+        public get debug():Debug {
+            return this._debug;
+        }
     }
 }

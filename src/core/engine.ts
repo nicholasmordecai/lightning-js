@@ -14,26 +14,28 @@ namespace Lightning {
         constructor(width, height, wrapperId:string = null) {
             super();
 
+            this.displayInfo();
+
             // setup the canvas
             let wrapper = document.createElement('div');
             wrapper.id = wrapperId || '';
 
             document.body.appendChild(wrapper);
             this._dpr = window.devicePixelRatio;
-            
+
             this._renderer = PIXI.autoDetectRenderer(width, height, {resolution: this._dpr});
             this._renderer.autoResize = true;
             wrapper.appendChild(this._renderer.view);
+
+            // this._debug = new Debug(this);
 
             this._world = new PIXI.Container();
             this._world.scale = new PIXI.Point(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
             this._world.interactive = true;
 
-            this._tweens = new TweenManager(this);
+            // this._tweens = new TweenManager(this);
             this._storageManager = new StorageManager();
             this._eventEmitter = new EventEmitter();
-            
-            
 
             // let scale = window.devicePixelRatio;
             this._renderer.resize(width, height);
@@ -62,7 +64,7 @@ namespace Lightning {
          */ 
         update(time):void {
             this._physicsManager.update();
-            this._tweens.update();
+            // this._tweens.update();
             this._stateManager.update(time);
             this._renderer.render(this._world);
         }

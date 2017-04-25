@@ -11,10 +11,14 @@
     4. Fixed the sending of some parameters
     5. Better documentation
     6. Allow event emitter to be enabledand disables
+    7. Created a destroy method. Needs confirmation
 3. Timer work
+    1. Created a destroy method
+    2. Many tests
 4. Upgraded PIXI to 4.5.1
 5. Changed the creation of the wrapper div and the canvas
-6. 
+6. Fixed typing references in the dev env
+
 
 ### 0.4.1
 1. Moved touch input into input folder within controllers

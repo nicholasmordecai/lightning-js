@@ -1,5 +1,5 @@
 describe('Engine', function() {
-    var Lightning = window.Lightning;
+
     var game; 
 
     it('Create New Game', function() {

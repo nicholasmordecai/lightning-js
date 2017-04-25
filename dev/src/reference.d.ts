@@ -1,0 +1,1 @@
+// / <reference path="./../../build/compile.d.ts"/>

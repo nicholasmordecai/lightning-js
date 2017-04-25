@@ -52,19 +52,12 @@ namespace Lightning {
             }
         }
 
-        // public add(fn:Function, ctx:Object = null) {
-        //     this._events.subscribe('tick', fn, ctx);
-        // }
-
         public start() {
             this._active = true;
         }
 
         public stop() {
             this._active = false;
-            if(this._autoDestroy) {
-                this.destroy();
-            }
         }
 
         public reset() {
@@ -73,15 +66,50 @@ namespace Lightning {
         }
 
         public destroy() {
-
-        }
-
-        public remove() {
-            
+            this._active = null;
+            this._autoDestroy = null;
+            this.game.ticker.remove(this.update, this);
+            this._currentTime = null;
+            this._events.destroy();
+            this._interval = null;
+            this._isLoop = null;
+            this._lastTick = null;
         }
 
         public get events():EventEmitter {
             return this._events;
+        }
+
+        public get interval():number {
+            return this._interval;
+        }
+
+        public set interval(val:number) {
+            this._interval = val;
+        }
+
+        public get autoDestroy():boolean {
+            return this._autoDestroy
+        }
+
+        public set autoDestroy(val:boolean) {
+            this._autoDestroy = val;
+        }
+
+        public get loop():boolean {
+            return this._isLoop;
+        }
+
+        public set loop(val:boolean) {
+            this._isLoop = val;
+        }
+
+        public get active():boolean {
+            return this._active;
+        }
+
+        public set active(val:boolean) {
+            this._active = val;
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Lightning {
     export class EventEmitter {
 
         private _events:{[key:string]: Event};
-        private _enabled:boolean
+        private _enabled:boolean;
 
         constructor() {
             this._events = {};
@@ -25,6 +25,16 @@ namespace Lightning {
             this._events[key] = event;
             this._events[key].emitOnce = emitOnce;
             return event;
+        }
+
+        /**
+         * @description Destroy this timer
+         * 
+         * @returns {void}
+         */
+        public destroy():void {
+            this._events = null;
+            this._enabled = null;
         }
 
         /**
