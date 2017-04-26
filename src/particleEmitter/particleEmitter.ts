@@ -17,10 +17,10 @@ namespace Lightning {
         protected _debug:boolean = false;
         // find typings for set interval function
         protected _debugFn:any;
-        protected _aliveText:PIXI.Text;
-        protected _deadPoolText:PIXI.Text;
-        protected _intervalText:PIXI.Text;
-        protected _strengthText:PIXI.Text;
+        protected _aliveText:Lightning.Text;
+        protected _deadPoolText:Lightning.Text;
+        protected _intervalText:Lightning.Text;
+        protected _strengthText:Lightning.Text;
 
         protected _emit:boolean = false;
         protected _nextEmit:number = null;
@@ -272,10 +272,10 @@ namespace Lightning {
             let font = { fontSize: 16 * window.devicePixelRatio, fill: 0xffffff }
             let gap = 25 * window.devicePixelRatio;
             
-            this._aliveText = new PIXI.Text('Alive: ' + this.alive, font);
-            this._deadPoolText = new PIXI.Text('Dead: ' + this.pool, font);
-            this._intervalText = new PIXI.Text('Interval: ' + this._interval, font);
-            this._strengthText = new PIXI.Text('Strength: ' + this._particleStrength, font);
+            this._aliveText = new Lightning.Text('Alive: ' + this.alive, font);
+            this._deadPoolText = new Lightning.Text('Dead: ' + this.pool, font);
+            this._intervalText = new Lightning.Text('Interval: ' + this._interval, font);
+            this._strengthText = new Lightning.Text('Strength: ' + this._particleStrength, font);
 
             let x:number, y:number;
             if(floatLeft) {

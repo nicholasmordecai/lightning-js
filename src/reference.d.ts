@@ -51,6 +51,7 @@
  * Display
  */
 /// <reference path="./display/displayObject.ts" />
+/// <reference path="./display/text.ts" />
 /// <reference path="./display/texture.ts" />
 /// <reference path="./display/graphics.ts" />
 /// <reference path="./display/graphics.ts" />

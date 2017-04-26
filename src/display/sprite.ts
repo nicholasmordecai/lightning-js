@@ -3,6 +3,8 @@
 namespace Lightning {
     export class Sprite extends PIXI.Sprite {
         
+        public globalRef:string;
+
         private _events:EventEmitter;
         protected _body:Box2D.Dynamics.b2Body;
         protected _respectPosition:boolean;
