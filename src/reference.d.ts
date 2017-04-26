@@ -26,6 +26,7 @@
 /**
  * Utils
  */
+/// <reference path="./utils/device.ts" />
 /// <reference path="./utils/maths.ts" />
 /// <reference path="./utils/depreciated.ts" />
 /// <reference path="./utils/debug.ts" />

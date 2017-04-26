@@ -1,5 +1,7 @@
 # Changelog
 
+### 0.4.3
+
 ### 0.4.2
 1. Created a dev environment to build lightning on
     1. Adjusted the tsconfig file
@@ -18,6 +20,13 @@
 4. Upgraded PIXI to 4.5.1
 5. Changed the creation of the wrapper div and the canvas
 6. Fixed typing references in the dev env
+7. Added a globalRef to the sprite, allowing you to find one anywhere in the world tree
+8. Created a device class to hold device specific information
+9. Refactor StorageManager
+    1. Removed interdependancy of functions for fallback
+    2. Added a remove all method
+    3. Removed sizeof is it's not very accurate
+
 
 
 ### 0.4.1

@@ -44,7 +44,7 @@ new Game(width, height);
 // };
 // app.initialize(); 
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_3fba89f2.js","/")
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_a2b0d058.js","/")
 },{"./states/boot":2,"./states/game":3,"./states/menu":4,"./states/preload":5,"buffer":7,"fsovz6":8}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -97,6 +97,13 @@ var GameState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     GameState.prototype.create = function () {
+        var graphics = new PIXI.Graphics();
+        graphics.beginFill(0x000000, 1);
+        graphics.drawRect(0, 0, 10000, 10000);
+        var texture = this.game.generateTexture(graphics);
+        var s = new PIXI.Sprite(texture);
+        this.add(s);
+        this.game.storage.length();
         this.game.enableDebug(this.game);
         // let cPos:number = 0;
         // let posData:Array<number> = [];

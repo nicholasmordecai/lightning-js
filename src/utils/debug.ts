@@ -22,7 +22,7 @@ namespace Lightning {
         private _fpsData:Array<number>;
         private _displayCountData:Array<number>;
 
-        constructor(game:Engine, chartWidth:number = 300, chartHeight:number = 300, segmentation:number = 30, maxSegment:number = 25) {
+        constructor(game:Engine, chartWidth:number = 300, chartHeight:number = 200, segmentation:number = 30, maxSegment:number = 25) {
             this.game = game;
 
             this._chartWidth = chartWidth;
@@ -61,12 +61,13 @@ namespace Lightning {
         }
 
         update() {
-            // let fps = Math.round(this.game.fps);
-            let fps:number = Math.floor(Math.random() * 60) + 0; 
+            let fps:number = Math.round(this.game.fps);
             if(this._cPos >= this._maxSegmentsToShow) {
                 this._fpsData.splice(0, 1);
             }
             this._fpsData.push(fps);
+
+            let displayCount:number = this.game.displayCount(this.game.world)
 
             let nLine = new Lightning.Graphics();
             nLine.lineStyle(1, 0xffa500, 1);
@@ -84,41 +85,12 @@ namespace Lightning {
                 nLine.lineTo(drawWidth, drawHeight);
                 c++;
             }
-            
-            // console.log(this.game.debug.displayCount())
 
             this._chartLine.texture = this.game.generateTexture(nLine);
 
             if(this._cPos < 20) {
                 this._cPos++;
             }
-        }
-
-        /**
-         * @description recursive pattern to loop over every child and recursivly loop over all of it's children and returning a count of them all from the root object.
-         * You can use a specific root display object, or you can leave blank and it will default to the world stage.
-         * 
-         * Example: 
-         * this.game.debug.displayCount();
-         * this.game.debug.displayCount(myContainer);
-         * 
-         * @see {Lightning.Engine}
-         * 
-         * @param rootObject 
-         * @returns {number}
-         */
-        public displayCount(rootObject:PIXI.DisplayObject = this.game.world):number {
-            return ((d) => {
-                var c = 0;
-                var r = function(d:PIXI.DisplayObject) {
-                    c++;
-                    for(let i of d['children']) {
-                        r(i);
-                    }
-                }
-                r(d);
-                return c;
-            })(rootObject);
         }
     }
 }

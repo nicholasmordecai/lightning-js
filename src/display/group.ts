@@ -4,6 +4,7 @@ namespace Lightning {
     export class Group extends PIXI.Container {
 
         public _events:EventEmitter;
+        public globalRef:string;
 
         constructor() {
             super();

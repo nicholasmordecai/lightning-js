@@ -15,6 +15,7 @@ namespace Lightning {
             super();
 
             this.displayInfo();
+            this._device = new Device(this);
 
             // setup the canvas
             let wrapper = document.createElement('div');
@@ -29,7 +30,8 @@ namespace Lightning {
 
             // this._debug = new Debug(this);
 
-            this._world = new PIXI.Container();
+
+            this._world = new Lightning.Group();
             this._world.scale = new PIXI.Point(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
             this._world.interactive = true;
 

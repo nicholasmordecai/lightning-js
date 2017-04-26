@@ -3,6 +3,8 @@
 namespace Lightning {
     export class DisplayObject extends PIXI.DisplayObject {
 
+        public globalRef:string;
+
         constructor() {
             super();
         }
