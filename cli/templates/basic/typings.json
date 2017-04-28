@@ -1,0 +1,10 @@
+{
+  "name": "pixi-typescript-webpack-project-template",
+  "version": false,
+  "dependencies": {
+  },
+  "globalDevDependencies": {
+    "pixi.js": "file:custom_typings/pixi.js/index.d.ts",
+    "howler.js": "file:custom_typings/howler.js/index.d.ts"
+  }
+}

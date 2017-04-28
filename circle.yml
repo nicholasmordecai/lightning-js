@@ -1,0 +1,7 @@
+machine:
+  node:
+    # Circle will use node v6.9.1
+    version: 6.9.1
+  dependencies:
+    post:
+      - npm run build

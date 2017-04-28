@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "/Users/nicholasmordecai/Documents/sprite-storm/physicsTest/custom_typings/box2d/index.d.ts",
+    "raw": "file:custom_typings/box2d/index.d.ts",
+    "typings": "/Users/nicholasmordecai/Documents/sprite-storm/physicsTest/custom_typings/box2d/index.d.ts"
+  }
+}

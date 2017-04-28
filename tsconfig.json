@@ -1,0 +1,20 @@
+{
+  "ref": "master",
+  "path": "typings",
+  "compilerOptions": {
+    "module": "amd",
+    "target": "es5",
+    "declaration": true,
+    "sourceMap": true,
+    "outDir": "build/src"
+  },
+  "exclude": [
+    "node_modules",
+    "typings/global",
+    "typings/index.d.ts",
+    "./src/particleEmitter"
+  ],
+  "files": [
+    "./src/core/engine.ts"
+  ]
+}
