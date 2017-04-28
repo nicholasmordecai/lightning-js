@@ -59,5 +59,9 @@ namespace Lightning {
         public get endpoint():string {
             return this._endpoint
         }
+
+        public set endpoint(val:string) {
+            this._endpoint = val;
+        }
     }
 }

@@ -1,6 +1,13 @@
 # Changelog
 
 ### 0.4.3
+1. Started work on the device class
+    1. Used ismobilejs to delect: 
+        1. Mobile
+        2. Tablet
+        3. Desktop
+        4. Ipod
+    2. 
 
 ### 0.4.2
 1. Created a dev environment to build lightning on

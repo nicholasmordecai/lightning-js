@@ -1,13 +1,6 @@
 export default class GameState extends Lightning.State {
 
     create() {
-        let graphics = new PIXI.Graphics();
-        graphics.beginFill(0x000000, 1);
-        graphics.drawRect(0, 0, 10000, 10000);
-        let texture = this.game.generateTexture(graphics);
-        let s = new PIXI.Sprite(texture);
-        this.add(s);
-
         this.game.storage.length();
         this.game.enableDebug(this.game);
         // let cPos:number = 0;

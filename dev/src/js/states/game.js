@@ -16,12 +16,6 @@ var GameState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     GameState.prototype.create = function () {
-        var graphics = new PIXI.Graphics();
-        graphics.beginFill(0x000000, 1);
-        graphics.drawRect(0, 0, 10000, 10000);
-        var texture = this.game.generateTexture(graphics);
-        var s = new PIXI.Sprite(texture);
-        this.add(s);
         this.game.storage.length();
         this.game.enableDebug(this.game);
         // let cPos:number = 0;

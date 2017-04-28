@@ -12,10 +12,12 @@ namespace Lightning {
         private _mobile:boolean;
         private _tablet:boolean;
         private _desktop:boolean;
+        private _ipod:boolean;
 
         // device operating system
         private _isAndroid:boolean;
         private _isApple:boolean;
+        private _isAmazon:boolean;
 
         // device browser
         private _isChrome:boolean;
@@ -33,11 +35,16 @@ namespace Lightning {
             this._mobile = false;
             this._tablet = false;
             this._desktop = false;
+            this._ipod = false;
             this._browserInformation = null;
             
             this._touchAvailable = false;
             this._mouseAvailavle = false;
             this._pointerAvailable = false;
+
+            this._isAndroid = false;
+            this._isAmazon = false;
+            this._isApple = false;
 
             this.isMobile();
         }
@@ -50,14 +57,56 @@ namespace Lightning {
         public isMobile() {
             let info = PIXI.utils.isMobile;
             console.log(info);
-        }
 
-        public isTablet() {
+            if(info.any === false) {
+                // not any kind of known mobile - default to desktop mode
+                this._desktop = true;
+                this._mobile = false;
+            } else if(info.any === true) {
+                // it's a mobile of some kind
+                this._desktop = false;
+                this._mobile = true;
+                
+                // is some kind of apple device
+                if(info.apple.device === true) {
+                    this._isApple = true;
+                    if(info.apple.ipod === true) {
+                        // is apple ipod
+                        this._ipod = true;
+                    } else if(info.apple.phone === true) {
+                        // is apple phone
+                        this._mobile = true;
+                    } else if(info.apple.tablet === true) {
+                        // is apple tablet
+                        this._tablet = true;
+                    }
 
-        }
+                // is some kind of android device
+                } else if(info.android.device === true) {
+                    this._isAndroid = true;
+                    if(info.android.phone === true) {
+                        // is android mobile
+                        this._mobile = true;
+                    } else if (info.android.tablet === true) {
+                        // is android tablet
+                        this._tablet = true;
+                    }
 
-        public isDesktop() {
+                // is some kind of amazon device
+                } else if(info.amazon.device === true) {
+                    this._isAmazon = true;
+                    if(info.amazon.phone === true) {
+                        // is amazon mobile
+                        this._mobile = true;
+                    } else if (info.amazon.table === true) {
+                        // is amazon tablet
+                        this._tablet = true;
+                    }
 
+                } else {
+                    // fallback
+                }
+            }
         }
 
         public get mobile():boolean {
