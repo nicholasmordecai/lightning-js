@@ -28,14 +28,10 @@ namespace Lightning {
             this._renderer.autoResize = true;
             wrapper.appendChild(this._renderer.view);
 
-            // this._debug = new Debug(this);
-
-
             this._world = new Lightning.Group();
             this._world.scale = new PIXI.Point(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
             this._world.interactive = true;
 
-            // this._tweens = new TweenManager(this);
             this._storageManager = new StorageManager();
             this._eventEmitter = new EventEmitter();
 
@@ -77,7 +73,7 @@ namespace Lightning {
          * @returns {boolean}
          */
         start():boolean {
-            //this._ticker.start();
+            this._ticker.start();
             return true;
         }
 
@@ -95,9 +91,6 @@ namespace Lightning {
 
 /**
  * TODOS
- * Implement some sort of global cache system for any kind of object
- * Implement the services manager for backend calls
- * Implement a timer service to create and keep track of timers
  * Implement some sort of socket connectivity manager
  * Write some nice transitions for the state manager
  * Implement an animatins class for extending pixi animations
@@ -110,20 +103,18 @@ namespace Lightning {
  * Think about making a debug module that's a container in it's own right. It should accept x number of text values
  *   and sort through them accordinly, ensuring nothing is ever overlapped
  * Need to give responsive device pixel ration some serious consideration
- * Build a built in FPS meter in debug module
  * Explore the posibility of using light ray casting?
  * Particle emitter presets??
- * Utalise isMobilejs for mobile detection
  * Build a webfont loader
+ * Think about how best to implement some kind of camera system
  */
 
 /**
  * TODO ORDER
  * 
- * 1. Implement a timer service to create and keep track of timers
- * 2. Implement the services manager for backend calls
- * 3. Move enableDrag function to the display object
- * 4. Build a decent Debug class
- *  4.1 Count total objects
- *  4.2 Count all textures on the GPU (possible sizes also)
+ * 1. Simple Tween Engine
+ * 2. Comprehensive Scale Manager
+ * 3.
+ * 5. Count all textures on the GPU (possible sizes also)
+ * 
  */

@@ -7,7 +7,12 @@
         2. Tablet
         3. Desktop
         4. Ipod
-    2. 
+    2. Detect browser
+    3. Detect operating system
+    4. Detect cookies available
+2. Fixed bug in add syntax not adding first index
+3. Altered state to extend Lightning.Group
+4. Started development on Tweens
 
 ### 0.4.2
 1. Created a dev environment to build lightning on
@@ -109,7 +114,6 @@
 3. Added start and stop ticker as well as setting the ticker FPS
 4. Signal Manager major overhaul
 5. Moved stuff out of the core that doesn't belong there
-6. Started to rebuild the tween engine
 
 ### 0.3.2
 1. Added a BitmapText class

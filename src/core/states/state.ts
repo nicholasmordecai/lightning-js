@@ -1,7 +1,7 @@
 /// <reference path="./../../reference.d.ts" />
 
 namespace Lightning {
-    export class State extends PIXI.Container {
+    export class State extends Lightning.Group {
         
         public game:Engine;
         public loader:PIXI.loaders.Loader;

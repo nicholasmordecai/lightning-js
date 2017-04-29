@@ -13,7 +13,6 @@ namespace Lightning {
         protected _world: Lightning.Group;
         protected _hud:HUD;
         protected _ticker:PIXI.ticker.Ticker;
-        // protected _tweens:TweenManager
         protected _stateManager:StateManager;
         protected _device:Device;
         protected _physicsManager:PhysicsManager
@@ -30,7 +29,7 @@ namespace Lightning {
 |_____|_|_  |_|_|_| |_|_|_|_|_|_  |
         |___|                 |___|
              `, "font-family:monospace");
-             console.log('Lightning-js | version : 0.4.1');
+             console.log('Lightning-js | version : 0.4.2');
         }
 
         public generateTexture(...params):any {
@@ -100,10 +99,6 @@ namespace Lightning {
         public get renderer():PIXI.CanvasRenderer | PIXI.WebGLRenderer {
             return this._renderer;
         }
-
-        // public get tweens():TweenManager {
-        //     return this._tweens;
-        // }
 
         public get states():StateManager {
             return this._stateManager;
