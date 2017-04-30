@@ -9,6 +9,14 @@ export default class GameState extends Lightning.State {
         g.drawRect(0, 0, 100, 100);
         s.add(g);
 
-        console.log(this.children)
+        let tween = this.game.tweens.create('test', g);
+        tween.createAnim(0, 300, 1000, 0, 'x', Lightning.Easing.inOutCirc);
+
+        let tween2 = this.game.tweens.create('test2', g);
+        tween2.createAnim(300, 0, 1000, 0, 'x', Lightning.Easing.inOutCirc);
+        
+        tween.chain(tween2);
+        tween.start();
+        
     }
 }

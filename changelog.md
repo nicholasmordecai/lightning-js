@@ -13,6 +13,26 @@
 2. Fixed bug in add syntax not adding first index
 3. Altered state to extend Lightning.Group
 4. Started development on Tweens
+    1. 28 Easings
+    2. Multiple Properties
+    3. Looping
+    4. Chaining
+    5. Pausing
+    6. Move to frame
+    7. Events
+        1. Start
+        2. Pause
+        3. Tick
+        4. Loop
+        5. Complete
+        6. Reset
+        7. Destroy
+        8. AutoDestroy
+    8. Custom Tween Functions
+
+5. Moved ticker creation above managers
+6. Changed Emit function to take a spread operator
+
 
 ### 0.4.2
 1. Created a dev environment to build lightning on

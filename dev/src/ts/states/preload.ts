@@ -1,7 +1,7 @@
 export default class PreloadState extends Lightning.State {
 
     create() {
-        // this.game.states.destroy('preload');
+        this.game.states.destroy('boot');
 
         let g = new Lightning.Graphics();
         g.beginFill(0xff33aa, 1);
@@ -9,6 +9,6 @@ export default class PreloadState extends Lightning.State {
         g.endFill();
         this.addChild(g);
 
-        // this.game.states.start('menu');
+        this.game.states.start('menu');
     }
 }

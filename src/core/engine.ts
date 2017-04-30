@@ -35,6 +35,11 @@ namespace Lightning {
             this._storageManager = new StorageManager();
             this._eventEmitter = new EventEmitter();
 
+            // init the ticker
+            this._ticker = PIXI.ticker.shared;
+            this._ticker.autoStart = false;
+            this._ticker.add(this.update, this);
+
             // let scale = window.devicePixelRatio;
             this._renderer.resize(width, height);
 
@@ -46,11 +51,11 @@ namespace Lightning {
 
             // create the state StateManager
             this._stateManager = new StateManager(this);
-            
-            // init the ticker
-            this._ticker = PIXI.ticker.shared;
-            this._ticker.autoStart = false;
-            this._ticker.add(this.update, this);
+
+            // create instance of tween manager
+            this._tweenManager = new TweenManeger(this);
+
+            this.start();
         }
 
         /**

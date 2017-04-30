@@ -19,6 +19,7 @@ namespace Lightning {
         protected _eventEmitter:EventEmitter;
         protected _storageManager:StorageManager;
         protected _serviceManager:ServiceManager;
+        protected _tweenManager:TweenManeger
         protected _debug:Debug;
 
         public displayInfo() {
@@ -29,7 +30,7 @@ namespace Lightning {
 |_____|_|_  |_|_|_| |_|_|_|_|_|_  |
         |___|                 |___|
              `, "font-family:monospace");
-             console.log('Lightning-js | version : 0.4.2');
+             console.log('Lightning-js | version : 0.4.3');
         }
 
         public generateTexture(...params):any {
@@ -158,6 +159,10 @@ namespace Lightning {
 
         public get debug():Debug {
             return this._debug;
+        }
+
+        public get tweens():TweenManeger {
+            return this._tweenManager;
         }
 
         /**

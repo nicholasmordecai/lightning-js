@@ -44,7 +44,7 @@ new Game(width, height);
 // };
 // app.initialize(); 
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_c4578119.js","/")
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_2782acdc.js","/")
 },{"./states/boot":2,"./states/game":3,"./states/menu":4,"./states/preload":5,"buffer":7,"fsovz6":8}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -103,7 +103,12 @@ var GameState = (function (_super) {
         g.beginFill(0xff22aa, 1);
         g.drawRect(0, 0, 100, 100);
         s.add(g);
-        console.log(this.children);
+        var tween = this.game.tweens.create('test', g);
+        tween.createAnim(0, 300, 1000, 0, 'x', Lightning.Easing.inOutCirc);
+        var tween2 = this.game.tweens.create('test2', g);
+        tween2.createAnim(300, 0, 1000, 0, 'x', Lightning.Easing.inOutCirc);
+        tween.chain(tween2);
+        tween.start();
     };
     return GameState;
 }(Lightning.State));
@@ -130,7 +135,7 @@ var MenuState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MenuState.prototype.create = function () {
-        this.game.states.destroy('menu');
+        this.game.states.destroy('preload');
         this.game.states.start('game');
     };
     return MenuState;
@@ -158,13 +163,13 @@ var PreloadState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     PreloadState.prototype.create = function () {
-        // this.game.states.destroy('preload');
+        this.game.states.destroy('boot');
         var g = new Lightning.Graphics();
         g.beginFill(0xff33aa, 1);
         g.drawRect(0, 0, 50, 50);
         g.endFill();
         this.addChild(g);
-        // this.game.states.start('menu');
+        this.game.states.start('menu');
     };
     return PreloadState;
 }(Lightning.State));
