@@ -125,7 +125,6 @@ namespace Lightning {
         public importAnim(frames:Array<number>, property:string) {
             let anim:IImportedAnim = {frames, property, cPos:0, maxPos:frames.length};
             this._live = false;
-            this._anims.push(anim);
         }
 
         public start() {
