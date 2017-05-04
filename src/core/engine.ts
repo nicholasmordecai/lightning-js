@@ -15,6 +15,7 @@ namespace Lightning {
             super();
 
             this.displayInfo();
+            this._scaleManager = new ScaleManager(this, width, height);
             this._device = new Device(this);
 
             // setup the canvas
@@ -24,12 +25,13 @@ namespace Lightning {
             document.body.appendChild(wrapper);
             this._dpr = window.devicePixelRatio;
 
-            this._renderer = PIXI.autoDetectRenderer(width, height, {resolution: this._dpr});
-            this._renderer.autoResize = true;
+            this._renderer = PIXI.autoDetectRenderer(width, height, {resolution: this._scaleManager.devicePixelRatio});
+            // this._renderer.autoResize = true;
             wrapper.appendChild(this._renderer.view);
+            this._scaleManager.resizeThrottler(true);
+            this._scaleManager.alignVertically();
 
             this._world = new Lightning.Group();
-            this._world.scale = new PIXI.Point(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
             this._world.interactive = true;
 
             this._storageManager = new StorageManager();
@@ -41,7 +43,7 @@ namespace Lightning {
             this._ticker.add(this.update, this);
 
             // let scale = window.devicePixelRatio;
-            this._renderer.resize(width, height);
+            // this._renderer.resize(width, height);
 
             // create the physicsManager 
             this._physicsManager = new PhysicsManager(this);
@@ -67,7 +69,6 @@ namespace Lightning {
          */ 
         update(time):void {
             this._physicsManager.update();
-            // this._tweens.update();
             this._stateManager.update(time);
             this._renderer.render(this._world);
         }
@@ -107,7 +108,6 @@ namespace Lightning {
  * Particle emitter make a pre-create class that lets you store pooled sprited before the state is started
  * Think about making a debug module that's a container in it's own right. It should accept x number of text values
  *   and sort through them accordinly, ensuring nothing is ever overlapped
- * Need to give responsive device pixel ration some serious consideration
  * Explore the posibility of using light ray casting?
  * Particle emitter presets??
  * Build a webfont loader
@@ -119,7 +119,8 @@ namespace Lightning {
  * 
  * 1. Simple Tween Engine
  * 2. Comprehensive Scale Manager
- * 3.
+ * 3. Re-configure how states work
+ *      1. Not happy with having to call funtions when manually overriding them
  * 5. Count all textures on the GPU (possible sizes also)
  * 
  */

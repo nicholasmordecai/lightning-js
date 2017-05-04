@@ -1,0 +1,174 @@
+/// <reference path="./../../reference.d.ts" />
+
+namespace Lightning {
+    export class ScaleManager extends EventEmitter {
+
+        /**
+         * Position Horizontally
+         * Position Vertically
+         */
+
+        private game:Engine;
+        private _allowedDPR:Array<number>;
+        private _currentDPR:number;
+        private _scaleMode:number;
+        private _originalAspectRatio:number;
+        private _originalWidth:number;
+        private _originalHeight:number;
+        private _orientation:string;
+        private _isFullscreen:boolean;
+
+        private _resizeTimeout:number;
+
+        constructor(game:Engine, initWidth:number, initHeight:number) {
+            super();
+            this.game = game;
+            this._scaleMode = 0;
+            this._currentDPR = window.devicePixelRatio;
+            this._allowedDPR = [1, 2, 3, 4];
+
+            // run the initalisation method
+            this.setup(initWidth, initHeight);
+            this.calculateDPR();
+            this.calculateOrientation();
+            window.addEventListener("resize", this.resizeThrottler.bind(this), false);   
+        }
+
+        private setup(initWidth:number, initHeight:number) {
+            // check if orientation is landscape or portrait
+            this._originalAspectRatio = initWidth / initHeight;
+            this._originalWidth = initWidth;
+            this._originalHeight = initHeight;
+        }
+
+        private calculateDPR() {
+            let liveDPR:number = window.devicePixelRatio;
+            
+            let flag:boolean = false;
+            for(let i of this._allowedDPR) {
+                if(liveDPR === i) {
+                    this._currentDPR = liveDPR;
+                    flag = true;
+                }
+            }
+
+            if(!flag) {
+                // find closest DPR in allowedDPR's array
+                if(this._allowedDPR.length === 0) {
+                    // use any / all DPR's
+                    this._currentDPR = liveDPR;
+                } else {
+                    let closest = Lightning.Maths.closestValue(this._allowedDPR, liveDPR);
+                }
+            }
+        }
+
+        private calculateOrientation() {
+            if(window.innerWidth > window.innerHeight) {
+                this._orientation = 'landscape';
+            } else {
+                this._orientation = 'portrait';
+            }
+        }
+
+        public resizeThrottler (force:boolean = false) {
+            if(force) {
+                this.resizeAspectRatio();
+            } else {
+                if ( !this._resizeTimeout ) {
+                    this._resizeTimeout = setTimeout(() => {
+                        this._resizeTimeout = null;
+                        this.resizeAspectRatio();
+                    }, 66);
+                }
+            }
+        }
+
+        public resize(width:number, height:number) {
+            this.game.renderer.view.style.width = width + 'px';
+            this.game.renderer.view.style.height = height + 'px';
+        }
+
+        private resizeAspectRatio() {
+            let width:number = window.innerWidth;
+            let height:number = window.innerHeight;
+
+            // alert(width + '   ' + height);
+        
+            let diffWidth:number = window.innerWidth - this._originalWidth;
+            let diffHeight:number = window.innerHeight - this._originalHeight;
+
+            let newWidth:number;
+            let newHeight:number;
+
+            if(diffHeight > diffWidth) {
+                let scale:number = height / this._originalHeight;
+                newWidth = this._originalWidth * scale;
+                newHeight = this._originalHeight * scale;
+            } else {
+                let scale:number = width / this._originalWidth;
+                newWidth = this._originalWidth * scale;
+                newHeight = this._originalHeight * scale;
+            }
+
+            this.resize(newWidth, newHeight)
+        }
+
+        private resizeStretch() {
+            let width:number = window.innerWidth;
+            let height:number = window.innerHeight;
+            this.resize(width, height);
+        }
+
+        private resizeWorld() {
+            let width:number = window.innerWidth;
+            let height:number = window.innerHeight;
+        
+            let diffWidth:number = window.innerWidth - this._originalWidth;
+            let diffHeight:number = window.innerHeight - this._originalHeight;
+            let scale:number;
+
+            if(diffHeight > diffWidth) {
+                scale = (height / this._currentDPR) / this._originalHeight;
+            } else {
+                scale = (width / this._currentDPR) / this._originalWidth;
+            }
+
+            this.resize(width, height);
+        }
+
+        public goFullScreen() {
+            if(document.documentElement.requestFullscreen) {
+                document.documentElement['requestFullscreen']();
+            } else if(document.documentElement['mozRequestFullScreen']) {
+                document.documentElement['mozRequestFullScreen']();
+            } else if(document.documentElement.webkitRequestFullscreen) {
+                document.documentElement['webkitRequestFullscreen']();
+            } else if(document.documentElement['msRequestFullscreen']) {
+                document.documentElement['msRequestFullscreen']();
+            }
+
+            this.resizeThrottler();
+        }
+
+        public alignVertically() {
+            let height:number = window.innerHeight;
+            this.game.renderer.view.style.position = 'absolute';
+            let newHeight:number = height - parseInt(this.game.renderer.view.style.height);
+            newHeight *= 0.5;
+            this.game.renderer.view.style.top = newHeight + 'px';
+        }
+
+        public alignHorizontally() {
+            let width:number = window.innerWidth;
+        }
+
+        public get devicePixelRatio():number {
+            return this._currentDPR;
+        }
+
+        public get orientation():string {
+            return this._orientation;
+        }
+    }
+}

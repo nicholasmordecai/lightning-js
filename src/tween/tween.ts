@@ -155,6 +155,8 @@ namespace Lightning {
             if(this._autoDestroy) {
                 this.destroy();
             }
+
+            this._manager.removeActive(this);
         }
 
         public pause(val:boolean) {

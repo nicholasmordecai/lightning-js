@@ -29,7 +29,7 @@ namespace Lightning {
          * 
          * @returns {void}
          */
-        init(params):void {
+        public init(params):void {
             this.preload();
         }
 
@@ -38,7 +38,7 @@ namespace Lightning {
          * 
          * @returns {void}
          */
-        preload():void {
+        public preload():void {
             if(Object.keys(this.loader.resources).length < 1) {
                 this.create();
             }
@@ -49,14 +49,14 @@ namespace Lightning {
          * 
          * @returns {void}
          */
-        create():void {
+        public create():void {
 
         }
 
         /**
          * @description Update function. This is called by the state manager on every tick
          */
-        update(time:number = null):void {
+        public update(time:number = null):void {
             
         }
 
@@ -65,7 +65,7 @@ namespace Lightning {
          * 
          * @returns {boolean}
          */
-        add(...params:Array<DisplayObject>):boolean {
+        public add(...params:Array<DisplayObject>):boolean {
             for(let i of params) {
                 this.addChild(i);
             }
@@ -78,7 +78,7 @@ namespace Lightning {
          * 
          * @returns {void}
          */
-        preloadError(err):void {
+        public preloadError(err):void {
             console.log(err);
         }
 
@@ -87,7 +87,7 @@ namespace Lightning {
          * 
          * @returns {void}
          */
-        preloadSingle(loader:PIXI.loaders.Loader, resource):void {
+        public preloadSingle(loader:PIXI.loaders.Loader, resource):void {
             // get the name of the loaded asset
             let file:string = resource.name;
             // remove the directory if you wish
@@ -101,7 +101,7 @@ namespace Lightning {
          * 
          * @returns {void}
          */
-        preloadComplete(loader, resources):void {
+        public preloadComplete(loader, resources):void {
             this.create();
         }
     }

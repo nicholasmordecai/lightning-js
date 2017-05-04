@@ -19,7 +19,8 @@ namespace Lightning {
         protected _eventEmitter:EventEmitter;
         protected _storageManager:StorageManager;
         protected _serviceManager:ServiceManager;
-        protected _tweenManager:TweenManeger
+        protected _tweenManager:TweenManeger;
+        protected _scaleManager:ScaleManager;
         protected _debug:Debug;
 
         public displayInfo() {
@@ -45,16 +46,8 @@ namespace Lightning {
             return t;
         }
 
-        public goFullscreen() {
-            if(document.documentElement.requestFullscreen) {
-                document.documentElement['requestFullscreen']();
-            } else if(document.documentElement['mozRequestFullScreen']) {
-                document.documentElement['mozRequestFullScreen']();
-            } else if(document.documentElement.webkitRequestFullscreen) {
-                document.documentElement['webkitRequestFullscreen']();
-            } else if(document.documentElement['msRequestFullscreen']) {
-                document.documentElement['msRequestFullscreen']();
-            }
+        public goFullScreen() {
+            this._scaleManager.goFullScreen();
         }
 
         public texture(...params):any {
@@ -86,11 +79,11 @@ namespace Lightning {
         }
 
         public get width():number {
-            return this._renderer.width;
+            return this._renderer.width / this._scaleManager.devicePixelRatio;
         }
 
         public get height():number {
-            return this._renderer.height;
+            return this._renderer.height / this._scaleManager.devicePixelRatio;
         }
 
         public get center():{x:number, y:number} {
@@ -165,6 +158,9 @@ namespace Lightning {
             return this._tweenManager;
         }
 
+        public get scale():ScaleManager {
+            return this._scaleManager;
+        }
         /**
          * @description recursive pattern to loop over every child and recursivly loop over all of it's children and returning a count of them all from the root object.
          * You must specify an object root
@@ -257,5 +253,6 @@ namespace Lightning {
             }
             return bytes;
         }
+
     }
 }

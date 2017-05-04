@@ -92,6 +92,16 @@ namespace Lightning {
             }
         }
 
+        public removeActive(tween:Tween){
+            let index:number = 0;
+            for(let i of this._activeTweens) {
+                if(i === tween) {
+                    this._activeTweens.splice(index, 1);
+                }
+                index++;
+            }
+        }
+
         private find(tween:Tween, array:Array<Tween>) {
             let c:number = 0;
             for(let i of array) {

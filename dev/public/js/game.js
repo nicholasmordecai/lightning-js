@@ -21,9 +21,10 @@ var Game = (function () {
     return Game;
 }());
 exports.default = Game;
-var width = Math.round(document.getElementById("app-container").offsetWidth);
-var height = Math.round(width * 0.7);
-new Game(width, height);
+// let width = Math.round(document.getElementById("app-container").offsetWidth);
+// let height = Math.round(width * 0.7);
+// new Game(width, height);
+new Game(960, 540);
 // enable the following for cordova!!
 // var app = {
 //     // Application Constructor
@@ -44,7 +45,7 @@ new Game(width, height);
 // };
 // app.initialize(); 
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_2782acdc.js","/")
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_27be82b2.js","/")
 },{"./states/boot":2,"./states/game":3,"./states/menu":4,"./states/preload":5,"buffer":7,"fsovz6":8}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -97,6 +98,7 @@ var GameState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     GameState.prototype.create = function () {
+        var _this = this;
         var s = new Lightning.Group();
         this.add(s);
         var g = new Lightning.Graphics();
@@ -104,11 +106,43 @@ var GameState = (function (_super) {
         g.drawRect(0, 0, 100, 100);
         s.add(g);
         var tween = this.game.tweens.create('test', g);
-        tween.createAnim(0, 300, 1000, 0, 'x', Lightning.Easing.inOutCirc);
-        var tween2 = this.game.tweens.create('test2', g);
-        tween2.createAnim(300, 0, 1000, 0, 'x', Lightning.Easing.inOutCirc);
-        tween.chain(tween2);
+        tween.createAnim(0, 300, 1000, 0, 'x', Lightning.Easing.BounceIn);
         tween.start();
+        g = new Lightning.Graphics();
+        g.beginFill(0xff22aa, 1);
+        g.drawRect(0, 0, 100, 100);
+        g.x = this.game.width - 100;
+        s.add(g);
+        g = new Lightning.Graphics();
+        g.beginFill(0xff22aa, 1);
+        g.drawRect(0, 0, 100, 100);
+        g.x = this.game.width - 100;
+        g.y = this.game.height - 100;
+        s.add(g);
+        g = new Lightning.Graphics();
+        g.beginFill(0xff22aa, 1);
+        g.drawRect(0, 0, 100, 100);
+        g.y = this.game.height - 100;
+        s.add(g);
+        g = new Lightning.Graphics();
+        g.beginFill(0xff22aa, 1);
+        g.drawRect(0, 0, 100, 100);
+        g.x = 430;
+        g.y = 220;
+        s.add(g);
+        g.interactive = true;
+        g.on('mousedown', function () {
+            _this.game.goFullScreen();
+            setTimeout(function () {
+                _this.game.scale.alignVertically();
+            }, 250);
+        });
+        g.on('touchend', function () {
+            _this.game.goFullScreen();
+            setTimeout(function () {
+                _this.game.scale.alignVertically();
+            }, 250);
+        });
     };
     return GameState;
 }(Lightning.State));

@@ -19,9 +19,10 @@ var Game = (function () {
     return Game;
 }());
 exports.default = Game;
-var width = Math.round(document.getElementById("app-container").offsetWidth);
-var height = Math.round(width * 0.7);
-new Game(width, height);
+// let width = Math.round(document.getElementById("app-container").offsetWidth);
+// let height = Math.round(width * 0.7);
+// new Game(width, height);
+new Game(960, 540);
 // enable the following for cordova!!
 // var app = {
 //     // Application Constructor

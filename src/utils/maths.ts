@@ -4,12 +4,6 @@ namespace Lightning {
     export class Maths {
 
         /**
-         * Rng's seem to perform a little crappy. Should think about making some sort of RNG pool??
-         * - An array of pre-randomized numbers, then shuffeled randly. You then index your way through little
-         * - just simply picking the next number in sequence.
-         */
-
-        /**
          * @description generate a random integer between two values
          * @param  {number} from
          * @param  {number} to
@@ -104,6 +98,38 @@ namespace Lightning {
         */
         public static rgbToHex(r: number, g: number, b: number): any {
             return "0x" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        }
+
+        /**
+         * @description Find the closest value in an array of valyes
+         * @param {Array<number>} array 
+         * @param {number} x
+         * 
+         * @returns {Array<number>}
+         */
+        public static closestValue(array:Array<number>, x:number):number {
+            let low:number;
+            let high:number;
+            for (var i = array.length; i--;) {
+                if(array[i] <= x && (low === undefined || low < array[i])) {
+                    low = array[i];
+                }
+
+                if(array[i] >= x && (high === undefined || high > array[i])) {
+                    high = array[i];
+                }
+            };
+
+            let diffLow:number = x - low;
+            let diffHigh:number = high - x;
+
+            console.log(low, high, diffLow, diffHigh);
+
+            if(diffHigh > diffLow) {
+                return low;
+            } else {
+                return high;
+            }
         }
     }
 }
