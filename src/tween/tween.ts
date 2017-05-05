@@ -127,6 +127,13 @@ namespace Lightning {
             this._live = false;
         }
 
+        public exportAnim(key:string) {
+            let anim = this._anims[key];
+            if(anim) {
+                return anim.frames;
+            }
+        }
+
         public start() {
             this._currentPosition = 0;
             this._started = true;

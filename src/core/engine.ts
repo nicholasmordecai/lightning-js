@@ -117,10 +117,9 @@ namespace Lightning {
 /**
  * TODO ORDER
  * 
- * 1. Simple Tween Engine
+ * 1. Make a plugin system
  * 2. Comprehensive Scale Manager
  * 3. Re-configure how states work
  *      1. Not happy with having to call funtions when manually overriding them
- * 5. Count all textures on the GPU (possible sizes also)
  * 
  */

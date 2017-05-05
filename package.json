@@ -1,6 +1,6 @@
 {
   "name": "lightning-js",
-  "version": "0.4.3",
+  "version": "0.4.5",
   "description": "A modern, fast framework built on Pixi.js for all WebGL and Canvas games and apps.",
   "main": "dist/lightning.js",
   "types": "dist/index.d.ts",

@@ -31,7 +31,7 @@ namespace Lightning {
 |_____|_|_  |_|_|_| |_|_|_|_|_|_  |
         |___|                 |___|
              `, "font-family:monospace");
-             console.log('Lightning-js | version : 0.4.3');
+             console.log('Lightning-js | version : 0.4.5');
         }
 
         public generateTexture(...params):any {

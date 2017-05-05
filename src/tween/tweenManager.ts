@@ -2,14 +2,13 @@
 
 namespace Lightning {
 
-    export class TweenManeger {
+    export class TweenManeger extends Plugin {
         /**
          * TODO
          * 2. AutoDestroy
          */
 
-        private game:Engine;
-        private _events:EventEmitter;
+        protected game:Engine;
 
         private _active:boolean;
 
@@ -18,17 +17,16 @@ namespace Lightning {
         private _toBeDestroyed:Array<Tween>;
 
         constructor(game:Engine) {
+            super(game, true, true);
             this.game = game;
-            this._events = new Lightning.EventEmitter();
             this._active = true;
-            this.game.ticker.add(this.update, this);
 
             this._tweens = [];
             this._activeTweens = [];
             this._toBeDestroyed = [];
         }
 
-        private update() {
+        protected update() {
             if(!this._active) return;
         
             /**

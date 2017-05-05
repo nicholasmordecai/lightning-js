@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.4.5
+1. Added a plugin super class to make it easier to develop plugins
+2. Tween Maneger now extends new plugin class
+
 ### 0.4.4
 1. Added a closest value in the Maths class
 2. Work on the scale manager

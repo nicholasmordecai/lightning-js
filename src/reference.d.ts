@@ -19,6 +19,12 @@
 /// <reference path="./core/events/eventEmitter.ts" />
 
 /**
+ * Plugin
+ */
+
+/// <reference path="./plugin/plugin.ts" />
+
+/**
  * Controllers
  */
 /// <reference path="./controllers/scale/scaleManager.ts" />
