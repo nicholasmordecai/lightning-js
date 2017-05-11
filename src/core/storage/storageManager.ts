@@ -120,5 +120,13 @@ namespace Lightning {
                 return false;
             }
         }
+
+        public get forceNoLocalStorage():boolean {
+            return this._forceNoLocalStorage;
+        }
+
+        public set forceNoLocalStorage(val:boolean) {
+            this._forceNoLocalStorage = val;
+        }
     }
 }

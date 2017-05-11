@@ -3,6 +3,13 @@
 ### 0.4.5
 1. Added a plugin super class to make it easier to develop plugins
 2. Tween Maneger now extends new plugin class
+3. Fixed tween destroy functionality
+4. Refactored tween manager's active tween system
+5. Added tween autoDestroy
+6. Fixed globalRef missing on two of the display classes
+7. Added a delay to individual anims on tweens
+8. Added custom frame data to the tweens and refactored the update loop
+9. Fixed on drag issue with device pixel ratio calculation
 
 ### 0.4.4
 1. Added a closest value in the Maths class

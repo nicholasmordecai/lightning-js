@@ -20,7 +20,7 @@ namespace Lightning {
         protected _storageManager:StorageManager;
         protected _serviceManager:ServiceManager;
         protected _tweenManager:TweenManeger;
-        protected _scaleManager:ScaleManager;
+        protected _scaleManager:Scale;
         protected _debug:Debug;
 
         public displayInfo() {
@@ -38,10 +38,10 @@ namespace Lightning {
             let t:Texture | Array<Texture> = [];
             if(params.length > 1) {
                 for(let i of params) {
-                    t.push(this._renderer.generateTexture(i));
+                    t.push(this._renderer.generateTexture(i, PIXI.SCALE_MODES.LINEAR, this._scaleManager.devicePixelRatio));
                 }
             } else {
-                t = this._renderer.generateTexture(params[0]);
+                t = this._renderer.generateTexture(params[0], PIXI.SCALE_MODES.LINEAR, this._scaleManager.devicePixelRatio);
             }
             return t;
         }
@@ -54,7 +54,7 @@ namespace Lightning {
             let t:Texture | Array<Texture> = [];
             if(params.length > 1) {
                 for(let i of params) {
-                    t.push(Texture.from(i));
+                    t.push(Texture.from(i), );
                 }
             } else {
                 t = Texture.from(params[0]);
@@ -158,7 +158,7 @@ namespace Lightning {
             return this._tweenManager;
         }
 
-        public get scale():ScaleManager {
+        public get scale():Scale {
             return this._scaleManager;
         }
         /**

@@ -1,7 +1,7 @@
 /// <reference path="./../../reference.d.ts" />
 
 namespace Lightning {
-    export class ScaleManager extends EventEmitter {
+    export class Scale extends EventEmitter {
 
         /**
          * Position Horizontally
@@ -11,22 +11,26 @@ namespace Lightning {
         private game:Engine;
         private _allowedDPR:Array<number>;
         private _currentDPR:number;
-        private _scaleMode:number;
         private _originalAspectRatio:number;
         private _originalWidth:number;
         private _originalHeight:number;
         private _orientation:string;
         private _isFullscreen:boolean;
 
+        public static NONE:number = 0;
+        public static FILL:number = 1;
+        public static ASPECT_RATIO:number = 2;
+        private _scaleMode:number;
+
         private _resizeTimeout:number;
 
         constructor(game:Engine, initWidth:number, initHeight:number) {
             super();
             this.game = game;
-            this._scaleMode = 0;
             this._currentDPR = window.devicePixelRatio;
             this._allowedDPR = [1, 2, 3, 4];
-
+            this._scaleMode = 0;
+            
             // run the initalisation method
             this.setup(initWidth, initHeight);
             this.calculateDPR();
@@ -78,7 +82,16 @@ namespace Lightning {
                 if ( !this._resizeTimeout ) {
                     this._resizeTimeout = setTimeout(() => {
                         this._resizeTimeout = null;
-                        this.resizeAspectRatio();
+                        switch(this._scaleMode) {
+                            case 0: 
+                                break;
+                            case 1:
+                                break;
+                            case 2:
+                                break;
+                            default:
+                                break;
+                        }
                     }, 66);
                 }
             }
@@ -92,8 +105,6 @@ namespace Lightning {
         private resizeAspectRatio() {
             let width:number = window.innerWidth;
             let height:number = window.innerHeight;
-
-            // alert(width + '   ' + height);
         
             let diffWidth:number = window.innerWidth - this._originalWidth;
             let diffHeight:number = window.innerHeight - this._originalHeight;
@@ -149,6 +160,7 @@ namespace Lightning {
             }
 
             this.resizeThrottler();
+            this.scaleMode = ScaleManager.ASPECT_RATIO;
         }
 
         public alignVertically() {
@@ -161,6 +173,14 @@ namespace Lightning {
 
         public alignHorizontally() {
             let width:number = window.innerWidth;
+        }
+
+        public get scaleMode():number {
+            return this._scaleMode;
+        }
+
+        public set scaleMode(val:number) {
+            this._scaleMode = val;
         }
 
         public get devicePixelRatio():number {

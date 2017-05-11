@@ -3,6 +3,8 @@
 namespace Lightning {
     export class Graphics extends PIXI.Graphics {
 
+        public globalRef:string;
+
         constructor() {
             super();
         }

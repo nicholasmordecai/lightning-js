@@ -106,8 +106,8 @@ namespace Lightning {
 
         startDrag(event:PIXI.interaction.InteractionEvent) {
             if(this._respectPosition) {
-                let rpx = event.data.global.x * window.devicePixelRatio - this.position.x;
-                let rpy = event.data.global.y * window.devicePixelRatio - this.position.y;
+                let rpx = event.data.global.x - this.position.x;
+                let rpy = event.data.global.y - this.position.y;
                 this._respectPositionValues = {x: rpx, y: rpy};
             } else {
                 this._respectPositionValues = {x: 0, y: 0};
@@ -123,8 +123,8 @@ namespace Lightning {
 
         onDrag(event:PIXI.interaction.InteractionEvent) {
             this.position = new PIXI.Point(
-                (event.data.global.x * window.devicePixelRatio) - this._respectPositionValues.x, 
-                (event.data.global.y * window.devicePixelRatio) - this._respectPositionValues.y
+                event.data.global.x - this._respectPositionValues.x, 
+                event.data.global.y - this._respectPositionValues.y
             );
         }
 

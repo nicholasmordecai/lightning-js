@@ -3,17 +3,12 @@
 namespace Lightning {
 
     export class TweenManeger extends Plugin {
-        /**
-         * TODO
-         * 2. AutoDestroy
-         */
 
         protected game:Engine;
 
         private _active:boolean;
 
         private _tweens:Array<Tween>;
-        private _activeTweens:Array<Tween>;
         private _toBeDestroyed:Array<Tween>;
 
         constructor(game:Engine) {
@@ -22,93 +17,69 @@ namespace Lightning {
             this._active = true;
 
             this._tweens = [];
-            this._activeTweens = [];
             this._toBeDestroyed = [];
         }
 
-        protected update() {
+        protected update(dt:number) {
             if(!this._active) return;
         
             /**
              * Deal with tweens that should be destroyed
              */
 
-            let t:number = this._toBeDestroyed.length;
+            let t:number = this._tweens.length;
             while (t--) {
-                // pull tween out of to be destroyed array
-                let tween:Tween = this._toBeDestroyed.splice(t, 1)[0];
+                if(this._tweens[t].toBeDestroyed) {
+                    let tween = this._tweens[t];
 
-                // get index of tween in the tweens array and remove
-                let index:number = this.find(tween, this._tweens);
-                this._tweens.splice(index, 1);
+                    // get index of tween in the tweens array and remove
+                    let index:number = this._tweens.indexOf(tween);
+                    this._tweens.splice(index, 1);
 
-                // get index of tween in active tweens array and remove
-                index = this.find(tween, this._activeTweens);
-                this._activeTweens.splice(index, 1);
-
-                // remove reference to the manager
-                tween.manager = null;
+                    // remove reference to the manager
+                    tween.manager = null;
+                }
             }
 
-            /**
-             * Update the active tweens
-             */
-            for(var i = 0, len = this._activeTweens.length; i <= len; i++) {
-                let tween:Tween = this._activeTweens[i];
-                if(tween) {
-                    tween.update();
+            for(var i = 0, len = this._tweens.length; i < len; i++) {
+                let tween:Tween = this._tweens[i];
+                if(tween.active) {
+                    tween.update(dt);
                 }
             }
         }
 
-        public create(key:string, obj:DisplayObject, autoDestroy:boolean = false) {
-            let tween = new Tween(this, obj, autoDestroy);
-            this._tweens[key] = tween;
+        public create(key:string, objRef:DisplayObject, autoDestroy:boolean = false) {
+            let tween = new Tween(this, objRef, autoDestroy);
+            if(key !== null) {
+                this._tweens[key] = tween;
+            } else {
+                this._tweens.push(tween);
+            }
             return tween;
         }
 
         public start(tween:string|Tween) {
-            let tempTween:Tween = null;
-
             if(typeof(tween) === 'string') {
-                tempTween = this._tweens[tween];
+                this._tweens[tween].active = true;
             } else {
-                tempTween = tween;
+                tween.active = true;
             }
-
-            this._activeTweens.push(tempTween);
         }
 
         public destroy(tween:string|Tween) {
             if(typeof(tween) === 'string') {
                 let t = this._tweens[tween];
-                this._toBeDestroyed.push(t);
+                t.toBeDestroyed = true;
                 return t;
             } else {
-                this._toBeDestroyed.push(tween);
+                tween.toBeDestroyed = true;
                 return tween;
             }
         }
 
-        public removeActive(tween:Tween){
-            let index:number = 0;
-            for(let i of this._activeTweens) {
-                if(i === tween) {
-                    this._activeTweens.splice(index, 1);
-                }
-                index++;
-            }
-        }
-
-        private find(tween:Tween, array:Array<Tween>) {
-            let c:number = 0;
-            for(let i of array) {
-                if(i === tween) {
-                    return c;
-                }
-                c++;
-            }
-            return null;
+        public getTween(key:string) {
+            return this._tweens[key];
         }
 
         public pause(key:string) {

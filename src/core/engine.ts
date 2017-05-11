@@ -15,7 +15,7 @@ namespace Lightning {
             super();
 
             this.displayInfo();
-            this._scaleManager = new ScaleManager(this, width, height);
+            this._scaleManager = new Scale(this, width, height);
             this._device = new Device(this);
 
             // setup the canvas
@@ -23,11 +23,11 @@ namespace Lightning {
             wrapper.id = wrapperId || '';
 
             document.body.appendChild(wrapper);
-            this._dpr = window.devicePixelRatio;
 
             this._renderer = PIXI.autoDetectRenderer(width, height, {resolution: this._scaleManager.devicePixelRatio});
-            // this._renderer.autoResize = true;
+
             wrapper.appendChild(this._renderer.view);
+            
             this._scaleManager.resizeThrottler(true);
             this._scaleManager.alignVertically();
 
@@ -41,9 +41,6 @@ namespace Lightning {
             this._ticker = PIXI.ticker.shared;
             this._ticker.autoStart = false;
             this._ticker.add(this.update, this);
-
-            // let scale = window.devicePixelRatio;
-            // this._renderer.resize(width, height);
 
             // create the physicsManager 
             this._physicsManager = new PhysicsManager(this);
@@ -117,7 +114,6 @@ namespace Lightning {
 /**
  * TODO ORDER
  * 
- * 1. Make a plugin system
  * 2. Comprehensive Scale Manager
  * 3. Re-configure how states work
  *      1. Not happy with having to call funtions when manually overriding them

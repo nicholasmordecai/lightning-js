@@ -6,7 +6,7 @@ namespace Lightning {
         constructor(texture:PIXI.Texture, emitter:ParticleEmitter, minX:number, maxX:number, minY:number, maxY:number) {
             super();
             this.returnToPool = this._returnToPool;
-            this.update = this.updateSimple;
+            this.update = this.updateComplex;
             this._texture = texture;
             this._emitter = emitter;
             this.children = null;

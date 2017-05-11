@@ -1,38 +1,33 @@
 /// <reference path="./../reference.d.ts" />
 
-declare interface IAnim {
+declare interface ILiveAnim {
     from:number;
     to:number;
     time:number;
     property:string;
     delay:number;
+    cDelay:number;
     easing:Function;
     cPos:number;
     maxPos:number;
+    live:boolean;
 }
 
-declare interface IFrame {
-    data:any;
-}
-
-declare interface IImportedAnim {
-    frames:Array<number>;
+declare interface IFramedAnim {
+    frames:Array<number|string>;
     property:string;
     cPos:number;
     maxPos:number;
+    delay:number;
+    cDelay:number;
+    live:boolean;
 }
 
 namespace Lightning {
-    /**
-     * TODO
-     * 1. Wait
-     * 2. Chain
-     * 
-     */
 
     /**
-     * Bugs
-     * 
+     * TODO
+     * 1. FPS
      */
 
     export class Tween extends EventEmitter {
@@ -41,8 +36,10 @@ namespace Lightning {
         private _objRef:Lightning.DisplayObject;
         private _chains:Array<Tween>;
         private _live:boolean;
+        private _fps:number;
+        private _interval:number;
         private _frames:Array<any>;
-        private _anims:Array<IAnim>;
+        private _anims:Array<ILiveAnim|IFramedAnim>;
         private _length:number;
         private _currentPosition:number;
 
@@ -62,6 +59,8 @@ namespace Lightning {
             this._anims = [];
             this._length = 0;
             this._currentPosition = 0;
+            this._fps = 60;
+            this._interval = 1000 / this._fps;
 
             this._active = false;
             this._started = false;
@@ -79,52 +78,61 @@ namespace Lightning {
             this.create('destroy');
         }
 
-        public update() {
-            if(!this._active || this._paused) return;
+        public update(dt:number) {
+            if(this._paused) return;
 
             this._currentPosition++;
 
-            if(this._live) {
+            // calc new position for each anim
+            for(let anim of this._anims) {
 
-                // calc new position for each anim
-                for(let anim of this._anims) {
-                    if(anim.cPos < anim.maxPos) {
-                        let newFrameData = anim.easing(this._currentPosition * 16.67, anim.from, anim.to - anim.from, anim.time);
-                        this._objRef[anim.property] = newFrameData;
-                        anim.cPos++;
+                if(anim.live) {
+                    anim = anim as ILiveAnim
+                    if(anim.cDelay < anim.delay) {
+                        anim.cDelay++;
+                    } else {
+                        if(anim.cPos < anim.maxPos) {
+                            let newFrameData = anim.easing(this._currentPosition * this._interval, anim.from, anim.to - anim.from, anim.time);
+                            this._objRef[anim.property] = newFrameData;
+                            anim.cPos++;
+                        }
+                    }
+                } else {
+                    anim = anim as IFramedAnim
+                    if(anim.cDelay < anim.delay) {
+                        anim.cDelay++;
+                    } else {
+                        if(anim.cPos < anim.maxPos) {
+                            this._objRef[anim.property] = anim.frames[anim.cPos];
+                            anim.cPos++;
+                        }
                     }
                 }
 
-                if(this._currentPosition >= this._length) {
-                    if(this._loops > 1) {
-                        this.loop();
-                    } else {
-                        this.complete();
-                    }
-                }
+                
+            }
 
-            } else {
-                let pos = this._frames[this._currentPosition];
-                    if(this._currentPosition >= this._frames.length-1) {
-                    if(this._loops > 1) {
-                        this.loop();
-                    } else {
-                        this.complete();
-                    }
+            if(this._currentPosition >= this._length) {
+                if(this._loops > 1 || this._loops === -1) {
+                    this.loop();
+                } else {
+                    this.complete();
                 }
             }
 
             this.emit('tick', this);
         }
 
-        public createAnim(from:number, to:number, time:number, delay:number, property:string, easing:Function) {
-            let anim:IAnim = {from, to, time, property, delay, easing, cPos: 0, maxPos: Math.round(time / 16.67)};
+        public createAnim(from:number, to:number, time:number, property:string, easing:Function, delay:number = 0) {
+            delay = Math.round((delay * (this._fps / 60)) / (1000 / 60));
+            let anim:ILiveAnim = {from, to, time, property, delay, cDelay: 0, easing, cPos: 0, maxPos: Math.round(time / this._interval) + delay, live:true};
             this._anims.push(anim);
         }
 
-        public importAnim(frames:Array<number>, property:string) {
-            let anim:IImportedAnim = {frames, property, cPos:0, maxPos:frames.length};
-            this._live = false;
+        public importAnim( property:string, frames:Array<number|string>, delay:number = 0) {
+            delay = Math.round((delay * (this._fps / 60)) / (1000 / 60));
+            let anim:IFramedAnim = {frames, property, cPos:0, maxPos:frames.length, delay, cDelay: 0, live:false};
+            this._anims.push(anim);
         }
 
         public exportAnim(key:string) {
@@ -153,17 +161,12 @@ namespace Lightning {
         private complete() {
             this._active = false;
             this._started = false;
-            this.emit('complete', this);
-
+            
             for(let i of this._chains) {
                 i.start();
             }
 
-            if(this._autoDestroy) {
-                this.destroy();
-            }
-
-            this._manager.removeActive(this);
+            this.emit('complete', this);
         }
 
         public pause(val:boolean) {
@@ -172,7 +175,10 @@ namespace Lightning {
         }
 
         private loop() {
-            this._loops--;
+            if(this._loops !== -1) {
+                this._loops--;
+            }
+            
             this._currentPosition = 0;
             for(let anim of this._anims) {
                 anim.cPos = 0;
@@ -230,12 +236,37 @@ namespace Lightning {
             }
         }
 
+        public set active(val:boolean) {
+            this._active = val;
+        }
+
+        public get active():boolean {
+            return this._active;
+        }
+
         public set loops(val:number) {
             this._loops = val;
         }
 
         public get loops():number {
             return this._loops;
+        }
+
+        public get fps():number {
+            return this._fps;
+        }
+
+        // public set fps(val:number) {
+        //     this._fps = val;
+        //     this._interval = 1000 / this._fps;
+        // }
+
+        public get interval():number {
+            return this._interval;
+        }
+
+        public get length():number {
+            return this._length;
         }
 
         public set autoDestroy(val:boolean) {
@@ -256,6 +287,14 @@ namespace Lightning {
 
         public set manager(val:TweenManeger) {
             this._manager = val;
+        }
+
+        public get toBeDestroyed():boolean {
+            return this._toBeDestroyed;
+        }
+
+        public set toBeDestroyed(val:boolean) {
+            this._toBeDestroyed = val;
         }
     }
 }

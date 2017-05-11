@@ -64,25 +64,15 @@ namespace Lightning {
             let t = Lightning.Geometry.Rect(50, 50);
 
             let sprite = new Lightning.Sprite(this.game.generateTexture(t));
-            sprite['mass'] = 4;
+            sprite['mass'] = 1;
             sprite.setAnchor(0.5);
             sprite.tint = 0xff22aa;
-            this.game.world.addChild(sprite);
+            this.state.add(sprite);
             sprite.x = this.game.center.x- 75;
             sprite.y = this.game.center.y - 100;
-
             sprite.enableDrag();
-            this.obstacles.push(sprite);
+            this.gravityWells.push(sprite);
 
-            let sprite2 = new Lightning.Sprite(this.game.generateTexture(t));
-            sprite2.enableDrag();
-            sprite2.setAnchor(0.5);
-            sprite2['mass'] = 6;
-            sprite2.tint = 0x00aa22;
-            this.game.world.addChild(sprite2);
-            sprite2.x = this.game.center.x + 75;
-            sprite2.y = this.game.center.y + 120;
-            this.obstacles.push(sprite2);
             this.game.ticker.add(this.tick, this);
         }
 

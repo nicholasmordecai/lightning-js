@@ -27,7 +27,7 @@
 /**
  * Controllers
  */
-/// <reference path="./controllers/scale/scaleManager.ts" />
+/// <reference path="./controllers/scale/scale.ts" />
 /// <reference path="./controllers/services/request.ts" />
 /// <reference path="./controllers/services/service.ts" />
 /// <reference path="./controllers/services/serviceManager.ts" />
