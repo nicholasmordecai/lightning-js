@@ -160,7 +160,7 @@ namespace Lightning {
             }
 
             this.resizeThrottler();
-            this.scaleMode = ScaleManager.ASPECT_RATIO;
+            this.scaleMode = Scale.ASPECT_RATIO;
         }
 
         public alignVertically() {

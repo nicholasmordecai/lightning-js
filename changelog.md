@@ -10,6 +10,7 @@
 7. Added a delay to individual anims on tweens
 8. Added custom frame data to the tweens and refactored the update loop
 9. Fixed on drag issue with device pixel ratio calculation
+10. Fixed 'cannot find scaleManager'
 
 ### 0.4.4
 1. Added a closest value in the Maths class
