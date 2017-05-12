@@ -30,9 +30,24 @@ namespace Lightning {
             return action;
         }
 
-        public call(key:string, body:any = null):Request {
+        public call(key:string, headers:Array<{content:string, value:string}> = null, body:any = null):Request {
             let action = this._actions[key];
-            let request = new Request(this, action.actionType, action.headers);
+            let passHeaders:Array<{content: string, value:string}> = [];
+            let passBody:any;
+
+            if(headers === null) {
+                passHeaders = action.headers;
+            } else {
+                passHeaders = headers;
+            }
+
+            if(body === null) {
+                passBody = action.body
+            } else {
+                passBody = body;
+            }
+
+            let request = new Request(this, action.route, action.actionType, passHeaders, passBody, action.cb, action.ctx);
             request.call();
             return request;
         }
@@ -52,8 +67,8 @@ namespace Lightning {
             return false;
         }
 
-        public create(actionType:string, headers:Array<{content:string, value:any}> = null, body:Object = null, cb:Function = null, ctx:Object = null):Request {
-            return new Request(this, actionType, headers, body, cb, ctx);
+        public create(actionType:string, route:string, headers:Array<{content:string, value:any}> = null, body:Object = null, cb:Function = null, ctx:Object = null):Request {
+            return new Request(this, route, actionType, headers, body, cb, ctx);
         }
 
         public get endpoint():string {

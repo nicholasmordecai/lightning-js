@@ -72,12 +72,12 @@ var Lightning;
          * @param  {} ...displayObjects
          */
         Sprite.prototype.add = function () {
-            var displayObjects = [];
+            var children = [];
             for (var _i = 0; _i < arguments.length; _i++) {
-                displayObjects[_i] = arguments[_i];
+                children[_i] = arguments[_i];
             }
-            for (var i = 0; i < displayObjects.length - 1; i++) {
-                this.addChild(displayObjects[i]);
+            for (var i = 0; i < children.length; i++) {
+                this.addChild(children[i]);
             }
         };
         Sprite.prototype.enableDrag = function (respectPosition) {

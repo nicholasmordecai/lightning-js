@@ -58,7 +58,7 @@ var Lightning;
             sprite.x = _this.game.center.x - 75;
             sprite.y = _this.game.center.y - 100;
             sprite.enableDrag();
-            _this.obstacles.push(sprite);
+            _this.gravityWells.push(sprite);
             var sprite2 = new Lightning.Sprite(_this.game.generateTexture(t));
             sprite2.enableDrag();
             sprite2.setAnchor(0.5);
@@ -67,7 +67,7 @@ var Lightning;
             _this.game.world.addChild(sprite2);
             sprite2.x = _this.game.center.x + 75;
             sprite2.y = _this.game.center.y + 120;
-            _this.obstacles.push(sprite2);
+            _this.gravityWells.push(sprite2);
             _this.game.ticker.add(_this.tick, _this);
             return _this;
         }
@@ -238,10 +238,10 @@ var Lightning;
             if (floatTop === void 0) { floatTop = true; }
             var font = { fontSize: 16 * window.devicePixelRatio, fill: 0xffffff };
             var gap = 25 * window.devicePixelRatio;
-            this._aliveText = new PIXI.Text('Alive: ' + this.alive, font);
-            this._deadPoolText = new PIXI.Text('Dead: ' + this.pool, font);
-            this._intervalText = new PIXI.Text('Interval: ' + this._interval, font);
-            this._strengthText = new PIXI.Text('Strength: ' + this._particleStrength, font);
+            this._aliveText = new Lightning.Text('Alive: ' + this.alive, font);
+            this._deadPoolText = new Lightning.Text('Dead: ' + this.pool, font);
+            this._intervalText = new Lightning.Text('Interval: ' + this._interval, font);
+            this._strengthText = new Lightning.Text('Strength: ' + this._particleStrength, font);
             var x, y;
             if (floatLeft) {
                 x = this.game.width * 0.02;

@@ -45,7 +45,7 @@ namespace Lightning {
          * 
          * @returns {void}
          */
-        emit(params):void {
+        emit(...params):void {
             // if the event has been dissabled
             if(!this._enabled) return;
 

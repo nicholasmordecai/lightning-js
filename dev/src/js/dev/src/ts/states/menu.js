@@ -16,7 +16,7 @@ var MenuState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MenuState.prototype.create = function () {
-        this.game.states.destroy('menu');
+        this.game.states.destroy('preload');
         this.game.states.start('game');
     };
     return MenuState;

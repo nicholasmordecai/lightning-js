@@ -18,7 +18,7 @@ var Lightning;
          * @returns {Lightning.Graphics}
          */
         Geometry.Square = function (d) {
-            var graphics = new PIXI.Graphics();
+            var graphics = new Lightning.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.drawRect(0, 0, d, d);
             graphics.endFill();
@@ -33,7 +33,7 @@ var Lightning;
          * @returns {Lightning.Graphics}
          */
         Geometry.Rect = function (w, h) {
-            var graphics = new PIXI.Graphics();
+            var graphics = new Lightning.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.drawRect(0, 0, w, h);
             graphics.endFill();
@@ -48,7 +48,7 @@ var Lightning;
          * @returns {Lightning.Graphics}
          */
         Geometry.Star = function (w, h) {
-            var graphics = new PIXI.Graphics();
+            var graphics = new Lightning.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.drawRect(0, 0, w, h);
             graphics.endFill();
@@ -65,13 +65,13 @@ var Lightning;
          */
         Geometry.Rect3D = function (w, h, d) {
             w *= 2, h *= 2, d *= 2;
-            var graphics = new PIXI.Graphics();
+            var graphics = new Lightning.Graphics();
             // draw front
             graphics.beginFill(0xffffff, 1);
             graphics.drawRect(0, 0, w, h);
             graphics.endFill();
             // draw top side
-            var topSide = new PIXI.Graphics();
+            var topSide = new Lightning.Graphics();
             topSide.beginFill(0xd2d2d2, 1);
             topSide.moveTo(0, 0);
             topSide.lineTo(d, -d);
@@ -81,7 +81,7 @@ var Lightning;
             topSide.endFill();
             graphics.addChild(topSide);
             //draw right ride
-            var rightSide = new PIXI.Graphics();
+            var rightSide = new Lightning.Graphics();
             rightSide.beginFill(0xababab, 1);
             rightSide.moveTo(w, 0);
             rightSide.lineTo(w + d, -d);
@@ -102,7 +102,7 @@ var Lightning;
         Geometry.Circle = function (r) {
             // think about how to implement responsive graphic drawings
             r = r * window.devicePixelRatio;
-            var graphics = new PIXI.Graphics();
+            var graphics = new Lightning.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.arc(75, 75, r, 0, Math.PI * 2, false);
             graphics.endFill();
@@ -118,7 +118,7 @@ var Lightning;
          */
         Geometry.Triangle = function (l1, l2) {
             if (l2 === void 0) { l2 = l1; }
-            var graphics = new PIXI.Graphics();
+            var graphics = new Lightning.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.moveTo(l1 * 0.5, 0);
             graphics.lineTo(l2, l1);

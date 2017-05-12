@@ -37,7 +37,11 @@ var Lightning;
          *
          * @returns {void}
          */
-        Event.prototype.emit = function (params) {
+        Event.prototype.emit = function () {
+            var params = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                params[_i] = arguments[_i];
+            }
             // if the event has been dissabled
             if (!this._enabled)
                 return;
