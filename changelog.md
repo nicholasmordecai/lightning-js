@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.4.6
+1. Big cleanup of old files
+2. Add webfontloader to the external libs
+
 ### 0.4.5
 1. Added a plugin super class to make it easier to develop plugins
 2. Tween Maneger now extends new plugin class

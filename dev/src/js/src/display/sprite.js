@@ -106,8 +106,8 @@ var Lightning;
         };
         Sprite.prototype.startDrag = function (event) {
             if (this._respectPosition) {
-                var rpx = event.data.global.x * window.devicePixelRatio - this.position.x;
-                var rpy = event.data.global.y * window.devicePixelRatio - this.position.y;
+                var rpx = event.data.global.x - this.position.x;
+                var rpy = event.data.global.y - this.position.y;
                 this._respectPositionValues = { x: rpx, y: rpy };
             }
             else {
@@ -121,7 +121,7 @@ var Lightning;
             this.removeListener('touchmove', this.onDrag);
         };
         Sprite.prototype.onDrag = function (event) {
-            this.position = new PIXI.Point((event.data.global.x * window.devicePixelRatio) - this._respectPositionValues.x, (event.data.global.y * window.devicePixelRatio) - this._respectPositionValues.y);
+            this.position = new PIXI.Point(event.data.global.x - this._respectPositionValues.x, event.data.global.y - this._respectPositionValues.y);
         };
         Object.defineProperty(Sprite.prototype, "input", {
             get: function () {

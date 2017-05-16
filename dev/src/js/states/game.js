@@ -17,13 +17,13 @@ var GameState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     GameState.prototype.create = function () {
-        // let sprite:Lightning.Sprite = new Lightning.Sprite();
-        // let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);
-        // sprite.texture = this.game.generateTexture(texture);
-        // sprite.x = this.game.width / 2;
-        // sprite.y = this.game.height / 2;
-        // sprite.setAnchor(0.5);
-        // this.add(sprite);
+        var sprite = new Lightning.Sprite();
+        var texture = Lightning.Geometry.Triangle(50);
+        sprite.texture = this.game.generateTexture(texture);
+        sprite.x = this.game.width / 2;
+        sprite.y = this.game.height / 2;
+        sprite.setAnchor(0.5);
+        this.add(sprite);
         /**
         1.  * creating basic tween
          */
@@ -31,20 +31,6 @@ var GameState = (function (_super) {
         // tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
         // console.log(tween);
         // tween.start();
-        // create new particle emitter
-        this.particleEmitter = new Lightning.ParticleEmitter(this, this.game.width * 0.75, this.game.center.y);
-        // add the particle emitter to this stage
-        this.add(this.particleEmitter);
-        // make a new shape and texture
-        var texture = this.game.generateTexture(Lightning.Geometry.Circle(1));
-        // add that texture to the particle emitter
-        this.particleEmitter.add(texture);
-        this.particleEmitter.setGravity(0, 0);
-        this.particleEmitter.setVelocityRange(0, 0, -1, -2);
-        this.particleEmitter.setStrength(1);
-        this.particleEmitter.setInterval(100);
-        // start the particle emitter (not passing any parameters will make it run indefinitly)
-        this.particleEmitter.start();
         /**
         1.  * creating basic tween by importing frame data
          */

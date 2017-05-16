@@ -1,9 +1,9 @@
 /**
  * External Libs
  */
-/// <reference path="../libs/typings/box2d/index.d.ts" />
-/// <reference path="../libs/typings/pixi.js/index.d.ts" />
-/// <reference path="../libs/typings/sound.js/index.d.ts" />
+/// <reference path="./../libs/box2d/index.d.ts" />
+/// <reference path="./../libs/pixi.js/index.d.ts" />
+/// <reference path="./../libs/webfontloader/index.d.ts" />
 /**
  * Interfaces
  */
@@ -38,6 +38,7 @@
 /// <reference path="./utils/maths.ts" />
 /// <reference path="./utils/depreciated.ts" />
 /// <reference path="./utils/debug.ts" />
+/// <reference path ="./utils/webFontLoader.ts" />
 /**
  * Controllers
  */

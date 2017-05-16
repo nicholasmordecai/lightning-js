@@ -108,8 +108,6 @@ namespace Lightning {
                         }
                     }
                 }
-
-                
             }
 
             if(this._currentPosition >= this._length) {

@@ -100,8 +100,6 @@ var Lightning;
          * @returns {Lightning.Graphics}
          */
         Geometry.Circle = function (r) {
-            // think about how to implement responsive graphic drawings
-            r = r * window.devicePixelRatio;
             var graphics = new Lightning.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.arc(75, 75, r, 0, Math.PI * 2, false);

@@ -5,10 +5,10 @@ const browserSync = require('browser-sync').create();
 const browserify = require('gulp-browserify');
 const rename = require('gulp-rename');
 
-const sourceFiles = [ './libs/pixi.js', './libs/Box2D.js', './libs/howler.js', './libs/stats.min.js', './build/*.js' ];
+const sourceFiles = [ './libs/pixi.js/pixi.js', './libs/box2d/Box2D.js', './libs/webfontloader/webfontloader.js', './build/*.js' ];
 const destination = './dist/';
 
-const sourceFilesDTS = ['./build/*.d.ts', './typings/globals/pixi.js/index.d.ts', './typings/globals/box2d/index.d.ts', './typings/globals/stats.js/index.d.ts'];
+const sourceFilesDTS = ['./build/*.d.ts', './typings/globals/pixi.js/index.d.ts', './typings/globals/box2d/index.d.ts', './typings/globals/webfontloader/index.d.ts'];
  
 gulp.task('concat', function() {
   return gulp.src(sourceFiles)
@@ -47,7 +47,6 @@ gulp.task('minify', function() {
  */
 
 gulp.task('browserify', function() {
-    console.log('hi')
     gulp.src('dev/src/js/main.js')
         .pipe(browserify({
           insertGlobals : true
