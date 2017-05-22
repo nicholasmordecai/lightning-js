@@ -18,8 +18,6 @@ namespace Lightning {
             super(game, true, true);
             this.game = game;
             this._worldBounds = { x: 0, y: 0, width: this.game.width, height: this.game.height };
-
-            this._enabled = false;
         }
 
         /**
@@ -53,6 +51,7 @@ namespace Lightning {
                 this._pools[key] = new LitePhysicsPool(selfCollide);
                 for(let i of objects) {
                     this._pools[key].add(i);
+                    return this._pools[key];
                 }
                 return this._pools[key];
             } else {

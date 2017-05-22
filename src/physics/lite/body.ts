@@ -28,7 +28,7 @@ namespace Lightning {
             this.angle = obj.y;
             this.x = obj.x;
             this.y = obj.y;
-            this._velocity = {x: 0, y: 0};
+            this._velocity = {x:0, y: 0};
 
             if(bounds instanceof Array) {
                 this.hasMultipleBounds = true;
