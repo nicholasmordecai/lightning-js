@@ -49,7 +49,7 @@ namespace Lightning {
             }
         }
 
-        public create(key:string, objRef:DisplayObject, autoDestroy:boolean = false) {
+        public create(objRef:DisplayObject, autoDestroy:boolean = false, key:string = null) {
             let tween = new Tween(this, objRef, autoDestroy);
             if(key !== null) {
                 this._tweens[key] = tween;
@@ -78,6 +78,9 @@ namespace Lightning {
             }
         }
 
+        /**
+         * probably not going to work, needs to be refatored
+         */
         public getTween(key:string) {
             return this._tweens[key];
         }

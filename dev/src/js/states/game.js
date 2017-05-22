@@ -17,6 +17,7 @@ var GameState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     GameState.prototype.create = function () {
+        var _this = this;
         var sprite = new Lightning.Sprite();
         var texture = Lightning.Geometry.Triangle(50);
         sprite.texture = this.game.generateTexture(texture);
@@ -27,8 +28,20 @@ var GameState = (function (_super) {
         /**
         1.  * creating basic tween
          */
+        var tween = this.game.tweens.create(sprite);
+        tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
+        console.log(tween);
+        tween.start();
+        sprite.enableInput();
+        sprite.input.onClick(function () {
+            _this.game.goFullScreen();
+        });
+        /**
+        11.  * setting FPS
+         */
         // let tween = this.game.tweens.create(null, sprite);
-        // tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
+        // tween.setFps(5);
+        // tween.createAnim(sprite.y, 100, 300, 'y', Lightning.Easing.BackInOut);
         // console.log(tween);
         // tween.start();
         /**

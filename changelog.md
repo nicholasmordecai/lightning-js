@@ -3,6 +3,8 @@
 ### 0.4.6
 1. Big cleanup of old files
 2. Add webfontloader to the external libs
+3. Added FPS functionality to the tween engine
+4. Tweaked tween creation API
 
 ### 0.4.5
 1. Added a plugin super class to make it easier to develop plugins

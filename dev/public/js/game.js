@@ -47,7 +47,7 @@ window.onload = function () {
 // };
 // app.initialize(); 
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_bcecf490.js","/")
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_702e1f16.js","/")
 },{"./states/boot":2,"./states/game":3,"./states/menu":4,"./states/preload":5,"buffer":7,"fsovz6":8}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -101,6 +101,7 @@ var GameState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     GameState.prototype.create = function () {
+        var _this = this;
         var sprite = new Lightning.Sprite();
         var texture = Lightning.Geometry.Triangle(50);
         sprite.texture = this.game.generateTexture(texture);
@@ -111,8 +112,20 @@ var GameState = (function (_super) {
         /**
         1.  * creating basic tween
          */
+        var tween = this.game.tweens.create(sprite);
+        tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
+        console.log(tween);
+        tween.start();
+        sprite.enableInput();
+        sprite.input.onClick(function () {
+            _this.game.goFullScreen();
+        });
+        /**
+        11.  * setting FPS
+         */
         // let tween = this.game.tweens.create(null, sprite);
-        // tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
+        // tween.setFps(5);
+        // tween.createAnim(sprite.y, 100, 300, 'y', Lightning.Easing.BackInOut);
         // console.log(tween);
         // tween.start();
         /**

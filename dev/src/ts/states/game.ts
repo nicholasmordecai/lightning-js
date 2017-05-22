@@ -18,8 +18,23 @@ export default class GameState extends Lightning.State {
         /**
         1.  * creating basic tween
          */
+        let tween = this.game.tweens.create(sprite);
+        tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
+        console.log(tween);
+        tween.start();
+
+        sprite.enableInput();
+        sprite.input.onClick(() => {
+            this.game.goFullScreen();
+        });
+        
+
+        /**
+        11.  * setting FPS
+         */
         // let tween = this.game.tweens.create(null, sprite);
-        // tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
+        // tween.setFps(5);
+        // tween.createAnim(sprite.y, 100, 300, 'y', Lightning.Easing.BackInOut);
         // console.log(tween);
         // tween.start();
 
