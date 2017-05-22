@@ -75,7 +75,6 @@
  * Physics Lite
  */
 /// <reference path="./physics/lite/body.ts" />
-/// <reference path="./physics/lite/group.ts" />
 /// <reference path="./physics/lite/pool.ts" />
 /// <reference path="./physics/lite/manager.ts" />
 

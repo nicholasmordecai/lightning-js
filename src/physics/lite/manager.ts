@@ -3,10 +3,6 @@
 /**
  * Scope Definitions
  * 
- * Pool = An array of physics bodies that all collide with eachother
- * Group = An array of physics bodies that don't collide with eachother
- * 
- * 
  */
 
 namespace Lightning {
@@ -15,10 +11,8 @@ namespace Lightning {
         protected game:Engine;
         private _enabled:boolean;
         private _paused:boolean;
-        private _pools:{[key:string]:Array<LitePhysicsBody>};
-        private _groups:{[key:string]:Array<LitePhysicsBody>};
+        private _pools:{[key:string]:LitePhysicsPool};
         
-
         constructor(game:Engine) {
             super(game, true, true);
             this.game = game;
@@ -48,18 +42,19 @@ namespace Lightning {
             if(this._paused) return;
 
             for(let i in this._pools) {
-                for(let body of this._pools[i]) {
+                for(let body of this._pools[i].bodies) {
                     this.calculateDrag(body);
                 }
             }
         }
 
-        public createPool(key:string, ...objects):Array<LitePhysicsBody> {
+        public createPool(key:string, selfCollide:boolean = true, ...objects:Array<LitePhysicsBody>):LitePhysicsPool {
             if(this._pools[key] !== null || this._pools[key] !== undefined) {
-                this._pools[key] = [];
+                this._pools[key] = new LitePhysicsPool(selfCollide);
                 for(let i of objects) {
-                    this._pools[key].push(i);
+                    this._pools[key].add(i);
                 }
+                
                 return this._pools[key];
             } else {
                 console.info('Physics pool with key:', key, 'alread exists');
@@ -67,10 +62,12 @@ namespace Lightning {
             }
         }
 
+        public removePool(key:string) {
+            this._pools[key].destroy();
+        }
+
         public pool(key:string) {
             return this._pools[key];
         }
-
-
     }
 }

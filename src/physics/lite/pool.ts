@@ -10,10 +10,14 @@ namespace Lightning {
 
         private _enabled:boolean;
         private _bodies:Array<LitePhysicsBody>;
+        private _selfCollide:boolean;
+        private _destroyFlag:boolean;
 
-        constructor() {
+        constructor(selfCollide:boolean) {
             this._enabled = true;
             this._bodies = [];
+            this._selfCollide = selfCollide;
+            this._destroyFlag = false;
         }
 
         public add(...bodies:Array<LitePhysicsBody>):Array<LitePhysicsBody> {
@@ -21,6 +25,13 @@ namespace Lightning {
                 this._bodies.push(body);
             }
             return bodies;
+        }
+
+        public destroy() {
+            for(let body of this._bodies) {
+                body.destroyFlag = true;
+            }
+            this._destroyFlag = true;
         }
 
         public remove(...bodies:Array<LitePhysicsBody>):Array<LitePhysicsBody> {
@@ -43,6 +54,14 @@ namespace Lightning {
             this._enabled = val;
         }
 
+        public get selfCollide():boolean {
+            return this.selfCollide;
+        }
+
+        public set selfCollide(val:boolean) {
+            this.selfCollide = val;
+        }
+
         public get bodies():Array<LitePhysicsBody> {
             return this._bodies;
         }
@@ -50,6 +69,8 @@ namespace Lightning {
         public set bodies(val:Array<LitePhysicsBody>) {
             this._bodies = val;
         }
+
+
 
     }
 }
