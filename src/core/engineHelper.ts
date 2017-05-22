@@ -15,7 +15,7 @@ namespace Lightning {
         protected _ticker:PIXI.ticker.Ticker;
         protected _stateManager:StateManager;
         protected _device:Device;
-        // protected _physicsManager:PhysicsManager
+        protected _physicsManager:PhysicsManager
         protected _eventEmitter:EventEmitter;
         protected _storageManager:StorageManager;
         protected _serviceManager:ServiceManager;

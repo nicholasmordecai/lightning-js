@@ -20,6 +20,7 @@ var Lightning;
             if (texture === void 0) { texture = null; }
             var _this = _super.call(this, texture) || this;
             _this._events = new Lightning.EventEmitter();
+            _this._liteBody = new Lightning.LitePhysicsBody(_this, { x: 0, y: 0, width: _this.width, height: _this.height });
             return _this;
         }
         Sprite.prototype.enableInput = function () {
@@ -104,6 +105,16 @@ var Lightning;
              * need to think about handling pointer events
              */
         };
+        Object.defineProperty(Sprite.prototype, "liteBody", {
+            get: function () {
+                return this._liteBody;
+            },
+            set: function (val) {
+                this._liteBody = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Sprite.prototype.startDrag = function (event) {
             if (this._respectPosition) {
                 var rpx = event.data.global.x - this.position.x;

@@ -43,7 +43,8 @@ var Lightning;
             _this._ticker.autoStart = false;
             _this._ticker.add(_this.update, _this);
             // create the physicsManager 
-            _this._physicsManager = new Lightning.PhysicsManager(_this);
+            // this._physicsManager = new PhysicsManager(this);
+            _this._physicsLite = new Lightning.LitePhysicsManager(_this);
             // create a new services manager
             _this._serviceManager = new Lightning.ServiceManager(_this);
             // create the state StateManager

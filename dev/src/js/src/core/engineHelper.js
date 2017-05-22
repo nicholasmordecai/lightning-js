@@ -190,6 +190,13 @@ var Lightning;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(EngineHelper.prototype, "physics", {
+            get: function () {
+                return { lite: this._physicsLite };
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(EngineHelper.prototype, "tweens", {
             get: function () {
                 return this._tweenManager;

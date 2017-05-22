@@ -1,5 +1,5 @@
-"use strict";
 /// <reference path="./../../../../dist/lightning.d.ts" />
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -18,7 +18,7 @@ var GameState = (function (_super) {
     }
     GameState.prototype.create = function () {
         var sprite = new Lightning.Sprite();
-        var texture = Lightning.Texture.fromImage('public/penguin.png');
+        var texture = Lightning.Texture.fromImage('penguin.png');
         sprite.texture = texture;
         sprite.x = this.game.width / 2;
         sprite.y = this.game.height / 2;
