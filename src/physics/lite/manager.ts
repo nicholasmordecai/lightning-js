@@ -1,16 +1,26 @@
 /// <reference path="./../../reference.d.ts" />
 
+/**
+ * Scope Definitions
+ * 
+ * Pool = An array of physics bodies that all collide with eachother
+ * Group = An array of physics bodies that don't collide with eachother
+ * 
+ * 
+ */
+
 namespace Lightning {
-    export class BasicPhysicsManager extends Plugin{
+    export class LitePhysicsManager extends Plugin {
 
         protected game:Engine;
         private _enabled:boolean;
         private _paused:boolean;
         private _pools:{[key:string]:Array<DisplayObject>};
+        private _groups:{[key:string]:Array<DisplayObject>};
         
 
         constructor(game:Engine) {
-            super(game);
+            super(game, true, true);
             this.game = game;
 
             this._enabled = false;
@@ -30,9 +40,8 @@ namespace Lightning {
         }
 
         protected update() {
-            if(this._paused) {
-                return;
-            }
+            if(!this._enabled) return;
+            if(this._paused) return;
         }
 
         public createPool(key:string, ...objects):Array<DisplayObject> {
