@@ -71,6 +71,11 @@ var Lightning;
         LitePhysicsManager.prototype.pool = function (key) {
             return this._pools[key];
         };
+        LitePhysicsManager.prototype.updatePosition = function (body) {
+            body.x += body.velocity.x;
+            body.y += body.velocity.y;
+            body.updateObjectRefPosition();
+        };
         LitePhysicsManager.prototype.checkWorldCollide = function (body) {
             if (body.x + body.width >= this._worldBounds.width + this._worldBounds.x) {
                 // right side collide

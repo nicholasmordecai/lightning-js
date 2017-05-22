@@ -62,7 +62,6 @@ var Lightning;
          * @returns {void}
          */
         Engine.prototype.update = function (time) {
-            this._physicsManager.update();
             this._stateManager.update(time);
             this._renderer.render(this._world);
         };

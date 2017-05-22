@@ -23,10 +23,12 @@ namespace Lightning {
 
         constructor(obj:any, bounds:iBoundBox, active:boolean = true, drag:number = 0) {
             this.active = active;
+            this._objectRef = obj;
             this._destroyFlag = false;
             this.angle = obj.y;
             this.x = obj.x;
             this.y = obj.y;
+            this._velocity = {x: 0, y: 0};
 
             if(bounds instanceof Array) {
                 this.hasMultipleBounds = true;
