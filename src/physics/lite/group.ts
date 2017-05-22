@@ -16,14 +16,14 @@ namespace Lightning {
             this._active = true;
         }
 
-        public addBody(...bodies:Array<LitePhysicsBody>):Array<LitePhysicsBody> {
+        public add(...bodies:Array<LitePhysicsBody>):Array<LitePhysicsBody> {
             for(let body of bodies) {
                 this._bodies.push(body);
             }
             return bodies;
         }
 
-        public removeBody(...bodies:Array<LitePhysicsBody>):Array<LitePhysicsBody> {
+        public remove(...bodies:Array<LitePhysicsBody>):Array<LitePhysicsBody> {
             let removed:Array<LitePhysicsBody> = [];
             for(let body of bodies) {
                 for(var i = this._bodies.length -1; i >= 0; i--) {

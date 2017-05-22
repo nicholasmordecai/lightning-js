@@ -19,7 +19,7 @@ namespace Lightning {
             super(texture);
             this._events = new EventEmitter();
 
-            this._liteBody = new LitePhysicsBody({width: 100, height:100});
+            this._liteBody = new LitePhysicsBody({x:0, y: 0, width: 100, height:100});
         }
 
         enableInput() {

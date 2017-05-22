@@ -13,17 +13,20 @@ namespace Lightning {
         private _hasMultipleBounds:boolean;
         private _velocity:iVelocity;
         private _active:boolean;
+        private _destroyFlag:boolean;
+
+        private _objectRef:DisplayObject;
 
         constructor(bounds:iBoundBox|Array<iBoundBox>, active:boolean = true, drag:number = 0) {
             this.active = active;
-
+            this._destroyFlag = false;
             if(bounds instanceof Array) {
                 this.hasMultipleBounds = true;
             } else {
                 this.hasMultipleBounds = false;
             }
             this.bounds = bounds;
-            
+
             this.drag = drag;
         }
 
@@ -65,6 +68,22 @@ namespace Lightning {
 
         public set hasMultipleBounds(val:boolean) {
             this._hasMultipleBounds = val;
+        }
+
+        public get destroyFlag():boolean {
+            return this._destroyFlag;
+        }
+
+        public set destroyFlag(val:boolean) {
+            this.destroyFlag = val;
+        }
+
+        public get objRef():DisplayObject {
+            return this._objectRef;
+        }
+
+        public set objRef(val:DisplayObject) {
+            this._objectRef = val;
         }
     }
 }
