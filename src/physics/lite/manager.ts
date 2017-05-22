@@ -18,14 +18,12 @@ namespace Lightning {
             super(game, true, true);
             this.game = game;
             this._worldBounds = { x: 0, y: 0, width: this.game.width, height: this.game.height };
-
-            this._enabled = false;
         }
 
         /**
          * initalise / reset the properties when enabled, not constructed
          */
-        public enable() {
+        public enablePhysics() {
             this._enabled = true;
             this._pools = {};
             this._paused = false;
@@ -35,7 +33,7 @@ namespace Lightning {
             this._enabled = false;
         }
 
-        protected update() {
+        protected update(dt:number) {
             if(!this._enabled) return;
             if(this._paused) return;
 
@@ -51,6 +49,7 @@ namespace Lightning {
                 this._pools[key] = new LitePhysicsPool(selfCollide);
                 for(let i of objects) {
                     this._pools[key].add(i);
+                    return this._pools[key];
                 }
             } else {
                 console.info('Physics pool with key:', key, 'alread exists');

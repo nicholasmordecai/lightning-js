@@ -24,6 +24,7 @@ var GameState = (function (_super) {
         sprite.y = this.game.height / 2;
         sprite.setAnchor(0.5);
         this.add(sprite);
+        this.game.physics.lite.enablePhysics();
         // let sprite:Lightning.Sprite = new Lightning.Sprite();
         // let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);
         // sprite.texture = this.game.generateTexture(texture);

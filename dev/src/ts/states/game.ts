@@ -16,6 +16,8 @@ export default class GameState extends Lightning.State {
         sprite.setAnchor(0.5);
         this.add(sprite);
 
+        this.game.physics.lite.enablePhysics();
+
 
         // let sprite:Lightning.Sprite = new Lightning.Sprite();
         // let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);

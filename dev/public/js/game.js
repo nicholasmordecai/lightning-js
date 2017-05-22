@@ -47,7 +47,7 @@ window.onload = function () {
 // };
 // app.initialize(); 
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_cc1e4702.js","/")
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_d635bb0f.js","/")
 },{"./states/boot":2,"./states/game":3,"./states/menu":4,"./states/preload":5,"buffer":7,"fsovz6":8}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -108,6 +108,7 @@ var GameState = (function (_super) {
         sprite.y = this.game.height / 2;
         sprite.setAnchor(0.5);
         this.add(sprite);
+        this.game.physics.lite.enablePhysics();
         // let sprite:Lightning.Sprite = new Lightning.Sprite();
         // let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);
         // sprite.texture = this.game.generateTexture(texture);
