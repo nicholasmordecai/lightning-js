@@ -36,10 +36,11 @@ namespace Lightning {
         protected update(dt:number) {
             if(!this._enabled) return;
             if(this._paused) return;
-
             for(let i in this._pools) {
                 for(let body of this._pools[i].bodies) {
-                    // do stuff to each body here
+                    this.checkWorldCollide(body);
+                    this.updatePosition(body);
+                    body.objRef.updateTransform();
                 }
             }
         }
@@ -51,6 +52,7 @@ namespace Lightning {
                     this._pools[key].add(i);
                     return this._pools[key];
                 }
+                return this._pools[key];
             } else {
                 console.info('Physics pool with key:', key, 'alread exists');
                 return null;
@@ -65,42 +67,28 @@ namespace Lightning {
             return this._pools[key];
         }
 
-        private checkWorldCollide(body) {
-            if (body.x + body.width >= this._worldBounds.width + this._worldBounds.x) {
-                // right side collide
-                if (body.velocity.x < 1) {
-                    body.velocity.x = body._velocity.x *= -1 * body.restitution;
-                } else if (body._velocity.x < 0) {
-                    body.x = body.view.core.renderer.width - body.width;
-                    body.velocity.x = 0;
-                }
-                body.velocity.x = body.velocity.x *= -1 * body.restitution;
-                // left side collide
-            } else if (body.x <= this._worldBounds.x) {
-                if (body.velocity.x < -1) {
-                    body.velocity.x = body.velocity.x *= -1 * body.restitution;
-                } else if (body.velocity.x < 0) {
-                    body.x = 0;
-                    body.velocity.x = 0;
-                }
+        public updatePosition(body:LitePhysicsBody) {
+            body.x += body.velocity.x;
+            body.y += body.velocity.y;
+            body.updateObjectRefPosition();
+        }
 
+        private checkWorldCollide(body:LitePhysicsBody) {
+            if(body.x <= this._worldBounds.x) {
+                body.velocity.x *= -1;
+            } 
+
+            if(body.x >= this._worldBounds.x + this._worldBounds.width) {
+                body.velocity.x *= -1;
             }
 
-            // if (this.y + this.height > this.view.core.renderer.height) {
-            //     if (this._velocity.y > 1) {
-            //         this._velocity.y = this._velocity.y *= -1 * this._restitution
-            //     } else if (this._velocity.y > 0) {
-            //         this.y = this.view.core.renderer.height - this.height;
-            //         this._velocity.y = 0;
-            //     }
-            // } else if (this.y < 0) {
-            //     if (this._velocity.y < -1) {
-            //         this._velocity.y = this._velocity.y *= -1 * this._restitution
-            //     } else if (this._velocity.y < 0) {
-            //         this.y = 0;
-            //         this._velocity.y = 0;
-            //     }
-            // }
+            if(body.y <= this._worldBounds.y) {
+                body.velocity.y *= -1;
+            }
+
+            if(body.y >= this._worldBounds.y  + this._worldBounds.height) {
+                body.velocity.y *= -1;
+            }
         }
     }
 }

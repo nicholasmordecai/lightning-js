@@ -1,5 +1,5 @@
-/// <reference path="./../../../../dist/lightning.d.ts" />
 "use strict";
+/// <reference path="./../../../../dist/lightning.d.ts" />
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -23,6 +23,10 @@ var GameState = (function (_super) {
         sprite.x = this.game.width / 2;
         sprite.y = this.game.height / 2;
         sprite.setAnchor(0.5);
+        var pool = this.game.physics.lite.createPool('test');
+        var body = new Lightning.LitePhysicsBody(sprite, { x: 0, y: 0, width: sprite.width, height: sprite.height });
+        pool.add(body);
+        body.velocity.x = 10;
         this.add(sprite);
         // let sprite:Lightning.Sprite = new Lightning.Sprite();
         // let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);

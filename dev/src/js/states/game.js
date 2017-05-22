@@ -1,5 +1,5 @@
-// <reference path="./../../../../dist/lightning.d.ts" />
 "use strict";
+// <reference path="./../../../../dist/lightning.d.ts" />
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -17,12 +17,20 @@ var GameState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     GameState.prototype.create = function () {
+        this.game.physics.lite.enablePhysics();
         var sprite = new Lightning.Sprite();
         var texture = Lightning.Texture.fromImage('penguin.png');
         sprite.texture = texture;
         sprite.x = this.game.width / 2;
         sprite.y = this.game.height / 2;
         sprite.setAnchor(0.5);
+        var pool = this.game.physics.lite.createPool('test');
+        var body = new Lightning.LitePhysicsBody(sprite, { x: 0, y: 0, width: sprite.width, height: sprite.height });
+        pool.add(body);
+        console.log(pool);
+        console.log(body);
+        body.velocity.x = 2;
+        body.velocity.y = -2;
         this.add(sprite);
         this.game.physics.lite.enablePhysics();
         // let sprite:Lightning.Sprite = new Lightning.Sprite();
