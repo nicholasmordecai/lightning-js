@@ -26,7 +26,7 @@ var Lightning;
             for (var _i = 0; _i < arguments.length; _i++) {
                 displayObjects[_i] = arguments[_i];
             }
-            for (var i = 0; i < displayObjects.length - 1; i++) {
+            for (var i = 0; i < displayObjects.length; i++) {
                 this.addChild(displayObjects[i]);
             }
         };

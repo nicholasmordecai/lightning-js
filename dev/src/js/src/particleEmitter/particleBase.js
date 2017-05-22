@@ -79,45 +79,57 @@ var Lightning;
                 var particleGlobal = this.getGlobalPosition();
                 var gravityGlobal = i.getGlobalPosition();
                 // let d = this.getDistance(particleGlobal.x, particleGlobal.y, gravityGlobal.x, gravityGlobal.y);
-                var d = 0;
+                var a = particleGlobal.x - gravityGlobal.x;
+                var b = particleGlobal.y - gravityGlobal.y;
+                var d = Math.sqrt(a * a + b * b);
                 // if(d < 100) {
                 //     this.returnToPool();
                 //     return;
                 // }
-                // let G = 6.5;
-                // for(let i of this._emitter.gravityWells) {
-                //     let mass = i['mass'];
-                //     let particleGlobal = this.getGlobalPosition();
-                //     let gravityGlobal = i.getGlobalPosition();
-                //     let d = this.getDistance(particleGlobal.x, particleGlobal.y, gravityGlobal.x, gravityGlobal.y);
-                //     // if(d < 100) {
-                //     //     this.returnToPool();
-                //     //     return;
-                //     // }
-                //     let f = G * (mass * 1) / d
-                //     if(particleGlobal.x - gravityGlobal.x < 0) {
-                //         this._velX += f;
-                //     } else {
-                //         this._velX += -f;
-                //     }
-                //     if(particleGlobal.y - gravityGlobal.y < 0) {
-                //         this._velY += f;
-                //     } else {
-                //         this._velY += -f;
-                //     }
+                var G = 6.5;
+                for (var _b = 0, _c = this._emitter.gravityWells; _b < _c.length; _b++) {
+                    var i_1 = _c[_b];
+                    var mass_1 = i_1['mass'];
+                    var particleGlobal_1 = this.getGlobalPosition();
+                    var gravityGlobal_1 = i_1.getGlobalPosition();
+                    Lightning.Maths.distanceBetween(particleGlobal_1, gravityGlobal_1);
+                    var a_1 = particleGlobal_1.x - gravityGlobal_1.x;
+                    var b_1 = particleGlobal_1.y - gravityGlobal_1.y;
+                    var d_1 = Math.sqrt(a_1 * a_1 + b_1 * b_1);
+                    // if(d < 100) {
+                    //     this.returnToPool();
+                    //     return;
+                    // }
+                    var f = G * (mass_1 * 1) / d_1;
+                    if (particleGlobal_1.x - gravityGlobal_1.x < 0) {
+                        this._velX += f;
+                    }
+                    else {
+                        this._velX += -f;
+                    }
+                    if (particleGlobal_1.y - gravityGlobal_1.y < 0) {
+                        this._velY += f;
+                    }
+                    else {
+                        this._velY += -f;
+                    }
+                }
+                this.x += this._velX;
+                this.y += this._velY;
+                // let f = this._emitter.nGravity * (mass * 1) / d
+                // if(particleGlobal.x - gravityGlobal.x < 0) {
+                //     this._velX += f;
+                // } else {
+                //     this._velX += -f;
                 // }
-                var f = this._emitter.nGravity * (mass * 1) / d;
-                if (particleGlobal.x - gravityGlobal.x < 0) {
-                    this._velX += f;
-                }
-                else {
-                    this._velX += -f;
-                }
-                if (particleGlobal.y - gravityGlobal.y < 0) {
-                    this._velY += f;
-                }
-                else {
-                    this._velY += -f;
+                // if(particleGlobal.y - gravityGlobal.y < 0) {
+                //     this._velY += f;
+                // } else {
+                //     this._velY += -f;
+                // }
+                if (!this._isDead) {
+                    this.updateTransform();
+                    this._lifeTime += time;
                 }
             }
         };

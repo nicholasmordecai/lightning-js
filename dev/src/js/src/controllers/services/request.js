@@ -2,19 +2,19 @@
 var Lightning;
 (function (Lightning) {
     var Request = (function () {
-        function Request(service, actionType, headers, body, cb, ctx) {
+        function Request(service, route, actionType, headers, body, cb, ctx) {
             if (headers === void 0) { headers = null; }
             if (body === void 0) { body = null; }
             if (cb === void 0) { cb = null; }
             if (ctx === void 0) { ctx = null; }
             this._requestSucceeded = false;
             this._timeout = 10000;
-            this._retries = 5;
+            this._retries = 0;
             this._currentAttempt = 0;
             this.service = service;
-            this._endpoint = service.endpoint;
+            this._endpoint = route;
             this._actionType = actionType;
-            this._headers = headers;
+            this._headers = headers || [];
             this._body = body;
             this._cb = cb;
             this._ctx = ctx;
@@ -26,6 +26,10 @@ var Lightning;
             var _this = this;
             this._currentAttempt++;
             var xhr = this.createRequest();
+            for (var _i = 0, _a = this._headers; _i < _a.length; _i++) {
+                var i = _a[_i];
+                xhr.setRequestHeader(i.content, i.value);
+            }
             xhr.onerror = function (err) {
                 _this._responseData = "Error occurred calling " + _this._endpoint + ". Message: " + err.message;
                 _this._requestSucceeded = false;
@@ -42,7 +46,7 @@ var Lightning;
                 }
             };
             try {
-                xhr.send(this._body);
+                xhr.send(JSON.stringify(this._body));
             }
             catch (err) {
                 this.handleFailure(xhr);
@@ -64,7 +68,7 @@ var Lightning;
         };
         Request.prototype.endRequest = function () {
             if (this._cb) {
-                this._cb.call(this._ctx, this._requestSucceeded, this._responseData);
+                this._cb.call(this._ctx, this._requestSucceeded, this, this._responseData);
                 this.dispose();
             }
         };

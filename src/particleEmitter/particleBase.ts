@@ -93,53 +93,66 @@ namespace Lightning {
                 let gravityGlobal = i.getGlobalPosition();
 
                 // let d = this.getDistance(particleGlobal.x, particleGlobal.y, gravityGlobal.x, gravityGlobal.y);
-                let d = 0;
+                let a = particleGlobal.x - gravityGlobal.x;
+                let b = particleGlobal.y - gravityGlobal.y
+                let d = Math.sqrt( a*a + b*b );
 
                 // if(d < 100) {
                 //     this.returnToPool();
                 //     return;
                 // }
 
-                // let G = 6.5;
-                // for(let i of this._emitter.gravityWells) {
+                let G = 6.5;
+                for(let i of this._emitter.gravityWells) {
 
-                //     let mass = i['mass'];
-                //     let particleGlobal = this.getGlobalPosition();
-                //     let gravityGlobal = i.getGlobalPosition();
+                    let mass = i['mass'];
+                    let particleGlobal = this.getGlobalPosition();
+                    let gravityGlobal = i.getGlobalPosition();
+                    Maths.distanceBetween(particleGlobal, gravityGlobal);
+                    let a = particleGlobal.x - gravityGlobal.x;
+                    let b = particleGlobal.y - gravityGlobal.y
+                    let d = Math.sqrt( a*a + b*b );
+                    // if(d < 100) {
+                    //     this.returnToPool();
+                    //     return;
+                    // }
+                    let f = G * (mass * 1) / d
 
-                //     let d = this.getDistance(particleGlobal.x, particleGlobal.y, gravityGlobal.x, gravityGlobal.y);
-                //     // if(d < 100) {
-                //     //     this.returnToPool();
-                //     //     return;
-                //     // }
-                //     let f = G * (mass * 1) / d
+                    if(particleGlobal.x - gravityGlobal.x < 0) {
+                        this._velX += f;
+                    } else {
+                        this._velX += -f;
+                    }
 
-                //     if(particleGlobal.x - gravityGlobal.x < 0) {
-                //         this._velX += f;
-                //     } else {
-                //         this._velX += -f;
-                //     }
+                    if(particleGlobal.y - gravityGlobal.y < 0) {
+                        this._velY += f;
+                    } else {
+                        this._velY += -f;
+                    }
+                }
 
-                //     if(particleGlobal.y - gravityGlobal.y < 0) {
-                //         this._velY += f;
-                //     } else {
-                //         this._velY += -f;
-                //     }
+                this.x += this._velX;
+                this.y += this._velY;
+
+                // let f = this._emitter.nGravity * (mass * 1) / d
+
+                // if(particleGlobal.x - gravityGlobal.x < 0) {
+                //     this._velX += f;
+                // } else {
+                //     this._velX += -f;
                 // }
 
-                let f = this._emitter.nGravity * (mass * 1) / d
+                // if(particleGlobal.y - gravityGlobal.y < 0) {
+                //     this._velY += f;
+                // } else {
+                //     this._velY += -f;
+                // }
 
-                if(particleGlobal.x - gravityGlobal.x < 0) {
-                    this._velX += f;
-                } else {
-                    this._velX += -f;
+                if(!this._isDead) {
+                    this.updateTransform();
+                    this._lifeTime += time;        
                 }
 
-                if(particleGlobal.y - gravityGlobal.y < 0) {
-                    this._velY += f;
-                } else {
-                    this._velY += -f;
-                }
             }
         }
     }

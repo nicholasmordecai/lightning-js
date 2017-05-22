@@ -16,15 +16,15 @@ namespace Lightning {
         private _requestSucceeded:boolean = false;
 
         private _timeout:number = 10000;
-        private _retries:number = 5;
+        private _retries:number = 0;
         private _currentAttempt:number = 0;
 
 
-        constructor(service:Service, actionType:string, headers:Array<{content:string, value:any}> = null, body:Object = null, cb:Function = null, ctx:Object = null) {
+        constructor(service:Service, route:string, actionType:string, headers:Array<{content:string, value:any}> = null, body:Object = null, cb:Function = null, ctx:Object = null) {
             this.service = service;
-            this._endpoint = service.endpoint;
+            this._endpoint = route
             this._actionType = actionType;
-            this._headers = headers;
+            this._headers = headers || [];
             this._body = body;
             this._cb = cb;
             this._ctx = ctx;
@@ -35,9 +35,11 @@ namespace Lightning {
         }
 
         public call() {
-            this._currentAttempt ++;
+            this._currentAttempt++;
             var xhr: XMLHttpRequest = this.createRequest();
-
+            for(let i of this._headers) {
+                xhr.setRequestHeader(i.content, i.value);
+            }
             xhr.onerror = (err) => {
                 this._responseData = "Error occurred calling " + this._endpoint + ". Message: " + err.message;
                 this._requestSucceeded = false;
@@ -57,7 +59,7 @@ namespace Lightning {
             };
 
             try {
-                 xhr.send(this._body);
+                 xhr.send(JSON.stringify(this._body));
             } catch(err) {
                 this.handleFailure(xhr);
             }
@@ -82,7 +84,7 @@ namespace Lightning {
         
         private endRequest() {
             if(this._cb) {
-                this._cb.call(this._ctx, this._requestSucceeded, this._responseData);
+                this._cb.call(this._ctx, this._requestSucceeded, this, this._responseData);
                 this.dispose();
             }
         }

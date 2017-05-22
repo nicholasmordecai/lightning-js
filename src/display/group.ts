@@ -15,7 +15,7 @@ namespace Lightning {
          * @param  {} ...displayObjects
          */
         add(...displayObjects) {
-             for(let i = 0; i < displayObjects.length -1; i++) {
+             for(let i = 0; i < displayObjects.length; i++) {
                 this.addChild(displayObjects[i]);
              }
         }

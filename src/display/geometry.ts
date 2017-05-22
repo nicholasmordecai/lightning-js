@@ -17,8 +17,9 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        public static Square(d: number): PIXI.Graphics {
-            let graphics = new PIXI.Graphics();
+
+        public static Square(d:number):Lightning.Graphics {
+            let graphics = new Lightning.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.drawRect(0, 0, d, d);
             graphics.endFill();
@@ -33,8 +34,8 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        public static Rect(w: number, h: number): PIXI.Graphics {
-            let graphics = new PIXI.Graphics();
+        public static Rect(w:number, h:number):Lightning.Graphics {
+            let graphics = new Lightning.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.drawRect(0, 0, w, h);
             graphics.endFill();
@@ -117,7 +118,6 @@ namespace Lightning {
             graphics.bezierCurveTo(130 * ratio, 62.5 * ratio, 130 * ratio, 25 * ratio, 100 * ratio, 25 * ratio);
             graphics.bezierCurveTo(85 * ratio, 25 * ratio, 75 * ratio, 37 * ratio, 75 * ratio, 40 * ratio);
             graphics.endFill();
-
             return graphics;
         }
 
@@ -166,8 +166,8 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        public static Triangle(l1: number, l2: number = l1): PIXI.Graphics {
-            let graphics = new PIXI.Graphics();
+        public static Triangle(l1:number, l2:number = l1):Lightning.Graphics {
+            let graphics = new Lightning.Graphics();
             graphics.beginFill(0xffffff, 1);
             graphics.moveTo(l1 * 0.5, 0);
             graphics.lineTo(l2, l1);

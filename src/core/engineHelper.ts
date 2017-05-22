@@ -13,13 +13,14 @@ namespace Lightning {
         protected _world: Lightning.Group;
         protected _hud:HUD;
         protected _ticker:PIXI.ticker.Ticker;
-        // protected _tweens:TweenManager
         protected _stateManager:StateManager;
         protected _device:Device;
         protected _physicsManager:PhysicsManager
         protected _eventEmitter:EventEmitter;
         protected _storageManager:StorageManager;
         protected _serviceManager:ServiceManager;
+        protected _tweenManager:TweenManeger;
+        protected _scaleManager:Scale;
         protected _debug:Debug;
 
         public displayInfo() {
@@ -30,38 +31,30 @@ namespace Lightning {
 |_____|_|_  |_|_|_| |_|_|_|_|_|_  |
         |___|                 |___|
              `, "font-family:monospace");
-             console.log('Lightning-js | version : 0.4.1');
+             console.log('Lightning-js | version : 0.4.5');
         }
 
         public generateTexture(...params):any {
             let t:Texture | Array<Texture> = [];
             if(params.length > 1) {
                 for(let i of params) {
-                    t.push(this._renderer.generateTexture(i));
+                    t.push(this._renderer.generateTexture(i, PIXI.SCALE_MODES.LINEAR, this._scaleManager.devicePixelRatio));
                 }
             } else {
-                t = this._renderer.generateTexture(params[0]);
+                t = this._renderer.generateTexture(params[0], PIXI.SCALE_MODES.LINEAR, this._scaleManager.devicePixelRatio);
             }
             return t;
         }
 
-        public goFullscreen() {
-            if(document.documentElement.requestFullscreen) {
-                document.documentElement['requestFullscreen']();
-            } else if(document.documentElement['mozRequestFullScreen']) {
-                document.documentElement['mozRequestFullScreen']();
-            } else if(document.documentElement.webkitRequestFullscreen) {
-                document.documentElement['webkitRequestFullscreen']();
-            } else if(document.documentElement['msRequestFullscreen']) {
-                document.documentElement['msRequestFullscreen']();
-            }
+        public goFullScreen() {
+            this._scaleManager.goFullScreen();
         }
 
         public texture(...params):any {
             let t:Texture | Array<Texture> = [];
             if(params.length > 1) {
                 for(let i of params) {
-                    t.push(Texture.from(i));
+                    t.push(Texture.from(i), );
                 }
             } else {
                 t = Texture.from(params[0]);
@@ -86,11 +79,11 @@ namespace Lightning {
         }
 
         public get width():number {
-            return this._renderer.width;
+            return this._renderer.width / this._scaleManager.devicePixelRatio;
         }
 
         public get height():number {
-            return this._renderer.height;
+            return this._renderer.height / this._scaleManager.devicePixelRatio;
         }
 
         public get center():{x:number, y:number} {
@@ -100,10 +93,6 @@ namespace Lightning {
         public get renderer():PIXI.CanvasRenderer | PIXI.WebGLRenderer {
             return this._renderer;
         }
-
-        // public get tweens():TweenManager {
-        //     return this._tweens;
-        // }
 
         public get states():StateManager {
             return this._stateManager;
@@ -165,6 +154,13 @@ namespace Lightning {
             return this._debug;
         }
 
+        public get tweens():TweenManeger {
+            return this._tweenManager;
+        }
+
+        public get scale():Scale {
+            return this._scaleManager;
+        }
         /**
          * @description recursive pattern to loop over every child and recursivly loop over all of it's children and returning a count of them all from the root object.
          * You must specify an object root
@@ -257,5 +253,6 @@ namespace Lightning {
             }
             return bytes;
         }
+
     }
 }

@@ -74,8 +74,11 @@ var Lightning;
          *
          * @returns {void}
          */
-        EventEmitter.prototype.emit = function (key, params) {
-            if (params === void 0) { params = null; }
+        EventEmitter.prototype.emit = function (key) {
+            var params = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                params[_i - 1] = arguments[_i];
+            }
             // check if event emitter is enabled
             if (!this._enabled)
                 return;

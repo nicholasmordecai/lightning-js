@@ -27,10 +27,25 @@ var Lightning;
             this._actions[key] = action;
             return action;
         };
-        Service.prototype.call = function (key, body) {
+        Service.prototype.call = function (key, headers, body) {
+            if (headers === void 0) { headers = null; }
             if (body === void 0) { body = null; }
             var action = this._actions[key];
-            var request = new Lightning.Request(this, action.actionType, action.headers);
+            var passHeaders = [];
+            var passBody;
+            if (headers === null) {
+                passHeaders = action.headers;
+            }
+            else {
+                passHeaders = headers;
+            }
+            if (body === null) {
+                passBody = action.body;
+            }
+            else {
+                passBody = body;
+            }
+            var request = new Lightning.Request(this, action.route, action.actionType, passHeaders, passBody, action.cb, action.ctx);
             request.call();
             return request;
         };
@@ -47,16 +62,19 @@ var Lightning;
             }
             return false;
         };
-        Service.prototype.create = function (actionType, headers, body, cb, ctx) {
+        Service.prototype.create = function (actionType, route, headers, body, cb, ctx) {
             if (headers === void 0) { headers = null; }
             if (body === void 0) { body = null; }
             if (cb === void 0) { cb = null; }
             if (ctx === void 0) { ctx = null; }
-            return new Lightning.Request(this, actionType, headers, body, cb, ctx);
+            return new Lightning.Request(this, route, actionType, headers, body, cb, ctx);
         };
         Object.defineProperty(Service.prototype, "endpoint", {
             get: function () {
                 return this._endpoint;
+            },
+            set: function (val) {
+                this._endpoint = val;
             },
             enumerable: true,
             configurable: true

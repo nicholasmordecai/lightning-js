@@ -51,9 +51,9 @@ var Lightning;
             this._lastTick = 0;
         };
         Timer.prototype.destroy = function () {
+            this.game.ticker.remove(this.update, this);
             this._active = null;
             this._autoDestroy = null;
-            this.game.ticker.remove(this.update, this);
             this._currentTime = null;
             this._events.destroy();
             this._interval = null;

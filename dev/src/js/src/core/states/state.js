@@ -106,6 +106,6 @@ var Lightning;
             this.create();
         };
         return State;
-    }(PIXI.Container));
+    }(Lightning.Group));
     Lightning.State = State;
 })(Lightning || (Lightning = {}));

@@ -2,21 +2,13 @@
 var Lightning;
 (function (Lightning) {
     var StorageManager = (function () {
-        function StorageManager() {
+        function StorageManager(forceNoLocalStorage) {
+            if (forceNoLocalStorage === void 0) { forceNoLocalStorage = false; }
             this._isLS = false;
-            this.setItem = this.setItemFallback;
-            this.getItem = this.getItemFallback;
-            this.removeItem = this.removeItemFallback;
-            this.exists = this.existsFallback;
-            this.length = this.lengthFallback;
             this._map = {};
+            this._forceNoLocalStorage = false;
             if (this.localStorageAvailable()) {
                 this._isLS = true;
-                this.setItem = this.setItemLS;
-                this.getItem = this.getItemLS;
-                this.removeItem = this.removeItemLS;
-                this.exists = this.existsLS;
-                this.length = this.lengthLS;
             }
         }
         /**
@@ -24,63 +16,13 @@ var Lightning;
          * @param key
          * @param val
          */
-        StorageManager.prototype.setItemLS = function (key, val) {
-            localStorage.setItem(key, val);
-            return true;
-        };
-        /**
-         *
-         * @param key
-         * @param val
-         */
-        StorageManager.prototype.setItemFallback = function (key, val) {
-            this._map[key] = val;
-            return true;
-        };
-        /**
-         *
-         * @param key
-         */
-        StorageManager.prototype.getItemLS = function (key) {
-            return localStorage.getItem(key) || null;
-        };
-        /**
-         *
-         * @param key
-         */
-        StorageManager.prototype.getItemFallback = function (key) {
-            return this._map[key].val;
-        };
-        /**
-         *
-         * @param key
-         */
-        StorageManager.prototype.removeItemLS = function (key) {
-            localStorage.removeItem(key);
-            return true;
-        };
-        /**
-         *
-         * @param key
-         */
-        StorageManager.prototype.removeItemFallback = function (key) {
-            if (this.exists(key)) {
-                this._map[key] = null;
+        StorageManager.prototype.setItem = function (key, val) {
+            if (this._isLS) {
+                localStorage.setItem(key, val);
                 return true;
             }
             else {
-                return false;
-            }
-        };
-        /**
-         *
-         * @param key
-         */
-        StorageManager.prototype.existsLS = function (key) {
-            if (localStorage.getItem(key) === null) {
-                return false;
-            }
-            else {
+                this._map[key] = val;
                 return true;
             }
         };
@@ -88,36 +30,80 @@ var Lightning;
          *
          * @param key
          */
-        StorageManager.prototype.existsFallback = function (key) {
-            if (this._map[key]) {
-                return true;
+        StorageManager.prototype.getItem = function (key) {
+            if (this._isLS) {
+                return localStorage.getItem(key) || null;
             }
             else {
-                return false;
+                return this._map[key].val;
+            }
+        };
+        /**
+         *
+         * @param key
+         */
+        StorageManager.prototype.removeItem = function (key) {
+            if (this._isLS) {
+                var item = this.getItem(key);
+                localStorage.removeItem(key);
+                return item;
+            }
+            else {
+                if (this.exists(key)) {
+                    var item = this._map[key];
+                    this._map[key] = null;
+                    return item;
+                }
+                else {
+                    return false;
+                }
+            }
+        };
+        /**
+         *
+         * @param key
+         */
+        StorageManager.prototype.exists = function (key) {
+            if (this._isLS) {
+                if (localStorage.getItem(key) === null) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+            else {
+                if (this._map[key]) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
         };
         /**
          *
          */
-        StorageManager.prototype.lengthLS = function () {
-            var _lsTotal = 0, _xLen, _x;
-            for (_x in localStorage) {
-                _xLen = ((localStorage[_x].length + _x.length) * 2);
-                _lsTotal += _xLen;
-                console.log(_x.substr(0, 50) + " = " + (_xLen / 1024).toFixed(2) + " KB");
+        StorageManager.prototype.removeAll = function () {
+            if (this._isLS) {
+                localStorage.clear();
             }
-            ;
-            console.log("Total = " + (_lsTotal / 1024).toFixed(2) + " KB");
-            return _lsTotal;
+            else {
+                this._map = {};
+            }
+        };
+        StorageManager.prototype.length = function () {
+            if (this._isLS) {
+                localStorage.length;
+            }
+            else {
+                return Object.keys(this._map).length;
+            }
         };
         /**
+         * @description Detects if local storage is avaialble in the browser
          *
-         */
-        StorageManager.prototype.lengthFallback = function () {
-            return Object.keys(this._map).length;
-        };
-        /**
-         *
+         * @returns {boolean}
          */
         StorageManager.prototype.localStorageAvailable = function () {
             var a = 'a';
@@ -130,6 +116,16 @@ var Lightning;
                 return false;
             }
         };
+        Object.defineProperty(StorageManager.prototype, "forceNoLocalStorage", {
+            get: function () {
+                return this._forceNoLocalStorage;
+            },
+            set: function (val) {
+                this._forceNoLocalStorage = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return StorageManager;
     }());
     Lightning.StorageManager = StorageManager;

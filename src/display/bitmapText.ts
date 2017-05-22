@@ -3,9 +3,7 @@
 namespace Lightning {
     export class BitmapText extends PIXI.extras.BitmapText {
 
-        // constructor() {
-        //     super();
-        // }
+        public globalRef:string;
 
         /**
          * @description function for calculating scaling fonts

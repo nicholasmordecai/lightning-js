@@ -5,11 +5,6 @@ var Lightning;
         function Maths() {
         }
         /**
-         * Rng's seem to perform a little crappy. Should think about making some sort of RNG pool??
-         * - An array of pre-randomized numbers, then shuffeled randly. You then index your way through little
-         * - just simply picking the next number in sequence.
-         */
-        /**
          * @description generate a random integer between two values
          * @param  {number} from
          * @param  {number} to
@@ -93,6 +88,35 @@ var Lightning;
         */
         Maths.rgbToHex = function (r, g, b) {
             return "0x" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        };
+        /**
+         * @description Find the closest value in an array of valyes
+         * @param {Array<number>} array
+         * @param {number} x
+         *
+         * @returns {Array<number>}
+         */
+        Maths.closestValue = function (array, x) {
+            var low;
+            var high;
+            for (var i = array.length; i--;) {
+                if (array[i] <= x && (low === undefined || low < array[i])) {
+                    low = array[i];
+                }
+                if (array[i] >= x && (high === undefined || high > array[i])) {
+                    high = array[i];
+                }
+            }
+            ;
+            var diffLow = x - low;
+            var diffHigh = high - x;
+            console.log(low, high, diffLow, diffHigh);
+            if (diffHigh > diffLow) {
+                return low;
+            }
+            else {
+                return high;
+            }
         };
         return Maths;
     }());

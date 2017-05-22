@@ -16,9 +16,6 @@ var Lightning;
         function BitmapText() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
-        // constructor() {
-        //     super();
-        // }
         /**
          * @description function for calculating scaling fonts
          *
