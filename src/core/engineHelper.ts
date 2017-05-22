@@ -15,13 +15,14 @@ namespace Lightning {
         protected _ticker:PIXI.ticker.Ticker;
         protected _stateManager:StateManager;
         protected _device:Device;
-        protected _physicsManager:PhysicsManager
+        // protected _physicsManager:PhysicsManager
         protected _eventEmitter:EventEmitter;
         protected _storageManager:StorageManager;
         protected _serviceManager:ServiceManager;
         protected _tweenManager:TweenManeger;
         protected _scaleManager:Scale;
         protected _debug:Debug;
+        protected _physicsLite:LitePhysicsManager;
 
         public displayInfo() {
             console.log(`%c
@@ -152,6 +153,10 @@ namespace Lightning {
 
         public get debug():Debug {
             return this._debug;
+        }
+        
+        public get physics() {
+            return {lite: this._physicsLite};
         }
 
         public get tweens():TweenManeger {

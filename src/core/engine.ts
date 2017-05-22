@@ -43,7 +43,8 @@ namespace Lightning {
             this._ticker.add(this.update, this);
 
             // create the physicsManager 
-            this._physicsManager = new PhysicsManager(this);
+            // this._physicsManager = new PhysicsManager(this);
+            this._physicsLite = new LitePhysicsManager(this);
 
             // create a new services manager
             this._serviceManager = new ServiceManager(this); 
