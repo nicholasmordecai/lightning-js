@@ -33,6 +33,8 @@ var Lightning;
             _this._started = false;
             _this._paused = false;
             _this._loops = 0;
+            _this._currentFPSTick = 0;
+            _this._fpsEnabled = false;
             _this._toBeDestroyed = false;
             _this._autoDestroy = autoDestroy;
             _this.create('start');
@@ -47,6 +49,19 @@ var Lightning;
         Tween.prototype.update = function (dt) {
             if (this._paused)
                 return;
+            if (this._fpsEnabled) {
+                console.log('fps tick:', this._currentFPSTick, ' - ', this._fpsInterval);
+                this._currentFPSTick++;
+                // this._currentPosition++;
+                if (this._currentFPSTick >= this._fpsInterval) {
+                    // continue
+                    console.log('run tween update');
+                    this._currentFPSTick = 0;
+                }
+                else {
+                    return;
+                }
+            }
             this._currentPosition++;
             // calc new position for each anim
             for (var _i = 0, _a = this._anims; _i < _a.length; _i++) {
@@ -197,6 +212,16 @@ var Lightning;
                 this._chains.push(i);
             }
         };
+        Tween.prototype.setFps = function (val) {
+            if (val === 60) {
+                this._fpsEnabled = false;
+            }
+            else {
+                this._fpsEnabled = true;
+                this._currentFPSTick = 0;
+                this._fpsInterval = Math.round(60 / val);
+            }
+        };
         Object.defineProperty(Tween.prototype, "active", {
             get: function () {
                 return this._active;
@@ -225,10 +250,6 @@ var Lightning;
             configurable: true
         });
         Object.defineProperty(Tween.prototype, "interval", {
-            // public set fps(val:number) {
-            //     this._fps = val;
-            //     this._interval = 1000 / this._fps;
-            // }
             get: function () {
                 return this._interval;
             },

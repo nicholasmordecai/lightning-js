@@ -8,25 +8,34 @@ export default class GameState extends Lightning.State {
     create() {    
 
         let sprite:Lightning.Sprite = new Lightning.Sprite();
-        let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);
-        sprite.texture = this.game.generateTexture(texture);
+        let texture:Lightning.Texture =  Lightning.Texture.fromImage('penguin.png');
+
+        sprite.texture = texture;
         sprite.x = this.game.width / 2;
         sprite.y = this.game.height / 2;
         sprite.setAnchor(0.5);
         this.add(sprite);
 
+        // let sprite:Lightning.Sprite = new Lightning.Sprite();
+        // let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);
+        // sprite.texture = this.game.generateTexture(texture);
+        // sprite.x = this.game.width / 2;
+        // sprite.y = this.game.height / 2;
+        // sprite.setAnchor(0.5);
+        // this.add(sprite);
+
         /**
         1.  * creating basic tween
          */
-        let tween = this.game.tweens.create(sprite);
-        tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
-        console.log(tween);
-        tween.start();
+        // let tween = this.game.tweens.create(sprite);
+        // tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
+        // console.log(tween);
+        // tween.start();
 
-        sprite.enableInput();
-        sprite.input.onClick(() => {
-            this.game.goFullScreen();
-        });
+        // sprite.enableInput();
+        // sprite.input.onClick(() => {
+        //     this.game.goFullScreen();
+        // });
         
 
         /**

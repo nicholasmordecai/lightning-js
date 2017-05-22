@@ -47,8 +47,8 @@ window.onload = function () {
 // };
 // app.initialize(); 
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_702e1f16.js","/")
-},{"./states/boot":2,"./states/game":3,"./states/menu":4,"./states/preload":5,"buffer":7,"fsovz6":8}],2:[function(require,module,exports){
+}).call(this,require("FT5ORs"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_1f4cdf0f.js","/")
+},{"./states/boot":2,"./states/game":3,"./states/menu":4,"./states/preload":5,"FT5ORs":9,"buffer":7}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
@@ -79,11 +79,11 @@ var BootState = (function (_super) {
 }(Lightning.State));
 exports.default = BootState;
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/states/boot.js","/states")
-},{"buffer":7,"fsovz6":8}],3:[function(require,module,exports){
+}).call(this,require("FT5ORs"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/states/boot.js","/states")
+},{"FT5ORs":9,"buffer":7}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-// <reference path="./../../../../dist/lightning.d.ts" />
 "use strict";
+// <reference path="./../../../../dist/lightning.d.ts" />
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -101,25 +101,31 @@ var GameState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     GameState.prototype.create = function () {
-        var _this = this;
         var sprite = new Lightning.Sprite();
-        var texture = Lightning.Geometry.Triangle(50);
-        sprite.texture = this.game.generateTexture(texture);
+        var texture = Lightning.Texture.fromImage('penguin.png');
+        sprite.texture = texture;
         sprite.x = this.game.width / 2;
         sprite.y = this.game.height / 2;
         sprite.setAnchor(0.5);
         this.add(sprite);
+        // let sprite:Lightning.Sprite = new Lightning.Sprite();
+        // let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);
+        // sprite.texture = this.game.generateTexture(texture);
+        // sprite.x = this.game.width / 2;
+        // sprite.y = this.game.height / 2;
+        // sprite.setAnchor(0.5);
+        // this.add(sprite);
         /**
         1.  * creating basic tween
          */
-        var tween = this.game.tweens.create(sprite);
-        tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
-        console.log(tween);
-        tween.start();
-        sprite.enableInput();
-        sprite.input.onClick(function () {
-            _this.game.goFullScreen();
-        });
+        // let tween = this.game.tweens.create(sprite);
+        // tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
+        // console.log(tween);
+        // tween.start();
+        // sprite.enableInput();
+        // sprite.input.onClick(() => {
+        //     this.game.goFullScreen();
+        // });
         /**
         11.  * setting FPS
          */
@@ -269,8 +275,8 @@ var GameState = (function (_super) {
 }(Lightning.State));
 exports.default = GameState;
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/states/game.js","/states")
-},{"buffer":7,"fsovz6":8}],4:[function(require,module,exports){
+}).call(this,require("FT5ORs"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/states/game.js","/states")
+},{"FT5ORs":9,"buffer":7}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
@@ -297,8 +303,8 @@ var MenuState = (function (_super) {
 }(Lightning.State));
 exports.default = MenuState;
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/states/menu.js","/states")
-},{"buffer":7,"fsovz6":8}],5:[function(require,module,exports){
+}).call(this,require("FT5ORs"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/states/menu.js","/states")
+},{"FT5ORs":9,"buffer":7}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
@@ -330,8 +336,8 @@ var PreloadState = (function (_super) {
 }(Lightning.State));
 exports.default = PreloadState;
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/states/preload.js","/states")
-},{"buffer":7,"fsovz6":8}],6:[function(require,module,exports){
+}).call(this,require("FT5ORs"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/states/preload.js","/states")
+},{"FT5ORs":9,"buffer":7}],6:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
@@ -458,8 +464,8 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/browserify/node_modules/base64-js/lib/b64.js","/../../../node_modules/browserify/node_modules/base64-js/lib")
-},{"buffer":7,"fsovz6":8}],7:[function(require,module,exports){
+}).call(this,require("FT5ORs"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/base64-js/lib/b64.js","/../../../node_modules/base64-js/lib")
+},{"FT5ORs":9,"buffer":7}],7:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!
  * The buffer module from node.js, for the browser.
@@ -1571,75 +1577,8 @@ function assert (test, message) {
   if (!test) throw new Error(message || 'Failed assertion')
 }
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/browserify/node_modules/buffer/index.js","/../../../node_modules/browserify/node_modules/buffer")
-},{"base64-js":6,"buffer":7,"fsovz6":8,"ieee754":9}],8:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-// shim for using process in browser
-
-var process = module.exports = {};
-
-process.nextTick = (function () {
-    var canSetImmediate = typeof window !== 'undefined'
-    && window.setImmediate;
-    var canPost = typeof window !== 'undefined'
-    && window.postMessage && window.addEventListener
-    ;
-
-    if (canSetImmediate) {
-        return function (f) { return window.setImmediate(f) };
-    }
-
-    if (canPost) {
-        var queue = [];
-        window.addEventListener('message', function (ev) {
-            var source = ev.source;
-            if ((source === window || source === null) && ev.data === 'process-tick') {
-                ev.stopPropagation();
-                if (queue.length > 0) {
-                    var fn = queue.shift();
-                    fn();
-                }
-            }
-        }, true);
-
-        return function nextTick(fn) {
-            queue.push(fn);
-            window.postMessage('process-tick', '*');
-        };
-    }
-
-    return function nextTick(fn) {
-        setTimeout(fn, 0);
-    };
-})();
-
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-}
-
-// TODO(shtylman)
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/browserify/node_modules/process/browser.js","/../../../node_modules/browserify/node_modules/process")
-},{"buffer":7,"fsovz6":8}],9:[function(require,module,exports){
+}).call(this,require("FT5ORs"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/buffer/index.js","/../../../node_modules/buffer")
+},{"FT5ORs":9,"base64-js":6,"buffer":7,"ieee754":8}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
@@ -1726,5 +1665,72 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/ieee754/index.js","/../../../node_modules/ieee754")
-},{"buffer":7,"fsovz6":8}]},{},[1])
+}).call(this,require("FT5ORs"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/ieee754/index.js","/../../../node_modules/ieee754")
+},{"FT5ORs":9,"buffer":7}],9:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+// shim for using process in browser
+
+var process = module.exports = {};
+
+process.nextTick = (function () {
+    var canSetImmediate = typeof window !== 'undefined'
+    && window.setImmediate;
+    var canPost = typeof window !== 'undefined'
+    && window.postMessage && window.addEventListener
+    ;
+
+    if (canSetImmediate) {
+        return function (f) { return window.setImmediate(f) };
+    }
+
+    if (canPost) {
+        var queue = [];
+        window.addEventListener('message', function (ev) {
+            var source = ev.source;
+            if ((source === window || source === null) && ev.data === 'process-tick') {
+                ev.stopPropagation();
+                if (queue.length > 0) {
+                    var fn = queue.shift();
+                    fn();
+                }
+            }
+        }, true);
+
+        return function nextTick(fn) {
+            queue.push(fn);
+            window.postMessage('process-tick', '*');
+        };
+    }
+
+    return function nextTick(fn) {
+        setTimeout(fn, 0);
+    };
+})();
+
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+}
+
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+
+}).call(this,require("FT5ORs"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/process/browser.js","/../../../node_modules/process")
+},{"FT5ORs":9,"buffer":7}]},{},[1])

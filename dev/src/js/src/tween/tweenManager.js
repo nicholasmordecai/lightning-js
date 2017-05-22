@@ -45,8 +45,9 @@ var Lightning;
                 }
             }
         };
-        TweenManeger.prototype.create = function (key, objRef, autoDestroy) {
+        TweenManeger.prototype.create = function (objRef, autoDestroy, key) {
             if (autoDestroy === void 0) { autoDestroy = false; }
+            if (key === void 0) { key = null; }
             var tween = new Lightning.Tween(this, objRef, autoDestroy);
             if (key !== null) {
                 this._tweens[key] = tween;
@@ -75,6 +76,9 @@ var Lightning;
                 return tween;
             }
         };
+        /**
+         * probably not going to work, needs to be refatored
+         */
         TweenManeger.prototype.getTween = function (key) {
             return this._tweens[key];
         };

@@ -17,11 +17,12 @@ namespace Lightning {
         private _paused:boolean;
         private _pools:{[key:string]:Array<DisplayObject>};
         private _groups:{[key:string]:Array<DisplayObject>};
-        
+        private _worldBounds:{x:number, y:number, width:number, height:number};
 
         constructor(game:Engine) {
             super(game, true, true);
             this.game = game;
+            this._worldBounds = {x:0, y:0, width:this.game.width, height:this.game.height};
 
             this._enabled = false;
         }
@@ -60,7 +61,6 @@ namespace Lightning {
         public pool(key:string) {
             return this._pools[key];
         }
-
 
     }
 }
