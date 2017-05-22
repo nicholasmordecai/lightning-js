@@ -1,5 +1,5 @@
-"use strict";
 // <reference path="./../../../../dist/lightning.d.ts" />
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||

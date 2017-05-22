@@ -16,6 +16,8 @@ namespace Lightning {
         private _destroyFlag:boolean;
 
         public angle:number;
+        public x:number;
+        public y:number;
 
         private _objectRef:DisplayObject;
 
@@ -23,6 +25,8 @@ namespace Lightning {
             this.active = active;
             this._destroyFlag = false;
             this.angle = obj.y;
+            this.x = obj.x;
+            this.y = obj.y;
 
             if(bounds instanceof Array) {
                 this.hasMultipleBounds = true;
@@ -32,6 +36,11 @@ namespace Lightning {
             this.bounds = bounds;
 
             this.drag = drag;
+        }
+
+        public updateObjectRefPosition() {
+            this._objectRef.x = this.x;
+            this._objectRef.y = this.y;
         }
 
         public get bounds():iBoundBox {
