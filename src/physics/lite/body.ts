@@ -14,19 +14,19 @@ namespace Lightning {
         private _velocity:iVelocity;
         private _active:boolean;
         private _destroyFlag:boolean;
-        
-        public _x:number;
-        public _y:number;
-        public _angle:number;
+
+        public x:number;
+        public y:number;
+        public angle:number;
 
         private _objectRef:DisplayObject;
 
         constructor(obj:any, bounds:iBoundBox|Array<iBoundBox>, active:boolean = true, drag:number = 0) {
             this.active = active;
             this._destroyFlag = false;
-            this._x = obj.x;
-            this._y = obj.y;
-            this._angle = obj.y;
+            this.x = obj.x;
+            this.y = obj.y;
+            this.angle = obj.y;
 
             if(bounds instanceof Array) {
                 this.hasMultipleBounds = true;
