@@ -10,6 +10,7 @@ namespace Lightning {
         protected _respectPosition:boolean;
         protected _respectPositionValues: {x:number, y:number};
         protected _input:Input;
+        private _liteBody:LitePhysicsBody;
 
         /**
          * @param  {PIXI.Texture=null} texture
@@ -17,11 +18,15 @@ namespace Lightning {
         constructor(texture:PIXI.Texture = null) {
             super(texture);
             this._events = new EventEmitter();
+
+            this._liteBody = new LitePhysicsBody({x:0, y: 0, width: 100, height:100});
         }
 
         enableInput() {
             this.interactive = true;
             this._input = new Input(this);
+
+
         }
         
         /**
@@ -102,6 +107,13 @@ namespace Lightning {
             /**
              * need to think about handling pointer events
              */
+        }
+        public get liteBody():LitePhysicsBody {
+            return this._liteBody;
+        }
+
+        public set liteBody(val:LitePhysicsBody) {
+            this._liteBody = val;
         }
 
         startDrag(event:PIXI.interaction.InteractionEvent) {
