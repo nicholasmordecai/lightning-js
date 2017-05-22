@@ -15,8 +15,8 @@ namespace Lightning {
         protected game:Engine;
         private _enabled:boolean;
         private _paused:boolean;
-        private _pools:{[key:string]:Array<DisplayObject>};
-        private _groups:{[key:string]:Array<DisplayObject>};
+        private _pools:{[key:string]:Array<LitePhysicsBody>};
+        private _groups:{[key:string]:Array<LitePhysicsBody>};
         
 
         constructor(game:Engine) {
@@ -24,6 +24,10 @@ namespace Lightning {
             this.game = game;
 
             this._enabled = false;
+        }
+
+        private calculateDrag(body:LitePhysicsBody) {
+            body.velocity.x -= body.drag;
         }
 
         /**
@@ -42,9 +46,15 @@ namespace Lightning {
         protected update() {
             if(!this._enabled) return;
             if(this._paused) return;
+
+            for(let i in this._pools) {
+                for(let body of this._pools[i]) {
+                    this.calculateDrag(body);
+                }
+            }
         }
 
-        public createPool(key:string, ...objects):Array<DisplayObject> {
+        public createPool(key:string, ...objects):Array<LitePhysicsBody> {
             if(this._pools[key] !== null || this._pools[key] !== undefined) {
                 this._pools[key] = [];
                 for(let i of objects) {
