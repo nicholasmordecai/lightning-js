@@ -9,23 +9,19 @@ namespace Lightning {
     export class LitePhysicsBody {
 
         private _drag:number;
-        private _bounds:iBoundBox|Array<iBoundBox>;
+        private _bounds:iBoundBox;
         private _hasMultipleBounds:boolean;
         private _velocity:iVelocity;
         private _active:boolean;
         private _destroyFlag:boolean;
 
-        public x:number;
-        public y:number;
         public angle:number;
 
         private _objectRef:DisplayObject;
 
-        constructor(obj:any, bounds:iBoundBox|Array<iBoundBox>, active:boolean = true, drag:number = 0) {
+        constructor(obj:any, bounds:iBoundBox, active:boolean = true, drag:number = 0) {
             this.active = active;
             this._destroyFlag = false;
-            this.x = obj.x;
-            this.y = obj.y;
             this.angle = obj.y;
 
             if(bounds instanceof Array) {
@@ -38,11 +34,11 @@ namespace Lightning {
             this.drag = drag;
         }
 
-        public get bounds():iBoundBox|Array<iBoundBox> {
+        public get bounds():iBoundBox {
             return this._bounds;
         }
 
-        public set bounds(val:iBoundBox|Array<iBoundBox>) {
+        public set bounds(val:iBoundBox) {
             this._bounds = val;
         }
 
