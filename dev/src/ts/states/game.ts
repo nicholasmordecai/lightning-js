@@ -19,8 +19,8 @@ export default class GameState extends Lightning.State {
         pool.add(body);
         console.log(pool);
         console.log(body);
-        body.velocity.x = 2;
-        body.velocity.y = -2;
+        body.velocity.x = -2;
+        // body.velocity.y = -2;
         this.add(sprite);
 
 

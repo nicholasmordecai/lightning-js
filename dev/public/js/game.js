@@ -47,7 +47,7 @@ window.onload = function () {
 // };
 // app.initialize(); 
 
-}).call(this,require("FT5ORs"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_afa8f4e7.js","/")
+}).call(this,require("FT5ORs"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_e13a2acf.js","/")
 },{"./states/boot":2,"./states/game":3,"./states/menu":4,"./states/preload":5,"FT5ORs":9,"buffer":7}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -113,8 +113,8 @@ var GameState = (function (_super) {
         pool.add(body);
         console.log(pool);
         console.log(body);
-        body.velocity.x = 2;
-        body.velocity.y = -2;
+        body.velocity.x = -2;
+        // body.velocity.y = -2;
         this.add(sprite);
         // let sprite:Lightning.Sprite = new Lightning.Sprite();
         // let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);

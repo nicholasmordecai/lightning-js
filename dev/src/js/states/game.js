@@ -29,8 +29,8 @@ var GameState = (function (_super) {
         pool.add(body);
         console.log(pool);
         console.log(body);
-        body.velocity.x = 2;
-        body.velocity.y = -2;
+        body.velocity.x = -2;
+        // body.velocity.y = -2;
         this.add(sprite);
         // let sprite:Lightning.Sprite = new Lightning.Sprite();
         // let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);
