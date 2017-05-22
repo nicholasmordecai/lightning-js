@@ -1,5 +1,5 @@
-/// <reference path="./../../../../dist/lightning.d.ts" />
 "use strict";
+/// <reference path="./../../../../dist/lightning.d.ts" />
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -17,6 +17,13 @@ var GameState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     GameState.prototype.create = function () {
+        var sprite = new Lightning.Sprite();
+        var texture = Lightning.Texture.fromImage('public/penguin.png');
+        sprite.texture = texture;
+        sprite.x = this.game.width / 2;
+        sprite.y = this.game.height / 2;
+        sprite.setAnchor(0.5);
+        this.add(sprite);
         // let sprite:Lightning.Sprite = new Lightning.Sprite();
         // let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);
         // sprite.texture = this.game.generateTexture(texture);
@@ -27,25 +34,22 @@ var GameState = (function (_super) {
         /**
         1.  * creating basic tween
          */
-        // let tween = this.game.tweens.create(null, sprite);
+        // let tween = this.game.tweens.create(sprite);
         // tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
         // console.log(tween);
         // tween.start();
-        // create new particle emitter
-        this.particleEmitter = new Lightning.ParticleEmitter(this, this.game.width * 0.75, this.game.center.y);
-        // add the particle emitter to this stage
-        this.add(this.particleEmitter);
-        // make a new shape and texture
-        var texture = this.game.generateTexture(Lightning.Geometry.Circle(1));
-        // add that texture to the particle emitter
-        this.particleEmitter.add(texture);
-        this.particleEmitter.setGravity(0, 0);
-        this.particleEmitter.setVelocityRange(0, 0, -0.3, -0.8);
-        this.particleEmitter.setStrength(50);
-        this.particleEmitter.setInterval(100);
-        this.particleEmitter.setScaleRange(0.5, 0.5, 2, 2);
-        // start the particle emitter (not passing any parameters will make it run indefinitly)
-        this.particleEmitter.start(5000);
+        // sprite.enableInput();
+        // sprite.input.onClick(() => {
+        //     this.game.goFullScreen();
+        // });
+        /**
+        11.  * setting FPS
+         */
+        // let tween = this.game.tweens.create(null, sprite);
+        // tween.setFps(5);
+        // tween.createAnim(sprite.y, 100, 300, 'y', Lightning.Easing.BackInOut);
+        // console.log(tween);
+        // tween.start();
         /**
         1.  * creating basic tween by importing frame data
          */
