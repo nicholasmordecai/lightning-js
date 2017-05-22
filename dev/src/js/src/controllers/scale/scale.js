@@ -141,7 +141,7 @@ var Lightning;
                 document.documentElement['msRequestFullscreen']();
             }
             this.resizeThrottler();
-            this.scaleMode = Lightning.ScaleManager.ASPECT_RATIO;
+            this.scaleMode = Scale.ASPECT_RATIO;
         };
         Scale.prototype.alignVertically = function () {
             var height = window.innerHeight;

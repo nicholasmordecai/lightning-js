@@ -1,8 +1,8 @@
 {
   "resolution": "main",
   "tree": {
-    "src": "/Users/nicholasmordecai/Documents/sprite-storm/physicsTest/custom_typings/pixi.js/index.d.ts",
-    "raw": "file:custom_typings/pixi.js/index.d.ts",
-    "typings": "/Users/nicholasmordecai/Documents/sprite-storm/physicsTest/custom_typings/pixi.js/index.d.ts"
+    "src": "/Users/nicholasmordecai/Documents/sprite-storm/Lightning/libs/pixi.js/index.d.ts",
+    "raw": "file:libs/pixi.js/index.d.ts",
+    "typings": "/Users/nicholasmordecai/Documents/sprite-storm/Lightning/libs/pixi.js/index.d.ts"
   }
 }

@@ -37,6 +37,9 @@ namespace Lightning {
         private _chains:Array<Tween>;
         private _live:boolean;
         private _fps:number;
+        private _fpsEnabled:boolean;
+        private _fpsInterval:number;
+        private _currentFPSTick:number;
         private _interval:number;
         private _frames:Array<any>;
         private _anims:Array<ILiveAnim|IFramedAnim>;
@@ -48,6 +51,8 @@ namespace Lightning {
         private _started:boolean;
         private _paused:boolean;
         private _loops:number;
+        private _toSkip:number;
+        
         private _toBeDestroyed:boolean;
 
         constructor(manager:TweenManeger, obj:DisplayObject, autoDestroy:boolean = false) {
@@ -66,6 +71,9 @@ namespace Lightning {
             this._started = false;
             this._paused = false;
             this._loops = 0;
+            this._currentFPSTick = 0;
+
+            this._fpsEnabled = false;
             this._toBeDestroyed = false;
             this._autoDestroy = autoDestroy;
 
@@ -79,7 +87,22 @@ namespace Lightning {
         }
 
         public update(dt:number) {
+
             if(this._paused) return;
+
+            if(this._fpsEnabled) {
+                console.log('fps tick:', this._currentFPSTick, ' - ', this._fpsInterval);
+                this._currentFPSTick++;
+                // this._currentPosition++;
+
+                if(this._currentFPSTick >= this._fpsInterval) {
+                    // continue
+                    console.log('run tween update');
+                    this._currentFPSTick = 0;
+                } else {
+                    return;
+                }
+            }
 
             this._currentPosition++;
 
@@ -108,8 +131,6 @@ namespace Lightning {
                         }
                     }
                 }
-
-                
             }
 
             if(this._currentPosition >= this._length) {
@@ -125,6 +146,7 @@ namespace Lightning {
 
         public createAnim(from:number, to:number, time:number, property:string, easing:Function, delay:number = 0) {
             delay = Math.round((delay * (this._fps / 60)) / (1000 / 60));
+
             let anim:ILiveAnim = {from, to, time, property, delay, cDelay: 0, easing, cPos: 0, maxPos: Math.round(time / this._interval) + delay, live:true};
             this._anims.push(anim);
         }
@@ -236,6 +258,16 @@ namespace Lightning {
             }
         }
 
+        public setFps(val:number) { 
+            if(val === 60) {
+                this._fpsEnabled = false;
+            } else {
+                this._fpsEnabled = true;
+                this._currentFPSTick = 0;
+                this._fpsInterval = Math.round(60 / val);
+            }
+        }
+
         public set active(val:boolean) {
             this._active = val;
         }
@@ -255,11 +287,6 @@ namespace Lightning {
         public get fps():number {
             return this._fps;
         }
-
-        // public set fps(val:number) {
-        //     this._fps = val;
-        //     this._interval = 1000 / this._fps;
-        // }
 
         public get interval():number {
             return this._interval;

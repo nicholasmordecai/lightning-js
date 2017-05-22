@@ -16,7 +16,7 @@ var Lightning;
         function Particle(texture, emitter, minX, maxX, minY, maxY) {
             var _this = _super.call(this) || this;
             _this.returnToPool = _this._returnToPool;
-            _this.update = _this.updateSimple;
+            _this.update = _this.updateComplex;
             _this._texture = texture;
             _this._emitter = emitter;
             _this.children = null;

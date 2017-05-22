@@ -39,8 +39,13 @@ var GameState = (function (_super) {
         var texture = this.game.generateTexture(Lightning.Geometry.Circle(1));
         // add that texture to the particle emitter
         this.particleEmitter.add(texture);
+        this.particleEmitter.setGravity(0, 0);
+        this.particleEmitter.setVelocityRange(0, 0, -0.3, -0.8);
+        this.particleEmitter.setStrength(50);
+        this.particleEmitter.setInterval(100);
+        this.particleEmitter.setScaleRange(0.5, 0.5, 2, 2);
         // start the particle emitter (not passing any parameters will make it run indefinitly)
-        this.particleEmitter.start();
+        this.particleEmitter.start(5000);
         /**
         1.  * creating basic tween by importing frame data
          */

@@ -1,10 +1,9 @@
 {
-  "name": "pixi-amd-ts",
+  "name": "lightning-js",
   "dependencies": {},
   "globalDevDependencies": {
-    "pixi.js": "file:libs/typings/pixi.js/index.d.ts",
-    "sound.js": "file:libs/typings/sound.js/index.d.ts",
-    "stats.js": "file:libs/typings/stats.js/index.d.ts",
-    "box2d": "file:libs/typings/box2d/index.d.ts"
+    "pixi.js": "file:libs/pixi.js/index.d.ts",
+    "box2d": "file:libs/box2d/index.d.ts",
+    "webfontloader": "file:libs/webfontloader/index.d.ts"
   }
 }

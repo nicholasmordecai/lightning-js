@@ -61,10 +61,10 @@ namespace Lightning {
             this.gravityWells = [];
             this.obstacles = [];
 
-            let t = Lightning.Geometry.Rect(50, 50);
+            let t = Lightning.Geometry.Circle(15);
 
             let sprite = new Lightning.Sprite(this.game.generateTexture(t));
-            sprite['mass'] = 1;
+            sprite['mass'] = 0.1;
             sprite.setAnchor(0.5);
             sprite.tint = 0xff22aa;
             this.state.add(sprite);
