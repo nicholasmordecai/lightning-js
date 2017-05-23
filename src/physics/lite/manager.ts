@@ -3,10 +3,6 @@
 /**
  * Scope Definitions
  * 
- * Pool = An array of physics bodies that all collide with eachother
- * Group = An array of physics bodies that don't collide with eachother
- * 
- * 
  */
 
 namespace Lightning {
@@ -15,21 +11,19 @@ namespace Lightning {
         protected game:Engine;
         private _enabled:boolean;
         private _paused:boolean;
-        private _pools:{[key:string]:Array<DisplayObject>};
-        private _groups:{[key:string]:Array<DisplayObject>};
-        
+        private _pools:{[key:string]:LitePhysicsPool};        
+        private _worldBounds: { x: number, y: number, width: number, height: number };
 
-        constructor(game:Engine) {
+        constructor(game: Engine) {
             super(game, true, true);
             this.game = game;
-
-            this._enabled = false;
+            this._worldBounds = { x: 0, y: 0, width: this.game.width, height: this.game.height };
         }
 
         /**
          * initalise / reset the properties when enabled, not constructed
          */
-        public enable() {
+        public enablePhysics() {
             this._enabled = true;
             this._pools = {};
             this._paused = false;
@@ -39,16 +33,27 @@ namespace Lightning {
             this._enabled = false;
         }
 
-        protected update() {
+        protected update(dt:number) {
+            
             if(!this._enabled) return;
             if(this._paused) return;
+
+            for(let i in this._pools) {
+                for(let body of this._pools[i].bodies) {
+                    // this.outOfBounds(body);
+                    this.checkWorldCollide(body);
+                    this.updatePosition(body);
+                    body.objRef.updateTransform();
+                }
+            }
         }
 
-        public createPool(key:string, ...objects):Array<DisplayObject> {
+        public createPool(key:string, selfCollide:boolean = true, ...objects:Array<LitePhysicsBody>):LitePhysicsPool {
             if(this._pools[key] !== null || this._pools[key] !== undefined) {
-                this._pools[key] = [];
+                this._pools[key] = new LitePhysicsPool(selfCollide);
                 for(let i of objects) {
-                    this._pools[key].push(i);
+                    this._pools[key].add(i);
+                    return this._pools[key];
                 }
                 return this._pools[key];
             } else {
@@ -57,10 +62,58 @@ namespace Lightning {
             }
         }
 
+        public removePool(key:string) {
+            this._pools[key].destroy();
+        }
+
         public pool(key:string) {
             return this._pools[key];
         }
 
+        public updatePosition(body:LitePhysicsBody) {
+            body.x += body.velocity.x;
+            body.y += body.velocity.y;
+            body.updateObjectRefPosition();
+        }
 
+        private checkWorldCollide(body:LitePhysicsBody) {
+            //left
+            if(body.x <= this._worldBounds.x) {
+                body.velocity.x *= -1;
+                console.log('right');
+            } 
+            //right
+            if(body.x >= this._worldBounds.width) {
+                body.velocity.x *= -1;
+            }
+            //down
+            if(body.y <= this._worldBounds.height) {
+                body.velocity.y *= -1;
+            }
+            //up
+            if(body.y >= this._worldBounds.y) {
+                body.velocity.y *= -1;
+            }
+        }
+
+        private outOfBounds(body:LitePhysicsBody) {
+            console.log(body.x, this._worldBounds.x)
+            //left
+            if(body.x <= this._worldBounds.x) {
+                console.log('out of bounds left');
+            }
+            //right
+            if(body.x >= this._worldBounds.width) {
+                console.log('out of bounds right')
+            }
+            //down
+            if(body.y >= this._worldBounds.height) {
+                console.log('out of bounds down');
+            }
+            //up
+            if(body.y <= this._worldBounds.y) {
+                console.log('out of bounds up');
+            }
+        }
     }
 }

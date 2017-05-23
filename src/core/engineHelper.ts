@@ -22,16 +22,17 @@ namespace Lightning {
         protected _tweenManager:TweenManeger;
         protected _scaleManager:Scale;
         protected _debug:Debug;
+        protected _physicsLite:LitePhysicsManager;
 
         public displayInfo() {
-            console.log(`%c
- __    _     _   _       _         
-|  |  |_|___| |_| |_ ___|_|___ ___ 
-|  |__| | . |   |  _|   | |   | . |
-|_____|_|_  |_|_|_| |_|_|_|_|_|_  |
-        |___|                 |___|
-             `, "font-family:monospace");
-             console.log('Lightning-js | version : 0.4.5');
+//             console.log(`%c
+//  __    _     _   _       _         
+// |  |  |_|___| |_| |_ ___|_|___ ___ 
+// |  |__| | . |   |  _|   | |   | . |
+// |_____|_|_  |_|_|_| |_|_|_|_|_|_  |
+//         |___|                 |___|
+//              `, "font-family:monospace");
+//              console.log('Lightning-js | version : 0.4.5');
         }
 
         public generateTexture(...params):any {
@@ -152,6 +153,10 @@ namespace Lightning {
 
         public get debug():Debug {
             return this._debug;
+        }
+        
+        public get physics() {
+            return {lite: this._physicsLite};
         }
 
         public get tweens():TweenManeger {

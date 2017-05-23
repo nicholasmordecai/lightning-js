@@ -9,8 +9,14 @@ var Lightning;
         function EngineHelper() {
         }
         EngineHelper.prototype.displayInfo = function () {
-            console.log("%c\n __    _     _   _       _         \n|  |  |_|___| |_| |_ ___|_|___ ___ \n|  |__| | . |   |  _|   | |   | . |\n|_____|_|_  |_|_|_| |_|_|_|_|_|_  |\n        |___|                 |___|\n             ", "font-family:monospace");
-            console.log('Lightning-js | version : 0.4.5');
+            //             console.log(`%c
+            //  __    _     _   _       _         
+            // |  |  |_|___| |_| |_ ___|_|___ ___ 
+            // |  |__| | . |   |  _|   | |   | . |
+            // |_____|_|_  |_|_|_| |_|_|_|_|_|_  |
+            //         |___|                 |___|
+            //              `, "font-family:monospace");
+            //              console.log('Lightning-js | version : 0.4.5');
         };
         EngineHelper.prototype.generateTexture = function () {
             var params = [];
@@ -186,6 +192,13 @@ var Lightning;
         Object.defineProperty(EngineHelper.prototype, "debug", {
             get: function () {
                 return this._debug;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EngineHelper.prototype, "physics", {
+            get: function () {
+                return { lite: this._physicsLite };
             },
             enumerable: true,
             configurable: true

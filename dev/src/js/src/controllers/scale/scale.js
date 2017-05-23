@@ -13,12 +13,12 @@ var Lightning;
 (function (Lightning) {
     var Scale = (function (_super) {
         __extends(Scale, _super);
-        function Scale(game, initWidth, initHeight) {
+        function Scale(game, initWidth, initHeight, scaleMode) {
             var _this = _super.call(this) || this;
             _this.game = game;
             _this._currentDPR = window.devicePixelRatio;
             _this._allowedDPR = [1, 2, 3, 4];
-            _this._scaleMode = 0;
+            _this._scaleMode = scaleMode;
             // run the initalisation method
             _this.setup(initWidth, initHeight);
             _this.calculateDPR();
@@ -54,7 +54,7 @@ var Lightning;
             }
         };
         Scale.prototype.calculateOrientation = function () {
-            if (window.innerWidth > window.innerHeight) {
+            if (window.screen.availWidth > window.screen.availHeight) {
                 this._orientation = 'landscape';
             }
             else {
@@ -73,10 +73,13 @@ var Lightning;
                         _this._resizeTimeout = null;
                         switch (_this._scaleMode) {
                             case 0:
+                                // don't do anything
                                 break;
                             case 1:
+                                _this.resizeStretch();
                                 break;
                             case 2:
+                                _this.resizeAspectRatio();
                                 break;
                             default:
                                 break;
@@ -96,7 +99,7 @@ var Lightning;
             var diffHeight = window.innerHeight - this._originalHeight;
             var newWidth;
             var newHeight;
-            if (diffHeight > diffWidth) {
+            if (diffHeight < diffWidth) {
                 var scale = height / this._originalHeight;
                 newWidth = this._originalWidth * scale;
                 newHeight = this._originalHeight * scale;
@@ -165,7 +168,7 @@ var Lightning;
         });
         Object.defineProperty(Scale.prototype, "devicePixelRatio", {
             get: function () {
-                return this._currentDPR;
+                return window.devicePixelRatio;
             },
             enumerable: true,
             configurable: true
@@ -179,6 +182,10 @@ var Lightning;
         });
         return Scale;
     }(Lightning.EventEmitter));
+    /**
+     * Position Horizontally
+     * Position Vertically
+     */
     Scale.NONE = 0;
     Scale.FILL = 1;
     Scale.ASPECT_RATIO = 2;

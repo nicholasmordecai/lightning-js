@@ -24,7 +24,7 @@ var Lightning;
             if (wrapperId === void 0) { wrapperId = null; }
             var _this = _super.call(this) || this;
             _this.displayInfo();
-            _this._scaleManager = new Lightning.Scale(_this, width, height);
+            _this._scaleManager = new Lightning.Scale(_this, width, height, 2);
             _this._device = new Lightning.Device(_this);
             // setup the canvas
             var wrapper = document.createElement('div');
@@ -34,6 +34,7 @@ var Lightning;
             wrapper.appendChild(_this._renderer.view);
             _this._scaleManager.resizeThrottler(true);
             _this._scaleManager.alignVertically();
+            _this._renderer.resize(width, height);
             _this._world = new Lightning.Group();
             _this._world.interactive = true;
             _this._storageManager = new Lightning.StorageManager();
@@ -43,7 +44,8 @@ var Lightning;
             _this._ticker.autoStart = false;
             _this._ticker.add(_this.update, _this);
             // create the physicsManager 
-            _this._physicsManager = new Lightning.PhysicsManager(_this);
+            // this._physicsManager = new PhysicsManager(this);
+            _this._physicsLite = new Lightning.LitePhysicsManager(_this);
             // create a new services manager
             _this._serviceManager = new Lightning.ServiceManager(_this);
             // create the state StateManager
@@ -61,9 +63,8 @@ var Lightning;
          * @returns {void}
          */
         Engine.prototype.update = function (time) {
-            this._physicsManager.update();
-            this._stateManager.update(time);
             this._renderer.render(this._world);
+            this._stateManager.update(time);
         };
         /**
          * @description Start the ticker

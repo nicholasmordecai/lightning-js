@@ -29,9 +29,8 @@ var Lightning;
         /**
          * @param  {boolean} val
          */
-        Sprite.prototype.enableBody = function (val) {
-            if (val) {
-            }
+        Sprite.prototype.enablePhysicsBody = function () {
+            this._liteBody = new Lightning.LitePhysicsBody(this);
         };
         /**
          * @param  {number} aX
@@ -104,6 +103,16 @@ var Lightning;
              * need to think about handling pointer events
              */
         };
+        Object.defineProperty(Sprite.prototype, "physicsBody", {
+            get: function () {
+                return this._liteBody;
+            },
+            set: function (val) {
+                this._liteBody = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Sprite.prototype.startDrag = function (event) {
             if (this._respectPosition) {
                 var rpx = event.data.global.x - this.position.x;

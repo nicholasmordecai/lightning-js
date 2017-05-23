@@ -14,6 +14,8 @@
 /// <reference path ="./interfaces/iEventSubscription.ts" />
 /// <reference path ="./interfaces/iParticle.ts" />
 /// <reference path ="./interfaces/iServiceAction.ts" />
+/// <reference path ="./interfaces/iBoundBox.ts" />
+/// <reference path ="./interfaces/iVelocity.ts" />
 
 /// <reference path="./core/events/event.ts" />
 /// <reference path="./core/events/eventEmitter.ts" />
@@ -67,6 +69,14 @@
 /// <reference path="./tween/tweenManager.ts" />
 /// <reference path="./tween/tween.ts" />
 /// <reference path="./tween/easing.ts" />
+
+
+/**
+ * Physics Lite
+ */
+/// <reference path="./physics/lite/body.ts" />
+/// <reference path="./physics/lite/pool.ts" />
+/// <reference path="./physics/lite/manager.ts" />
 
 
 /**

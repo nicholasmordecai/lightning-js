@@ -10,6 +10,7 @@ namespace Lightning {
         protected _respectPosition:boolean;
         protected _respectPositionValues: {x:number, y:number};
         protected _input:Input;
+        private _liteBody:LitePhysicsBody;
 
         /**
          * @param  {PIXI.Texture=null} texture
@@ -27,10 +28,8 @@ namespace Lightning {
         /**
          * @param  {boolean} val
          */
-        enableBody(val:boolean) {
-            if(val) {
-                
-            }
+        enablePhysicsBody() {
+            this._liteBody = new Lightning.LitePhysicsBody(this);
         }
 
         /**
@@ -53,17 +52,15 @@ namespace Lightning {
         }
 
         /**
-         * @param  {Box2D.Dynamics.b2Body} body
          */
-        set body(body:Box2D.Dynamics.b2Body) {
-            this._body = body;
+        set body(body:LitePhysicsBody) {
+            this._liteBody = body;
         }
         
         /**
-         * @returns Box2D
          */
-        get body():Box2D.Dynamics.b2Body {
-            return this._body;
+        get body():LitePhysicsBody {
+            return this._liteBody;
         }
 
         /**
@@ -102,6 +99,13 @@ namespace Lightning {
             /**
              * need to think about handling pointer events
              */
+        }
+        public get physicsBody():LitePhysicsBody {
+            return this._liteBody;
+        }
+
+        public set physicsBody(val:LitePhysicsBody) {
+            this._liteBody = val;
         }
 
         startDrag(event:PIXI.interaction.InteractionEvent) {

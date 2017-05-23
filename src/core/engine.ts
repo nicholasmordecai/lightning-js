@@ -15,7 +15,7 @@ namespace Lightning {
             super();
 
             this.displayInfo();
-            this._scaleManager = new Scale(this, width, height);
+            this._scaleManager = new Scale(this, width, height, 2);
             this._device = new Device(this);
 
             // setup the canvas
@@ -31,6 +31,8 @@ namespace Lightning {
             this._scaleManager.resizeThrottler(true);
             this._scaleManager.alignVertically();
 
+            this._renderer.resize(width, height);
+
             this._world = new Lightning.Group();
             this._world.interactive = true;
 
@@ -43,7 +45,8 @@ namespace Lightning {
             this._ticker.add(this.update, this);
 
             // create the physicsManager 
-            this._physicsManager = new PhysicsManager(this);
+            // this._physicsManager = new PhysicsManager(this);
+            this._physicsLite = new LitePhysicsManager(this);
 
             // create a new services manager
             this._serviceManager = new ServiceManager(this); 
@@ -65,9 +68,8 @@ namespace Lightning {
          * @returns {void}
          */ 
         update(time):void {
-            this._physicsManager.update();
-            this._stateManager.update(time);
             this._renderer.render(this._world);
+            this._stateManager.update(time);
         }
 
         /**

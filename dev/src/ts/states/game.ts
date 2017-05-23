@@ -3,30 +3,60 @@
 export default class GameState extends Lightning.State {
 
      protected particleEmitter:Lightning.ParticleEmitter
+     private _sprite:Lightnig.Sprite;
+
+     private _start:boolean = false;
+
+    create() {
+        this.game.physics.lite.enablePhysics();
+        this._sprite = new Lightning.Sprite();
+        let texture:Lightning.Texture =  Lightning.Geometry.Rect(20, 20).generateTexture();
+        this._sprite.texture = texture;
+        this._sprite.y = this.game.height / 2;
+        this._sprite.x += 50;
+        this._sprite.setAnchor(0.5);
+        this.add(this._sprite);
+
+        let pool = this.game.physics.lite.createPool('test');
+        this._sprite.enablePhysicsBody();
+        pool.add(this._sprite.body);
+        this._sprite.body.velocity.x = 2;
+        this._sprite.body.enableDebug();
+        
 
 
-    create() {    
+        // setTimeout(() => {
+        //     sprite.enablePhysicsBody();
+        //     let pool = this.game.physics.lite.createPool('test');
+        //     pool.add(sprite.physicsBody);
+        //     sprite.physicsBody.velocity.x = 20;
 
-        let sprite:Lightning.Sprite = new Lightning.Sprite();
-        let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);
-        sprite.texture = this.game.generateTexture(texture);
-        sprite.x = this.game.width / 2;
-        sprite.y = this.game.height / 2;
-        sprite.setAnchor(0.5);
-        this.add(sprite);
+        //     console.log(sprite.width)
+        // }, 500);
+
+        
+
+
+        // let sprite:Lightning.Sprite = new Lightning.Sprite();
+        // let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);
+        // sprite.texture = this.game.generateTexture(texture);
+        // sprite.x = this.game.width / 2;
+        // sprite.y = this.game.height / 2;
+        // sprite.setAnchor(0.5);
+        // this.add(sprite);
 
         /**
         1.  * creating basic tween
          */
-        let tween = this.game.tweens.create(sprite);
-        tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
-        console.log(tween);
-        tween.start();
+        // let tween = this.game.tweens.create(sprite);
+        // tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
+        // console.log(tween);
+        // tween.start();
 
-        sprite.enableInput();
-        sprite.input.onClick(() => {
-            this.game.goFullScreen();
-        });
+        // sprite.enableInput();
+        // sprite.input.onClick(() => {
+        //     this.game.goFullScreen();
+        // });
         
 
         /**

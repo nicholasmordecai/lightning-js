@@ -14,28 +14,49 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var GameState = (function (_super) {
     __extends(GameState, _super);
     function GameState() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this._start = false;
+        return _this;
     }
     GameState.prototype.create = function () {
-        var _this = this;
-        var sprite = new Lightning.Sprite();
-        var texture = Lightning.Geometry.Triangle(50);
-        sprite.texture = this.game.generateTexture(texture);
-        sprite.x = this.game.width / 2;
-        sprite.y = this.game.height / 2;
-        sprite.setAnchor(0.5);
-        this.add(sprite);
+        this.game.physics.lite.enablePhysics();
+        this._sprite = new Lightning.Sprite();
+        var texture = Lightning.Geometry.Rect(20, 20).generateTexture();
+        this._sprite.texture = texture;
+        this._sprite.y = this.game.height / 2;
+        this._sprite.x += 50;
+        this._sprite.setAnchor(0.5);
+        this.add(this._sprite);
+        var pool = this.game.physics.lite.createPool('test');
+        this._sprite.enablePhysicsBody();
+        pool.add(this._sprite.body);
+        this._sprite.body.velocity.x = 2;
+        this._sprite.body.enableDebug();
+        // setTimeout(() => {
+        //     sprite.enablePhysicsBody();
+        //     let pool = this.game.physics.lite.createPool('test');
+        //     pool.add(sprite.physicsBody);
+        //     sprite.physicsBody.velocity.x = 20;
+        //     console.log(sprite.width)
+        // }, 500);
+        // let sprite:Lightning.Sprite = new Lightning.Sprite();
+        // let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);
+        // sprite.texture = this.game.generateTexture(texture);
+        // sprite.x = this.game.width / 2;
+        // sprite.y = this.game.height / 2;
+        // sprite.setAnchor(0.5);
+        // this.add(sprite);
         /**
         1.  * creating basic tween
          */
-        var tween = this.game.tweens.create(sprite);
-        tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
-        console.log(tween);
-        tween.start();
-        sprite.enableInput();
-        sprite.input.onClick(function () {
-            _this.game.goFullScreen();
-        });
+        // let tween = this.game.tweens.create(sprite);
+        // tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
+        // console.log(tween);
+        // tween.start();
+        // sprite.enableInput();
+        // sprite.input.onClick(() => {
+        //     this.game.goFullScreen();
+        // });
         /**
         11.  * setting FPS
          */

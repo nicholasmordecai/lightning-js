@@ -14,9 +14,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var GameState = (function (_super) {
     __extends(GameState, _super);
     function GameState() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this._start = false;
+        return _this;
     }
     GameState.prototype.create = function () {
+        this.game.physics.lite.enablePhysics();
+        this._sprite = new Lightning.Sprite();
+        var texture = Lightning.Geometry.Rect(20, 20).generateTexture();
+        this._sprite.texture = texture;
+        this._sprite.y = this.game.height / 2;
+        this._sprite.setAnchor(0.5);
+        this.add(this._sprite);
+        var sprite = new Lightning.Sprite();
+        var texture = Lightning.Texture.fromImage('penguin.png');
+        sprite.texture = texture;
+        sprite.x = this.game.width / 2;
+        sprite.y = this.game.height / 2;
+        sprite.setAnchor(0.5);
+        var pool = this.game.physics.lite.createPool('test');
+        var body = new Lightning.LitePhysicsBody(sprite, { x: 0, y: 0, width: sprite.width, height: sprite.height });
+        pool.add(body);
+        console.log(pool);
+        console.log(body);
+        body.velocity.x = -2;
+        // body.velocity.y = -2;
+        this.add(sprite);
+        // setTimeout(() => {
+        //     sprite.enablePhysicsBody();
+        //     let pool = this.game.physics.lite.createPool('test');
+        //     pool.add(sprite.physicsBody);
+        //     sprite.physicsBody.velocity.x = 20;
+        //     console.log(sprite.width)
+        // }, 500);
         // let sprite:Lightning.Sprite = new Lightning.Sprite();
         // let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);
         // sprite.texture = this.game.generateTexture(texture);
@@ -27,25 +57,22 @@ var GameState = (function (_super) {
         /**
         1.  * creating basic tween
          */
-        // let tween = this.game.tweens.create(null, sprite);
+        // let tween = this.game.tweens.create(sprite);
         // tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
         // console.log(tween);
         // tween.start();
-        // create new particle emitter
-        this.particleEmitter = new Lightning.ParticleEmitter(this, this.game.width * 0.75, this.game.center.y);
-        // add the particle emitter to this stage
-        this.add(this.particleEmitter);
-        // make a new shape and texture
-        var texture = this.game.generateTexture(Lightning.Geometry.Circle(1));
-        // add that texture to the particle emitter
-        this.particleEmitter.add(texture);
-        this.particleEmitter.setGravity(0, 0);
-        this.particleEmitter.setVelocityRange(0, 0, -0.3, -0.8);
-        this.particleEmitter.setStrength(50);
-        this.particleEmitter.setInterval(100);
-        this.particleEmitter.setScaleRange(0.5, 0.5, 2, 2);
-        // start the particle emitter (not passing any parameters will make it run indefinitly)
-        this.particleEmitter.start(5000);
+        // sprite.enableInput();
+        // sprite.input.onClick(() => {
+        //     this.game.goFullScreen();
+        // });
+        /**
+        11.  * setting FPS
+         */
+        // let tween = this.game.tweens.create(null, sprite);
+        // tween.setFps(5);
+        // tween.createAnim(sprite.y, 100, 300, 'y', Lightning.Easing.BackInOut);
+        // console.log(tween);
+        // tween.start();
         /**
         1.  * creating basic tween by importing frame data
          */
