@@ -42,7 +42,8 @@ var Lightning;
             for (var i in this._pools) {
                 for (var _i = 0, _a = this._pools[i].bodies; _i < _a.length; _i++) {
                     var body = _a[_i];
-                    this.checkWorldCollide(body);
+                    this.outOfBounds(body);
+                    // this.checkWorldCollide(body);
                     this.updatePosition(body);
                     body.objRef.updateTransform();
                 }
@@ -80,17 +81,28 @@ var Lightning;
             body.updateObjectRefPosition();
         };
         LitePhysicsManager.prototype.checkWorldCollide = function (body) {
+            //left
             if (body.x <= this._worldBounds.x) {
                 body.velocity.x *= -1;
+                console.log('right');
             }
+            //right
             if (body.x >= this._worldBounds.x + this._worldBounds.width) {
                 body.velocity.x *= -1;
             }
+            //down
             if (body.y <= this._worldBounds.y) {
                 body.velocity.y *= -1;
             }
+            //up
             if (body.y >= this._worldBounds.y + this._worldBounds.height) {
                 body.velocity.y *= -1;
+            }
+        };
+        LitePhysicsManager.prototype.outOfBounds = function (body) {
+            if (body.x <= this._worldBounds.x + body.bounds.width) {
+                console.log('out of bounds');
+                // console.log(body.bounds.width);
             }
         };
         return LitePhysicsManager;

@@ -14,19 +14,32 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var GameState = (function (_super) {
     __extends(GameState, _super);
     function GameState() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this._start = false;
+        return _this;
     }
     GameState.prototype.create = function () {
         this.game.physics.lite.enablePhysics();
-        this._sprite;
-        Lightning.Sprite = new Lightning.Sprite();
-        var texture = Lightning.Texture.fromImage('penguin.png');
+        this._sprite = new Lightning.Sprite();
+        var texture = Lightning.Geometry.Rect(20, 20).generateTexture();
         this._sprite.texture = texture;
-        this._sprite.x = this.game.width / 2;
         this._sprite.y = this.game.height / 2;
         this._sprite.setAnchor(0.5);
         this.add(this._sprite);
-        // this.game.renderer.roundPixels = true;
+        var sprite = new Lightning.Sprite();
+        var texture = Lightning.Texture.fromImage('penguin.png');
+        sprite.texture = texture;
+        sprite.x = this.game.width / 2;
+        sprite.y = this.game.height / 2;
+        sprite.setAnchor(0.5);
+        var pool = this.game.physics.lite.createPool('test');
+        var body = new Lightning.LitePhysicsBody(sprite, { x: 0, y: 0, width: sprite.width, height: sprite.height });
+        pool.add(body);
+        console.log(pool);
+        console.log(body);
+        body.velocity.x = -2;
+        // body.velocity.y = -2;
+        this.add(sprite);
         // setTimeout(() => {
         //     sprite.enablePhysicsBody();
         //     let pool = this.game.physics.lite.createPool('test');
@@ -196,8 +209,6 @@ var GameState = (function (_super) {
         //     customStorage.setItem('test', 67890);
         //     customStorage.getItem('test');
         // ... //
-    };
-    GameState.prototype.update = function () {
     };
     return GameState;
 }(Lightning.State));

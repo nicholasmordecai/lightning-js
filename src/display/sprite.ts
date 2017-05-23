@@ -52,17 +52,15 @@ namespace Lightning {
         }
 
         /**
-         * @param  {Box2D.Dynamics.b2Body} body
          */
-        set body(body:Box2D.Dynamics.b2Body) {
-            this._body = body;
+        set body(body:LitePhysicsBody) {
+            this._liteBody = body;
         }
         
         /**
-         * @returns Box2D
          */
-        get body():Box2D.Dynamics.b2Body {
-            return this._body;
+        get body():LitePhysicsBody {
+            return this._liteBody;
         }
 
         /**

@@ -44,7 +44,7 @@ namespace Lightning {
 
         public setAnchor(x:number, y:number = x) {
             this._bounds.x += this._bounds.width * x;
-            this._bounds.y += this._bounds.width * y;
+            this._bounds.y += this._bounds.height * y;
         }
 
         public get bounds():iBoundBox {

@@ -13,23 +13,14 @@ export default class GameState extends Lightning.State {
         let texture:Lightning.Texture =  Lightning.Geometry.Rect(20, 20).generateTexture();
         this._sprite.texture = texture;
         this._sprite.y = this.game.height / 2;
-        this._sprite.setAnchor(0.5);
+        this._sprite.x += 50;
+        // this._sprite.setAnchor(0.5);
         this.add(this._sprite);
-        let sprite:Lightning.Sprite = new Lightning.Sprite();
-        let texture:Lightning.Texture =  Lightning.Texture.fromImage('penguin.png');
 
-        sprite.texture = texture;
-        sprite.x = this.game.width / 2;
-        sprite.y = this.game.height / 2;
-        sprite.setAnchor(0.5);
         let pool = this.game.physics.lite.createPool('test');
-        let body = new Lightning.LitePhysicsBody(sprite, {x:0, y:0, width:sprite.width, height:sprite.height });
-        pool.add(body);
-        console.log(pool);
-        console.log(body);
-        body.velocity.x = -2;
-        // body.velocity.y = -2;
-        this.add(sprite);
+        this._sprite.enablePhysicsBody();
+        pool.add(this._sprite.body);
+        this._sprite.body.velocity.x -= 0.1;
 
 
         // setTimeout(() => {

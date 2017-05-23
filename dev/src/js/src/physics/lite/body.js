@@ -6,7 +6,8 @@
 var Lightning;
 (function (Lightning) {
     var LitePhysicsBody = (function () {
-        function LitePhysicsBody(obj) {
+        function LitePhysicsBody(obj, inheritAnchor) {
+            if (inheritAnchor === void 0) { inheritAnchor = true; }
             this.active = true;
             this._objectRef = obj;
             this._destroyFlag = false;
@@ -16,10 +17,18 @@ var Lightning;
             this._velocity = { x: 0, y: 0 };
             this.bounds = { x: 0, y: 0, width: obj.width, height: obj.height };
             this.drag = 0;
+            if (inheritAnchor) {
+                this.setAnchor(obj.anchor.x, obj.anchor.y);
+            }
         }
         LitePhysicsBody.prototype.updateObjectRefPosition = function () {
             this._objectRef.x = this.x;
             this._objectRef.y = this.y;
+        };
+        LitePhysicsBody.prototype.setAnchor = function (x, y) {
+            if (y === void 0) { y = x; }
+            this._bounds.x += this._bounds.width * x;
+            this._bounds.y += this._bounds.width * y;
         };
         Object.defineProperty(LitePhysicsBody.prototype, "bounds", {
             get: function () {

@@ -34,8 +34,10 @@ namespace Lightning {
         }
 
         protected update(dt:number) {
+            
             if(!this._enabled) return;
             if(this._paused) return;
+
             for(let i in this._pools) {
                 for(let body of this._pools[i].bodies) {
                     this.outOfBounds(body);
