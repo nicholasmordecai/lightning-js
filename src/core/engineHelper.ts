@@ -25,14 +25,14 @@ namespace Lightning {
         protected _physicsLite:LitePhysicsManager;
 
         public displayInfo() {
-            console.log(`%c
- __    _     _   _       _         
-|  |  |_|___| |_| |_ ___|_|___ ___ 
-|  |__| | . |   |  _|   | |   | . |
-|_____|_|_  |_|_|_| |_|_|_|_|_|_  |
-        |___|                 |___|
-             `, "font-family:monospace");
-             console.log('Lightning-js | version : 0.4.5');
+//             console.log(`%c
+//  __    _     _   _       _         
+// |  |  |_|___| |_| |_ ___|_|___ ___ 
+// |  |__| | . |   |  _|   | |   | . |
+// |_____|_|_  |_|_|_| |_|_|_|_|_|_  |
+//         |___|                 |___|
+//              `, "font-family:monospace");
+//              console.log('Lightning-js | version : 0.4.5');
         }
 
         public generateTexture(...params):any {

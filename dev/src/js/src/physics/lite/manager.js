@@ -21,13 +21,12 @@ var Lightning;
             var _this = _super.call(this, game, true, true) || this;
             _this.game = game;
             _this._worldBounds = { x: 0, y: 0, width: _this.game.width, height: _this.game.height };
-            _this._enabled = false;
             return _this;
         }
         /**
          * initalise / reset the properties when enabled, not constructed
          */
-        LitePhysicsManager.prototype.enable = function () {
+        LitePhysicsManager.prototype.enablePhysics = function () {
             this._enabled = true;
             this._pools = {};
             this._paused = false;
@@ -35,7 +34,7 @@ var Lightning;
         LitePhysicsManager.prototype.disable = function () {
             this._enabled = false;
         };
-        LitePhysicsManager.prototype.update = function () {
+        LitePhysicsManager.prototype.update = function (dt) {
             if (!this._enabled)
                 return;
             if (this._paused)
@@ -43,7 +42,9 @@ var Lightning;
             for (var i in this._pools) {
                 for (var _i = 0, _a = this._pools[i].bodies; _i < _a.length; _i++) {
                     var body = _a[_i];
-                    // do stuff to each body here
+                    this.checkWorldCollide(body);
+                    this.updatePosition(body);
+                    body.objRef.updateTransform();
                 }
             }
         };
@@ -58,7 +59,9 @@ var Lightning;
                 for (var _a = 0, objects_1 = objects; _a < objects_1.length; _a++) {
                     var i = objects_1[_a];
                     this._pools[key].add(i);
+                    return this._pools[key];
                 }
+                return this._pools[key];
             }
             else {
                 console.info('Physics pool with key:', key, 'alread exists');
@@ -77,42 +80,18 @@ var Lightning;
             body.updateObjectRefPosition();
         };
         LitePhysicsManager.prototype.checkWorldCollide = function (body) {
-            if (body.x + body.width >= this._worldBounds.width + this._worldBounds.x) {
-                // right side collide
-                if (body.velocity.x < 1) {
-                    body.velocity.x = body._velocity.x *= -1 * body.restitution;
-                }
-                else if (body._velocity.x < 0) {
-                    body.x = body.view.core.renderer.width - body.width;
-                    body.velocity.x = 0;
-                }
-                body.velocity.x = body.velocity.x *= -1 * body.restitution;
-                // left side collide
+            if (body.x <= this._worldBounds.x) {
+                body.velocity.x *= -1;
             }
-            else if (body.x <= this._worldBounds.x) {
-                if (body.velocity.x < -1) {
-                    body.velocity.x = body.velocity.x *= -1 * body.restitution;
-                }
-                else if (body.velocity.x < 0) {
-                    body.x = 0;
-                    body.velocity.x = 0;
-                }
+            if (body.x >= this._worldBounds.x + this._worldBounds.width) {
+                body.velocity.x *= -1;
             }
-            // if (this.y + this.height > this.view.core.renderer.height) {
-            //     if (this._velocity.y > 1) {
-            //         this._velocity.y = this._velocity.y *= -1 * this._restitution
-            //     } else if (this._velocity.y > 0) {
-            //         this.y = this.view.core.renderer.height - this.height;
-            //         this._velocity.y = 0;
-            //     }
-            // } else if (this.y < 0) {
-            //     if (this._velocity.y < -1) {
-            //         this._velocity.y = this._velocity.y *= -1 * this._restitution
-            //     } else if (this._velocity.y < 0) {
-            //         this.y = 0;
-            //         this._velocity.y = 0;
-            //     }
-            // }
+            if (body.y <= this._worldBounds.y) {
+                body.velocity.y *= -1;
+            }
+            if (body.y >= this._worldBounds.y + this._worldBounds.height) {
+                body.velocity.y *= -1;
+            }
         };
         return LitePhysicsManager;
     }(Lightning.Plugin));

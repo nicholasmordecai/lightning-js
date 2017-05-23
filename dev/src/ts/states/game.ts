@@ -3,27 +3,30 @@
 export default class GameState extends Lightning.State {
 
      protected particleEmitter:Lightning.ParticleEmitter
+     private _sprite:Lightnig.Sprite;
 
+     private _start:boolean = false;
 
-    create() {    
+    create() {
         this.game.physics.lite.enablePhysics();
-        let sprite:Lightning.Sprite = new Lightning.Sprite();
-        let texture:Lightning.Texture =  Lightning.Texture.fromImage('penguin.png');
+        this._sprite = new Lightning.Sprite();
+        let texture:Lightning.Texture =  Lightning.Geometry.Rect(20, 20).generateTexture();
+        this._sprite.texture = texture;
+        this._sprite.y = this.game.height / 2;
+        this._sprite.setAnchor(0.5);
+        this.add(this._sprite);
 
-        sprite.texture = texture;
-        sprite.x = this.game.width / 2;
-        sprite.y = this.game.height / 2;
-        sprite.setAnchor(0.5);
-        let pool = this.game.physics.lite.createPool('test');
-        let body = new Lightning.LitePhysicsBody(sprite, {x:0, y:0, width:sprite.width, height:sprite.height });
-        pool.add(body);
-        console.log(pool);
-        console.log(body);
-        body.velocity.x = 2;
-        body.velocity.y = -2;
-        this.add(sprite);
 
-        this.game.physics.lite.enablePhysics();
+        // setTimeout(() => {
+        //     sprite.enablePhysicsBody();
+        //     let pool = this.game.physics.lite.createPool('test');
+        //     pool.add(sprite.physicsBody);
+        //     sprite.physicsBody.velocity.x = 20;
+
+        //     console.log(sprite.width)
+        // }, 500);
+
+        
 
 
         // let sprite:Lightning.Sprite = new Lightning.Sprite();

@@ -8,6 +8,10 @@ namespace Lightning {
          * Position Vertically
          */
 
+        public static NONE:number = 0;
+        public static FILL:number = 1;
+        public static ASPECT_RATIO:number = 2;
+
         private game:Engine;
         private _allowedDPR:Array<number>;
         private _currentDPR:number;
@@ -17,19 +21,15 @@ namespace Lightning {
         private _orientation:string;
         private _isFullscreen:boolean;
 
-        public static NONE:number = 0;
-        public static FILL:number = 1;
-        public static ASPECT_RATIO:number = 2;
         private _scaleMode:number;
-
         private _resizeTimeout:number;
 
-        constructor(game:Engine, initWidth:number, initHeight:number) {
+        constructor(game:Engine, initWidth:number, initHeight:number, scaleMode:number) {
             super();
             this.game = game;
             this._currentDPR = window.devicePixelRatio;
             this._allowedDPR = [1, 2, 3, 4];
-            this._scaleMode = 0;
+            this._scaleMode = scaleMode;
             
             // run the initalisation method
             this.setup(initWidth, initHeight);
@@ -68,7 +68,7 @@ namespace Lightning {
         }
 
         private calculateOrientation() {
-            if(window.innerWidth > window.innerHeight) {
+            if(window.screen.availWidth > window.screen.availHeight) {
                 this._orientation = 'landscape';
             } else {
                 this._orientation = 'portrait';
@@ -79,15 +79,18 @@ namespace Lightning {
             if(force) {
                 this.resizeAspectRatio();
             } else {
-                if ( !this._resizeTimeout ) {
+                if (!this._resizeTimeout) {
                     this._resizeTimeout = setTimeout(() => {
                         this._resizeTimeout = null;
                         switch(this._scaleMode) {
                             case 0: 
+                                // don't do anything
                                 break;
                             case 1:
+                                this.resizeStretch();
                                 break;
                             case 2:
+                                this.resizeAspectRatio();
                                 break;
                             default:
                                 break;
@@ -112,7 +115,7 @@ namespace Lightning {
             let newWidth:number;
             let newHeight:number;
 
-            if(diffHeight > diffWidth) {
+            if(diffHeight < diffWidth) {
                 let scale:number = height / this._originalHeight;
                 newWidth = this._originalWidth * scale;
                 newHeight = this._originalHeight * scale;
@@ -184,7 +187,7 @@ namespace Lightning {
         }
 
         public get devicePixelRatio():number {
-            return this._currentDPR;
+            return window.devicePixelRatio;
         }
 
         public get orientation():string {

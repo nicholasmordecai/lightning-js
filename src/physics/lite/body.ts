@@ -21,28 +21,30 @@ namespace Lightning {
 
         private _objectRef:DisplayObject;
 
-        constructor(obj:any, bounds:iBoundBox, active:boolean = true, drag:number = 0) {
-            this.active = active;
+        constructor(obj:any, inheritAnchor:boolean = true) {
+            this.active = true;
             this._objectRef = obj;
             this._destroyFlag = false;
             this.angle = obj.y;
             this.x = obj.x;
             this.y = obj.y;
             this._velocity = {x:0, y: 0};
+            this.bounds = {x: 0, y: 0, width: obj.width, height: obj.height};
+            this.drag = 0;
 
-            if(bounds instanceof Array) {
-                this.hasMultipleBounds = true;
-            } else {
-                this.hasMultipleBounds = false;
+            if(inheritAnchor) {
+                this.setAnchor(obj.anchor.x, obj.anchor.y);
             }
-            this.bounds = bounds;
-
-            this.drag = drag;
         }
 
         public updateObjectRefPosition() {
             this._objectRef.x = this.x;
             this._objectRef.y = this.y;
+        }
+
+        public setAnchor(x:number, y:number = x) {
+            this._bounds.x += this._bounds.width * x;
+            this._bounds.y += this._bounds.width * y;
         }
 
         public get bounds():iBoundBox {
