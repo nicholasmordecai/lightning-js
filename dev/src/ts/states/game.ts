@@ -4,7 +4,6 @@ export default class GameState extends Lightning.State {
 
      protected particleEmitter:Lightning.ParticleEmitter
 
-
     create() {    
         this.game.physics.lite.enablePhysics();
         let sprite:Lightning.Sprite = new Lightning.Sprite();
@@ -17,13 +16,12 @@ export default class GameState extends Lightning.State {
         let pool = this.game.physics.lite.createPool('test');
         let body = new Lightning.LitePhysicsBody(sprite, {x:0, y:0, width:sprite.width, height:sprite.height });
         pool.add(body);
-        console.log(pool);
-        console.log(body);
-        body.velocity.x = -2;
+        console.log(sprite.x);
+        body.velocity.x = 10;
         // body.velocity.y = -2;
         this.add(sprite);
 
-        this.game.physics.lite.enablePhysics();
+        // this.game.physics.lite.enablePhysics();
 
 
         // let sprite:Lightning.Sprite = new Lightning.Sprite();

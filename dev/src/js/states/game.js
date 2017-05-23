@@ -27,12 +27,11 @@ var GameState = (function (_super) {
         var pool = this.game.physics.lite.createPool('test');
         var body = new Lightning.LitePhysicsBody(sprite, { x: 0, y: 0, width: sprite.width, height: sprite.height });
         pool.add(body);
-        console.log(pool);
-        console.log(body);
-        body.velocity.x = -2;
+        console.log(sprite.x);
+        body.velocity.x = 10;
         // body.velocity.y = -2;
         this.add(sprite);
-        this.game.physics.lite.enablePhysics();
+        // this.game.physics.lite.enablePhysics();
         // let sprite:Lightning.Sprite = new Lightning.Sprite();
         // let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);
         // sprite.texture = this.game.generateTexture(texture);

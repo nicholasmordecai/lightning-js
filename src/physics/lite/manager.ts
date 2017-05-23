@@ -38,8 +38,8 @@ namespace Lightning {
             if(this._paused) return;
             for(let i in this._pools) {
                 for(let body of this._pools[i].bodies) {
-                    this.outOfBounds(body);
-                    // this.checkWorldCollide(body);
+                    // this.outOfBounds(body);
+                    this.checkWorldCollide(body);
                     this.updatePosition(body);
                     body.objRef.updateTransform();
                 }
@@ -76,28 +76,40 @@ namespace Lightning {
 
         private checkWorldCollide(body:LitePhysicsBody) {
             //left
-            if(body.x <= this._worldBounds.x) {
+            if(body.x <= this._worldBounds.x + body.bounds.width) {
                 body.velocity.x *= -1;
                 console.log('right');
             } 
             //right
-            if(body.x >= this._worldBounds.x + this._worldBounds.width) {
+            if(body.x >= this._worldBounds.width + body.bounds.width) {
                 body.velocity.x *= -1;
             }
             //down
-            if(body.y <= this._worldBounds.y) {
+            if(body.y <= this._worldBounds.height + body.bounds.height) {
                 body.velocity.y *= -1;
             }
             //up
-            if(body.y >= this._worldBounds.y  + this._worldBounds.height) {
+            if(body.y >= this._worldBounds.y  + body.bounds.height) {
                 body.velocity.y *= -1;
             }
         }
 
         private outOfBounds(body:LitePhysicsBody) {
+            //left
             if(body.x <= this._worldBounds.x + body.bounds.width ) {
-                console.log('out of bounds');
-                // console.log(body.bounds.width);
+                console.log('out of bounds left');
+            }
+            //right
+            if(body.x >= this._worldBounds.width + body.bounds.width) {
+                console.log('out of bounds right')
+            }
+            //down
+            if(body.y >= this._worldBounds.height + body.bounds.height) {
+                console.log('out of bounds down');
+            }
+            //up
+            if(body.y <= this._worldBounds.y + body.bounds.height) {
+                console.log('out of bounds up');
             }
         }
     }
