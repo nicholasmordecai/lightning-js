@@ -19,18 +19,23 @@ var GameState = (function (_super) {
         return _this;
     }
     GameState.prototype.create = function () {
+        var _this = this;
         this.game.physics.lite.enablePhysics();
         this._sprite = new Lightning.Sprite();
         var texture = Lightning.Geometry.Rect(20, 20).generateTexture();
         this._sprite.texture = texture;
         this._sprite.y = this.game.height / 2;
         this._sprite.x += 50;
-        // this._sprite.setAnchor(0.5);
+        this._sprite.setAnchor(0.5);
         this.add(this._sprite);
         var pool = this.game.physics.lite.createPool('test');
         this._sprite.enablePhysicsBody();
         pool.add(this._sprite.body);
         this._sprite.body.velocity.x -= 0.1;
+        setTimeout(function () {
+            _this._sprite.body.enableDebug();
+            console.log(_this._sprite.children);
+        });
         // setTimeout(() => {
         //     sprite.enablePhysicsBody();
         //     let pool = this.game.physics.lite.createPool('test');

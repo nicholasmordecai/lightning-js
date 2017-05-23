@@ -14,13 +14,19 @@ export default class GameState extends Lightning.State {
         this._sprite.texture = texture;
         this._sprite.y = this.game.height / 2;
         this._sprite.x += 50;
-        // this._sprite.setAnchor(0.5);
+        this._sprite.setAnchor(0.5);
         this.add(this._sprite);
 
         let pool = this.game.physics.lite.createPool('test');
         this._sprite.enablePhysicsBody();
         pool.add(this._sprite.body);
         this._sprite.body.velocity.x -= 0.1;
+
+        setTimeout(() => {
+            this._sprite.body.enableDebug();
+            console.log(this._sprite.children)
+        });
+        
 
 
         // setTimeout(() => {

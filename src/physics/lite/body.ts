@@ -15,11 +15,13 @@ namespace Lightning {
         private _active:boolean;
         private _destroyFlag:boolean;
 
+        private _graphics:Graphics;
+
         public angle:number;
         public x:number;
         public y:number;
 
-        private _objectRef:DisplayObject;
+        private _objectRef:any;
 
         constructor(obj:any, inheritAnchor:boolean = true) {
             this.active = true;
@@ -43,8 +45,18 @@ namespace Lightning {
         }
 
         public setAnchor(x:number, y:number = x) {
-            this._bounds.x += this._bounds.width * x;
-            this._bounds.y += this._bounds.height * y;
+            this._bounds.x -= this._bounds.width * x;
+            this._bounds.y -= this._bounds.height * y;
+
+            console.log(this._bounds.width, this._bounds.x)
+        }
+
+        public enableDebug() {
+            this._graphics = new Graphics();
+            this._graphics.beginFill(0xff0000, 0.6);
+            this._graphics.drawRect(this._bounds.x, this._bounds.y, this._bounds.width, this._bounds.height);
+            this._graphics.endFill();
+            this._objectRef.add(this._graphics);
         }
 
         public get bounds():iBoundBox {

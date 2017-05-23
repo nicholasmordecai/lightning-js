@@ -47,7 +47,7 @@ window.onload = function () {
 // };
 // app.initialize(); 
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_81adcead.js","/")
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_e1d4eb3b.js","/")
 },{"./states/boot":2,"./states/game":3,"./states/menu":4,"./states/preload":5,"buffer":7,"fsovz6":8}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -103,18 +103,23 @@ var GameState = (function (_super) {
         return _this;
     }
     GameState.prototype.create = function () {
+        var _this = this;
         this.game.physics.lite.enablePhysics();
         this._sprite = new Lightning.Sprite();
         var texture = Lightning.Geometry.Rect(20, 20).generateTexture();
         this._sprite.texture = texture;
         this._sprite.y = this.game.height / 2;
         this._sprite.x += 50;
-        // this._sprite.setAnchor(0.5);
+        this._sprite.setAnchor(0.5);
         this.add(this._sprite);
         var pool = this.game.physics.lite.createPool('test');
         this._sprite.enablePhysicsBody();
         pool.add(this._sprite.body);
         this._sprite.body.velocity.x -= 0.1;
+        setTimeout(function () {
+            _this._sprite.body.enableDebug();
+            console.log(_this._sprite.children);
+        });
         // setTimeout(() => {
         //     sprite.enablePhysicsBody();
         //     let pool = this.game.physics.lite.createPool('test');
