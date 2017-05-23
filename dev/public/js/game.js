@@ -47,7 +47,7 @@ window.onload = function () {
 // };
 // app.initialize(); 
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_91391688.js","/")
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_62ce24de.js","/")
 },{"./states/boot":2,"./states/game":3,"./states/menu":4,"./states/preload":5,"buffer":7,"fsovz6":8}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -104,32 +104,21 @@ var GameState = (function (_super) {
     }
     GameState.prototype.create = function () {
         this.game.physics.lite.enablePhysics();
-        this._sprite = new Lightning.Sprite();
-        var texture = Lightning.Geometry.Rect(20, 20).generateTexture();
-        this._sprite.texture = texture;
-        this._sprite.y = this.game.height / 2;
-        this._sprite.x += 50;
-        this._sprite.setAnchor(0.5);
-        this.add(this._sprite);
+        var texture = Lightning.Geometry.Rect(2, 2).generateTexture();
         var pool = this.game.physics.lite.createPool('test');
-        this._sprite.enablePhysicsBody();
-        pool.add(this._sprite.body);
-        this._sprite.body.velocity.x = 2;
-        this._sprite.body.enableDebug();
-        // setTimeout(() => {
-        //     sprite.enablePhysicsBody();
-        //     let pool = this.game.physics.lite.createPool('test');
-        //     pool.add(sprite.physicsBody);
-        //     sprite.physicsBody.velocity.x = 20;
-        //     console.log(sprite.width)
-        // }, 500);
-        // let sprite:Lightning.Sprite = new Lightning.Sprite();
-        // let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);
-        // sprite.texture = this.game.generateTexture(texture);
-        // sprite.x = this.game.width / 2;
-        // sprite.y = this.game.height / 2;
-        // sprite.setAnchor(0.5);
-        // this.add(sprite);
+        for (var i = 0; i < 1000; i++) {
+            var sprite = new Lightning.Sprite();
+            sprite.texture = texture;
+            sprite.x = Lightning.Maths.rngFloat(0, this.game.width);
+            sprite.y = Lightning.Maths.rngFloat(0, this.game.height);
+            sprite.setAnchor(0.5);
+            this.add(sprite);
+            sprite.enablePhysicsBody();
+            pool.add(sprite.body);
+            sprite.body.enableDebug();
+            sprite.body.velocity.x = Lightning.Maths.rngFloat(-2, 2);
+            sprite.body.velocity.y = Lightning.Maths.rngFloat(-2, 2);
+        }
         /**
         1.  * creating basic tween
          */

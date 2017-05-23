@@ -27,8 +27,16 @@ var Lightning;
         };
         LitePhysicsBody.prototype.setAnchor = function (x, y) {
             if (y === void 0) { y = x; }
-            this._bounds.x += this._bounds.width * x;
-            this._bounds.y += this._bounds.width * y;
+            this._bounds.x -= this._bounds.width * x;
+            this._bounds.y -= this._bounds.height * y;
+            console.log(this._bounds.width, this._bounds.x);
+        };
+        LitePhysicsBody.prototype.enableDebug = function () {
+            this._graphics = new Lightning.Graphics();
+            this._graphics.beginFill(0xff0000, 0.6);
+            this._graphics.drawRect(this._bounds.x, this._bounds.y, this._bounds.width, this._bounds.height);
+            this._graphics.endFill();
+            this._objectRef.add(this._graphics);
         };
         Object.defineProperty(LitePhysicsBody.prototype, "bounds", {
             get: function () {

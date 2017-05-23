@@ -39,6 +39,8 @@ namespace Lightning {
             if(this._paused) return;
 
             for(let i in this._pools) {
+                // this.checkPoolCollisions(this._pools[i]);
+
                 for(let body of this._pools[i].bodies) {
                     // this.outOfBounds(body);
                     this.checkWorldCollide(body);
@@ -80,7 +82,6 @@ namespace Lightning {
             //left
             if(body.x <= this._worldBounds.x) {
                 body.velocity.x *= -1;
-                console.log('right');
             } 
             //right
             if(body.x >= this._worldBounds.width) {
@@ -93,6 +94,34 @@ namespace Lightning {
             //up
             if(body.y >= this._worldBounds.y) {
                 body.velocity.y *= -1;
+            }
+        }
+        
+        private checkPoolCollisions(pool:LitePhysicsPool) {
+            if(pool.bodies.length < 2) return;
+            let c:number = 1;
+            for(let body of pool.bodies) {
+                for(var i = c; i < pool.bodies.length; i++) {
+                    // body = the body we're currently on
+
+                    // the body we're checking against
+                    let body2 = pool.bodies[i];
+
+                    // check two colisions here
+                    if (body.x < body2.x + body2.bounds.width &&
+                        body.x + body.bounds.width > body2.x &&
+                        body.y < body2.y + body2.bounds.height &&
+                        body.bounds.height + body.y > body2.y) {
+
+                            body.velocity.x *= -1;
+                            body.velocity.y *= -1;
+                            body2.velocity.x *= -1;
+                            body2.velocity.y *= -1;
+
+                    }
+
+                }
+                c++;
             }
         }
 

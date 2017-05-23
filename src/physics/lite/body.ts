@@ -47,8 +47,6 @@ namespace Lightning {
         public setAnchor(x:number, y:number = x) {
             this._bounds.x -= this._bounds.width * x;
             this._bounds.y -= this._bounds.height * y;
-
-            console.log(this._bounds.width, this._bounds.x)
         }
 
         public enableDebug() {
