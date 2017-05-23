@@ -9,14 +9,12 @@ export default class GameState extends Lightning.State {
 
     create() {
         this.game.physics.lite.enablePhysics();
-<<<<<<< HEAD
         this._sprite = new Lightning.Sprite();
         let texture:Lightning.Texture =  Lightning.Geometry.Rect(20, 20).generateTexture();
         this._sprite.texture = texture;
         this._sprite.y = this.game.height / 2;
         this._sprite.setAnchor(0.5);
         this.add(this._sprite);
-=======
         let sprite:Lightning.Sprite = new Lightning.Sprite();
         let texture:Lightning.Texture =  Lightning.Texture.fromImage('penguin.png');
 
@@ -32,7 +30,6 @@ export default class GameState extends Lightning.State {
         body.velocity.x = -2;
         // body.velocity.y = -2;
         this.add(sprite);
->>>>>>> 15f2615b788cb4c880df57c935260c5ecc78249c
 
 
         // setTimeout(() => {
