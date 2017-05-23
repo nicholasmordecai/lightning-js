@@ -6,22 +6,16 @@
 var Lightning;
 (function (Lightning) {
     var LitePhysicsBody = (function () {
-        function LitePhysicsBody(obj, bounds, active, drag) {
-            if (active === void 0) { active = true; }
-            if (drag === void 0) { drag = 0; }
-            this.active = active;
+        function LitePhysicsBody(obj) {
+            this.active = true;
+            this._objectRef = obj;
             this._destroyFlag = false;
             this.angle = obj.y;
             this.x = obj.x;
             this.y = obj.y;
-            if (bounds instanceof Array) {
-                this.hasMultipleBounds = true;
-            }
-            else {
-                this.hasMultipleBounds = false;
-            }
-            this.bounds = bounds;
-            this.drag = drag;
+            this._velocity = { x: 0, y: 0 };
+            this.bounds = { x: 0, y: 0, width: obj.width, height: obj.height };
+            this.drag = 0;
         }
         LitePhysicsBody.prototype.updateObjectRefPosition = function () {
             this._objectRef.x = this.x;

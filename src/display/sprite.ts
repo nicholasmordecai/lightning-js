@@ -18,24 +18,18 @@ namespace Lightning {
         constructor(texture:PIXI.Texture = null) {
             super(texture);
             this._events = new EventEmitter();
-
-            this._liteBody = new LitePhysicsBody(this, {x:0, y: 0, width: this.width, height:this.height});
         }
 
         enableInput() {
             this.interactive = true;
             this._input = new Input(this);
-
-
         }
         
         /**
          * @param  {boolean} val
          */
-        enableBody(val:boolean) {
-            if(val) {
-                
-            }
+        enablePhysicsBody() {
+            this._liteBody = new Lightning.LitePhysicsBody(this);
         }
 
         /**
@@ -108,11 +102,11 @@ namespace Lightning {
              * need to think about handling pointer events
              */
         }
-        public get liteBody():LitePhysicsBody {
+        public get physicsBody():LitePhysicsBody {
             return this._liteBody;
         }
 
-        public set liteBody(val:LitePhysicsBody) {
+        public set physicsBody(val:LitePhysicsBody) {
             this._liteBody = val;
         }
 

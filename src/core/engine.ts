@@ -15,7 +15,7 @@ namespace Lightning {
             super();
 
             this.displayInfo();
-            this._scaleManager = new Scale(this, width, height);
+            this._scaleManager = new Scale(this, width, height, 2);
             this._device = new Device(this);
 
             // setup the canvas
@@ -30,6 +30,8 @@ namespace Lightning {
             
             this._scaleManager.resizeThrottler(true);
             this._scaleManager.alignVertically();
+
+            this._renderer.resize(width, height);
 
             this._world = new Lightning.Group();
             this._world.interactive = true;
@@ -66,8 +68,8 @@ namespace Lightning {
          * @returns {void}
          */ 
         update(time):void {
-            this._stateManager.update(time);
             this._renderer.render(this._world);
+            this._stateManager.update(time);
         }
 
         /**
