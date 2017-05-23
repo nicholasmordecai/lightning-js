@@ -20,12 +20,8 @@ export default class GameState extends Lightning.State {
         let pool = this.game.physics.lite.createPool('test');
         this._sprite.enablePhysicsBody();
         pool.add(this._sprite.body);
-        this._sprite.body.velocity.x -= 0.1;
-
-        setTimeout(() => {
-            this._sprite.body.enableDebug();
-            console.log(this._sprite.children)
-        });
+        this._sprite.body.velocity.x = 2;
+        this._sprite.body.enableDebug();
         
 
 

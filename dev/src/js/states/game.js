@@ -19,7 +19,6 @@ var GameState = (function (_super) {
         return _this;
     }
     GameState.prototype.create = function () {
-        var _this = this;
         this.game.physics.lite.enablePhysics();
         this._sprite = new Lightning.Sprite();
         var texture = Lightning.Geometry.Rect(20, 20).generateTexture();
@@ -31,11 +30,8 @@ var GameState = (function (_super) {
         var pool = this.game.physics.lite.createPool('test');
         this._sprite.enablePhysicsBody();
         pool.add(this._sprite.body);
-        this._sprite.body.velocity.x -= 0.1;
-        setTimeout(function () {
-            _this._sprite.body.enableDebug();
-            console.log(_this._sprite.children);
-        });
+        this._sprite.body.velocity.x = 2;
+        this._sprite.body.enableDebug();
         // setTimeout(() => {
         //     sprite.enablePhysicsBody();
         //     let pool = this.game.physics.lite.createPool('test');
