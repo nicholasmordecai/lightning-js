@@ -38,7 +38,8 @@ namespace Lightning {
             if(this._paused) return;
             for(let i in this._pools) {
                 for(let body of this._pools[i].bodies) {
-                    this.checkWorldCollide(body);
+                    this.outOfBounds(body);
+                    // this.checkWorldCollide(body);
                     this.updatePosition(body);
                     body.objRef.updateTransform();
                 }
@@ -74,20 +75,29 @@ namespace Lightning {
         }
 
         private checkWorldCollide(body:LitePhysicsBody) {
+            //left
             if(body.x <= this._worldBounds.x) {
                 body.velocity.x *= -1;
+                console.log('right');
             } 
-
+            //right
             if(body.x >= this._worldBounds.x + this._worldBounds.width) {
                 body.velocity.x *= -1;
             }
-
+            //down
             if(body.y <= this._worldBounds.y) {
                 body.velocity.y *= -1;
             }
-
+            //up
             if(body.y >= this._worldBounds.y  + this._worldBounds.height) {
                 body.velocity.y *= -1;
+            }
+        }
+
+        private outOfBounds(body:LitePhysicsBody) {
+            if(body.x <= this._worldBounds.x + body.bounds.width ) {
+                console.log('out of bounds');
+                // console.log(body.bounds.width);
             }
         }
     }
