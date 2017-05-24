@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.4.8
+1. Added collision events to the Lite Physics plugin
+
 ### 0.4.7
 5. Created Physics Lite Plugin
     1. Manager, pools and bodies

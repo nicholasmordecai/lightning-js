@@ -20,14 +20,14 @@ var GameState = (function (_super) {
     }
     GameState.prototype.create = function () {
         this.game.physics.lite.enablePhysics();
-        var texture = Lightning.Geometry.Rect(2, 2).generateTexture();
+        var texture = Lightning.Geometry.Rect(5, 5).generateCanvasTexture();
         var pool = this.game.physics.lite.createPool('test');
-        for (var i = 0; i < 1000; i++) {
+        for (var i = 0; i < 50; i++) {
             var sprite = new Lightning.Sprite();
             sprite.texture = texture;
             sprite.x = Lightning.Maths.rngFloat(0, this.game.width);
             sprite.y = Lightning.Maths.rngFloat(0, this.game.height);
-            sprite.setAnchor(0.5);
+            // sprite.rotation = Lightning.Maths.rngFloat(0, 12);
             this.add(sprite);
             sprite.enablePhysicsBody();
             pool.add(sprite.body);
@@ -35,6 +35,20 @@ var GameState = (function (_super) {
             sprite.body.velocity.x = Lightning.Maths.rngFloat(-2, 2);
             sprite.body.velocity.y = Lightning.Maths.rngFloat(-2, 2);
         }
+        var bigGuy = new Lightning.Sprite();
+        bigGuy.texture = Lightning.Geometry.Rect(50, 50).generateCanvasTexture();
+        bigGuy.x = this.game.width / 2;
+        bigGuy.y = this.game.height / 2;
+        this.add(bigGuy);
+        bigGuy.enablePhysicsBody();
+        bigGuy.body.enableDebug();
+        var cEvent = this.game.physics.lite.createCollisionEvent('t', bigGuy.body, pool.bodies);
+        cEvent.subscribe('collide', function (objs) {
+            var obj1 = objs[0][0];
+            var obj2 = objs[0][1];
+            obj2.velocity.x *= -1;
+            obj2.velocity.y *= -1;
+        });
         /**
         1.  * creating basic tween
          */

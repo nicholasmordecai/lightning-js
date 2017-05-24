@@ -1,7 +1,19 @@
 /// <reference path="./../../reference.d.ts" />
 
 /**
- * Scope Definitions
+ * TODO
+ * 
+ * Body acceleration
+ * Change values to vectors
+ * Calculate drag when calculating velocity
+ * Create world gravity
+ * Create local gravity pools
+ * Calculate restitution on bounce
+ * Fix for when two bodies become attached 
+ *      use AABB collision resolution and check the bodies are still moving towards eachother
+ * Fix some bodies passing straight through
+ *      I think this is because when a body becomes attached, the maximum amountn of events a being triggered
+ * Apply mass to bodies
  * 
  */
 
@@ -12,6 +24,7 @@ namespace Lightning {
         private _enabled:boolean;
         private _paused:boolean;
         private _pools:{[key:string]:LitePhysicsPool};        
+        private _collisionEvents:{[key:string]:LitePhysicsCollisionEvent};
         private _worldBounds: { x: number, y: number, width: number, height: number };
 
         constructor(game: Engine) {
@@ -26,6 +39,7 @@ namespace Lightning {
         public enablePhysics() {
             this._enabled = true;
             this._pools = {};
+            this._collisionEvents = {};
             this._paused = false;
         }
 
@@ -48,6 +62,10 @@ namespace Lightning {
                     body.objRef.updateTransform();
                 }
             }
+
+            for(let i in this._collisionEvents) {
+                this.checkTwoCollision(this._collisionEvents[i]);
+            }
         }
 
         public createPool(key:string, selfCollide:boolean = true, ...objects:Array<LitePhysicsBody>):LitePhysicsPool {
@@ -64,12 +82,39 @@ namespace Lightning {
             }
         }
 
+        public createCollisionEvent(key:string, objects1, objects2) {
+            if(this._collisionEvents[key] !== null || this._collisionEvents[key] !== undefined) {
+
+                if(objects1 instanceof Array === false) {
+                    objects1 = [objects1];  
+                }
+
+                if(objects2 instanceof Array === false) {
+                    objects2 = [objects2];   
+                }
+
+                this._collisionEvents[key] = new LitePhysicsCollisionEvent(objects1, objects2);
+                return this._collisionEvents[key];
+            } else {
+                console.info('Physics pool with key:', key, 'alread exists');
+                return null;
+            }
+        }
+
         public removePool(key:string) {
             this._pools[key].destroy();
         }
 
         public pool(key:string) {
             return this._pools[key];
+        }
+
+        public collisionEvents(key:string) {
+            return this._collisionEvents[key];
+        }
+
+        public removeCollisionEvents(key:string) {
+
         }
 
         public updatePosition(body:LitePhysicsBody) {
@@ -96,6 +141,17 @@ namespace Lightning {
                 body.velocity.y *= -1;
             }
         }
+
+        private checkTwoCollision(collisionEvent:LitePhysicsCollisionEvent) {
+            for(let i of collisionEvent.b1) {
+                for(let t of collisionEvent.b2) {
+                    if(this.AABBvsAABB(i, t) === true) {
+                        collisionEvent.emit('collide', i, t);
+                        return true;
+                    }
+                }
+            }
+        }
         
         private checkPoolCollisions(pool:LitePhysicsPool) {
             if(pool.bodies.length < 2) return;
@@ -108,25 +164,29 @@ namespace Lightning {
                     let body2 = pool.bodies[i];
 
                     // check two colisions here
-                    if (body.x < body2.x + body2.bounds.width &&
-                        body.x + body.bounds.width > body2.x &&
-                        body.y < body2.y + body2.bounds.height &&
-                        body.bounds.height + body.y > body2.y) {
-
-                            body.velocity.x *= -1;
-                            body.velocity.y *= -1;
-                            body2.velocity.x *= -1;
-                            body2.velocity.y *= -1;
-
-                    }
-
+                    if(this.AABBvsAABB(body, body2) === true) {
+                        body.velocity.x *= -1;
+                        body.velocity.y *= -1;
+                        body2.velocity.x *= -1;
+                        body2.velocity.y *= -1;
+                    }       
                 }
                 c++;
             }
         }
 
+        private AABBvsAABB(b1:LitePhysicsBody, b2:LitePhysicsBody) {
+            if (b1.x < b2.x + b2.bounds.width &&
+                b1.x + b1.bounds.width > b2.x &&
+                b1.y < b2.y + b2.bounds.height &&
+                b1.bounds.height + b1.y > b2.y) {
+                    return true;
+            } else {
+                return false;
+            }
+        }
+
         private outOfBounds(body:LitePhysicsBody) {
-            console.log(body.x, this._worldBounds.x)
             //left
             if(body.x <= this._worldBounds.x) {
                 console.log('out of bounds left');

@@ -27,7 +27,7 @@ namespace Lightning {
             this.active = true;
             this._objectRef = obj;
             this._destroyFlag = false;
-            this.angle = obj.y;
+            // this.angle = obj.angle;
             this.x = obj.x;
             this.y = obj.y;
             this._velocity = {x:0, y: 0};
@@ -51,7 +51,7 @@ namespace Lightning {
 
         public enableDebug() {
             this._graphics = new Graphics();
-            this._graphics.beginFill(0xff0000, 0.6);
+            this._graphics.beginFill(0xff0000, 0.2);
             this._graphics.drawRect(this._bounds.x, this._bounds.y, this._bounds.width, this._bounds.height);
             this._graphics.endFill();
             this._objectRef.add(this._graphics);
