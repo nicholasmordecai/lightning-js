@@ -20,40 +20,21 @@ var GameState = (function (_super) {
     }
     GameState.prototype.create = function () {
         this.game.physics.lite.enablePhysics();
-        this._sprite = new Lightning.Sprite();
         var texture = Lightning.Geometry.Rect(20, 20).generateTexture();
-        this._sprite.texture = texture;
-        this._sprite.y = this.game.height / 2;
-        this._sprite.setAnchor(0.5);
-        this.add(this._sprite);
-        var sprite = new Lightning.Sprite();
-        var texture = Lightning.Texture.fromImage('penguin.png');
-        sprite.texture = texture;
-        sprite.x = this.game.width / 2;
-        sprite.y = this.game.height / 2;
-        sprite.setAnchor(0.5);
         var pool = this.game.physics.lite.createPool('test');
-        var body = new Lightning.LitePhysicsBody(sprite, { x: 0, y: 0, width: sprite.width, height: sprite.height });
-        pool.add(body);
-        console.log(pool);
-        console.log(body);
-        body.velocity.x = -2;
-        // body.velocity.y = -2;
-        this.add(sprite);
-        // setTimeout(() => {
-        //     sprite.enablePhysicsBody();
-        //     let pool = this.game.physics.lite.createPool('test');
-        //     pool.add(sprite.physicsBody);
-        //     sprite.physicsBody.velocity.x = 20;
-        //     console.log(sprite.width)
-        // }, 500);
-        // let sprite:Lightning.Sprite = new Lightning.Sprite();
-        // let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);
-        // sprite.texture = this.game.generateTexture(texture);
-        // sprite.x = this.game.width / 2;
-        // sprite.y = this.game.height / 2;
-        // sprite.setAnchor(0.5);
-        // this.add(sprite);
+        for (var i = 0; i < 50; i++) {
+            var sprite = new Lightning.Sprite();
+            sprite.texture = texture;
+            sprite.x = Lightning.Maths.rngInt(0, this.game.width);
+            sprite.y = Lightning.Maths.rngInt(0, this.game.height);
+            sprite.setAnchor(0.5);
+            this.add(sprite);
+            sprite.enablePhysicsBody();
+            pool.add(sprite.body);
+            sprite.body.enableDebug();
+            sprite.body.velocity.x = Lightning.Maths.rngInt(-2, 2);
+            sprite.body.velocity.y = Lightning.Maths.rngInt(-2, 2);
+        }
         /**
         1.  * creating basic tween
          */

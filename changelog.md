@@ -1,5 +1,18 @@
 # Changelog
 
+### 0.4.8
+1. Added collision events to the Lite Physics plugin
+
+### 0.4.7
+5. Created Physics Lite Plugin
+    1. Manager, pools and bodies
+    2. Collide on world bounds
+    3. Out of world bounds
+    4. Pool collisions between bodies
+    5. Updating sprites based on positions
+6. Tweak work on the Scale Manager
+7. Added some useful methods to the sprite class to aid in the LitePhysics plugin
+
 ### 0.4.6
 1. Big cleanup of old files
 2. Add webfontloader to the external libs

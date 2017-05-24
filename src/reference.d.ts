@@ -15,7 +15,7 @@
 /// <reference path ="./interfaces/iParticle.ts" />
 /// <reference path ="./interfaces/iServiceAction.ts" />
 /// <reference path ="./interfaces/iBoundBox.ts" />
-/// <reference path ="./interfaces/iVelocity.ts" />
+/// <reference path ="./interfaces/iVector.ts" />
 
 /// <reference path="./core/events/event.ts" />
 /// <reference path="./core/events/eventEmitter.ts" />
@@ -76,6 +76,7 @@
  */
 /// <reference path="./physics/lite/body.ts" />
 /// <reference path="./physics/lite/pool.ts" />
+/// <reference path="./physics/lite/CollisionEvent.ts" />
 /// <reference path="./physics/lite/manager.ts" />
 
 

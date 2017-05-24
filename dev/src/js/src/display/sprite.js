@@ -53,16 +53,14 @@ var Lightning;
         };
         Object.defineProperty(Sprite.prototype, "body", {
             /**
-             * @returns Box2D
              */
             get: function () {
-                return this._body;
+                return this._liteBody;
             },
             /**
-             * @param  {Box2D.Dynamics.b2Body} body
              */
             set: function (body) {
-                this._body = body;
+                this._liteBody = body;
             },
             enumerable: true,
             configurable: true

@@ -20,32 +20,37 @@ var GameState = (function (_super) {
     }
     GameState.prototype.create = function () {
         this.game.physics.lite.enablePhysics();
-        this._sprite = new Lightning.Sprite();
-        var texture = Lightning.Geometry.Rect(20, 20).generateTexture();
-        this._sprite.texture = texture;
-        this._sprite.y = this.game.height / 2;
-        this._sprite.x += 50;
-        this._sprite.setAnchor(0.5);
-        this.add(this._sprite);
+        var texture = Lightning.Geometry.Rect(5, 5).generateCanvasTexture();
         var pool = this.game.physics.lite.createPool('test');
-        this._sprite.enablePhysicsBody();
-        pool.add(this._sprite.body);
-        this._sprite.body.velocity.x = 2;
-        this._sprite.body.enableDebug();
-        // setTimeout(() => {
-        //     sprite.enablePhysicsBody();
-        //     let pool = this.game.physics.lite.createPool('test');
-        //     pool.add(sprite.physicsBody);
-        //     sprite.physicsBody.velocity.x = 20;
-        //     console.log(sprite.width)
-        // }, 500);
-        // let sprite:Lightning.Sprite = new Lightning.Sprite();
-        // let texture:Lightning.Graphics = Lightning.Geometry.Triangle(50);
-        // sprite.texture = this.game.generateTexture(texture);
-        // sprite.x = this.game.width / 2;
-        // sprite.y = this.game.height / 2;
-        // sprite.setAnchor(0.5);
-        // this.add(sprite);
+        for (var i = 0; i < 1; i++) {
+            var sprite = new Lightning.Sprite();
+            sprite.texture = texture;
+            sprite.x = Lightning.Maths.rngFloat(0, this.game.width);
+            sprite.y = Lightning.Maths.rngFloat(0, this.game.height);
+            // sprite.rotation = Lightning.Maths.rngFloat(0, 12);
+            this.add(sprite);
+            sprite.enablePhysicsBody();
+            pool.add(sprite.body);
+            sprite.body.enableDebug();
+            sprite.body.velocity.x = Lightning.Maths.rngFloat(-5, 5);
+            sprite.body.velocity.y = Lightning.Maths.rngFloat(-5, 5);
+        }
+        var bigGuy = new Lightning.Sprite();
+        bigGuy.texture = Lightning.Geometry.Rect(50, 50).generateCanvasTexture();
+        bigGuy.x = this.game.width / 2;
+        bigGuy.y = this.game.height / 2;
+        this.add(bigGuy);
+        bigGuy.enablePhysicsBody();
+        bigGuy.body.enableDebug();
+        var cEvent = this.game.physics.lite.createCollisionEvent('t', bigGuy.body, pool.bodies);
+        cEvent.onCollide(function (obj1, obj2) {
+            obj2.velocity.x *= -1;
+            obj2.velocity.y *= -1;
+            obj2.pauseCollisionDetection = true;
+            setTimeout(function () {
+                obj2.pauseCollisionDetection = false;
+            }, 20);
+        });
         /**
         1.  * creating basic tween
          */

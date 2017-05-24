@@ -1,7 +1,7 @@
 /// <reference path="./../reference.d.ts" />
 
 namespace Lightning {
-    export interface iVelocity {
+    export interface iVector {
         x:number;
         y:number;
     }

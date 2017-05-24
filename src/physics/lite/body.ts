@@ -11,11 +11,15 @@ namespace Lightning {
         private _drag:number;
         private _bounds:iBoundBox;
         private _hasMultipleBounds:boolean;
-        private _velocity:iVelocity;
+        private _velocity:iVector;
         private _active:boolean;
         private _destroyFlag:boolean;
 
         private _graphics:Graphics;
+        private _deltaG:iVector;
+        private _pauseCollisionDetection:boolean;
+        private _collideOnWorldBounds:boolean;
+        private _gravityEnabled:boolean;
 
         public angle:number;
         public x:number;
@@ -27,16 +31,23 @@ namespace Lightning {
             this.active = true;
             this._objectRef = obj;
             this._destroyFlag = false;
-            this.angle = obj.y;
+            // this.angle = obj.angle;
             this.x = obj.x;
             this.y = obj.y;
+            this._pauseCollisionDetection = false;
             this._velocity = {x:0, y: 0};
+            this._deltaG = {x: 0, y: 0};
             this.bounds = {x: 0, y: 0, width: obj.width, height: obj.height};
+            this._collideOnWorldBounds = false;
             this.drag = 0;
 
             if(inheritAnchor) {
                 this.setAnchor(obj.anchor.x, obj.anchor.y);
             }
+        }
+
+        public accelerateTo() {
+            
         }
 
         public updateObjectRefPosition() {
@@ -47,13 +58,11 @@ namespace Lightning {
         public setAnchor(x:number, y:number = x) {
             this._bounds.x -= this._bounds.width * x;
             this._bounds.y -= this._bounds.height * y;
-
-            console.log(this._bounds.width, this._bounds.x)
         }
 
         public enableDebug() {
             this._graphics = new Graphics();
-            this._graphics.beginFill(0xff0000, 0.6);
+            this._graphics.beginFill(0xff0000, 0.2);
             this._graphics.drawRect(this._bounds.x, this._bounds.y, this._bounds.width, this._bounds.height);
             this._graphics.endFill();
             this._objectRef.add(this._graphics);
@@ -83,11 +92,11 @@ namespace Lightning {
             this._drag = val;
         }
 
-        public get velocity():iVelocity {
+        public get velocity():iVector {
             return this._velocity;
         }
 
-        public set velocity(val:iVelocity) {
+        public set velocity(val:iVector) {
             this._velocity = val;
         }
 
@@ -107,12 +116,44 @@ namespace Lightning {
             this.destroyFlag = val;
         }
 
+        public get collideOnWorldBounds():boolean {
+            return this._collideOnWorldBounds;
+        }
+
+        public set collideOnWorldBounds(val:boolean) {
+            this._collideOnWorldBounds = val;
+        }
+
+        public get gravityEnabled():boolean {
+            return this._gravityEnabled;
+        }
+
+        public set gravityEnabled(val:boolean) {
+            this._gravityEnabled = val;
+        }
+
         public get objRef():DisplayObject {
             return this._objectRef;
         }
 
         public set objRef(val:DisplayObject) {
             this._objectRef = val;
+        }
+
+        public get pauseCollisionDetection():boolean {
+            return this._pauseCollisionDetection;
+        }
+
+        public set pauseCollisionDetection(val:boolean) {
+            this._pauseCollisionDetection = val;
+        }
+
+        public get deltaG():iVector {
+            return this._deltaG;
+        }
+
+        public set deltaG(val:iVector) {
+            this._deltaG = val;
         }
     }
 }
