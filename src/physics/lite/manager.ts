@@ -54,6 +54,20 @@ namespace Lightning {
             if(!this._enabled) return;
             if(this._paused) return;
 
+            for(let i in this._pools) {
+                for(let body of this._pools[i].bodies) {
+                    if(body.collideOnWorldBounds) {
+                        this.checkWorldCollide(body);
+                    }
+                    
+                    if(body.gravityEnabled) {
+                        this.calculateGravity(body);
+                    }
+                    
+                    this.updatePosition(body);
+                }
+            }
+
             for(let i in this._collisionEvents) {
                 this.checkCollisions(this._collisionEvents[i]);
                 
