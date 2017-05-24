@@ -26,11 +26,13 @@ namespace Lightning {
         private _pools:{[key:string]:LitePhysicsPool};        
         private _collisionEvents:{[key:string]:LitePhysicsCollisionEvent};
         private _worldBounds: { x: number, y: number, width: number, height: number };
+        private _gravity:iVector;
 
         constructor(game: Engine) {
             super(game, true, true);
             this.game = game;
             this._worldBounds = { x: 0, y: 0, width: this.game.width, height: this.game.height };
+            this._gravity = {x: 0, y: 1};
         }
 
         /**
@@ -52,19 +54,20 @@ namespace Lightning {
             if(!this._enabled) return;
             if(this._paused) return;
 
-            for(let i in this._pools) {
-                // this.checkPoolCollisions(this._pools[i]);
-
-                for(let body of this._pools[i].bodies) {
-                    // this.outOfBounds(body);
-                    this.checkWorldCollide(body);
-                    this.updatePosition(body);
-                    body.objRef.updateTransform();
-                }
-            }
-
             for(let i in this._collisionEvents) {
-                this.checkTwoCollision(this._collisionEvents[i]);
+                this.checkCollisions(this._collisionEvents[i]);
+                
+                for(let body of this._collisionEvents[i].bodies) {
+                    if(body.collideOnWorldBounds) {
+                        this.checkWorldCollide(body);
+                    }
+                    
+                    if(body.gravityEnabled) {
+                        this.calculateGravity(body);
+                    }
+                    
+                    this.updatePosition(body);
+                }
             }
         }
 
@@ -118,8 +121,14 @@ namespace Lightning {
         }
 
         public updatePosition(body:LitePhysicsBody) {
+            body.velocity.x += body.deltaG.x;
+            body.velocity.x += body.deltaG.y;
+
             body.x += body.velocity.x;
             body.y += body.velocity.y;
+
+            body.deltaG.x = 0;
+            body.deltaG.y = 0;
             body.updateObjectRefPosition();
         }
 
@@ -142,11 +151,22 @@ namespace Lightning {
             }
         }
 
-        private checkTwoCollision(collisionEvent:LitePhysicsCollisionEvent) {
+        private calculateGravity(body:LitePhysicsBody) {
+            // checks if world gravity has already been applied
+            if(body.deltaG.x !== 0 && body.deltaG.y !== 0) {
+                body.deltaG.x = this._gravity.x;
+                body.deltaG.y = this._gravity.y;
+            }
+        }
+
+        private checkCollisions(collisionEvent:LitePhysicsCollisionEvent) {
             for(let i of collisionEvent.b1) {
                 for(let t of collisionEvent.b2) {
                     if(this.AABBvsAABB(i, t) === true) {
-                        collisionEvent.emit('collide', i, t);
+                        // check to see if the body's collision detection is paused
+                        if(!i.pauseCollisionDetection || !t.pauseCollisionDetection) {
+                            collisionEvent.collisionDetected(i, t);
+                        }
                         return true;
                     }
                 }

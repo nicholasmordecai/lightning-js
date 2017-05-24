@@ -13,7 +13,7 @@ export default class GameState extends Lightning.State {
         let texture:Lightning.Texture =  Lightning.Geometry.Rect(5, 5).generateCanvasTexture();
         let pool = this.game.physics.lite.createPool('test');
 
-        for(var i = 0; i < 50; i++) {
+        for(var i = 0; i < 1; i++) {
             let sprite = new Lightning.Sprite();
             sprite.texture = texture;
             sprite.x = Lightning.Maths.rngFloat(0, this.game.width);            
@@ -25,8 +25,8 @@ export default class GameState extends Lightning.State {
             pool.add(sprite.body);
             sprite.body.enableDebug();
 
-            sprite.body.velocity.x = Lightning.Maths.rngFloat(-2, 2);
-            sprite.body.velocity.y = Lightning.Maths.rngFloat(-2, 2);
+            sprite.body.velocity.x = Lightning.Maths.rngFloat(-5, 5);
+            sprite.body.velocity.y = Lightning.Maths.rngFloat(-5, 5);
         }
 
         let bigGuy = new Lightning.Sprite();
@@ -39,12 +39,14 @@ export default class GameState extends Lightning.State {
         bigGuy.body.enableDebug();
 
         let cEvent = this.game.physics.lite.createCollisionEvent('t', bigGuy.body, pool.bodies);
-        cEvent.subscribe('collide', (objs) => {
-            let obj1 = objs[0][0];
-            let obj2 = objs[0][1];
-
+        cEvent.onCollide((obj1:Lightning.LitePhysicsBody, obj2:Lightning.LitePhysicsBody) => {
             obj2.velocity.x *= -1;
             obj2.velocity.y *= -1;
+            obj2.pauseCollisionDetection = true;
+
+            setTimeout(() => {
+                obj2.pauseCollisionDetection = false;
+            }, 20);
         });
 
         
