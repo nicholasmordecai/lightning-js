@@ -2,6 +2,10 @@
 
 ### 0.4.8
 1. Added collision events to the Lite Physics plugin
+2. Refactoring States and State Manager
+    1. Game reference isn't given to state until initalisation
+    2. Added a construct function that gets called before the init
+3. Fixed a bug when transitioning between states
 
 ### 0.4.7
 5. Created Physics Lite Plugin

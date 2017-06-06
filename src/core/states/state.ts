@@ -7,13 +7,17 @@ namespace Lightning {
         public loader:PIXI.loaders.Loader;
         public events:EventEmitter;
 
+        protected _key:string;
+
         /**
          * @description State constructor
          * 
-         * @param {Engine} game
          */
-        constructor(game:Engine) {
+        constructor() {
             super(); 
+        }
+
+        public construct(game:Engine) {
             this.game = game;
             this.events = new EventEmitter();
             this.loader = new PIXI.loaders.Loader();
@@ -103,6 +107,14 @@ namespace Lightning {
          */
         public preloadComplete(loader, resources):void {
             this.create();
+        }
+
+        public get key() {
+            return this._key;
+        }
+
+        public set key(val:string) {
+            this._key = val;
         }
     }
 }

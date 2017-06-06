@@ -6,7 +6,6 @@ export default class BootState extends Lightning.State {
     }
 
     create() {
-        this.game.states.destroy('boot');
         this.game.states.start('preload');
     }
 }

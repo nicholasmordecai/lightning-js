@@ -8,14 +8,12 @@ var menu_1 = require("./states/menu");
 var game_1 = require("./states/game");
 var Game = (function () {
     function Game(width, height, divId) {
-        if (width === void 0) { width = 500; }
-        if (height === void 0) { height = 500; }
         if (divId === void 0) { divId = 'app'; }
         this.game = new Lightning.Engine(width, height, divId);
-        this.game.states.add('boot', new boot_1.default(this.game));
-        this.game.states.add('preload', new preload_1.default(this.game));
-        this.game.states.add('menu', new menu_1.default(this.game));
-        this.game.states.add('game', new game_1.default(this.game));
+        this.game.states.add('boot', new boot_1.default());
+        this.game.states.add('preload', new preload_1.default());
+        this.game.states.add('menu', new menu_1.default());
+        this.game.states.add('game', new game_1.default());
         this.game.states.start('boot');
     }
     return Game;
@@ -25,7 +23,7 @@ exports.default = Game;
 // let height = Math.round(width * 0.7);
 // new Game(width, height);
 window.onload = function () {
-    new Game(960, 540);
+    new Game(window.innerWidth, window.innerHeight);
 };
 // enable the following for cordova!!
 // var app = {
@@ -47,7 +45,7 @@ window.onload = function () {
 // };
 // app.initialize(); 
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_fe448aba.js","/")
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_73579b60.js","/")
 },{"./states/boot":2,"./states/game":3,"./states/menu":4,"./states/preload":5,"buffer":7,"fsovz6":8}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -72,7 +70,6 @@ var BootState = (function (_super) {
         this.create();
     };
     BootState.prototype.create = function () {
-        this.game.states.destroy('boot');
         this.game.states.start('preload');
     };
     return BootState;
@@ -103,6 +100,11 @@ var GameState = (function (_super) {
         return _this;
     }
     GameState.prototype.create = function () {
+        var _this = this;
+        console.log(this.game.world.children);
+        setTimeout(function () {
+            _this.game.states.start('menu');
+        }, 1500);
         this.game.physics.lite.enablePhysics();
         var texture = Lightning.Geometry.Rect(5, 5).generateCanvasTexture();
         var pool = this.game.physics.lite.createPool('test');
@@ -118,6 +120,9 @@ var GameState = (function (_super) {
             sprite.body.enableDebug();
             sprite.body.velocity.x = Lightning.Maths.rngFloat(-5, 5);
             sprite.body.velocity.y = Lightning.Maths.rngFloat(-5, 5);
+            sprite.body.collideOnWorldBounds = true;
+            sprite.body.gravityEnabled = true;
+            sprite.body.restitution = 0.5;
         }
         var bigGuy = new Lightning.Sprite();
         bigGuy.texture = Lightning.Geometry.Rect(50, 50).generateCanvasTexture();
@@ -126,15 +131,9 @@ var GameState = (function (_super) {
         this.add(bigGuy);
         bigGuy.enablePhysicsBody();
         bigGuy.body.enableDebug();
+        bigGuy.body.static = true;
         var cEvent = this.game.physics.lite.createCollisionEvent('t', bigGuy.body, pool.bodies);
-        cEvent.onCollide(function (obj1, obj2) {
-            obj2.velocity.x *= -1;
-            obj2.velocity.y *= -1;
-            obj2.pauseCollisionDetection = true;
-            setTimeout(function () {
-                obj2.pauseCollisionDetection = false;
-            }, 20);
-        });
+        cEvent.onCollide(this.onCollide, this);
         /**
         1.  * creating basic tween
          */
@@ -291,6 +290,9 @@ var GameState = (function (_super) {
         //     customStorage.getItem('test');
         // ... //
     };
+    GameState.prototype.onCollide = function (obj1, obj2) {
+        console.log('hi');
+    };
     return GameState;
 }(Lightning.State));
 exports.default = GameState;
@@ -316,8 +318,17 @@ var MenuState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MenuState.prototype.create = function () {
-        this.game.states.destroy('preload');
-        this.game.states.start('game');
+        var _this = this;
+        console.log(this.game.world.children);
+        var button = Lightning.Geometry.Rect(50, 50);
+        button.tint = 0xff22aa;
+        this.add(button);
+        button.interactive = true;
+        button.on('mousedown', function () {
+            _this.game.states.start('game');
+        });
+    };
+    MenuState.prototype.update = function () {
     };
     return MenuState;
 }(Lightning.State));
@@ -344,12 +355,7 @@ var PreloadState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     PreloadState.prototype.create = function () {
-        this.game.states.destroy('boot');
         var g = new Lightning.Graphics();
-        g.beginFill(0xff33aa, 1);
-        g.drawRect(0, 0, 50, 50);
-        g.endFill();
-        this.addChild(g);
         this.game.states.start('menu');
     };
     return PreloadState;

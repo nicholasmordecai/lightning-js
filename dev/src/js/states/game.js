@@ -19,6 +19,11 @@ var GameState = (function (_super) {
         return _this;
     }
     GameState.prototype.create = function () {
+        var _this = this;
+        console.log(this.game.world.children);
+        setTimeout(function () {
+            _this.game.states.start('menu');
+        }, 1500);
         this.game.physics.lite.enablePhysics();
         var texture = Lightning.Geometry.Rect(5, 5).generateCanvasTexture();
         var pool = this.game.physics.lite.createPool('test');
@@ -34,6 +39,9 @@ var GameState = (function (_super) {
             sprite.body.enableDebug();
             sprite.body.velocity.x = Lightning.Maths.rngFloat(-5, 5);
             sprite.body.velocity.y = Lightning.Maths.rngFloat(-5, 5);
+            sprite.body.collideOnWorldBounds = true;
+            sprite.body.gravityEnabled = true;
+            sprite.body.restitution = 0.5;
         }
         var bigGuy = new Lightning.Sprite();
         bigGuy.texture = Lightning.Geometry.Rect(50, 50).generateCanvasTexture();
@@ -42,15 +50,9 @@ var GameState = (function (_super) {
         this.add(bigGuy);
         bigGuy.enablePhysicsBody();
         bigGuy.body.enableDebug();
+        bigGuy.body.static = true;
         var cEvent = this.game.physics.lite.createCollisionEvent('t', bigGuy.body, pool.bodies);
-        cEvent.onCollide(function (obj1, obj2) {
-            obj2.velocity.x *= -1;
-            obj2.velocity.y *= -1;
-            obj2.pauseCollisionDetection = true;
-            setTimeout(function () {
-                obj2.pauseCollisionDetection = false;
-            }, 20);
-        });
+        cEvent.onCollide(this.onCollide, this);
         /**
         1.  * creating basic tween
          */
@@ -206,6 +208,9 @@ var GameState = (function (_super) {
         //     customStorage.setItem('test', 67890);
         //     customStorage.getItem('test');
         // ... //
+    };
+    GameState.prototype.onCollide = function (obj1, obj2) {
+        console.log('hi');
     };
     return GameState;
 }(Lightning.State));

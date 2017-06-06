@@ -50,7 +50,7 @@ var Lightning;
                 // store subscription for local reference
                 var subscription = this._subscribers[i];
                 // call the stored function within the specific subscription instance
-                subscription.fn.call(subscription.ctx, subscription.params, this, params);
+                subscription.fn.call(subscription.ctx, params, subscription.params, this);
                 // if the subscription was added once, then remove it now
                 if (subscription.once) {
                     this.removeSubscriber(subscription);

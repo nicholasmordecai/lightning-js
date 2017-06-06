@@ -4,9 +4,7 @@
  * TODO
  * 
  * Body acceleration
- * Change values to vectors
  * Calculate drag when calculating velocity
- * Create world gravity
  * Create local gravity pools
  * Calculate restitution on bounce
  * Fix for when two bodies become attached 
@@ -32,7 +30,7 @@ namespace Lightning {
             super(game, true, true);
             this.game = game;
             this._worldBounds = { x: 0, y: 0, width: this.game.width, height: this.game.height };
-            this._gravity = {x: 0, y: 1};
+            this._gravity = {x: 0, y: 0.1};
         }
 
         /**
@@ -81,6 +79,24 @@ namespace Lightning {
                     }
                     
                     this.updatePosition(body);
+                }
+            }
+
+            for(let i in this._pools) {
+                for(let body of this._pools[i].bodies) {
+                    if(body.destroyFlag === true) {
+                        body.objRef.destroy();
+                        this._pools[i].remove(body);
+                    }
+                }
+            }
+
+            for(let i in this._collisionEvents) {
+                for(let body of this._collisionEvents[i].bodies) {
+                    if(body.destroyFlag === true) {
+                        body.objRef.destroy();
+                        this._pools[i].remove(body);
+                    }
                 }
             }
         }
@@ -136,7 +152,7 @@ namespace Lightning {
 
         public updatePosition(body:LitePhysicsBody) {
             body.velocity.x += body.deltaG.x;
-            body.velocity.x += body.deltaG.y;
+            body.velocity.y += body.deltaG.y;
 
             body.x += body.velocity.x;
             body.y += body.velocity.y;
@@ -167,7 +183,7 @@ namespace Lightning {
 
         private calculateGravity(body:LitePhysicsBody) {
             // checks if world gravity has already been applied
-            if(body.deltaG.x !== 0 && body.deltaG.y !== 0) {
+            if(body.deltaG.x === 0 && body.deltaG.y === 0) {
                 body.deltaG.x = this._gravity.x;
                 body.deltaG.y = this._gravity.y;
             }
@@ -179,6 +195,7 @@ namespace Lightning {
                     if(this.AABBvsAABB(i, t) === true) {
                         // check to see if the body's collision detection is paused
                         if(!i.pauseCollisionDetection || !t.pauseCollisionDetection) {
+                            //this.resolveAABB(i, t);
                             collisionEvent.collisionDetected(i, t);
                         }
                         return true;
@@ -199,10 +216,7 @@ namespace Lightning {
 
                     // check two colisions here
                     if(this.AABBvsAABB(body, body2) === true) {
-                        body.velocity.x *= -1;
-                        body.velocity.y *= -1;
-                        body2.velocity.x *= -1;
-                        body2.velocity.y *= -1;
+                        //this.resolveAABB(body, body2);
                     }       
                 }
                 c++;
@@ -217,6 +231,27 @@ namespace Lightning {
                     return true;
             } else {
                 return false;
+            }
+        }
+
+        private resolveAABB(b1:LitePhysicsBody, b2:LitePhysicsBody) {
+
+            let b1KEx:number = 0.5 * b1.mass * (b1.velocity.x * b1.velocity.x);
+            let b1KEy:number = 0.5 * b1.mass * (b1.velocity.y * b1.velocity.y);
+            let b2KEx:number = 0.5 * b2.mass * (b2.velocity.x * b2.velocity.x);
+            let b2KEy:number = 0.5 * b2.mass * (b2.velocity.y * b2.velocity.y);
+
+            let diffx:number = Math.abs(b1KEx - b2KEx);
+            let diffy:number = Math.abs(b1KEy - b2KEy);
+
+            if(!b1.static) {
+                b1.velocity.x -= Math.sqrt(diffx / b2.mass);
+                b1.velocity.y -= Math.sqrt(diffy / b2.mass);
+            }
+
+            if(!b2.static) {
+                b2.velocity.x -= Math.sqrt(diffx / b1.mass);
+                b2.velocity.y -= Math.sqrt(diffy / b1.mass);
             }
         }
 

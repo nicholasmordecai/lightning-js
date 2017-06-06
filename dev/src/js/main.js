@@ -6,14 +6,12 @@ var menu_1 = require("./states/menu");
 var game_1 = require("./states/game");
 var Game = (function () {
     function Game(width, height, divId) {
-        if (width === void 0) { width = 500; }
-        if (height === void 0) { height = 500; }
         if (divId === void 0) { divId = 'app'; }
         this.game = new Lightning.Engine(width, height, divId);
-        this.game.states.add('boot', new boot_1.default(this.game));
-        this.game.states.add('preload', new preload_1.default(this.game));
-        this.game.states.add('menu', new menu_1.default(this.game));
-        this.game.states.add('game', new game_1.default(this.game));
+        this.game.states.add('boot', new boot_1.default());
+        this.game.states.add('preload', new preload_1.default());
+        this.game.states.add('menu', new menu_1.default());
+        this.game.states.add('game', new game_1.default());
         this.game.states.start('boot');
     }
     return Game;
@@ -23,7 +21,7 @@ exports.default = Game;
 // let height = Math.round(width * 0.7);
 // new Game(width, height);
 window.onload = function () {
-    new Game(960, 540);
+    new Game(window.innerWidth, window.innerHeight);
 };
 // enable the following for cordova!!
 // var app = {

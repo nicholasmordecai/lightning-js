@@ -10,7 +10,19 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 /**
- * Scope Definitions
+ * TODO
+ *
+ * Body acceleration
+ * Change values to vectors
+ * Calculate drag when calculating velocity
+ * Create world gravity
+ * Create local gravity pools
+ * Calculate restitution on bounce
+ * Fix for when two bodies become attached
+ *      use AABB collision resolution and check the bodies are still moving towards eachother
+ * Fix some bodies passing straight through
+ *      I think this is because when a body becomes attached, the maximum amountn of events a being triggered
+ * Apply mass to bodies
  *
  */
 var Lightning;
@@ -21,6 +33,7 @@ var Lightning;
             var _this = _super.call(this, game, true, true) || this;
             _this.game = game;
             _this._worldBounds = { x: 0, y: 0, width: _this.game.width, height: _this.game.height };
+            _this._gravity = { x: 0, y: 0.1 };
             return _this;
         }
         /**
@@ -29,6 +42,7 @@ var Lightning;
         LitePhysicsManager.prototype.enablePhysics = function () {
             this._enabled = true;
             this._pools = {};
+            this._collisionEvents = {};
             this._paused = false;
         };
         LitePhysicsManager.prototype.disable = function () {
@@ -40,13 +54,28 @@ var Lightning;
             if (this._paused)
                 return;
             for (var i in this._pools) {
-                this.checkPoolCollisions(this._pools[i]);
                 for (var _i = 0, _a = this._pools[i].bodies; _i < _a.length; _i++) {
                     var body = _a[_i];
-                    // this.outOfBounds(body);
-                    this.checkWorldCollide(body);
+                    if (body.collideOnWorldBounds) {
+                        this.checkWorldCollide(body);
+                    }
+                    if (body.gravityEnabled) {
+                        this.calculateGravity(body);
+                    }
                     this.updatePosition(body);
-                    body.objRef.updateTransform();
+                }
+            }
+            for (var i in this._collisionEvents) {
+                this.checkCollisions(this._collisionEvents[i]);
+                for (var _b = 0, _c = this._collisionEvents[i].bodies; _b < _c.length; _b++) {
+                    var body = _c[_b];
+                    if (body.collideOnWorldBounds) {
+                        this.checkWorldCollide(body);
+                    }
+                    if (body.gravityEnabled) {
+                        this.calculateGravity(body);
+                    }
+                    this.updatePosition(body);
                 }
             }
         };
@@ -70,22 +99,46 @@ var Lightning;
                 return null;
             }
         };
+        LitePhysicsManager.prototype.createCollisionEvent = function (key, objects1, objects2) {
+            if (this._collisionEvents[key] !== null || this._collisionEvents[key] !== undefined) {
+                if (objects1 instanceof Array === false) {
+                    objects1 = [objects1];
+                }
+                if (objects2 instanceof Array === false) {
+                    objects2 = [objects2];
+                }
+                this._collisionEvents[key] = new Lightning.LitePhysicsCollisionEvent(objects1, objects2);
+                return this._collisionEvents[key];
+            }
+            else {
+                console.info('Physics pool with key:', key, 'alread exists');
+                return null;
+            }
+        };
         LitePhysicsManager.prototype.removePool = function (key) {
             this._pools[key].destroy();
         };
         LitePhysicsManager.prototype.pool = function (key) {
             return this._pools[key];
         };
+        LitePhysicsManager.prototype.collisionEvents = function (key) {
+            return this._collisionEvents[key];
+        };
+        LitePhysicsManager.prototype.removeCollisionEvents = function (key) {
+        };
         LitePhysicsManager.prototype.updatePosition = function (body) {
+            body.velocity.x += body.deltaG.x;
+            body.velocity.y += body.deltaG.y;
             body.x += body.velocity.x;
             body.y += body.velocity.y;
+            body.deltaG.x = 0;
+            body.deltaG.y = 0;
             body.updateObjectRefPosition();
         };
         LitePhysicsManager.prototype.checkWorldCollide = function (body) {
             //left
             if (body.x <= this._worldBounds.x) {
                 body.velocity.x *= -1;
-                console.log('left');
             }
             //right
             if (body.x >= this._worldBounds.width) {
@@ -100,6 +153,28 @@ var Lightning;
                 body.velocity.y *= -1;
             }
         };
+        LitePhysicsManager.prototype.calculateGravity = function (body) {
+            // checks if world gravity has already been applied
+            if (body.deltaG.x === 0 && body.deltaG.y === 0) {
+                body.deltaG.x = this._gravity.x;
+                body.deltaG.y = this._gravity.y;
+            }
+        };
+        LitePhysicsManager.prototype.checkCollisions = function (collisionEvent) {
+            for (var _i = 0, _a = collisionEvent.b1; _i < _a.length; _i++) {
+                var i = _a[_i];
+                for (var _b = 0, _c = collisionEvent.b2; _b < _c.length; _b++) {
+                    var t = _c[_b];
+                    if (this.AABBvsAABB(i, t) === true) {
+                        // check to see if the body's collision detection is paused
+                        if (!i.pauseCollisionDetection || !t.pauseCollisionDetection) {
+                            collisionEvent.collisionDetected(i, t);
+                        }
+                        return true;
+                    }
+                }
+            }
+        };
         LitePhysicsManager.prototype.checkPoolCollisions = function (pool) {
             if (pool.bodies.length < 2)
                 return;
@@ -111,10 +186,7 @@ var Lightning;
                     // the body we're checking against
                     var body2 = pool.bodies[i];
                     // check two colisions here
-                    if (body.x < body2.x + body2.bounds.width &&
-                        body.x + body.bounds.width > body2.x &&
-                        body.y < body2.y + body2.bounds.height &&
-                        body.bounds.height + body.y > body2.y) {
+                    if (this.AABBvsAABB(body, body2) === true) {
                         body.velocity.x *= -1;
                         body.velocity.y *= -1;
                         body2.velocity.x *= -1;
@@ -124,8 +196,18 @@ var Lightning;
                 c++;
             }
         };
+        LitePhysicsManager.prototype.AABBvsAABB = function (b1, b2) {
+            if (b1.x < b2.x + b2.bounds.width &&
+                b1.x + b1.bounds.width > b2.x &&
+                b1.y < b2.y + b2.bounds.height &&
+                b1.bounds.height + b1.y > b2.y) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
         LitePhysicsManager.prototype.outOfBounds = function (body) {
-            console.log(body.x, this._worldBounds.x);
             //left
             if (body.x <= this._worldBounds.x) {
                 console.log('out of bounds left');

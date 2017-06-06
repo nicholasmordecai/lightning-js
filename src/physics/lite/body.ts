@@ -12,6 +12,8 @@ namespace Lightning {
         private _bounds:iBoundBox;
         private _hasMultipleBounds:boolean;
         private _velocity:iVector;
+        private _mass:number;
+        private _static:boolean;
         private _active:boolean;
         private _destroyFlag:boolean;
 
@@ -20,6 +22,7 @@ namespace Lightning {
         private _pauseCollisionDetection:boolean;
         private _collideOnWorldBounds:boolean;
         private _gravityEnabled:boolean;
+        private _restitution:number;
 
         public angle:number;
         public x:number;
@@ -37,9 +40,12 @@ namespace Lightning {
             this._pauseCollisionDetection = false;
             this._velocity = {x:0, y: 0};
             this._deltaG = {x: 0, y: 0};
+            this._mass = 1;
+            this._static = false;
             this.bounds = {x: 0, y: 0, width: obj.width, height: obj.height};
             this._collideOnWorldBounds = false;
             this.drag = 0;
+            this._restitution = 1;
 
             if(inheritAnchor) {
                 this.setAnchor(obj.anchor.x, obj.anchor.y);
@@ -92,12 +98,36 @@ namespace Lightning {
             this._drag = val;
         }
 
+        public get restitution():number {
+            return this._restitution;
+        }
+
+        public set restitution(val:number) {
+            this._restitution = val;
+        }
+
+        public get mass():number {
+            return this._mass;
+        }
+
+        public set mass(val:number) {
+            this._mass = val;
+        }
+
         public get velocity():iVector {
             return this._velocity;
         }
 
         public set velocity(val:iVector) {
             this._velocity = val;
+        }
+
+        public get static():boolean {
+            return this._static;
+        }
+
+        public set static(val:boolean) {
+            this._static = val;
         }
 
         public get hasMultipleBounds():boolean {
@@ -113,7 +143,7 @@ namespace Lightning {
         }
 
         public set destroyFlag(val:boolean) {
-            this.destroyFlag = val;
+            this._destroyFlag = val;
         }
 
         public get collideOnWorldBounds():boolean {

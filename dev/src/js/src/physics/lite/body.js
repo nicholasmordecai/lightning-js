@@ -11,16 +11,22 @@ var Lightning;
             this.active = true;
             this._objectRef = obj;
             this._destroyFlag = false;
-            this.angle = obj.y;
+            // this.angle = obj.angle;
             this.x = obj.x;
             this.y = obj.y;
+            this._pauseCollisionDetection = false;
             this._velocity = { x: 0, y: 0 };
+            this._deltaG = { x: 0, y: 0 };
             this.bounds = { x: 0, y: 0, width: obj.width, height: obj.height };
+            this._collideOnWorldBounds = false;
             this.drag = 0;
+            this._restitution = 1;
             if (inheritAnchor) {
                 this.setAnchor(obj.anchor.x, obj.anchor.y);
             }
         }
+        LitePhysicsBody.prototype.accelerateTo = function () {
+        };
         LitePhysicsBody.prototype.updateObjectRefPosition = function () {
             this._objectRef.x = this.x;
             this._objectRef.y = this.y;
@@ -29,11 +35,10 @@ var Lightning;
             if (y === void 0) { y = x; }
             this._bounds.x -= this._bounds.width * x;
             this._bounds.y -= this._bounds.height * y;
-            console.log(this._bounds.width, this._bounds.x);
         };
         LitePhysicsBody.prototype.enableDebug = function () {
             this._graphics = new Lightning.Graphics();
-            this._graphics.beginFill(0xff0000, 0.6);
+            this._graphics.beginFill(0xff0000, 0.2);
             this._graphics.drawRect(this._bounds.x, this._bounds.y, this._bounds.width, this._bounds.height);
             this._graphics.endFill();
             this._objectRef.add(this._graphics);
@@ -68,6 +73,16 @@ var Lightning;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(LitePhysicsBody.prototype, "restitution", {
+            get: function () {
+                return this._restitution;
+            },
+            set: function (val) {
+                this._restitution = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(LitePhysicsBody.prototype, "velocity", {
             get: function () {
                 return this._velocity;
@@ -98,12 +113,52 @@ var Lightning;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(LitePhysicsBody.prototype, "collideOnWorldBounds", {
+            get: function () {
+                return this._collideOnWorldBounds;
+            },
+            set: function (val) {
+                this._collideOnWorldBounds = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LitePhysicsBody.prototype, "gravityEnabled", {
+            get: function () {
+                return this._gravityEnabled;
+            },
+            set: function (val) {
+                this._gravityEnabled = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(LitePhysicsBody.prototype, "objRef", {
             get: function () {
                 return this._objectRef;
             },
             set: function (val) {
                 this._objectRef = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LitePhysicsBody.prototype, "pauseCollisionDetection", {
+            get: function () {
+                return this._pauseCollisionDetection;
+            },
+            set: function (val) {
+                this._pauseCollisionDetection = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LitePhysicsBody.prototype, "deltaG", {
+            get: function () {
+                return this._deltaG;
+            },
+            set: function (val) {
+                this._deltaG = val;
             },
             enumerable: true,
             configurable: true

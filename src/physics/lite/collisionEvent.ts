@@ -25,7 +25,7 @@ namespace Lightning {
             this._b2 = objects2;
         }
 
-        public onCollide(fn:Function, ctx:Object, ...params) {
+        public onCollide(fn:Function, ctx?:Object, ...params) {
             this._onCollideCallback.push({fn, ctx, params});
         }
 

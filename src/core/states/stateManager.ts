@@ -1,11 +1,17 @@
 /// <reference path="./../../reference.d.ts" />
 
+/**
+ * Refactor arrays or states and active states for dictionary definition objects
+ */
+
 namespace Lightning {
     export class StateManager {
 
         protected game:Engine;
         protected _states:Array<iStateMap>;
-        protected _activeStates:Array<State>;
+        protected _activeStates:Array<iStateMap>;
+
+        private _verbose:boolean;
 
         /**
          * @description StateManager constructor
@@ -16,14 +22,42 @@ namespace Lightning {
             this.game = game;
             this._states = [];
             this._activeStates = [];
+            this._verbose = true;
         }
 
         /**
          * @description Update loop. Called from the game ticker and is used to call each state update function individually
          */
         update(time:number) {
-            for(let state of this._activeStates) {
-                state.update(time);
+            for(let map of this._activeStates) {
+                map.state.update(time);
+            }
+        }
+
+        /**
+         * @description Start a state. This function is called in order to add a state to the world display list and call the init function if the state is to auto initalize
+         */
+        start(key, destroyCurrentStates:boolean = true, autoInit:boolean = true, ...params) {
+            if(this._verbose) console.info('StateManager - Start State: "' + key + '"');
+
+            if(destroyCurrentStates) {
+                for(let map of this._activeStates) {
+                    this.destroy(map.key);
+                }
+            }
+
+            let map = this.findState(key);
+            let state:State = map.state;
+            
+            state.visible = true;
+            state.renderable = true;
+            state.interactive = true;
+            state.interactiveChildren = true;
+
+            this.game.world.addChild(state);
+
+            if(autoInit) {
+                this.init(map, params);
             }
         }
 
@@ -35,22 +69,12 @@ namespace Lightning {
          * 
          * @returns {boolean}
          */
-        init(state:State, ...params):boolean {
+        init(map:iStateMap, ...params):void {
+            if(this._verbose) console.info('StateManager - Initalising State: "' + map.key + '"');
+            let state = map.state;
+            state.construct(this.game)
+            this.addToActive(map);
             state.init(params);
-            this.addToActive(state);
-            return true;
-        }
-
-        /**
-         * @description Start a state. This function is called in order to add a state to the world display list and call the init function if the state is to auto initalize
-         */
-        start(key, autoInit:boolean = true, ...params) {
-            let map = this.findState(key);
-            this.game.world.addChild(map.state);
-            map.worldIndex = this.game.world.getChildIndex(map.state);
-            if(autoInit) {
-                this.init(map.state, params);
-            }
         }
 
         /**
@@ -61,7 +85,7 @@ namespace Lightning {
          * @returns {boolean}
          */
         pause(key:string):boolean {
-            let state = this.findState(key).state;
+            let state = this.findState(key);
             this._activeStates.splice(this.findActiveIndex(state));
             return true;
         }
@@ -74,7 +98,7 @@ namespace Lightning {
          * @returns {boolean}
          */
         unpause(key:string):boolean {
-            let state = this.findState(key).state;
+            let state = this.findState(key);
             this.addToActive(state);
             return true;
         }
@@ -112,7 +136,7 @@ namespace Lightning {
             this.game.world.removeChild(state);
 
             // get index from array and splice
-            this._activeStates.splice(this.findActiveIndex(state));
+            this._activeStates.splice(this.findActiveIndex(map));
 
             return true;
         }
@@ -155,8 +179,14 @@ namespace Lightning {
          * @returns {boolean}
          */
         destroy(key:string):boolean {
+            if(this._verbose) console.info('StateManeger - Destroying State: "' + key + '"');
             // get the state
-            let state = this.findState(key).state;
+            let map = this.findState(key);
+            let state = map.state;
+
+            // get index from array and splice first, to stop any updates whilst the state is being destroyed
+            map.active = false;
+            this._activeStates.splice(this.findActiveIndex(map));
 
             // disable properties
             state.visible = false;
@@ -164,14 +194,22 @@ namespace Lightning {
             state.interactive = false;
             state.interactiveChildren = false;
 
+            // destroy stuff
+            // state.destroy();
+            state.removeChildren();
+
+            /**
+             * Should find a more robust way of doing this
+             */
             // remove from the game world
             this.game.world.removeChild(state);
             
-            // get index from array and splice
-            this._activeStates.splice(this.findActiveIndex(state));
 
+            /**
+             * Give thoughts to how to better clean up a destroyed state
+             */
             // finally, nullify so GC can free up space
-            state = null;
+            // state = null;
 
             return true;
         }
@@ -185,6 +223,7 @@ namespace Lightning {
          * @returns {boolean}
          */
         add(key:string, state:State):boolean {
+            if(this._verbose) console.info('StateManager - Adding New State: "' + key + '"');
             let newMap:iStateMap = <iStateMap>{};
             newMap.key = key;
             newMap.state = state;
@@ -202,20 +241,24 @@ namespace Lightning {
          * 
          * @returns {boolean}
          */
-        private addToActive(state:State):boolean {
-            let exists:boolean = false
-            for(let i of this._activeStates) {
-                if(i === state) {
-                    exists = true;
-                }
-            }
-
-            if(!exists) {
-                this._activeStates.push(state);
+        private addToActive(map:iStateMap):boolean {
+            if(!this.isActive(map)) {
+                this._activeStates.push(map);
+                map.active = true;
                 return true;
             } else {
                 return false;
             }
+        }
+
+        private isActive(map:iStateMap):boolean {
+            let exists:boolean = false
+            for(let i of this._activeStates) {
+                if(i.key === map.key) {
+                    exists = true;
+                }
+            }
+            return false;
         }
 
         /**
@@ -249,10 +292,10 @@ namespace Lightning {
          * 
          * @returns {number}
          */
-        findActiveIndex(state:State):number {
+        findActiveIndex(map:iStateMap):number {
             let count:number = 0;
             for(let i of this._activeStates) {
-                if(i === state) {
+                if(i.key === map.key) {
                     return count;
                 }
                 count++;

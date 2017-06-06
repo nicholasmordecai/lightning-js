@@ -6,6 +6,7 @@ namespace Lightning {
         worldIndex:number;
         active:boolean;
         fps:number;
+        constructed:boolean;
         state:Lightning.State;
     }
 }

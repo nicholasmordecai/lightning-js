@@ -24,7 +24,7 @@ namespace Lightning {
         private _scaleMode:number;
         private _resizeTimeout:number;
 
-        constructor(game:Engine, initWidth:number, initHeight:number, scaleMode:number) {
+        constructor(game:Engine, initWidth:number, initHeight:number, scaleMode:number = 0) {
             super();
             this.game = game;
             this._currentDPR = window.devicePixelRatio;
@@ -33,6 +33,7 @@ namespace Lightning {
             
             // run the initalisation method
             this.setup(initWidth, initHeight);
+            console.log(initWidth, initHeight);
             this.calculateDPR();
             this.calculateOrientation();
             window.addEventListener("resize", this.resizeThrottler.bind(this), false);   
@@ -84,7 +85,7 @@ namespace Lightning {
                         this._resizeTimeout = null;
                         switch(this._scaleMode) {
                             case 0: 
-                                // don't do anything
+                                this.resize(this._originalWidth, this._originalHeight);
                                 break;
                             case 1:
                                 this.resizeStretch();

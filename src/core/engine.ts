@@ -15,7 +15,7 @@ namespace Lightning {
             super();
 
             this.displayInfo();
-            this._scaleManager = new Scale(this, width, height, 2);
+            this._scaleManager = new Scale(this, width, height, 0);
             this._device = new Device(this);
 
             // setup the canvas
