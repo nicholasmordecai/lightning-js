@@ -34,7 +34,6 @@ namespace Lightning {
             this.active = true;
             this._objectRef = obj;
             this._destroyFlag = false;
-            // this.angle = obj.angle;
             this.x = obj.x;
             this.y = obj.y;
             this._pauseCollisionDetection = false;

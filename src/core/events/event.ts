@@ -49,6 +49,8 @@ namespace Lightning {
             // if the event has been dissabled
             if(!this._enabled) return;
 
+            let toRemove:Array<iEventSubscription> = [];
+
             // loop over all subscribers
             for(let i:number = 0; i < this._subscribers.length; i++) {
                 // store subscription for local reference
@@ -59,13 +61,12 @@ namespace Lightning {
 
                 // if the subscription was added once, then remove it now
                 if(subscription.once) {
-                    this.removeSubscriber(subscription);
+                    toRemove.push(subscription);
                 }
+            }
 
-                // if the event is not allowed to propogate, stop here
-                if(!this._proporgationAllowed) {
-                    return;
-                }
+            for(let subscription of toRemove) {
+                this.removeSubscriber(subscription);
             }
         }
 

@@ -8,11 +8,11 @@ export default class GameState extends Lightning.State {
      private _start:boolean = false;
 
     create() {
-        console.log(this.game.world.children);
 
         setTimeout(() => {
+            this.game.physics.lite.reset();
             this.game.states.start('menu');
-        }, 1500);
+        }, 2000);
 
         this.game.physics.lite.enablePhysics();
         let texture:Lightning.Texture =  Lightning.Geometry.Rect(5, 5).generateCanvasTexture();
@@ -23,7 +23,6 @@ export default class GameState extends Lightning.State {
             sprite.texture = texture;
             sprite.x = Lightning.Maths.rngFloat(0, this.game.width);            
             sprite.y = Lightning.Maths.rngFloat(0, this.game.height);
-            // sprite.rotation = Lightning.Maths.rngFloat(0, 12);
             this.add(sprite);
 
             sprite.enablePhysicsBody();

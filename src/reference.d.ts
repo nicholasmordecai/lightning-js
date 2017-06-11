@@ -1,3 +1,5 @@
+
+
 /**
  * External Libs
  */
@@ -45,6 +47,8 @@
  * Controllers
  */
 /// <reference path="./controllers/input/input.ts" />
+/// <reference path="./controllers/input/key.ts" />
+/// <reference path="./controllers/input/keyboardManager.ts" />
 /**
  * Display
  */

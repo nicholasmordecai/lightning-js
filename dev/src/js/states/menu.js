@@ -17,10 +17,15 @@ var MenuState = (function (_super) {
     }
     MenuState.prototype.create = function () {
         var _this = this;
-        console.log(this.game.world.children);
         var button = Lightning.Geometry.Rect(50, 50);
         button.tint = 0xff22aa;
         this.add(button);
+        this.game.keyboard.key('a').subscribeOnce('pressed', function () {
+            console.log('I have been pressed mother fucker');
+        });
+        this.game.keyboard.key('a').subscribeOnce('pressed', function () {
+            console.log('here too?');
+        });
         button.interactive = true;
         button.on('mousedown', function () {
             _this.game.states.start('game');

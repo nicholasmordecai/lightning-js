@@ -23,6 +23,7 @@ namespace Lightning {
         protected _scaleManager:Scale;
         protected _debug:Debug;
         protected _physicsLite:LitePhysicsManager;
+        protected _keyboardManager:KeyboardManager;
 
         public displayInfo() {
 //             console.log(`%c
@@ -259,5 +260,8 @@ namespace Lightning {
             return bytes;
         }
 
+        public get keyboard():KeyboardManager {
+            return this._keyboardManager;
+        }
     }
 }

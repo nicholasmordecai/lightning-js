@@ -20,10 +20,10 @@ var GameState = (function (_super) {
     }
     GameState.prototype.create = function () {
         var _this = this;
-        console.log(this.game.world.children);
         setTimeout(function () {
+            _this.game.physics.lite.reset();
             _this.game.states.start('menu');
-        }, 1500);
+        }, 2000);
         this.game.physics.lite.enablePhysics();
         var texture = Lightning.Geometry.Rect(5, 5).generateCanvasTexture();
         var pool = this.game.physics.lite.createPool('test');
@@ -32,7 +32,6 @@ var GameState = (function (_super) {
             sprite.texture = texture;
             sprite.x = Lightning.Maths.rngFloat(0, this.game.width);
             sprite.y = Lightning.Maths.rngFloat(0, this.game.height);
-            // sprite.rotation = Lightning.Maths.rngFloat(0, 12);
             this.add(sprite);
             sprite.enablePhysicsBody();
             pool.add(sprite.body);

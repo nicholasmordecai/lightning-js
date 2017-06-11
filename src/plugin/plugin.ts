@@ -6,22 +6,13 @@ namespace Lightning {
         protected game:Engine;
         protected _events:EventEmitter;
 
-        protected _enableUpdateOnStart:boolean;
-        protected _enableEventsOnStart:boolean;
-
         public constructor(game:Engine, updateLoop:boolean = true, events:boolean = true) {
             this.game = game;
-            this._enableUpdateOnStart = updateLoop;
-            this._enableEventsOnStart = events;
-            this.enable();
-        }
-
-        public enable() {
-            if(this._enableUpdateOnStart){
+            if(updateLoop){
                 this.enableUpdate();
             }
 
-            if(this._enableEventsOnStart) {
+            if(events) {
                 this.enableEvents();
             }
         }

@@ -1,11 +1,18 @@
 # Changelog
 
+### 0.5.0
+
 ### 0.4.8
 1. Added collision events to the Lite Physics plugin
 2. Refactoring States and State Manager
     1. Game reference isn't given to state until initalisation
     2. Added a construct function that gets called before the init
 3. Fixed a bug when transitioning between states
+4. State maneger extends plugin and is not in the main game update loop
+5. Created Pre update and Post update methods in Lite Physics
+6. Created functionality to destory Lite Physics Bodies
+7. Fixed Event Emit subscribe once remove subscriber
+
 
 ### 0.4.7
 5. Created Physics Lite Plugin

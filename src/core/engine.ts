@@ -39,6 +39,8 @@ namespace Lightning {
             this._storageManager = new StorageManager();
             this._eventEmitter = new EventEmitter();
 
+            this._keyboardManager = new KeyboardManager(this);
+
             // init the ticker
             this._ticker = PIXI.ticker.shared;
             this._ticker.autoStart = false;
@@ -69,7 +71,6 @@ namespace Lightning {
          */ 
         update(time):void {
             this._renderer.render(this._world);
-            this._stateManager.update(time);
         }
 
         /**

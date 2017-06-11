@@ -47,11 +47,30 @@ namespace Lightning {
             this._enabled = false;
         }
 
-        protected update(dt:number) {
-            
-            if(!this._enabled) return;
-            if(this._paused) return;
+        private preUpdate() {
+            // handle deletion pre update
+            for(let i in this._pools) {
+                for(let body of this._pools[i].bodies) {
+                    if(body.destroyFlag === true) {
+                        body.objRef.destroy();
+                        this._pools[i].remove(body);
+                    }
+                }
+            }
 
+            for(let i in this._collisionEvents) {
+                for(let body of this._collisionEvents[i].bodies) {
+                    if(body.destroyFlag === true) {
+                        body.objRef.destroy();
+                        this._pools[i].remove(body);
+                    }
+                }
+            }
+
+            this.mainUpdate();
+        }
+
+        private mainUpdate() {
             for(let i in this._pools) {
                 for(let body of this._pools[i].bodies) {
                     if(body.collideOnWorldBounds) {
@@ -82,6 +101,10 @@ namespace Lightning {
                 }
             }
 
+            this.postUpdate();
+        }
+
+        private postUpdate() {
             for(let i in this._pools) {
                 for(let body of this._pools[i].bodies) {
                     if(body.destroyFlag === true) {
@@ -99,6 +122,12 @@ namespace Lightning {
                     }
                 }
             }
+        }
+
+        protected update(dt:number) {            
+            if(!this._enabled) return;
+            if(this._paused) return;
+            this.preUpdate();
         }
 
         public createPool(key:string, selfCollide:boolean = true, ...objects:Array<LitePhysicsBody>):LitePhysicsPool {
@@ -148,6 +177,11 @@ namespace Lightning {
 
         public removeCollisionEvents(key:string) {
 
+        }
+
+        public reset() {
+            this._pools = {};
+            this._collisionEvents = {};
         }
 
         public updatePosition(body:LitePhysicsBody) {

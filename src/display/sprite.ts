@@ -24,6 +24,16 @@ namespace Lightning {
             this.interactive = true;
             this._input = new Input(this);
         }
+
+        public destroy() {
+            console.log('sprite destroyed', this);
+
+            if(this._liteBody) {
+                this._liteBody.destroyFlag = true;
+            }
+
+            super.destroy();
+        }
         
         /**
          * @param  {boolean} val
