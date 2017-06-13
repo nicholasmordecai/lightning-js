@@ -11,55 +11,161 @@ namespace Lightning {
          * @param {number} height
          * @param {string} canvasId
          */
-        constructor(width, height, wrapperId:string = null) {
+        constructor(width, height, wrapperId:string, options?:iEngineOptions) {
             super();
+            this.initalise(width, height, wrapperId, this.prepareOptions(options));
+        }
 
-            this.displayInfo();
-            this._scaleManager = new Scale(this, width, height, 0);
-            this._device = new Device(this);
+        private prepareOptions(options:iEngineOptions):iEngineOptions {
+            let ops:iEngineOptions = {
+                skipHello: options.skipHello || true,
+                autoStart: options.autoStart || true,
+                renderer: options.renderer || 'auto',
+                resolution: options.resolution || 1, 
+                scaleManeger: options.scaleManeger || true, 
+                device: options.device || true,
+                storage: options.storage || true,
+                events: options.events || true,
+                keyboard: options.keyboard || true,
+                physicsLite: options.physicsLite || true,
+                box2d: options.box2d || false,
+                services: options.services || true,
+                sockets: options.sockets || false,
+                states: options.states || true,
+                tweens: options.tweens || true,
+                parallax: options.parallax || true,
+                particles: options.particles || true,
+                timer: options.timer || true,
+                webfonts: options.webfonts || true,
+                debug: options.debug || true,
+                maths: options.maths || true,
+            }
+            return ops;
+        }
 
+        private initalise(width, height, wrapperId, options:iEngineOptions) {
+            /**
+             * Say Hello
+             */
+            if(options.skipHello === null || options.skipHello === undefined || options.skipHello === true) {
+                this.displayInfo();                
+            }
+            
+            /**
+             * Initalise the Scale Manager
+             */
+            if(options.scaleManeger === null || options.scaleManeger === undefined || options.scaleManeger === true) {
+                this._scaleManager = new Scale(this, width, height, 0);
+            }
+            
+            /**
+             * Initalise the Device
+             */
+            if(options.device === null || options.device === undefined || options.device === true) {
+                this._device = new Device(this);
+            }
+            
+            /**
+             * THIS NEEDS A TIDY UP!
+             */
             // setup the canvas
             let wrapper = document.createElement('div');
             wrapper.id = wrapperId || '';
 
             document.body.appendChild(wrapper);
 
-            this._renderer = PIXI.autoDetectRenderer(width, height, {resolution: this._scaleManager.devicePixelRatio});
+            /**
+             * Initalise the renderer
+             */
+            if(options.renderer === 'auto') {
+                this._renderer = PIXI.autoDetectRenderer(width, height, {resolution: this._scaleManager.devicePixelRatio});
+            } else if(options.renderer === 'canvas') {
+                this._renderer = new PIXI.CanvasRenderer(width, height, {resolution: this._scaleManager.devicePixelRatio});
+            } else if (options.renderer === 'webgl') {
+                this._renderer = new PIXI.WebGLRenderer(width, height, {resolution: this._scaleManager.devicePixelRatio});
+            } else {
+                // fallback if renderer type isn't canvas / webgl / auto
+                this._renderer = PIXI.autoDetectRenderer(width, height, {resolution: this._scaleManager.devicePixelRatio});
+            }
 
             wrapper.appendChild(this._renderer.view);
             
+            // call the scale manager resize throttler once to set the initial scale
             this._scaleManager.resizeThrottler(true);
-            this._scaleManager.alignVertically();
 
-            this._renderer.resize(width, height);
+            /**
+             * I think this can go, but will keep it here for the time being
+             */
+            // this._renderer.resize(width, height);
 
+            /**
+             * Create the world
+             */
             this._world = new Lightning.Group();
             this._world.interactive = true;
 
-            this._storageManager = new StorageManager();
-            this._eventEmitter = new EventEmitter();
-
-            this._keyboardManager = new KeyboardManager(this);
-
-            // init the ticker
+            /**
+             * Initalise the Ticker
+             */
             this._ticker = PIXI.ticker.shared;
             this._ticker.autoStart = false;
             this._ticker.add(this.update, this);
 
-            // create the physicsManager 
-            // this._physicsManager = new PhysicsManager(this);
-            this._physicsLite = new LitePhysicsManager(this);
+            /**
+             * Initalise the Storage Manager
+             */
+            if(options.storage === null || options.storage === undefined || options.storage === true) {
+                this._storageManager = new StorageManager();
+            }
 
-            // create a new services manager
-            this._serviceManager = new ServiceManager(this); 
+            /**
+             * Initalise the Global Event Emitter
+             */
+            if(options.events === null || options.events === undefined || options.events === true) {
+                this._eventEmitter = new EventEmitter();
+            }
+            
+            /**
+             * Initalise the Keyboard Manager
+             */
+            if(options.keyboard === null || options.keyboard === undefined || options.keyboard === true) {
+                this._keyboardManager = new KeyboardManager(this);
+            }
 
-            // create the state StateManager
-            this._stateManager = new StateManager(this);
+            /**
+             * Initalise the Lite Physics
+             */
+            if(options.physicsLite === null || options.physicsLite === undefined || options.physicsLite === true) {
+                this._physicsLite = new LitePhysicsManager(this);
+            }
 
-            // create instance of tween manager
-            this._tweenManager = new TweenManeger(this);
+            /**
+             * Initalise the Service Manager
+             */
+            if(options.services === null || options.services === undefined || options.services === true) {
+                this._serviceManager = new ServiceManager(this); 
+            }
 
-            this.start();
+            /**
+             * Initalise the State Manager
+             */
+            if(options.states === null || options.states === undefined || options.states === true) {
+                this._stateManager = new StateManager(this);
+            }
+
+            /**
+             * Initalise the State Manager
+             */
+            if(options.tweens === null || options.tweens === undefined || options.tweens === true) {
+                this._tweenManager = new TweenManeger(this);
+            }
+
+            /**
+             * Start the update loop automatically
+             */
+            if(options.autoStart === null || options.autoStart === undefined || options.autoStart === true) {
+                this.start();
+            }
         }
 
         /**
@@ -78,7 +184,7 @@ namespace Lightning {
          * 
          * @returns {boolean}
          */
-        start():boolean {
+        public start():boolean {
             this._ticker.start();
             return true;
         }
@@ -88,7 +194,7 @@ namespace Lightning {
          * 
          * @returns {boolean}
          */
-        stop():boolean {
+        public stop():boolean {
             this._ticker.stop();
             return true;
         }

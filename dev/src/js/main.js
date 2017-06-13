@@ -1,3 +1,4 @@
+// <reference path="./../../../dist/lightning.d.ts" />
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var boot_1 = require("./states/boot");
@@ -7,7 +8,9 @@ var game_1 = require("./states/game");
 var Game = (function () {
     function Game(width, height, divId) {
         if (divId === void 0) { divId = 'app'; }
-        this.game = new Lightning.Engine(width, height, divId);
+        this.game = new Lightning.Engine(width, height, divId, {
+            autoStart: false
+        });
         this.game.states.add('boot', new boot_1.default());
         this.game.states.add('preload', new preload_1.default());
         this.game.states.add('menu', new menu_1.default());

@@ -1,4 +1,3 @@
-// <reference path="./../../../../dist/lightning.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -23,11 +22,11 @@ var GameState = (function (_super) {
         setTimeout(function () {
             _this.game.physics.lite.reset();
             _this.game.states.start('menu');
-        }, 2000);
+        }, 5000);
         this.game.physics.lite.enablePhysics();
         var texture = Lightning.Geometry.Rect(5, 5).generateCanvasTexture();
         var pool = this.game.physics.lite.createPool('test');
-        for (var i = 0; i < 1; i++) {
+        for (var i = 0; i < 30; i++) {
             var sprite = new Lightning.Sprite();
             sprite.texture = texture;
             sprite.x = Lightning.Maths.rngFloat(0, this.game.width);

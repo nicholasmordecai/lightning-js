@@ -1,4 +1,3 @@
-/// <reference path="./../../../../dist/lightning.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -19,15 +18,19 @@ var GameState = (function (_super) {
         return _this;
     }
     GameState.prototype.create = function () {
+        var _this = this;
+        setTimeout(function () {
+            _this.game.physics.lite.reset();
+            _this.game.states.start('menu');
+        }, 5000);
         this.game.physics.lite.enablePhysics();
         var texture = Lightning.Geometry.Rect(5, 5).generateCanvasTexture();
         var pool = this.game.physics.lite.createPool('test');
-        for (var i = 0; i < 1; i++) {
+        for (var i = 0; i < 30; i++) {
             var sprite = new Lightning.Sprite();
             sprite.texture = texture;
             sprite.x = Lightning.Maths.rngFloat(0, this.game.width);
             sprite.y = Lightning.Maths.rngFloat(0, this.game.height);
-            // sprite.rotation = Lightning.Maths.rngFloat(0, 12);
             this.add(sprite);
             sprite.enablePhysicsBody();
             pool.add(sprite.body);
@@ -45,6 +48,7 @@ var GameState = (function (_super) {
         this.add(bigGuy);
         bigGuy.enablePhysicsBody();
         bigGuy.body.enableDebug();
+        bigGuy.body.static = true;
         var cEvent = this.game.physics.lite.createCollisionEvent('t', bigGuy.body, pool.bodies);
         cEvent.onCollide(this.onCollide, this);
         /**
@@ -204,6 +208,7 @@ var GameState = (function (_super) {
         // ... //
     };
     GameState.prototype.onCollide = function (obj1, obj2) {
+        console.log('hi');
     };
     return GameState;
 }(Lightning.State));

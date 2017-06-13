@@ -13,9 +13,7 @@ var __extends = (this && this.__extends) || (function () {
  * TODO
  *
  * Body acceleration
- * Change values to vectors
  * Calculate drag when calculating velocity
- * Create world gravity
  * Create local gravity pools
  * Calculate restitution on bounce
  * Fix for when two bodies become attached
@@ -48,11 +46,29 @@ var Lightning;
         LitePhysicsManager.prototype.disable = function () {
             this._enabled = false;
         };
-        LitePhysicsManager.prototype.update = function (dt) {
-            if (!this._enabled)
-                return;
-            if (this._paused)
-                return;
+        LitePhysicsManager.prototype.preUpdate = function () {
+            // handle deletion pre update
+            for (var i in this._pools) {
+                for (var _i = 0, _a = this._pools[i].bodies; _i < _a.length; _i++) {
+                    var body = _a[_i];
+                    if (body.destroyFlag === true) {
+                        body.objRef.destroy();
+                        this._pools[i].remove(body);
+                    }
+                }
+            }
+            for (var i in this._collisionEvents) {
+                for (var _b = 0, _c = this._collisionEvents[i].bodies; _b < _c.length; _b++) {
+                    var body = _c[_b];
+                    if (body.destroyFlag === true) {
+                        body.objRef.destroy();
+                        this._pools[i].remove(body);
+                    }
+                }
+            }
+            this.mainUpdate();
+        };
+        LitePhysicsManager.prototype.mainUpdate = function () {
             for (var i in this._pools) {
                 for (var _i = 0, _a = this._pools[i].bodies; _i < _a.length; _i++) {
                     var body = _a[_i];
@@ -78,6 +94,34 @@ var Lightning;
                     this.updatePosition(body);
                 }
             }
+            this.postUpdate();
+        };
+        LitePhysicsManager.prototype.postUpdate = function () {
+            for (var i in this._pools) {
+                for (var _i = 0, _a = this._pools[i].bodies; _i < _a.length; _i++) {
+                    var body = _a[_i];
+                    if (body.destroyFlag === true) {
+                        body.objRef.destroy();
+                        this._pools[i].remove(body);
+                    }
+                }
+            }
+            for (var i in this._collisionEvents) {
+                for (var _b = 0, _c = this._collisionEvents[i].bodies; _b < _c.length; _b++) {
+                    var body = _c[_b];
+                    if (body.destroyFlag === true) {
+                        body.objRef.destroy();
+                        this._pools[i].remove(body);
+                    }
+                }
+            }
+        };
+        LitePhysicsManager.prototype.update = function (dt) {
+            if (!this._enabled)
+                return;
+            if (this._paused)
+                return;
+            this.preUpdate();
         };
         LitePhysicsManager.prototype.createPool = function (key, selfCollide) {
             if (selfCollide === void 0) { selfCollide = true; }
@@ -126,6 +170,10 @@ var Lightning;
         };
         LitePhysicsManager.prototype.removeCollisionEvents = function (key) {
         };
+        LitePhysicsManager.prototype.reset = function () {
+            this._pools = {};
+            this._collisionEvents = {};
+        };
         LitePhysicsManager.prototype.updatePosition = function (body) {
             body.velocity.x += body.deltaG.x;
             body.velocity.y += body.deltaG.y;
@@ -168,6 +216,7 @@ var Lightning;
                     if (this.AABBvsAABB(i, t) === true) {
                         // check to see if the body's collision detection is paused
                         if (!i.pauseCollisionDetection || !t.pauseCollisionDetection) {
+                            //this.resolveAABB(i, t);
                             collisionEvent.collisionDetected(i, t);
                         }
                         return true;
@@ -187,10 +236,7 @@ var Lightning;
                     var body2 = pool.bodies[i];
                     // check two colisions here
                     if (this.AABBvsAABB(body, body2) === true) {
-                        body.velocity.x *= -1;
-                        body.velocity.y *= -1;
-                        body2.velocity.x *= -1;
-                        body2.velocity.y *= -1;
+                        //this.resolveAABB(body, body2);
                     }
                 }
                 c++;
@@ -205,6 +251,22 @@ var Lightning;
             }
             else {
                 return false;
+            }
+        };
+        LitePhysicsManager.prototype.resolveAABB = function (b1, b2) {
+            var b1KEx = 0.5 * b1.mass * (b1.velocity.x * b1.velocity.x);
+            var b1KEy = 0.5 * b1.mass * (b1.velocity.y * b1.velocity.y);
+            var b2KEx = 0.5 * b2.mass * (b2.velocity.x * b2.velocity.x);
+            var b2KEy = 0.5 * b2.mass * (b2.velocity.y * b2.velocity.y);
+            var diffx = Math.abs(b1KEx - b2KEx);
+            var diffy = Math.abs(b1KEy - b2KEy);
+            if (!b1.static) {
+                b1.velocity.x -= Math.sqrt(diffx / b2.mass);
+                b1.velocity.y -= Math.sqrt(diffy / b2.mass);
+            }
+            if (!b2.static) {
+                b2.velocity.x -= Math.sqrt(diffx / b1.mass);
+                b2.velocity.y -= Math.sqrt(diffy / b1.mass);
             }
         };
         LitePhysicsManager.prototype.outOfBounds = function (body) {

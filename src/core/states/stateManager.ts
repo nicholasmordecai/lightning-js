@@ -29,7 +29,7 @@ namespace Lightning {
             this.game = game;
             this._states = [];
             this._activeStates = [];
-            this._verbose = true;
+            this._verbose = false;
         }
 
         /**
@@ -58,9 +58,6 @@ namespace Lightning {
 
             let map = this.findState(key);
             let state:State = map.state;
-
-            console.log(state);
-
             this.game.world.addChild(state);
             
             state.visible = true;

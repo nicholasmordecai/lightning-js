@@ -45,6 +45,7 @@ var Lightning;
             // if the event has been dissabled
             if (!this._enabled)
                 return;
+            var toRemove = [];
             // loop over all subscribers
             for (var i = 0; i < this._subscribers.length; i++) {
                 // store subscription for local reference
@@ -53,12 +54,12 @@ var Lightning;
                 subscription.fn.call(subscription.ctx, params, subscription.params, this);
                 // if the subscription was added once, then remove it now
                 if (subscription.once) {
-                    this.removeSubscriber(subscription);
+                    toRemove.push(subscription);
                 }
-                // if the event is not allowed to propogate, stop here
-                if (!this._proporgationAllowed) {
-                    return;
-                }
+            }
+            for (var _a = 0, toRemove_1 = toRemove; _a < toRemove_1.length; _a++) {
+                var subscription = toRemove_1[_a];
+                this.removeSubscriber(subscription);
             }
         };
         /**

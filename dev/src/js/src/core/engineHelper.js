@@ -307,6 +307,13 @@ var Lightning;
             }
             return bytes;
         };
+        Object.defineProperty(EngineHelper.prototype, "keyboard", {
+            get: function () {
+                return this._keyboardManager;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return EngineHelper;
     }());
     Lightning.EngineHelper = EngineHelper;

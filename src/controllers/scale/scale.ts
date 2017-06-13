@@ -33,7 +33,6 @@ namespace Lightning {
             
             // run the initalisation method
             this.setup(initWidth, initHeight);
-            console.log(initWidth, initHeight);
             this.calculateDPR();
             this.calculateOrientation();
             window.addEventListener("resize", this.resizeThrottler.bind(this), false);   

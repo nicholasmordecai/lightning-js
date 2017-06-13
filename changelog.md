@@ -1,6 +1,8 @@
 # Changelog
 
 ### 0.5.0
+1. Introduced engine initalisation options
+2. Cleaned up the main engine and removed the setup from the constructor
 
 ### 0.4.8
 1. Added collision events to the Lite Physics plugin

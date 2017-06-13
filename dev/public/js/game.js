@@ -1,5 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+// <reference path="./../../../dist/lightning.d.ts" />
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var boot_1 = require("./states/boot");
@@ -9,7 +10,9 @@ var game_1 = require("./states/game");
 var Game = (function () {
     function Game(width, height, divId) {
         if (divId === void 0) { divId = 'app'; }
-        this.game = new Lightning.Engine(width, height, divId);
+        this.game = new Lightning.Engine(width, height, divId, {
+            autoStart: false
+        });
         this.game.states.add('boot', new boot_1.default());
         this.game.states.add('preload', new preload_1.default());
         this.game.states.add('menu', new menu_1.default());
@@ -45,7 +48,7 @@ window.onload = function () {
 // };
 // app.initialize(); 
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_5ea5af59.js","/")
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_85801f67.js","/")
 },{"./states/boot":2,"./states/game":3,"./states/menu":4,"./states/preload":5,"buffer":7,"fsovz6":8}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -79,7 +82,6 @@ exports.default = BootState;
 }).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/states/boot.js","/states")
 },{"buffer":7,"fsovz6":8}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-// <reference path="./../../../../dist/lightning.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -104,11 +106,11 @@ var GameState = (function (_super) {
         setTimeout(function () {
             _this.game.physics.lite.reset();
             _this.game.states.start('menu');
-        }, 2000);
+        }, 5000);
         this.game.physics.lite.enablePhysics();
         var texture = Lightning.Geometry.Rect(5, 5).generateCanvasTexture();
         var pool = this.game.physics.lite.createPool('test');
-        for (var i = 0; i < 1; i++) {
+        for (var i = 0; i < 30; i++) {
             var sprite = new Lightning.Sprite();
             sprite.texture = texture;
             sprite.x = Lightning.Maths.rngFloat(0, this.game.width);

@@ -11,12 +11,13 @@ var Lightning;
             this.active = true;
             this._objectRef = obj;
             this._destroyFlag = false;
-            // this.angle = obj.angle;
             this.x = obj.x;
             this.y = obj.y;
             this._pauseCollisionDetection = false;
             this._velocity = { x: 0, y: 0 };
             this._deltaG = { x: 0, y: 0 };
+            this._mass = 1;
+            this._static = false;
             this.bounds = { x: 0, y: 0, width: obj.width, height: obj.height };
             this._collideOnWorldBounds = false;
             this.drag = 0;
@@ -83,12 +84,32 @@ var Lightning;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(LitePhysicsBody.prototype, "mass", {
+            get: function () {
+                return this._mass;
+            },
+            set: function (val) {
+                this._mass = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(LitePhysicsBody.prototype, "velocity", {
             get: function () {
                 return this._velocity;
             },
             set: function (val) {
                 this._velocity = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LitePhysicsBody.prototype, "static", {
+            get: function () {
+                return this._static;
+            },
+            set: function (val) {
+                this._static = val;
             },
             enumerable: true,
             configurable: true
@@ -108,7 +129,7 @@ var Lightning;
                 return this._destroyFlag;
             },
             set: function (val) {
-                this.destroyFlag = val;
+                this._destroyFlag = val;
             },
             enumerable: true,
             configurable: true

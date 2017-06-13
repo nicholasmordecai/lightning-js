@@ -1,3 +1,5 @@
+// <reference path="./../../../dist/lightning.d.ts" />
+
 import BootState from './states/boot';
 import PreloadState from './states/preload';
 import MenuState from './states/menu';
@@ -8,7 +10,9 @@ export default class Game {
     public game:Lightning.Engine;
 
     constructor(width:number, height:number, divId:string = 'app') {
-        this.game = new Lightning.Engine(width, height, divId);
+        this.game = new Lightning.Engine(width, height, divId, {
+            autoStart: false
+        });
         this.game.states.add('boot', new BootState());
         this.game.states.add('preload', new PreloadState());
         this.game.states.add('menu', new MenuState());

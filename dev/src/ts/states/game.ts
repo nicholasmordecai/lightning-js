@@ -1,5 +1,3 @@
-// <reference path="./../../../../dist/lightning.d.ts" />
-
 export default class GameState extends Lightning.State {
 
      protected particleEmitter:Lightning.ParticleEmitter
@@ -12,13 +10,13 @@ export default class GameState extends Lightning.State {
         setTimeout(() => {
             this.game.physics.lite.reset();
             this.game.states.start('menu');
-        }, 2000);
+        }, 5000);
 
         this.game.physics.lite.enablePhysics();
         let texture:Lightning.Texture =  Lightning.Geometry.Rect(5, 5).generateCanvasTexture();
         let pool = this.game.physics.lite.createPool('test');
 
-        for(var i = 0; i < 1; i++) {
+        for(var i = 0; i < 30; i++) {
             let sprite = new Lightning.Sprite();
             sprite.texture = texture;
             sprite.x = Lightning.Maths.rngFloat(0, this.game.width);            
