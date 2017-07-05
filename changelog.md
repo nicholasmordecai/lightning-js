@@ -1,8 +1,22 @@
 # Changelog
 
+### 0.5.1
+1. Work on Geometry class
+    1. Override Tint
+    2. Override Alpha
+    3. Automatically return a canvas generated texture of the graphics unless specified not to
+    4. Added rounded rectangle
+    5. Added Ellipse
+2. Added Howler.js to the build
+    1. Introduced a basic set of functions to use howler
+3. Cleaned up the states some more
+
 ### 0.5.0
 1. Introduced engine initalisation options
 2. Cleaned up the main engine and removed the setup from the constructor
+3. Added render options to the engine initialiser
+4. Created toLocal functionality on the particle emitter
+
 
 ### 0.4.8
 1. Added collision events to the Lite Physics plugin

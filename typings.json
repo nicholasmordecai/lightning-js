@@ -4,6 +4,7 @@
   "globalDevDependencies": {
     "pixi.js": "file:libs/pixi.js/index.d.ts",
     "box2d": "file:libs/box2d/index.d.ts",
-    "webfontloader": "file:libs/webfontloader/index.d.ts"
+    "webfontloader": "file:libs/webfontloader/index.d.ts",
+    "howler": "file:libs/howler/index.d.ts"
   }
 }

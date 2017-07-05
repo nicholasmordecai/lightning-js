@@ -45,7 +45,7 @@ namespace Lightning {
          * 
          * @returns {void}
          */
-        emit(...params):void {
+        emit(fromEmitter:boolean = false, ...params):void {
             // if the event has been dissabled
             if(!this._enabled) return;
 
@@ -56,8 +56,22 @@ namespace Lightning {
                 // store subscription for local reference
                 let subscription:iEventSubscription = this._subscribers[i];
 
+                let allParams = [this];
+                if(fromEmitter) {
+                    for(let i of params[0]) {
+                        allParams.push(i);
+                    }
+                } else {
+                    for(let i of params) {
+                        allParams.push(i);
+                    }
+                }
+                
+                for(let i of subscription.params) {
+                    allParams.push(i);
+                }
                 // call the stored function within the specific subscription instance
-                subscription.fn.call(subscription.ctx, params, subscription.params, this);
+                subscription.fn.apply(subscription.ctx, allParams);
 
                 // if the subscription was added once, then remove it now
                 if(subscription.once) {

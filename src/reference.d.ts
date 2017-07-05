@@ -5,6 +5,7 @@
  */
 /// <reference path="./../libs/box2d/index.d.ts" />
 /// <reference path="./../libs/pixi.js/index.d.ts" />
+/// <reference path="./../libs/howler/index.d.ts" />
 /// <reference path="./../libs/webfontloader/index.d.ts" />
 /**
  * Interfaces
@@ -28,6 +29,11 @@
  */
 
 /// <reference path="./plugin/plugin.ts" />
+
+/**
+ * Audio
+ */
+/// <reference path="./core/audio/audioManager.ts" />
 
 /**
  * Controllers

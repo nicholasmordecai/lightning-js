@@ -123,8 +123,6 @@ namespace Lightning {
             let diffLow:number = x - low;
             let diffHigh:number = high - x;
 
-            console.log(low, high, diffLow, diffHigh);
-
             if(diffHigh > diffLow) {
                 return low;
             } else {

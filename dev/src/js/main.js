@@ -8,7 +8,7 @@ var game_1 = require("./states/game");
 var Game = (function () {
     function Game(width, height, divId) {
         if (divId === void 0) { divId = 'app'; }
-        this.game = new Lightning.Engine(width, height, divId, {
+        this.game = new Lightning.Engine(width, height, {
             autoStart: false
         });
         this.game.states.add('boot', new boot_1.default());

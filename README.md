@@ -1,7 +1,7 @@
 [![CircleCI](https://circleci.com/gh/megmut/lightning-js.svg?style=svg)](https://circleci.com/gh/megmut/lightning-js)
 
 
-# Ligtning 0.4.8
+# Ligtning 0.5.0
 
 A complete HTML5 game development library built on Pixi.js (4.4.1)
 

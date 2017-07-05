@@ -20,20 +20,21 @@ namespace Lightning {
         protected _storageManager:StorageManager;
         protected _serviceManager:ServiceManager;
         protected _tweenManager:TweenManeger;
+        protected _audioManager:AudioManager;
         protected _scaleManager:Scale;
         protected _debug:Debug;
         protected _physicsLite:LitePhysicsManager;
         protected _keyboardManager:KeyboardManager;
 
         public displayInfo() {
-//             console.log(`%c
-//  __    _     _   _       _         
-// |  |  |_|___| |_| |_ ___|_|___ ___ 
-// |  |__| | . |   |  _|   | |   | . |
-// |_____|_|_  |_|_|_| |_|_|_|_|_|_  |
-//         |___|                 |___|
-//              `, "font-family:monospace");
-//              console.log('Lightning-js | version : 0.4.5');
+            //             console.log(`%c
+            //  __    _     _   _       _         
+            // |  |  |_|___| |_| |_ ___|_|___ ___ 
+            // |  |__| | . |   |  _|   | |   | . |
+            // |_____|_|_  |_|_|_| |_|_|_|_|_|_  |
+            //         |___|                 |___|
+            //              `, "font-family:monospace");
+            //              console.log('Lightning-js | version : 0.4.5');
         }
 
         public generateTexture(...params):any {
@@ -226,6 +227,17 @@ namespace Lightning {
                 return result;
             })(rootObject);
         }
+        
+        public screenShot(fileName) {
+            this.renderer.extract.canvas().toBlob((b) =>{
+                var a = document.createElement('a');
+                document.body['append'](a);
+                a.download = fileName;
+                a.href = URL.createObjectURL(b);
+                a.click();
+                a.remove();
+            }, 'image/png');
+        }
 
         public sizeof(object:any):number {
             var objectList = [];
@@ -262,6 +274,10 @@ namespace Lightning {
 
         public get keyboard():KeyboardManager {
             return this._keyboardManager;
+        }
+
+        public get audio():AudioManager {
+            return this._audioManager;
         }
     }
 }

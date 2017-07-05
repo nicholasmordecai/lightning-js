@@ -10,7 +10,7 @@ var game_1 = require("./states/game");
 var Game = (function () {
     function Game(width, height, divId) {
         if (divId === void 0) { divId = 'app'; }
-        this.game = new Lightning.Engine(width, height, divId, {
+        this.game = new Lightning.Engine(width, height, {
             autoStart: false
         });
         this.game.states.add('boot', new boot_1.default());
@@ -48,7 +48,7 @@ window.onload = function () {
 // };
 // app.initialize(); 
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_85801f67.js","/")
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_b87a23f0.js","/")
 },{"./states/boot":2,"./states/game":3,"./states/menu":4,"./states/preload":5,"buffer":7,"fsovz6":8}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -323,16 +323,35 @@ var MenuState = (function (_super) {
         var button = Lightning.Geometry.Rect(50, 50);
         button.tint = 0xff22aa;
         this.add(button);
-        this.game.keyboard.key('a').subscribeOnce('pressed', function () {
-            console.log('I have been pressed mother fucker');
+        var sound = this.game.audio.load('meeseeks', ['audio.mp3']);
+        this.game.keyboard.key('space').subscribe('pressed', function () {
+            sound.play();
         });
         this.game.keyboard.key('a').subscribeOnce('pressed', function () {
-            console.log('here too?');
+            // console.log('I have been pressed mother fucker');
+        });
+        this.game.keyboard.key('a').subscribeOnce('pressed', function () {
+            // console.log('here too?');
         });
         button.interactive = true;
-        button.on('mousedown', function () {
+        button.on('pointerdown', function () {
+            console.log('yoo');
             _this.game.states.start('game');
         });
+        this.particleEmitter = new Lightning.ParticleEmitter(this, 0, this.game.center.y);
+        this.add(this.particleEmitter);
+        // generate a texture for the particle emitter
+        var texture = Lightning.Geometry.Rect(8, 8).generateCanvasTexture();
+        // add that texture to the particle emitter
+        this.particleEmitter.add(texture);
+        this.particleEmitter.enableDebug();
+        this.particleEmitter.setGravity(0, 0.01);
+        this.particleEmitter.setVelocityRange(-0.3, 0.3, -0.3, 0.3);
+        this.particleEmitter.setInterval(50);
+        this.particleEmitter.addToLocal = false;
+        this.particleEmitter.setRotationIncrement(-0.1, 0.1);
+        this.particleEmitter.setStrength(2);
+        this.particleEmitter.start();
     };
     MenuState.prototype.update = function () {
     };

@@ -10,7 +10,7 @@ export default class Game {
     public game:Lightning.Engine;
 
     constructor(width:number, height:number, divId:string = 'app') {
-        this.game = new Lightning.Engine(width, height, divId, {
+        this.game = new Lightning.Engine(width, height, {
             autoStart: false
         });
         this.game.states.add('boot', new BootState());
