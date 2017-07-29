@@ -50,8 +50,7 @@ namespace Lightning {
 
             this._currentDataSelector = 0;
 
-            let background = Lightning.Geometry.Rect(this._chartWidth, this._chartHeight);
-            background.tint = 0x1a1a1a;
+            let background = Lightning.Geometry.Rect(this._chartWidth, this._chartHeight, 0x1a1a1a);
             this._chart = new Lightning.Sprite(this.game.generateTexture(background));
             this._chart.enableInput();
 

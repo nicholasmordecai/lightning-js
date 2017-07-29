@@ -1,7 +1,43 @@
 # Changelog
 
+### 0.5.1
+1. Work on Geometry class
+    1. Override Tint
+    2. Override Alpha
+    3. Automatically return a canvas generated texture of the graphics unless specified not to
+    4. Added rounded rectangle
+    5. Added Ellipse
+2. Added Howler.js to the build
+    1. Introduced a basic set of functions to use howler
+3. Cleaned up the states some more
+4. Particle Emitter preFillPool function (create n particles and dump into dead pool before use)
+5. Fixed renderer.transparent not working (was the backgroundColor default value)
+6. Fixed Easing.ElasticIn function
+7. Added random array to the Maths module
+8. Added device to the global namespace
+9. Added more features to Maths module
+10. Started adding examples of code in the comment headers
+
+
+
+### 0.5.0
+1. Introduced engine initalisation options
+2. Cleaned up the main engine and removed the setup from the constructor
+3. Added render options to the engine initialiser
+4. Created toLocal functionality on the particle emitter
+
+
 ### 0.4.8
 1. Added collision events to the Lite Physics plugin
+2. Refactoring States and State Manager
+    1. Game reference isn't given to state until initalisation
+    2. Added a construct function that gets called before the init
+3. Fixed a bug when transitioning between states
+4. State maneger extends plugin and is not in the main game update loop
+5. Created Pre update and Post update methods in Lite Physics
+6. Created functionality to destory Lite Physics Bodies
+7. Fixed Event Emit subscribe once remove subscriber
+
 
 ### 0.4.7
 5. Created Physics Lite Plugin

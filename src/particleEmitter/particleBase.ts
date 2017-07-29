@@ -81,7 +81,6 @@ namespace Lightning {
         }
 
         public updateComplex(time:number) {
-
             if(this._deadTime <= this._lifeTime) {
                 this.returnToPool();    
                 return;

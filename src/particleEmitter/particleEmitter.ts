@@ -3,8 +3,12 @@
 /**
  * Fade in / Scale in sprites - optional
  * Simple / Advanced -- for creating ultra performant particles in the 50k+ range
+ * Particle Complete Animation
+ * Particle Pathing
  * Colour Shift
  * Checking the container class in pixi, I should think about refactoring the calculate bounds function.. if it's looping over 10k children to calculate it's bounds, that's going to get expensive!
+ * Set the advances / simple particle
+ * Build a Pre-defined 'random' pool to speed up the emit functionality. For example, let the Emitter pre-build 50 random positions, scales, etc.. then just pick random from it. Will vastly increase the Emit function.
  */
 
 namespace Lightning {
@@ -21,6 +25,7 @@ namespace Lightning {
         protected _deadPoolText:Lightning.Text;
         protected _intervalText:Lightning.Text;
         protected _strengthText:Lightning.Text;
+        protected _addToLocal:boolean = true;
 
         protected _emit:boolean = false;
         protected _nextEmit:number = null;
@@ -34,16 +39,18 @@ namespace Lightning {
         
         protected _deadPool:Array<Particle> = [];
 
-        protected _gravity:iPoint = {x: 0  * window.devicePixelRatio, y: 0.2  * window.devicePixelRatio};
+        private _particles:Array<Particle>;
+
+        protected _gravity:iPoint = {x: 0, y: 0.2};
         protected _nGravity:number = 6.5;
-        protected _spread:iPointRange= {xFrom: -2  * window.devicePixelRatio, xTo: 2  * window.devicePixelRatio, yFrom: -2  * window.devicePixelRatio, yTo: 2  * window.devicePixelRatio};
+        protected _spread:iPointRange= {xFrom: -2, xTo: 2, yFrom: -2, yTo: 2};
         protected _lifeSpanRange:iRange = {from:3000, to:3000};
         protected _particleStrength:number = 1;
 
         protected _particleScaleRange:iPointRange = {xFrom: 0.7, xTo: 1, yFrom: 0.7, yTo: 1};
         protected _particleAlphaRange:iRange = {from: 1, to: 1};
         protected _particleRotationRange:iRange = {from: 0, to: 1.9};
-        protected _particleVelocityRange:iPointRange = {xFrom: -1  * window.devicePixelRatio, xTo: 1  * window.devicePixelRatio, yFrom: -4  * window.devicePixelRatio, yTo: -6  * window.devicePixelRatio}; 
+        protected _particleVelocityRange:iPointRange = {xFrom: -1, xTo: 1, yFrom: -4, yTo: -6}; 
 
         protected _particleRotationIncrement:iRange = {from: 0, to: 0};
         protected _particleScaleIncrement:iPointRange = {xFrom: 0, xTo: 0, yFrom: 0, yTo: 0};
@@ -58,29 +65,17 @@ namespace Lightning {
             this.game = state.game;
             this.x = x;
             this.y = y;
+            this._particles = [];
             this.gravityWells = [];
             this.obstacles = [];
-
-            let t = Lightning.Geometry.Circle(15);
-
-            let sprite = new Lightning.Sprite(this.game.generateTexture(t));
-            sprite['mass'] = 0.1;
-            sprite.setAnchor(0.5);
-            sprite.tint = 0xff22aa;
-            this.state.add(sprite);
-            sprite.x = this.game.center.x- 75;
-            sprite.y = this.game.center.y - 100;
-            sprite.enableDrag();
-            this.gravityWells.push(sprite);
-
             this.game.ticker.add(this.tick, this);
         }
 
         private tick(time:number):void {
-            for(let i of this.children) {
+            for(let i of this._particles) {
                 // see if it's more performant to use an array for alivePool, and remove dead object from there
-                if(!i['isDead']) {
-                    i['update'](time);
+                if(!i.isDead) {
+                    i.update(time);
                 }
             }
 
@@ -96,9 +91,7 @@ namespace Lightning {
             }
         }
 
-        updateTransform() {
-            this._boundsID++;
-
+        public updateTransform() {
             this.transform.updateTransform(this.parent.transform);
 
             // TODO: check render flags, how to process stuff here
@@ -109,13 +102,13 @@ namespace Lightning {
          * @param  {string} key
          * @param  {DisplayObject} particle
          */
-        add(...params:Array<PIXI.Texture>):void {
+        public add(...params:Array<PIXI.Texture>):void {
             for(let i of params) {
                 this._textures.push(i);
             }
         }
 
-        start(time:number = null):void {
+        public start(time:number = null):void {
             if(time === 0) {
                 this.fireEmitter();
             } else {
@@ -125,7 +118,50 @@ namespace Lightning {
             }
         }
 
-        fireEmitter() {
+        /**
+         * @description Create n number of particles to populate the dead pool. This can be very useful if you are creating lots of particles quickly
+         * @param count 
+         */
+        public preFillPool(count:number) {
+
+            for(var i = 0; i < count; i++) {
+                let particle:Particle;
+
+                if(this._addToLocal) {
+                    particle = new Particle(this._textures[Math.floor(Math.random() * this._textures.length)], this, -this.x, this.game.width - this.x, -this.y, this.game.height - this.y);                    
+                } else {
+                    particle = new Particle(this._textures[Math.floor(Math.random() * this._textures.length)], this, 0, this.game.width, 0, this.game.height);
+                }
+
+                if(this._addToLocal) {
+                    this.addChild(particle);                  
+                } else {
+                    this.state.addChild(particle);
+                }
+
+                particle.isDead = true;
+                particle.visible = false;
+                particle.renderable = false;
+
+                particle.createdAt = Date.now();
+                particle.lifeTime = 0;
+
+                particle.updateTransform();            
+                
+                if(this._addToLocal) {
+                    this.addChild(particle);
+                } else {
+                    this.state.addChild(particle);
+                }
+
+                this._particles.push(particle);                                            
+                this._deadPool.push(particle);                         
+            }
+
+            console.log(this._deadPool.length);
+        }
+
+        public fireEmitter() {
             if(this._particleStrength === 1) {
                 this.createParticle();
                 
@@ -136,7 +172,7 @@ namespace Lightning {
             }
         }
 
-        createParticle():void {
+        public createParticle():void {
             // get the texture from the textures array
             let texture:PIXI.Texture = this._textures[Math.floor(Math.random() * this._textures.length)];
 
@@ -153,7 +189,11 @@ namespace Lightning {
                 isChild = true;
             } else {
                 // increment the id hash value to create the particle
-                particle = new Particle(texture, this, -this.x, this.game.width - this.x, -this.y, this.game.height - this.y);
+                if(this._addToLocal) {
+                    particle = new Particle(texture, this, -this.x, this.game.width - this.x, -this.y, this.game.height - this.y);                    
+                } else {
+                    particle = new Particle(texture, this, 0, this.game.width, 0, this.game.height);
+                }
             }
             
             // set gravity -- need to move the gravity into the emitter, not the particle
@@ -164,6 +204,11 @@ namespace Lightning {
             let y:number = Maths.rngInt(this._spread.yFrom, this._spread.yTo);
             particle.x = x;
             particle.y = y;
+
+            if(!this._addToLocal) {
+                particle.x += this.x;
+                particle.y += this.y;
+            }
 
             // calculate random velocity ranges
             let rndVelX:number = Maths.rngFloat(this._particleVelocityRange.xFrom, this._particleVelocityRange.xTo);
@@ -222,18 +267,25 @@ namespace Lightning {
             particle.lifeTime = 0;
 
             if(!isChild) {
-                this.addChild(particle);
+                if(this._addToLocal) {
+                    this.addChild(particle);
+                } else {
+                    this.state.addChild(particle);
+                    this._particles.push(particle); 
+                }
+
+                this._particles.push(particle);                            
             }
 
             // call the particle's update transformation to create / re-create it's matrix
             particle.updateTransform();
         }
 
-        stop() {
+        public stop() {
             this._emit = false;
         }
 
-        returnToPool(particle:Particle) {
+        public returnToPool(particle:Particle) {
             this._deadPool.push(particle);
         }
 
@@ -246,21 +298,9 @@ namespace Lightning {
             }
         }
 
-        startDrag(event:PIXI.interaction.InteractionEvent) {
-            if(this._respectPosition) {
-                let rpx = event.data.global.x * window.devicePixelRatio - this.position.x;
-                let rpy = event.data.global.y * window.devicePixelRatio - this.position.y;
-                this._respectPositionValues = {x: rpx, y: rpy};
-            } else {
-                this._respectPositionValues = {x: 0, y: 0};
-            }
-            this.on('mousemove', this.onDrag);
-            this.on('touchmove', this.onDrag);
-        }
-
-        enableDebug(interval:number = 500, floatLeft:boolean = true, floatTop:boolean = true) {
-            let font = { fontSize: 16 * window.devicePixelRatio, fill: 0xffffff }
-            let gap = 25 * window.devicePixelRatio;
+        public enableDebug(interval:number = 500, floatLeft:boolean = true, floatTop:boolean = true) {
+            let font = { fontSize: 16, fill: 0xffffff }
+            let gap = 25;
             
             this._aliveText = new Lightning.Text('Alive: ' + this.alive, font);
             this._deadPoolText = new Lightning.Text('Dead: ' + this.pool, font);
@@ -302,7 +342,7 @@ namespace Lightning {
             }, interval);
         }
 
-        enableDrag(respectPosition:boolean = false) {
+        public enableDrag(respectPosition:boolean = false) {
             this._respectPosition = respectPosition;
             
             // check to see if interaction is already enabled
@@ -331,70 +371,82 @@ namespace Lightning {
              */
         }
 
-        stopDrag(event:PIXI.interaction.InteractionEvent) {
+        private startDrag(event:PIXI.interaction.InteractionEvent) {
+            if(this._respectPosition) {
+                let rpx = event.data.global.x - this.position.x;
+                let rpy = event.data.global.y - this.position.y;
+                this._respectPositionValues = {x: rpx, y: rpy};
+            } else {
+                this._respectPositionValues = {x: 0, y: 0};
+            }
+            this.on('mousemove', this.onDrag);
+            this.on('touchmove', this.onDrag);
+        }
+
+        public stopDrag(event:PIXI.interaction.InteractionEvent) {
             this.removeListener('mousemove', this.onDrag);
             this.removeListener('touchmove', this.onDrag);
         }
 
-        onDrag(event:PIXI.interaction.InteractionEvent) {
+        private onDrag(event:PIXI.interaction.InteractionEvent) {
             this.position = new PIXI.Point(
-                (event.data.global.x * window.devicePixelRatio) - this._respectPositionValues.x, 
-                (event.data.global.y * window.devicePixelRatio) - this._respectPositionValues.y
+                (event.data.global.x) - this._respectPositionValues.x, 
+                (event.data.global.y) - this._respectPositionValues.y
             );
         }
 
-        setSpread(xFrom:number, xTo:number, yFrom:number, yTo:number):void {
-            this._spread = {xFrom: xFrom * window.devicePixelRatio, xTo: xTo * window.devicePixelRatio, yFrom: yFrom * window.devicePixelRatio, yTo: yTo * window.devicePixelRatio};
+        public setSpread(xFrom:number, xTo:number, yFrom:number, yTo:number):void {
+            this._spread = {xFrom: xFrom, xTo: xTo, yFrom: yFrom, yTo: yTo};
         }
 
-        setGravity(x:number, y:number = x):void {
-            this._gravity = {x: x  * window.devicePixelRatio, y: y  * window.devicePixelRatio};
+        public setGravity(x:number, y:number = x):void {
+            this._gravity = {x: x, y: y};
         }
 
-        setLifeSpan(from:number, to:number = from):void {
+        public setLifeSpan(from:number, to:number = from):void {
             this._lifeSpanRange = {from: from, to: to};
         }
 
-        setInterval(val:number):void {
+        public setInterval(val:number):void {
             this._interval = val;
         }
 
-        setVelocityRange(xFrom:number, xTo:number, yFrom:number = xFrom, yTo:number = xTo):void {
-            this._particleVelocityRange = {xFrom: xFrom  * window.devicePixelRatio, xTo: xTo  * window.devicePixelRatio, yFrom: yFrom  * window.devicePixelRatio, yTo: yTo  * window.devicePixelRatio};
+        public setVelocityRange(xFrom:number, xTo:number, yFrom:number = xFrom, yTo:number = xTo):void {
+            this._particleVelocityRange = {xFrom: xFrom, xTo: xTo, yFrom: yFrom, yTo: yTo};
         }
 
-        setRotationIncrement(from:number, to:number = from):void {
+        public setRotationIncrement(from:number, to:number = from):void {
             this._particleRotationIncrement = {from: from, to: to};
         }
 
-        setScaleIncrement(xFrom:number, xTo:number, yFrom:number = xFrom, yTo:number = xTo):void {
+        public setScaleIncrement(xFrom:number, xTo:number, yFrom:number = xFrom, yTo:number = xTo):void {
             this._particleScaleIncrement = {xFrom: xFrom, xTo: xTo, yFrom: yFrom, yTo: yTo};
         }
 
-        setAlphaIncrement(from:number, to:number = from):void {
+        public setAlphaIncrement(from:number, to:number = from):void {
             this._particleAlphaIncrement = {from: from, to: to};
         }
 
-        setScaleRange(xFrom:number, xTo:number, yFrom:number = xFrom, yTo:number = xTo):void {
+        public setScaleRange(xFrom:number, xTo:number, yFrom:number = xFrom, yTo:number = xTo):void {
             this._particleScaleRange = {xFrom: xFrom, xTo: xTo, yFrom: yFrom, yTo: yTo};
         }
 
-        setAlphaRange(from:number, to:number = from):void {
+        public setAlphaRange(from:number, to:number = from):void {
             this._particleAlphaRange = {from: from, to: to};
         }
 
-        setRotationRange(from:number, to:number = from):void {
+        public setRotationRange(from:number, to:number = from):void {
             this._particleRotationRange = {from: from, to: to};
         }
 
-        setStrength(val:number) {
+        public setStrength(val:number) {
             this._particleStrength = val;
         }
 
         public get alive():number {
             let c:number = 0;
-            for(let i of this.children) {
-                if(!i['isDead']) c++;
+            for(let i of this._particles) {
+                if(!i.isDead) c++;
             }
             return c;
         }
@@ -409,6 +461,14 @@ namespace Lightning {
 
         public set nGravity(val:number) {
             this._nGravity = val;
+        }
+
+        public get addToLocal():boolean {
+            return this._addToLocal;
+        }
+
+        public set addToLocal(val:boolean) {
+            this._addToLocal = val;
         }
     }
 }

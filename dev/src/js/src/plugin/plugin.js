@@ -6,18 +6,13 @@ var Lightning;
             if (updateLoop === void 0) { updateLoop = true; }
             if (events === void 0) { events = true; }
             this.game = game;
-            this._enableUpdateOnStart = updateLoop;
-            this._enableEventsOnStart = events;
-            this.enable();
-        }
-        Plugin.prototype.enable = function () {
-            if (this._enableUpdateOnStart) {
+            if (updateLoop) {
                 this.enableUpdate();
             }
-            if (this._enableEventsOnStart) {
+            if (events) {
                 this.enableEvents();
             }
-        };
+        }
         Plugin.prototype.update = function (time) {
         };
         Plugin.prototype.enableUpdate = function () {

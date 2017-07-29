@@ -16,18 +16,18 @@ var Lightning;
         /**
          * @description State constructor
          *
-         * @param {Engine} game
          */
-        function State(game) {
-            var _this = _super.call(this) || this;
-            _this.game = game;
-            _this.events = new Lightning.EventEmitter();
-            _this.loader = new PIXI.loaders.Loader();
-            _this.loader.onError.add(_this.preloadError, _this);
-            _this.loader.onLoad.add(_this.preloadSingle, _this);
-            _this.loader.onComplete.add(_this.preloadComplete, _this);
-            return _this;
+        function State() {
+            return _super.call(this) || this;
         }
+        State.prototype.construct = function (game) {
+            this.game = game;
+            this.events = new Lightning.EventEmitter();
+            this.loader = new PIXI.loaders.Loader();
+            this.loader.onError.add(this.preloadError, this);
+            this.loader.onLoad.add(this.preloadSingle, this);
+            this.loader.onComplete.add(this.preloadComplete, this);
+        };
         /**
          * @description Initalization function
          *
@@ -105,6 +105,16 @@ var Lightning;
         State.prototype.preloadComplete = function (loader, resources) {
             this.create();
         };
+        Object.defineProperty(State.prototype, "key", {
+            get: function () {
+                return this._key;
+            },
+            set: function (val) {
+                this._key = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return State;
     }(Lightning.Group));
     Lightning.State = State;

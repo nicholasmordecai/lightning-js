@@ -1,5 +1,3 @@
-// <reference path="./../../../../dist/lightning.d.ts" />
-
 export default class GameState extends Lightning.State {
 
      protected particleEmitter:Lightning.ParticleEmitter
@@ -9,16 +7,20 @@ export default class GameState extends Lightning.State {
 
     create() {
 
+        setTimeout(() => {
+            this.game.physics.lite.reset();
+            this.game.states.start('menu');
+        }, 5000);
+
         this.game.physics.lite.enablePhysics();
         let texture:Lightning.Texture =  Lightning.Geometry.Rect(5, 5).generateCanvasTexture();
         let pool = this.game.physics.lite.createPool('test');
 
-        for(var i = 0; i < 1; i++) {
+        for(var i = 0; i < 30; i++) {
             let sprite = new Lightning.Sprite();
             sprite.texture = texture;
             sprite.x = Lightning.Maths.rngFloat(0, this.game.width);            
             sprite.y = Lightning.Maths.rngFloat(0, this.game.height);
-            // sprite.rotation = Lightning.Maths.rngFloat(0, 12);
             this.add(sprite);
 
             sprite.enablePhysicsBody();
@@ -27,6 +29,9 @@ export default class GameState extends Lightning.State {
 
             sprite.body.velocity.x = Lightning.Maths.rngFloat(-5, 5);
             sprite.body.velocity.y = Lightning.Maths.rngFloat(-5, 5);
+            sprite.body.collideOnWorldBounds = true;
+            sprite.body.gravityEnabled = true;
+            sprite.body.restitution = 0.5;
         }
 
         let bigGuy = new Lightning.Sprite();
@@ -37,17 +42,11 @@ export default class GameState extends Lightning.State {
 
         bigGuy.enablePhysicsBody();
         bigGuy.body.enableDebug();
+        bigGuy.body.static = true;
 
         let cEvent = this.game.physics.lite.createCollisionEvent('t', bigGuy.body, pool.bodies);
-        cEvent.onCollide((obj1:Lightning.LitePhysicsBody, obj2:Lightning.LitePhysicsBody) => {
-            obj2.velocity.x *= -1;
-            obj2.velocity.y *= -1;
-            obj2.pauseCollisionDetection = true;
 
-            setTimeout(() => {
-                obj2.pauseCollisionDetection = false;
-            }, 20);
-        });
+        cEvent.onCollide(this.onCollide, this);
 
         
         /**
@@ -249,5 +248,9 @@ export default class GameState extends Lightning.State {
     //     customStorage.getItem('test');
         // ... //
       
+    }
+
+    private onCollide(obj1, obj2) {
+        console.log('hi')
     }
 }

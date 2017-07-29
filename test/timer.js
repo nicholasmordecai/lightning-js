@@ -17,7 +17,7 @@ describe('# Timer', function() {
         setTimeout(function() {
             expect(result).toBe(10);
             done();
-        }, 1500);
+        }, 1200);
     });
 
     it('Should start the timer', function() {

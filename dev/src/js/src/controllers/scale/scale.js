@@ -14,6 +14,7 @@ var Lightning;
     var Scale = (function (_super) {
         __extends(Scale, _super);
         function Scale(game, initWidth, initHeight, scaleMode) {
+            if (scaleMode === void 0) { scaleMode = 0; }
             var _this = _super.call(this) || this;
             _this.game = game;
             _this._currentDPR = window.devicePixelRatio;
@@ -21,6 +22,7 @@ var Lightning;
             _this._scaleMode = scaleMode;
             // run the initalisation method
             _this.setup(initWidth, initHeight);
+            console.log(initWidth, initHeight);
             _this.calculateDPR();
             _this.calculateOrientation();
             window.addEventListener("resize", _this.resizeThrottler.bind(_this), false);
@@ -73,7 +75,7 @@ var Lightning;
                         _this._resizeTimeout = null;
                         switch (_this._scaleMode) {
                             case 0:
-                                // don't do anything
+                                _this.resize(_this._originalWidth, _this._originalHeight);
                                 break;
                             case 1:
                                 _this.resizeStretch();

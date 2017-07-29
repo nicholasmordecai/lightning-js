@@ -1,8 +1,11 @@
+
+
 /**
  * External Libs
  */
 /// <reference path="./../libs/box2d/index.d.ts" />
 /// <reference path="./../libs/pixi.js/index.d.ts" />
+/// <reference path="./../libs/howler/index.d.ts" />
 /// <reference path="./../libs/webfontloader/index.d.ts" />
 /**
  * Interfaces
@@ -16,6 +19,7 @@
 /// <reference path ="./interfaces/iServiceAction.ts" />
 /// <reference path ="./interfaces/iBoundBox.ts" />
 /// <reference path ="./interfaces/iVector.ts" />
+/// <reference path ="./interfaces/iEngineOptions.ts" />
 
 /// <reference path="./core/events/event.ts" />
 /// <reference path="./core/events/eventEmitter.ts" />
@@ -25,6 +29,11 @@
  */
 
 /// <reference path="./plugin/plugin.ts" />
+
+/**
+ * Audio
+ */
+/// <reference path="./core/audio/audioManager.ts" />
 
 /**
  * Controllers
@@ -45,6 +54,8 @@
  * Controllers
  */
 /// <reference path="./controllers/input/input.ts" />
+/// <reference path="./controllers/input/key.ts" />
+/// <reference path="./controllers/input/keyboardManager.ts" />
 /**
  * Display
  */

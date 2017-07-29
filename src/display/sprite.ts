@@ -24,6 +24,16 @@ namespace Lightning {
             this.interactive = true;
             this._input = new Input(this);
         }
+
+        public destroy() {
+            console.log('sprite destroyed', this);
+
+            if(this._liteBody) {
+                this._liteBody.destroyFlag = true;
+            }
+
+            super.destroy();
+        }
         
         /**
          * @param  {boolean} val
@@ -42,8 +52,18 @@ namespace Lightning {
         }
 
         /**
+         * @description Set the scale on the sprite
+         * 
          * @param  {number} aX
          * @param  {number=aX} aY
+         * 
+         * @example
+         * ~~
+         * 
+         * sprite.setScale(0.5) // set both scaleX and scaleY to 0.5
+         * sprite.setScale(0.1, 0.4) // set scaleX to 0.1 and scaleY to 0.4
+         * ~~
+         * 
          * @returns void
          */
         setScale(aX:number, aY:number = aX):void {

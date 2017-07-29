@@ -16,8 +16,22 @@ var MenuState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MenuState.prototype.create = function () {
-        this.game.states.destroy('preload');
-        this.game.states.start('game');
+        var _this = this;
+        var button = Lightning.Geometry.Rect(50, 50);
+        button.tint = 0xff22aa;
+        this.add(button);
+        this.game.keyboard.key('a').subscribeOnce('pressed', function () {
+            console.log('I have been pressed mother fucker');
+        });
+        this.game.keyboard.key('a').subscribeOnce('pressed', function () {
+            console.log('here too?');
+        });
+        button.interactive = true;
+        button.on('mousedown', function () {
+            _this.game.states.start('game');
+        });
+    };
+    MenuState.prototype.update = function () {
     };
     return MenuState;
 }(Lightning.State));

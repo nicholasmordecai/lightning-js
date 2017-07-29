@@ -2,11 +2,15 @@
 
 namespace Lightning {
     export class Particle extends ParticleBase {
+
+        protected onCreateAnimation;
+        protected onCompleteAnimation;
+        protected animationPath;
     
         constructor(texture:PIXI.Texture, emitter:ParticleEmitter, minX:number, maxX:number, minY:number, maxY:number) {
             super();
             this.returnToPool = this._returnToPool;
-            this.update = this.updateComplex;
+            this.update = this.updateSimple;
             this._texture = texture;
             this._emitter = emitter;
             this.children = null;
@@ -19,13 +23,13 @@ namespace Lightning {
         }
 
         // override functions to make sure that it doesn't check for chilren, visible etc
-        renderWebGL(renderer) {
+        public renderWebGL(renderer) {
             if(this.renderable) {
                 this._renderWebGL(renderer);
             }
         }
 
-        renderAdvancedWebGL(renderer) {
+        public renderAdvancedWebGL(renderer) {
             // add this object to the batch, only rendered if it has a texture.
             if(this.renderable) {
                 this._renderWebGL(renderer);
@@ -35,20 +39,20 @@ namespace Lightning {
             renderer.flush();
         }
 
-        renderCanvas(renderer) {
+        public renderCanvas(renderer) {
             if(this.renderable) {
                 this._renderCanvas(renderer);
             }
         }
 
-        updateTransform() {
+        public updateTransform() {
             this._boundsID++;
             this.transform.updateTransform(this.parent.transform);
             // TODO: check render flags, how to process stuff here
             this.worldAlpha = this.alpha * this.parent.worldAlpha;
         }
 
-        destroy() {
+        public destroy() {
             this.removeAllListeners('');
             if (this.parent) {
                 this.parent.removeChild(this);

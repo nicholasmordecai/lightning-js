@@ -76,7 +76,7 @@ namespace Lightning {
         public emit(key:string, ...params:Array<any>) {
             // check if event emitter is enabled
             if(!this._enabled) return;
-            this._events[key].emit(params);
+            this._events[key].emit(true, params);
         }
 
         /**

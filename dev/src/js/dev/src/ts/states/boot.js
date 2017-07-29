@@ -20,7 +20,6 @@ var BootState = (function (_super) {
         this.create();
     };
     BootState.prototype.create = function () {
-        this.game.states.destroy('boot');
         this.game.states.start('preload');
     };
     return BootState;

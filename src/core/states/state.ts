@@ -7,13 +7,17 @@ namespace Lightning {
         public loader:PIXI.loaders.Loader;
         public events:EventEmitter;
 
+        protected _key:string;
+
         /**
          * @description State constructor
          * 
-         * @param {Engine} game
          */
-        constructor(game:Engine) {
+        constructor() {
             super(); 
+        }
+
+        public construct(game:Engine) {
             this.game = game;
             this.events = new EventEmitter();
             this.loader = new PIXI.loaders.Loader();
@@ -39,9 +43,14 @@ namespace Lightning {
          * @returns {void}
          */
         public preload():void {
+            // if there aren't any resources to upload, then skip straight to the create function
             if(Object.keys(this.loader.resources).length < 1) {
                 this.create();
             }
+        }
+
+        public prepare():void {
+
         }
 
         /**
@@ -103,6 +112,14 @@ namespace Lightning {
          */
         public preloadComplete(loader, resources):void {
             this.create();
+        }
+
+        public get key() {
+            return this._key;
+        }
+
+        public set key(val:string) {
+            this._key = val;
         }
     }
 }

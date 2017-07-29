@@ -26,6 +26,13 @@ var Lightning;
             this.interactive = true;
             this._input = new Lightning.Input(this);
         };
+        Sprite.prototype.destroy = function () {
+            console.log('sprite destroyed', this);
+            if (this._liteBody) {
+                this._liteBody.destroyFlag = true;
+            }
+            _super.prototype.destroy.call(this);
+        };
         /**
          * @param  {boolean} val
          */
