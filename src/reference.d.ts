@@ -19,6 +19,7 @@
 /// <reference path ="./interfaces/iServiceAction.ts" />
 /// <reference path ="./interfaces/iBoundBox.ts" />
 /// <reference path ="./interfaces/iVector.ts" />
+/// <reference path ="./interfaces/iRec.ts" />
 /// <reference path ="./interfaces/iEngineOptions.ts" />
 
 /// <reference path="./core/events/event.ts" />

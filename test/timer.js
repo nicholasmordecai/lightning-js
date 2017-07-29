@@ -1,6 +1,6 @@
 describe('# Timer', function() {
 
-    var game = new Lightning.Engine(200, 200, 'game');
+    var game = new Lightning.Engine(200, 200, {});
     var timer;
 
     it('Create New Timer', function() {
