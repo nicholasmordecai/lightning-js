@@ -9,7 +9,9 @@ var Game = (function () {
     function Game(width, height, divId) {
         if (divId === void 0) { divId = 'app'; }
         this.game = new Lightning.Engine(width, height, {
-            autoStart: false
+            rendererOptions: {
+                transparent: false
+            }
         });
         this.game.states.add('boot', new boot_1.default());
         this.game.states.add('preload', new preload_1.default());

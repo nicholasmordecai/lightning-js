@@ -11,7 +11,9 @@ export default class Game {
 
     constructor(width:number, height:number, divId:string = 'app') {
         this.game = new Lightning.Engine(width, height, {
-            autoStart: false
+            rendererOptions: {
+                transparent: false
+            }
         });
         this.game.states.add('boot', new BootState());
         this.game.states.add('preload', new PreloadState());

@@ -16,7 +16,6 @@ var PreloadState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     PreloadState.prototype.create = function () {
-        var g = new Lightning.Graphics();
         this.game.states.start('menu');
     };
     return PreloadState;

@@ -10,6 +10,15 @@
 2. Added Howler.js to the build
     1. Introduced a basic set of functions to use howler
 3. Cleaned up the states some more
+4. Particle Emitter preFillPool function (create n particles and dump into dead pool before use)
+5. Fixed renderer.transparent not working (was the backgroundColor default value)
+6. Fixed Easing.ElasticIn function
+7. Added random array to the Maths module
+8. Added device to the global namespace
+9. Added more features to Maths module
+10. Started adding examples of code in the comment headers
+
+
 
 ### 0.5.0
 1. Introduced engine initalisation options

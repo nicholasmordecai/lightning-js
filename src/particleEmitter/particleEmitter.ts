@@ -3,10 +3,12 @@
 /**
  * Fade in / Scale in sprites - optional
  * Simple / Advanced -- for creating ultra performant particles in the 50k+ range
+ * Particle Complete Animation
+ * Particle Pathing
  * Colour Shift
  * Checking the container class in pixi, I should think about refactoring the calculate bounds function.. if it's looping over 10k children to calculate it's bounds, that's going to get expensive!
- * Set the add to local 
  * Set the advances / simple particle
+ * Build a Pre-defined 'random' pool to speed up the emit functionality. For example, let the Emitter pre-build 50 random positions, scales, etc.. then just pick random from it. Will vastly increase the Emit function.
  */
 
 namespace Lightning {
@@ -89,9 +91,7 @@ namespace Lightning {
             }
         }
 
-        updateTransform() {
-            this._boundsID++;
-
+        public updateTransform() {
             this.transform.updateTransform(this.parent.transform);
 
             // TODO: check render flags, how to process stuff here
@@ -102,13 +102,13 @@ namespace Lightning {
          * @param  {string} key
          * @param  {DisplayObject} particle
          */
-        add(...params:Array<PIXI.Texture>):void {
+        public add(...params:Array<PIXI.Texture>):void {
             for(let i of params) {
                 this._textures.push(i);
             }
         }
 
-        start(time:number = null):void {
+        public start(time:number = null):void {
             if(time === 0) {
                 this.fireEmitter();
             } else {
@@ -118,7 +118,50 @@ namespace Lightning {
             }
         }
 
-        fireEmitter() {
+        /**
+         * @description Create n number of particles to populate the dead pool. This can be very useful if you are creating lots of particles quickly
+         * @param count 
+         */
+        public preFillPool(count:number) {
+
+            for(var i = 0; i < count; i++) {
+                let particle:Particle;
+
+                if(this._addToLocal) {
+                    particle = new Particle(this._textures[Math.floor(Math.random() * this._textures.length)], this, -this.x, this.game.width - this.x, -this.y, this.game.height - this.y);                    
+                } else {
+                    particle = new Particle(this._textures[Math.floor(Math.random() * this._textures.length)], this, 0, this.game.width, 0, this.game.height);
+                }
+
+                if(this._addToLocal) {
+                    this.addChild(particle);                  
+                } else {
+                    this.state.addChild(particle);
+                }
+
+                particle.isDead = true;
+                particle.visible = false;
+                particle.renderable = false;
+
+                particle.createdAt = Date.now();
+                particle.lifeTime = 0;
+
+                particle.updateTransform();            
+                
+                if(this._addToLocal) {
+                    this.addChild(particle);
+                } else {
+                    this.state.addChild(particle);
+                }
+
+                this._particles.push(particle);                                            
+                this._deadPool.push(particle);                         
+            }
+
+            console.log(this._deadPool.length);
+        }
+
+        public fireEmitter() {
             if(this._particleStrength === 1) {
                 this.createParticle();
                 
@@ -129,7 +172,7 @@ namespace Lightning {
             }
         }
 
-        createParticle():void {
+        public createParticle():void {
             // get the texture from the textures array
             let texture:PIXI.Texture = this._textures[Math.floor(Math.random() * this._textures.length)];
 
@@ -230,6 +273,7 @@ namespace Lightning {
                     this.state.addChild(particle);
                     this._particles.push(particle); 
                 }
+
                 this._particles.push(particle);                            
             }
 
@@ -237,11 +281,11 @@ namespace Lightning {
             particle.updateTransform();
         }
 
-        stop() {
+        public stop() {
             this._emit = false;
         }
 
-        returnToPool(particle:Particle) {
+        public returnToPool(particle:Particle) {
             this._deadPool.push(particle);
         }
 
@@ -254,19 +298,7 @@ namespace Lightning {
             }
         }
 
-        startDrag(event:PIXI.interaction.InteractionEvent) {
-            if(this._respectPosition) {
-                let rpx = event.data.global.x - this.position.x;
-                let rpy = event.data.global.y - this.position.y;
-                this._respectPositionValues = {x: rpx, y: rpy};
-            } else {
-                this._respectPositionValues = {x: 0, y: 0};
-            }
-            this.on('mousemove', this.onDrag);
-            this.on('touchmove', this.onDrag);
-        }
-
-        enableDebug(interval:number = 500, floatLeft:boolean = true, floatTop:boolean = true) {
+        public enableDebug(interval:number = 500, floatLeft:boolean = true, floatTop:boolean = true) {
             let font = { fontSize: 16, fill: 0xffffff }
             let gap = 25;
             
@@ -310,7 +342,7 @@ namespace Lightning {
             }, interval);
         }
 
-        enableDrag(respectPosition:boolean = false) {
+        public enableDrag(respectPosition:boolean = false) {
             this._respectPosition = respectPosition;
             
             // check to see if interaction is already enabled
@@ -339,63 +371,75 @@ namespace Lightning {
              */
         }
 
-        stopDrag(event:PIXI.interaction.InteractionEvent) {
+        private startDrag(event:PIXI.interaction.InteractionEvent) {
+            if(this._respectPosition) {
+                let rpx = event.data.global.x - this.position.x;
+                let rpy = event.data.global.y - this.position.y;
+                this._respectPositionValues = {x: rpx, y: rpy};
+            } else {
+                this._respectPositionValues = {x: 0, y: 0};
+            }
+            this.on('mousemove', this.onDrag);
+            this.on('touchmove', this.onDrag);
+        }
+
+        public stopDrag(event:PIXI.interaction.InteractionEvent) {
             this.removeListener('mousemove', this.onDrag);
             this.removeListener('touchmove', this.onDrag);
         }
 
-        onDrag(event:PIXI.interaction.InteractionEvent) {
+        private onDrag(event:PIXI.interaction.InteractionEvent) {
             this.position = new PIXI.Point(
                 (event.data.global.x) - this._respectPositionValues.x, 
                 (event.data.global.y) - this._respectPositionValues.y
             );
         }
 
-        setSpread(xFrom:number, xTo:number, yFrom:number, yTo:number):void {
+        public setSpread(xFrom:number, xTo:number, yFrom:number, yTo:number):void {
             this._spread = {xFrom: xFrom, xTo: xTo, yFrom: yFrom, yTo: yTo};
         }
 
-        setGravity(x:number, y:number = x):void {
+        public setGravity(x:number, y:number = x):void {
             this._gravity = {x: x, y: y};
         }
 
-        setLifeSpan(from:number, to:number = from):void {
+        public setLifeSpan(from:number, to:number = from):void {
             this._lifeSpanRange = {from: from, to: to};
         }
 
-        setInterval(val:number):void {
+        public setInterval(val:number):void {
             this._interval = val;
         }
 
-        setVelocityRange(xFrom:number, xTo:number, yFrom:number = xFrom, yTo:number = xTo):void {
+        public setVelocityRange(xFrom:number, xTo:number, yFrom:number = xFrom, yTo:number = xTo):void {
             this._particleVelocityRange = {xFrom: xFrom, xTo: xTo, yFrom: yFrom, yTo: yTo};
         }
 
-        setRotationIncrement(from:number, to:number = from):void {
+        public setRotationIncrement(from:number, to:number = from):void {
             this._particleRotationIncrement = {from: from, to: to};
         }
 
-        setScaleIncrement(xFrom:number, xTo:number, yFrom:number = xFrom, yTo:number = xTo):void {
+        public setScaleIncrement(xFrom:number, xTo:number, yFrom:number = xFrom, yTo:number = xTo):void {
             this._particleScaleIncrement = {xFrom: xFrom, xTo: xTo, yFrom: yFrom, yTo: yTo};
         }
 
-        setAlphaIncrement(from:number, to:number = from):void {
+        public setAlphaIncrement(from:number, to:number = from):void {
             this._particleAlphaIncrement = {from: from, to: to};
         }
 
-        setScaleRange(xFrom:number, xTo:number, yFrom:number = xFrom, yTo:number = xTo):void {
+        public setScaleRange(xFrom:number, xTo:number, yFrom:number = xFrom, yTo:number = xTo):void {
             this._particleScaleRange = {xFrom: xFrom, xTo: xTo, yFrom: yFrom, yTo: yTo};
         }
 
-        setAlphaRange(from:number, to:number = from):void {
+        public setAlphaRange(from:number, to:number = from):void {
             this._particleAlphaRange = {from: from, to: to};
         }
 
-        setRotationRange(from:number, to:number = from):void {
+        public setRotationRange(from:number, to:number = from):void {
             this._particleRotationRange = {from: from, to: to};
         }
 
-        setStrength(val:number) {
+        public setStrength(val:number) {
             this._particleStrength = val;
         }
 

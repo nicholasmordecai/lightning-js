@@ -37,6 +37,10 @@ namespace Lightning {
             //              console.log('Lightning-js | version : 0.4.5');
         }
 
+        /**
+         * @description Returns an array of generated textures from graphics objects
+         * @param params
+         */
         public generateTexture(...params):any {
             let t:Texture | Array<Texture> = [];
             if(params.length > 1) {
@@ -53,6 +57,10 @@ namespace Lightning {
             this._scaleManager.goFullScreen();
         }
 
+        /**
+         * 
+         * @param params
+         */
         public texture(...params):any {
             let t:Texture | Array<Texture> = [];
             if(params.length > 1) {
@@ -161,10 +169,16 @@ namespace Lightning {
             return {lite: this._physicsLite};
         }
 
+        /**
+         * @description Returns the game's instance of the tween manager
+         */
         public get tweens():TweenManeger {
             return this._tweenManager;
         }
 
+        /**
+         * @description Returns the game's instance of the scale manager
+         */
         public get scale():Scale {
             return this._scaleManager;
         }
@@ -228,6 +242,7 @@ namespace Lightning {
             })(rootObject);
         }
         
+
         public screenShot(fileName) {
             this.renderer.extract.canvas().toBlob((b) =>{
                 var a = document.createElement('a');
@@ -239,6 +254,10 @@ namespace Lightning {
             }, 'image/png');
         }
 
+        /**
+         * @description Returns the aproxomate size of an object
+         * @param object
+         */
         public sizeof(object:any):number {
             var objectList = [];
             var stack = [object];
@@ -272,12 +291,22 @@ namespace Lightning {
             return bytes;
         }
 
+        /**
+         * @description Returns the game's instance of the keyboard manager
+         */
         public get keyboard():KeyboardManager {
             return this._keyboardManager;
         }
 
+        /**
+         * @description Returns the game's instance of the audio manager
+         */
         public get audio():AudioManager {
             return this._audioManager;
+        }
+
+        public get device():Device {
+            return this._device;
         }
     }
 }

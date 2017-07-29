@@ -28,7 +28,7 @@ namespace Lightning {
             super();
             this.game = game;
             this._currentDPR = window.devicePixelRatio;
-            this._allowedDPR = [1, 2, 3, 4];
+            this._allowedDPR = [1, 2];
             this._scaleMode = scaleMode;
             
             // run the initalisation method

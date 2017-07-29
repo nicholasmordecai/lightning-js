@@ -2,6 +2,10 @@
 
 namespace Lightning {
     export class Particle extends ParticleBase {
+
+        protected onCreateAnimation;
+        protected onCompleteAnimation;
+        protected animationPath;
     
         constructor(texture:PIXI.Texture, emitter:ParticleEmitter, minX:number, maxX:number, minY:number, maxY:number) {
             super();

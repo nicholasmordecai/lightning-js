@@ -43,9 +43,14 @@ namespace Lightning {
          * @returns {void}
          */
         public preload():void {
+            // if there aren't any resources to upload, then skip straight to the create function
             if(Object.keys(this.loader.resources).length < 1) {
                 this.create();
             }
+        }
+
+        public prepare():void {
+
         }
 
         /**

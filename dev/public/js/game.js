@@ -11,7 +11,9 @@ var Game = (function () {
     function Game(width, height, divId) {
         if (divId === void 0) { divId = 'app'; }
         this.game = new Lightning.Engine(width, height, {
-            autoStart: false
+            rendererOptions: {
+                transparent: false
+            }
         });
         this.game.states.add('boot', new boot_1.default());
         this.game.states.add('preload', new preload_1.default());
@@ -48,7 +50,7 @@ window.onload = function () {
 // };
 // app.initialize(); 
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_b87a23f0.js","/")
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_ae00e5b2.js","/")
 },{"./states/boot":2,"./states/game":3,"./states/menu":4,"./states/preload":5,"buffer":7,"fsovz6":8}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -319,39 +321,55 @@ var MenuState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MenuState.prototype.create = function () {
+        //     let button = new Lightning.Sprite(Lightning.Geometry.Rect(50, 50, 0xff22aa));
+        //     this.add(button);
         var _this = this;
-        var button = Lightning.Geometry.Rect(50, 50);
-        button.tint = 0xff22aa;
-        this.add(button);
         var sound = this.game.audio.load('meeseeks', ['audio.mp3']);
         this.game.keyboard.key('space').subscribe('pressed', function () {
             sound.play();
         });
         this.game.keyboard.key('a').subscribeOnce('pressed', function () {
-            // console.log('I have been pressed mother fucker');
         });
         this.game.keyboard.key('a').subscribeOnce('pressed', function () {
-            // console.log('here too?');
         });
-        button.interactive = true;
-        button.on('pointerdown', function () {
-            console.log('yoo');
-            _this.game.states.start('game');
-        });
+        var shape = new Lightning.Geometry.MultiShape([
+            { shape: 'circle', p1: 50, rotation: Math.PI * 0.2 },
+            { shape: 'circle', p1: 35, x: -40, y: -40 },
+            { shape: 'circle', p1: 25, x: -60, y: -70 },
+            { shape: 'circle', p1: 15, x: -75, y: -95, rotation: Math.PI * 0.2 }
+        ]);
+        this.add(shape);
+        shape.x = this.game.center.x;
+        shape.y = this.game.height * 0.5;
+        // let tween = this.game.tweens.create(button);
+        // tween.createAnim(
+        //     0, 300, 1500, 'x', Lightning.Easing.ElasticInOut
+        // );
+        // tween.start();
+        // button.interactive = true;
+        // button.on('pointerdown', () => {
+        //     console.log('yoo')
+        //     this.game.states.start('game');
+        // });
         this.particleEmitter = new Lightning.ParticleEmitter(this, 0, this.game.center.y);
         this.add(this.particleEmitter);
         // generate a texture for the particle emitter
-        var texture = Lightning.Geometry.Rect(8, 8).generateCanvasTexture();
+        var texture = Lightning.Geometry.Rect(8, 8, 0xff22aa);
         // add that texture to the particle emitter
         this.particleEmitter.add(texture);
         this.particleEmitter.enableDebug();
+        this.particleEmitter.x = this.game.center.x;
+        this.particleEmitter.y = this.game.center.y;
+        this.particleEmitter.preFillPool(300);
         this.particleEmitter.setGravity(0, 0.01);
         this.particleEmitter.setVelocityRange(-0.3, 0.3, -0.3, 0.3);
         this.particleEmitter.setInterval(50);
-        this.particleEmitter.addToLocal = false;
+        // this.particleEmitter.addToLocal = false;
         this.particleEmitter.setRotationIncrement(-0.1, 0.1);
         this.particleEmitter.setStrength(2);
-        this.particleEmitter.start();
+        setTimeout(function () {
+            _this.particleEmitter.start();
+        }, 1500);
     };
     MenuState.prototype.update = function () {
     };
@@ -380,7 +398,6 @@ var PreloadState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     PreloadState.prototype.create = function () {
-        var g = new Lightning.Graphics();
         this.game.states.start('menu');
     };
     return PreloadState;

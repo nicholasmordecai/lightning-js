@@ -26,10 +26,10 @@ namespace Lightning {
                 renderer: options.renderer || 'auto',
                 rendererOptions: {
                     view: options.rendererOptions.view || null,
-                    transparent: options.rendererOptions.transparent || false,
+                    transparent: (typeof options.rendererOptions.transparent === "undefined" ? true : options.rendererOptions.transparent),
                     antialias: options.rendererOptions.antialias || false,
                     preserveDrawingBuffer: options.rendererOptions.preserveDrawingBuffer || false,
-                    backgroundColor: options.rendererOptions.backgroundColor || 0xffffff,
+                    backgroundColor: options.rendererOptions.backgroundColor || 0x000000,
                     clearBeforeRender: options.rendererOptions.clearBeforeRender || true,
                     forceCanvas: options.rendererOptions.forceCanvas || false,
                     roundPixels: options.rendererOptions.roundPixels || false,
@@ -56,12 +56,13 @@ namespace Lightning {
                     debug: options.plugins.debug || true,
                     maths: options.plugins.maths || true,
                 }
-                
             }
+
             return ops;
         }
 
         private initialize(width, height, options:iEngineOptions) {
+
             /**
              * Say Hello
              */
@@ -96,7 +97,7 @@ namespace Lightning {
              * Initalise the renderer
              */
             options.rendererOptions.resolution = options.rendererOptions.resolution || this._scaleManager.devicePixelRatio;
-            
+
             if(options.renderer === 'auto') {
                 this._renderer = PIXI.autoDetectRenderer(width, height, options.rendererOptions);
             } else if(options.renderer === 'canvas') {

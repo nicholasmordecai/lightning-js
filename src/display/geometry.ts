@@ -50,7 +50,7 @@ namespace Lightning {
          */
         public static Rect(w:number, h:number, tint:number = 0xffffff, alpha:number = 1, returnAsTexture:boolean = true):Lightning.Graphics | Lightning.Texture {
             let graphics = new Lightning.Graphics();
-            graphics.beginFill(0xffffff, 1);
+            graphics.beginFill(tint, alpha);
             graphics.drawRect(0, 0, w, h);
             graphics.endFill();
             if(returnAsTexture) {
@@ -70,7 +70,7 @@ namespace Lightning {
          */
         public static RoundRect(w:number, h:number, radius:number, tint:number = 0xffffff, alpha:number = 1, returnAsTexture:boolean = true):Lightning.Graphics | Lightning.Texture {
             let graphics = new Lightning.Graphics();
-            graphics.beginFill(0xffffff, 1);
+            graphics.beginFill(tint, alpha);
             graphics.drawRoundedRect(0, 0, w, h, radius);
             graphics.endFill();
             if(returnAsTexture) {
@@ -90,7 +90,7 @@ namespace Lightning {
          */
         public static Ellipse(w:number, h:number, radius:number, tint:number = 0xffffff, alpha:number = 1, returnAsTexture:boolean = true):Lightning.Graphics | Lightning.Texture {
             let graphics = new Lightning.Graphics();
-            graphics.beginFill(0xffffff, 1);
+            graphics.beginFill(tint, alpha);
             graphics.drawEllipse(0, 0, w, h);
             graphics.endFill();
             if(returnAsTexture) {
@@ -117,7 +117,7 @@ namespace Lightning {
             let y = cy;
             let step = Math.PI / spikes;
             let graphics = new Graphics();
-            graphics.beginFill(0xffffff, 1);
+            graphics.beginFill(tint, alpha);
             graphics.moveTo(cx, cy - outerRadius);
             for (let i = 0; i < spikes; i++) {
                 x = cx + Math.cos(rot) * outerRadius;
@@ -153,7 +153,7 @@ namespace Lightning {
         public static Polygon(cx: number, cy: number, sides: number, size: number, tint:number = 0xffffff, alpha:number = 1, returnAsTexture:boolean = true):Lightning.Graphics | Lightning.Texture {
             let graphics = new Graphics();
             // let size = innerRadius * outerRadius / 2;
-            graphics.beginFill(0xffffff, 1);
+            graphics.beginFill(tint, alpha);
             graphics.moveTo(cx + size * Math.cos(0), cy + size * Math.sin(0));
             for (let i = 1; i <= sides; i += 1) {
                 graphics.lineTo(cx + size * Math.cos(i * 2 * Math.PI / sides), cy + size * Math.sin(i * 2 * Math.PI / sides));
@@ -175,7 +175,7 @@ namespace Lightning {
          */
         public static Heart(ratio: number, tint:number = 0xffffff, alpha:number = 1, returnAsTexture:boolean = true):Lightning.Graphics | Lightning.Texture {
             let graphics = new Graphics();
-            graphics.beginFill(0xffffff, 1);
+            graphics.beginFill(tint, alpha);
             graphics.moveTo(75 * ratio, 40 * ratio);
             graphics.bezierCurveTo(75 * ratio, 37 * ratio, 70 * ratio, 25 * ratio, 50 * ratio, 25 * ratio);
             graphics.bezierCurveTo(20 * ratio, 25 * ratio, 20 * ratio, 62.5 * ratio, 20 * ratio, 62.5 * ratio);
@@ -203,7 +203,7 @@ namespace Lightning {
             // think about how to implement responsive graphic drawings
             r = r * window.devicePixelRatio;
             let graphics = new Graphics();
-            graphics.beginFill(0xffffff, 1);
+            graphics.beginFill(tint, alpha);
             graphics.arc(75, 75, r, 0, Math.PI * 2, false);
             graphics.endFill();
 
@@ -226,7 +226,7 @@ namespace Lightning {
          */
         public static Oval(centerX: number, centerY: number, width: number, height: number, tint:number = 0xffffff, alpha:number = 1, returnAsTexture:boolean = true):Lightning.Graphics | Lightning.Texture {
             let graphics = new Graphics();
-            graphics.beginFill(0xffffff, 1);
+            graphics.beginFill(tint, alpha);
             graphics.moveTo(centerX, centerY - height / 2);
             graphics.bezierCurveTo(centerX + width / 2, centerY - height / 2, centerX + width / 2, centerY + height / 2, centerX, centerY + height / 2)
             graphics.bezierCurveTo(centerX - width / 2, centerY + height / 2, centerX - width / 2, centerY - height / 2, centerX, centerY - height / 2);
@@ -249,7 +249,7 @@ namespace Lightning {
          */
         public static Triangle(l1:number, l2:number = l1, tint:number = 0xffffff, alpha:number = 1, returnAsTexture:boolean = true):Lightning.Graphics | Lightning.Texture {
             let graphics = new Graphics();
-            graphics.beginFill(0xffffff, 1);
+            graphics.beginFill(tint, alpha);
             graphics.moveTo(l1 * 0.5, 0);
             graphics.lineTo(l2, l1);
             graphics.lineTo(0, l1);
@@ -261,6 +261,30 @@ namespace Lightning {
             } else {
                 return graphics;                
             }
+        }
+
+        public static MultiShape(shapes:Array<{shape:string, x?:number, y?:number, tint?:number, alpha?:number, p1?:number, p2?:number, p3?:number, p4?:number, rotation?:number}>) {
+            let currentRotation:number = 0;
+            let graphics = new Graphics();
+            for(let shape of shapes) {
+                if(!shape.tint) shape.tint = 0xffffff;
+                if(!shape.alpha) shape.alpha = 1;
+                if(!shape.rotation) shape.rotation = 0;
+                console.log(shape.rotation);
+                graphics.beginFill(shape.tint, shape.alpha);
+                switch(shape.shape) {
+                    case 'circle':
+                        graphics.drawRect(shape.x, shape.y, shape.p1, shape.p1);
+                        graphics.rotation = shape.rotation;
+                        break;
+                    case 'square':
+                        break;
+                    case 'triangle':
+                        break;
+                }
+                graphics.endFill();                
+            }
+            return graphics;
         }
     }
 }
