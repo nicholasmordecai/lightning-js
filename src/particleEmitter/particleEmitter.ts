@@ -16,7 +16,7 @@ namespace Lightning {
     export class ParticleEmitter extends Group {
 
         protected game:Engine;
-        protected state:State;
+        protected scene:Scene;
 
         protected _debug:boolean = false;
         // find typings for set interval function
@@ -59,9 +59,9 @@ namespace Lightning {
         public gravityWells:Array<any>;
         public obstacles:Array<any>;
 
-        constructor(state:State, x:number = 0, y:number = 0) {
+        constructor(state:Scene, x:number = 0, y:number = 0) {
             super();
-            this.state = state;
+            this.scene = state;
             this.game = state.game;
             this.x = x;
             this.y = y;
@@ -136,7 +136,7 @@ namespace Lightning {
                 if(this._addToLocal) {
                     this.addChild(particle);                  
                 } else {
-                    this.state.addChild(particle);
+                    this.scene.addChild(particle);
                 }
 
                 particle.isDead = true;
@@ -151,7 +151,7 @@ namespace Lightning {
                 if(this._addToLocal) {
                     this.addChild(particle);
                 } else {
-                    this.state.addChild(particle);
+                    this.scene.addChild(particle);
                 }
 
                 this._particles.push(particle);                                            
@@ -270,7 +270,7 @@ namespace Lightning {
                 if(this._addToLocal) {
                     this.addChild(particle);
                 } else {
-                    this.state.addChild(particle);
+                    this.scene.addChild(particle);
                     this._particles.push(particle); 
                 }
 
@@ -332,7 +332,7 @@ namespace Lightning {
             this._strengthText.x = x;
             this._strengthText.y = y + (gap * 3);
 
-            this.state.add(this._aliveText, this._deadPoolText, this._intervalText, this._strengthText);
+            this.scene.add(this._aliveText, this._deadPoolText, this._intervalText, this._strengthText);
 
             this._debugFn = setInterval(() => {
                 this._aliveText.text = 'Alive: ' + this.alive;

@@ -17,8 +17,16 @@ namespace Lightning {
         }
 
         private prepareOptions(options:iEngineOptions):iEngineOptions {
-            if(options.rendererOptions === undefined) options.rendererOptions = {};
-            if(options.plugins === undefined) options.plugins = {};
+            if(options === undefined || options === null) {
+                options = {
+                    rendererOptions: {},
+                    plugins: {}
+                };
+            } else {
+                if(options.rendererOptions === undefined) options.rendererOptions = {};
+                if(options.plugins === undefined) options.plugins = {};
+            }
+            
 
             let ops:iEngineOptions = {
                 skipHello: options.skipHello || true,
@@ -171,7 +179,7 @@ namespace Lightning {
              * Initalise the State Manager
              */
             if(options.plugins.states === null || options.plugins.states === undefined || options.plugins.states === true) {
-                this._stateManager = new StateManager(this);
+                this._sceneManager = new SceneManager(this);
             }
 
             /**

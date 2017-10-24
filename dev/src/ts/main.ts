@@ -1,25 +1,21 @@
-// <reference path="./../../../dist/lightning.d.ts" />
+// /<reference path="./../../../dist/lightning.d.ts" />
 
-import BootState from './states/boot';
-import PreloadState from './states/preload';
-import MenuState from './states/menu';
-import GameState from './states/game';
+import BootScene from './scenes/boot';
+import PreloadScene from './scenes/preload';
+import MenuScene from './scenes/menu';
+import GameScene from './scenes/game';
 
 export default class Game {
 
     public game:Lightning.Engine;
 
     constructor(width:number, height:number, divId:string = 'app') {
-        this.game = new Lightning.Engine(width, height, {
-            rendererOptions: {
-                transparent: false
-            }
-        });
-        this.game.states.add('boot', new BootState());
-        this.game.states.add('preload', new PreloadState());
-        this.game.states.add('menu', new MenuState());
-        this.game.states.add('game', new GameState());
-        this.game.states.start('boot');
+        this.game = new Lightning.Engine(width, height);
+        this.game.scenes.add('boot', new BootScene());
+        this.game.scenes.add('preload', new PreloadScene());
+        this.game.scenes.add('menu', new MenuScene());
+        this.game.scenes.add('game', new GameScene());
+        this.game.scenes.start('boot');
     }
 }
 

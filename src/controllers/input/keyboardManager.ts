@@ -20,6 +20,10 @@ namespace Lightning {
             window.addEventListener('keyup', this.handleKeyUp.bind(this), true);
         }
 
+        /**
+         * 
+         * @param event 
+         */
         private handleKeyDown(event:KeyboardEvent) {
             if(this._enabled === false) return;
             let code:number = event.keyCode || event.charCode;

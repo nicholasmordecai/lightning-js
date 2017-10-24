@@ -24,6 +24,8 @@ namespace Lightning {
         private _scaleMode:number;
         private _resizeTimeout:number;
 
+        private _breakPoints: Array<{width: number, height: number, value: string}>;
+
         constructor(game:Engine, initWidth:number, initHeight:number, scaleMode:number = 0) {
             super();
             this.game = game;

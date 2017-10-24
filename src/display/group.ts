@@ -19,5 +19,9 @@ namespace Lightning {
                 this.addChild(displayObjects[i]);
              }
         }
+
+        public update(time: number) {
+            
+        }
     }
 }

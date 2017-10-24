@@ -8,6 +8,9 @@ namespace Lightning {
         private _realWidth:number;
         private _realHeight:number;
 
+        // location
+        private _location:{city:string, country:string, coordinates:{x:number, y:number}};
+
         // device type
         private _isMobile:boolean;
         private _isTablet:boolean;
@@ -284,6 +287,31 @@ namespace Lightning {
             }
         }
 
+        private getLocation() {
+            try {
+                var oReq = new XMLHttpRequest();
+                oReq.open("GET", "https://ipinfo.io");
+                oReq.send();
+                oReq.addEventListener("progress", function() {
+
+                });
+                oReq.addEventListener("load", function(event) {
+                    console.log(event);
+                });
+                oReq.addEventListener("error", function() {
+                    
+                });
+                oReq.addEventListener("abort", function() {
+                    
+                });
+            } catch(e) {
+
+            }
+            // $.get("https://ipinfo.io", function(response) {
+            //     console.log(response.city, response.country);
+            // }, "jsonp");
+        }
+
         public get mobile():boolean {
             return this._isMobile;
         }
@@ -310,6 +338,10 @@ namespace Lightning {
 
         public get amazon():boolean {
             return this._isAmazon;
+        }
+
+        public get location():{city:string, country:string, coordinates:{x:number, y:number}} {
+            return this._location;
         }
     }
 }

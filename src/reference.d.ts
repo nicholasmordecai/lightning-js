@@ -13,12 +13,13 @@
 /// <reference path ="./interfaces/iPoint.ts" />
 /// <reference path ="./interfaces/iRange.ts" />
 /// <reference path ="./interfaces/iPointRange.ts" />
-/// <reference path ="./interfaces/iStateMap.ts" />
+/// <reference path ="./interfaces/iSceneMap.ts" />
 /// <reference path ="./interfaces/iEventSubscription.ts" />
 /// <reference path ="./interfaces/iParticle.ts" />
 /// <reference path ="./interfaces/iServiceAction.ts" />
 /// <reference path ="./interfaces/iBoundBox.ts" />
 /// <reference path ="./interfaces/iVector.ts" />
+/// <reference path ="./interfaces/iRec.ts" />
 /// <reference path ="./interfaces/iEngineOptions.ts" />
 
 /// <reference path="./core/events/event.ts" />
@@ -50,6 +51,8 @@
 /// <reference path="./utils/depreciated.ts" />
 /// <reference path="./utils/debug.ts" />
 /// <reference path ="./utils/webFontLoader.ts" />
+/// <reference path ="./utils/locale.ts" />
+/// <reference path ="./utils/logger.ts" />
 /**
  * Controllers
  */
@@ -87,7 +90,7 @@
  */
 /// <reference path="./physics/lite/body.ts" />
 /// <reference path="./physics/lite/pool.ts" />
-/// <reference path="./physics/lite/CollisionEvent.ts" />
+/// <reference path="./physics/lite/collisionEvent.ts" />
 /// <reference path="./physics/lite/manager.ts" />
 
 
@@ -99,6 +102,6 @@
 /// <reference path="./core/engine.ts" />
 /// <reference path="./core/engineHelper.ts" />
 /// <reference path="./core/timer/timer.ts" />
-/// <reference path="./core/states/state.ts" />
-/// <reference path="./core/states/stateManager.ts" />
+/// <reference path="./core/scenes/scene.ts" />
+/// <reference path="./core/scenes/sceneManager.ts" />
 /// <reference path="./core/physics/physicsManager.ts" />
