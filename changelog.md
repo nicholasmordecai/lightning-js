@@ -3,7 +3,10 @@
 ### 0.5.2
 1. Rename state to scene as it feels more appropriate
 2. Added font profiling
-3. 
+3. Improved documentation
+4. Fixed unit tests
+5. Removed CLI to move into its own repo
+6. Small fixes on the lite physics plugin
 
 ### 0.5.1
 1. Work on Geometry class
