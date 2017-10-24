@@ -20,8 +20,8 @@ namespace Lightning {
             forceFXAA?:boolean;
             legacy?:boolean
         },
-        divID:string;
-        plugins: {
+        divID?:string;
+        plugins?: {
             scaleManeger?:boolean;
             device?:boolean;
             storage?:boolean;

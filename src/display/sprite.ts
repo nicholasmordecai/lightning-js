@@ -25,6 +25,10 @@ namespace Lightning {
             this._input = new Input(this);
         }
 
+        public enableUpdate(event: Lightning.Event) {
+            event.addSubscriber(this.update, this);
+        }
+
         public destroy() {
             console.log('sprite destroyed', this);
 
@@ -150,6 +154,10 @@ namespace Lightning {
                 event.data.global.x - this._respectPositionValues.x, 
                 event.data.global.y - this._respectPositionValues.y
             );
+        }
+
+        public update(time: number) {
+
         }
 
         public get input():Input {

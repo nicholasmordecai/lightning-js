@@ -8,5 +8,9 @@ namespace Lightning {
         constructor() {
             super();
         }
+
+        public update(time: number) {
+
+        }
     }
 }

@@ -1,5 +1,10 @@
 # Changelog
 
+### 0.5.2
+1. Rename state to scene as it feels more appropriate
+2. Added font profiling
+3. 
+
 ### 0.5.1
 1. Work on Geometry class
     1. Override Tint

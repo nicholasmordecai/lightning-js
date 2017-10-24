@@ -13,7 +13,7 @@ namespace Lightning {
         protected _world: Lightning.Group;
         protected _hud:HUD;
         protected _ticker:PIXI.ticker.Ticker;
-        protected _stateManager:StateManager;
+        protected _sceneManager:SceneManager;
         protected _device:Device;
         protected _physicsManager:PhysicsManager
         protected _eventEmitter:EventEmitter;
@@ -35,6 +35,28 @@ namespace Lightning {
             //         |___|                 |___|
             //              `, "font-family:monospace");
             //              console.log('Lightning-js | version : 0.4.5');
+        }
+
+        public wave() {
+            // let data:{location:string} = {
+            //     location: location
+            // };
+
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "//lightning-js.com/api/wave");
+            oReq.send();
+            oReq.addEventListener("progress", function() {
+
+            });
+            oReq.addEventListener("load", function(event) {
+                console.log(event);
+            });
+            oReq.addEventListener("error", function() {
+                
+            });
+            oReq.addEventListener("abort", function() {
+                
+            });
         }
 
         /**
@@ -105,8 +127,8 @@ namespace Lightning {
             return this._renderer;
         }
 
-        public get states():StateManager {
-            return this._stateManager;
+        public get scenes():SceneManager {
+            return this._sceneManager;
         }
 
         public set fps(fps:number) {

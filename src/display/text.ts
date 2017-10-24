@@ -7,5 +7,9 @@ namespace Lightning {
         public constructor(text:string, style:PIXI.ITextStyleStyle, canvas:HTMLCanvasElement = null) {
             super(text, style, canvas);
         }
+
+        public update(time: number) {
+            
+        }
     }
 }

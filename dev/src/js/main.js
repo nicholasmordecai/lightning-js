@@ -1,23 +1,19 @@
-// <reference path="./../../../dist/lightning.d.ts" />
 "use strict";
+// /<reference path="./../../../dist/lightning.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
-var boot_1 = require("./states/boot");
-var preload_1 = require("./states/preload");
-var menu_1 = require("./states/menu");
-var game_1 = require("./states/game");
+var boot_1 = require("./scenes/boot");
+var preload_1 = require("./scenes/preload");
+var menu_1 = require("./scenes/menu");
+var game_1 = require("./scenes/game");
 var Game = (function () {
     function Game(width, height, divId) {
         if (divId === void 0) { divId = 'app'; }
-        this.game = new Lightning.Engine(width, height, {
-            rendererOptions: {
-                transparent: false
-            }
-        });
-        this.game.states.add('boot', new boot_1.default());
-        this.game.states.add('preload', new preload_1.default());
-        this.game.states.add('menu', new menu_1.default());
-        this.game.states.add('game', new game_1.default());
-        this.game.states.start('boot');
+        this.game = new Lightning.Engine(width, height);
+        this.game.scenes.add('boot', new boot_1.default());
+        this.game.scenes.add('preload', new preload_1.default());
+        this.game.scenes.add('menu', new menu_1.default());
+        this.game.scenes.add('game', new game_1.default());
+        this.game.scenes.start('boot');
     }
     return Game;
 }());

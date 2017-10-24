@@ -272,7 +272,11 @@ namespace Lightning {
          * Lightning.Maths.uniqueRange(0, 10, 5) // will return an array of 5 unique numbers between 0 and 10
          * ~~~
          */
-        public static uniqueRange(from:number, to:number, count:number, safeNumber:number = count * 5) {
+        public static uniqueRange(from:number, to:number, count:number, safeNumber:number = count * 5): number[] {
+            if(to - from < count) {
+                console.error("Can't get unique range, not enough numbers to choose from!");
+                return null;
+            }
             let range:Array<number> = [];
             let c:number = 0;
             while(range.length < count) {

@@ -1,25 +1,21 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-// <reference path="./../../../dist/lightning.d.ts" />
 "use strict";
+// /<reference path="./../../../dist/lightning.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
-var boot_1 = require("./states/boot");
-var preload_1 = require("./states/preload");
-var menu_1 = require("./states/menu");
-var game_1 = require("./states/game");
+var boot_1 = require("./scenes/boot");
+var preload_1 = require("./scenes/preload");
+var menu_1 = require("./scenes/menu");
+var game_1 = require("./scenes/game");
 var Game = (function () {
     function Game(width, height, divId) {
         if (divId === void 0) { divId = 'app'; }
-        this.game = new Lightning.Engine(width, height, {
-            rendererOptions: {
-                transparent: false
-            }
-        });
-        this.game.states.add('boot', new boot_1.default());
-        this.game.states.add('preload', new preload_1.default());
-        this.game.states.add('menu', new menu_1.default());
-        this.game.states.add('game', new game_1.default());
-        this.game.states.start('boot');
+        this.game = new Lightning.Engine(width, height);
+        this.game.scenes.add('boot', new boot_1.default());
+        this.game.scenes.add('preload', new preload_1.default());
+        this.game.scenes.add('menu', new menu_1.default());
+        this.game.scenes.add('game', new game_1.default());
+        this.game.scenes.start('boot');
     }
     return Game;
 }());
@@ -50,8 +46,37 @@ window.onload = function () {
 // };
 // app.initialize(); 
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_ae00e5b2.js","/")
-},{"./states/boot":2,"./states/game":3,"./states/menu":4,"./states/preload":5,"buffer":7,"fsovz6":8}],2:[function(require,module,exports){
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_f4263881.js","/")
+},{"./scenes/boot":3,"./scenes/game":4,"./scenes/menu":5,"./scenes/preload":6,"buffer":8,"fsovz6":9}],2:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var Test = (function (_super) {
+    __extends(Test, _super);
+    function Test(scene, texture) {
+        var _this = _super.call(this, texture) || this;
+        _this.enableUpdate(scene.events.event('update'));
+        return _this;
+    }
+    Test.prototype.update = function () {
+        console.log('yo');
+    };
+    return Test;
+}(Lightning.Sprite));
+exports.default = Test;
+
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/prefabs/test.js","/prefabs")
+},{"buffer":8,"fsovz6":9}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
@@ -75,14 +100,14 @@ var BootState = (function (_super) {
         this.create();
     };
     BootState.prototype.create = function () {
-        this.game.states.start('preload');
+        this.game.scenes.start('preload');
     };
     return BootState;
-}(Lightning.State));
+}(Lightning.Scene));
 exports.default = BootState;
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/states/boot.js","/states")
-},{"buffer":7,"fsovz6":8}],3:[function(require,module,exports){
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/scenes/boot.js","/scenes")
+},{"buffer":8,"fsovz6":9}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
@@ -107,7 +132,7 @@ var GameState = (function (_super) {
         var _this = this;
         setTimeout(function () {
             _this.game.physics.lite.reset();
-            _this.game.states.start('menu');
+            _this.game.scene.start('menu');
         }, 5000);
         this.game.physics.lite.enablePhysics();
         var texture = Lightning.Geometry.Rect(5, 5).generateCanvasTexture();
@@ -297,11 +322,11 @@ var GameState = (function (_super) {
         console.log('hi');
     };
     return GameState;
-}(Lightning.State));
+}(Lightning.Scene));
 exports.default = GameState;
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/states/game.js","/states")
-},{"buffer":7,"fsovz6":8}],4:[function(require,module,exports){
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/scenes/game.js","/scenes")
+},{"buffer":8,"fsovz6":9}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
@@ -315,6 +340,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var test_1 = require("./../prefabs/test");
 var MenuState = (function (_super) {
     __extends(MenuState, _super);
     function MenuState() {
@@ -323,7 +349,6 @@ var MenuState = (function (_super) {
     MenuState.prototype.create = function () {
         //     let button = new Lightning.Sprite(Lightning.Geometry.Rect(50, 50, 0xff22aa));
         //     this.add(button);
-        var _this = this;
         var sound = this.game.audio.load('meeseeks', ['audio.mp3']);
         this.game.keyboard.key('space').subscribe('pressed', function () {
             sound.play();
@@ -367,18 +392,23 @@ var MenuState = (function (_super) {
         // this.particleEmitter.addToLocal = false;
         this.particleEmitter.setRotationIncrement(-0.1, 0.1);
         this.particleEmitter.setStrength(2);
-        setTimeout(function () {
-            _this.particleEmitter.start();
-        }, 1500);
+        this.particleEmitter.start();
+        var t = Lightning.Geometry.Rect(50, 50, 0xff22aa);
+        var s = new test_1.default(this, t);
+        this.add(s);
+        var timer = new Lightning.Timer(this.game, 5000);
+        timer.events.subscribe('tick', function () {
+            console.log('testy');
+        });
     };
     MenuState.prototype.update = function () {
     };
     return MenuState;
-}(Lightning.State));
+}(Lightning.Scene));
 exports.default = MenuState;
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/states/menu.js","/states")
-},{"buffer":7,"fsovz6":8}],5:[function(require,module,exports){
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/scenes/menu.js","/scenes")
+},{"./../prefabs/test":2,"buffer":8,"fsovz6":9}],6:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
@@ -398,14 +428,14 @@ var PreloadState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     PreloadState.prototype.create = function () {
-        this.game.states.start('menu');
+        this.game.scenes.start('menu');
     };
     return PreloadState;
-}(Lightning.State));
+}(Lightning.Scene));
 exports.default = PreloadState;
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/states/preload.js","/states")
-},{"buffer":7,"fsovz6":8}],6:[function(require,module,exports){
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/scenes/preload.js","/scenes")
+},{"buffer":8,"fsovz6":9}],7:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
@@ -533,7 +563,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
 }).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/browserify/node_modules/base64-js/lib/b64.js","/../../../node_modules/browserify/node_modules/base64-js/lib")
-},{"buffer":7,"fsovz6":8}],7:[function(require,module,exports){
+},{"buffer":8,"fsovz6":9}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!
  * The buffer module from node.js, for the browser.
@@ -1646,7 +1676,7 @@ function assert (test, message) {
 }
 
 }).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/browserify/node_modules/buffer/index.js","/../../../node_modules/browserify/node_modules/buffer")
-},{"base64-js":6,"buffer":7,"fsovz6":8,"ieee754":9}],8:[function(require,module,exports){
+},{"base64-js":7,"buffer":8,"fsovz6":9,"ieee754":10}],9:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // shim for using process in browser
 
@@ -1713,7 +1743,7 @@ process.chdir = function (dir) {
 };
 
 }).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/browserify/node_modules/process/browser.js","/../../../node_modules/browserify/node_modules/process")
-},{"buffer":7,"fsovz6":8}],9:[function(require,module,exports){
+},{"buffer":8,"fsovz6":9}],10:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
@@ -1801,4 +1831,4 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 }
 
 }).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/ieee754/index.js","/../../../node_modules/ieee754")
-},{"buffer":7,"fsovz6":8}]},{},[1])
+},{"buffer":8,"fsovz6":9}]},{},[1])
