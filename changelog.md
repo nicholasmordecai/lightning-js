@@ -1,5 +1,10 @@
 # Changelog
 
+### 0.5.3
+1. Add coveralls badge to readme.md
+2. Fix for missing liteCollisionEvent file
+
+
 ### 0.5.2
 1. Rename state to scene as it feels more appropriate
 2. Added font profiling

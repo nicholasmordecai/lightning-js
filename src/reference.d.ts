@@ -90,7 +90,7 @@
  */
 /// <reference path="./physics/lite/body.ts" />
 /// <reference path="./physics/lite/pool.ts" />
-/// <reference path="./physics/lite/CollisionEvent.ts" />
+/// <reference path="./physics/lite/collisionEvent.ts" />
 /// <reference path="./physics/lite/manager.ts" />
 
 
