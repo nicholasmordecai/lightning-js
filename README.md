@@ -1,6 +1,6 @@
 [![CircleCI](https://circleci.com/gh/megmut/lightning-js.svg?style=svg)](https://circleci.com/gh/megmut/lightning-js)
+[![codecov](https://codecov.io/gh/megmut/lightning-js/branch/master/graph/badge.svg)](https://codecov.io/gh/megmut/lightning-js)
 
-[![Coverage Status](https://coveralls.io/repos/github/megmut/lightning-js/badge.svg?branch=master)](https://coveralls.io/github/megmut/lightning-js?branch=master)
 
 
 # Ligtning 0.5.3
