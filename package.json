@@ -20,7 +20,8 @@
     "minify": "gulp minify",
     "docs": "./node_modules/.bin/typedoc --mode file --out docs/ src/",
     "build": "npm-run-all compile ts-compile concat concat-dts minify",
-    "test": "./node_modules/karma/bin/karma start karma.conf.js"
+    "test": "./node_modules/karma/bin/karma start karma.conf.js",
+    "posttest": "gulp coverage"
   },
   "author": "Nicholas Mordecai",
   "license": "ISC",
@@ -33,6 +34,7 @@
     "gulp": "^3.9.1",
     "gulp-browserify": "^0.5.1",
     "gulp-concat": "^2.6.1",
+    "gulp-coveralls": "^0.1.4",
     "gulp-minify": "0.0.15",
     "gulp-rename": "^1.2.2",
     "gulp-webserver": "^0.9.1",

@@ -5,7 +5,3 @@ machine:
   dependencies:
     post:
       - npm run build
-notify:
-  webhooks:
-    # A list of hook hashes, containing the URL field
-    - url: https://coveralls.io/webhook?repo_token=dvZftQyQScO7I1aR4cTzZHGXk7s5ejbMj

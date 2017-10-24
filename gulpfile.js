@@ -4,6 +4,7 @@ const minify = require('gulp-minify');
 const browserSync = require('browser-sync').create();
 const browserify = require('gulp-browserify');
 const rename = require('gulp-rename');
+const coveralls = require('gulp-coveralls');
 
 const sourceFiles = [ './libs/pixi.js/pixi.js', './libs/box2d/Box2D.js', './libs/howler/howler.js', './libs/webfontloader/webfontloader.js', './build/*.js' ];
 const destination = './dist/';
@@ -70,3 +71,8 @@ gulp.task('watch', ['browser-sync'], function () {
     gulp.watch('dev/public/js/game.js').on('change', browserSync.reload);
     gulp.watch('build/compile.js').on('change', browserSync.reload);
 });
+
+gulp.task('coverage'), function() {
+    gulp.src('coverage/lcov.info')
+    .pipe(coveralls());
+}
