@@ -5,3 +5,6 @@ machine:
   dependencies:
     post:
       - npm run build
+  tests:
+    post:
+    - coveralls
