@@ -71,8 +71,3 @@ gulp.task('watch', ['browser-sync'], function () {
     gulp.watch('dev/public/js/game.js').on('change', browserSync.reload);
     gulp.watch('build/compile.js').on('change', browserSync.reload);
 });
-
-gulp.task('coverage'), function() {
-    gulp.src('coverage/lcov.info')
-    .pipe(coveralls());
-}
