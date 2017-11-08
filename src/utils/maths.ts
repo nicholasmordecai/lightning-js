@@ -81,6 +81,10 @@ namespace Lightning {
             return {x: Maths.rngInt(rectangle.x1, rectangle.x2), y: Maths.rngInt(rectangle.y1, rectangle.y2)};
         }
 
+        public static angleBetweenDegs(a, b, c, d) {
+            return Math.atan2(d - b, c - a) * 180 / Math.PI;
+        }
+
         /**
          * @description Calculate distance between two positions
          * 

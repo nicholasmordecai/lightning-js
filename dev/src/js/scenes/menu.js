@@ -17,6 +17,8 @@ var MenuState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MenuState.prototype.create = function () {
+        this.game.scenes.start('game');
+        this.game.scenes.destroy('menu');
         //     let button = new Lightning.Sprite(Lightning.Geometry.Rect(50, 50, 0xff22aa));
         //     this.add(button);
         var sound = this.game.audio.load('meeseeks', ['audio.mp3']);
@@ -66,10 +68,10 @@ var MenuState = (function (_super) {
         var t = Lightning.Geometry.Rect(50, 50, 0xff22aa);
         var s = new test_1.default(this, t);
         this.add(s);
-        var timer = new Lightning.Timer(this.game, 5000);
-        timer.events.subscribe('tick', function () {
-            console.log('testy');
-        });
+        // let timer = new Lightning.Timer(this.game, 5000);
+        // timer.events.subscribe('tick', () => {
+        //     console.log('testy');
+        // });
     };
     MenuState.prototype.update = function () {
     };

@@ -10,7 +10,11 @@ export default class Game {
     public game:Lightning.Engine;
 
     constructor(width:number, height:number, divId:string = 'app') {
-        this.game = new Lightning.Engine(width, height);
+        this.game = new Lightning.Engine(width, height, {
+            rendererOptions: {
+                transparent: false
+            }
+        });
         this.game.scenes.add('boot', new BootScene());
         this.game.scenes.add('preload', new PreloadScene());
         this.game.scenes.add('menu', new MenuScene());
@@ -23,7 +27,7 @@ export default class Game {
 // let height = Math.round(width * 0.7);
 // new Game(width, height);
 window.onload = () => {
-    new Game(window.innerWidth, window.innerHeight);
+    new Game(600, 400);
 }
 
 // enable the following for cordova!!

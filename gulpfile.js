@@ -9,7 +9,13 @@ const coveralls = require('gulp-coveralls');
 const sourceFiles = [ './libs/pixi.js/pixi.js', './libs/box2d/Box2D.js', './libs/howler/howler.js', './libs/webfontloader/webfontloader.js', './build/*.js' ];
 const destination = './dist/';
 
-const sourceFilesDTS = ['./build/*.d.ts', './typings/globals/pixi.js/index.d.ts', './typings/globals/howler/index.d.ts', './typings/globals/box2d/index.d.ts', './typings/globals/webfontloader/index.d.ts'];
+const sourceFilesDTS = [
+    './typings/globals/pixi.js/index.d.ts',
+    './libs/howler/index.d.ts',
+    './typings/globals/box2d/index.d.ts',
+    './typings/globals/webfontloader/index.d.ts',
+    './build/*.d.ts'
+];
  
 gulp.task('concat', function() {
   return gulp.src(sourceFiles)
@@ -60,7 +66,7 @@ gulp.task('browser-sync', function() {
     browserSync.init({
         server: {
             baseDir: './',
-            files: ['dev/public/index.html']
+            files: ['./dev/public/index.html']
         },
         open: false
     });

@@ -10,16 +10,34 @@ namespace Lightning {
         }
 
         /**
-         * @description Pass a function to be added to the click events
-         * @param fnct
+         * @description On click callback
+         * 
+         * @param fnct the callback function
+         * 
+         * @returns {number}
+         * 
+         * @example 
+         * ~~~
+         * 
+         * sprite.onClick(() => { //do this });
+         * ~~~
          */
         public onClick(fnct:Function):void {
             this.parent.on('click', fnct);
         }
 
         /**
-         * @description Pass a function to be added to the mouse, pointer and touch down events
-         * @param fnct
+         * @description mouse down callback
+         * 
+         * @param fnct the callback function
+         *
+         * @returns {number}
+         * 
+         * @example 
+         * ~~~
+         * 
+         * sprite.down(() => { //do this });
+         * ~~~
          */
         public down(fnct:Function):void {
             this.parent.on('mousedown', fnct);
@@ -33,8 +51,18 @@ namespace Lightning {
         }
 
         /**
-         * @description Pass a function to be added to the mouse, touch and pointer up events
-         * @param fnct
+         * @description on mouse release
+         * note: up will still be triggered even if the pointer has been moved out of the bounding box prior to input release
+         * 
+         * @param fnct the callback function
+         * 
+         * @returns {number}
+         * 
+         * @example 
+         * ~~~
+         * 
+         * sprite.up(() => { //do this });
+         * ~~~
          */
         public up(fnct:Function):void {
             this.parent.on('mouseup', fnct);

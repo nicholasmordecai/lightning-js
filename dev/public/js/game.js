@@ -10,7 +10,11 @@ var game_1 = require("./scenes/game");
 var Game = (function () {
     function Game(width, height, divId) {
         if (divId === void 0) { divId = 'app'; }
-        this.game = new Lightning.Engine(width, height);
+        this.game = new Lightning.Engine(width, height, {
+            rendererOptions: {
+                transparent: false
+            }
+        });
         this.game.scenes.add('boot', new boot_1.default());
         this.game.scenes.add('preload', new preload_1.default());
         this.game.scenes.add('menu', new menu_1.default());
@@ -24,7 +28,7 @@ exports.default = Game;
 // let height = Math.round(width * 0.7);
 // new Game(width, height);
 window.onload = function () {
-    new Game(window.innerWidth, window.innerHeight);
+    new Game(600, 400);
 };
 // enable the following for cordova!!
 // var app = {
@@ -46,7 +50,7 @@ window.onload = function () {
 // };
 // app.initialize(); 
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_f4263881.js","/")
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_918d4863.js","/")
 },{"./scenes/boot":3,"./scenes/game":4,"./scenes/menu":5,"./scenes/preload":6,"buffer":8,"fsovz6":9}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -129,19 +133,19 @@ var GameState = (function (_super) {
         return _this;
     }
     GameState.prototype.create = function () {
-        var _this = this;
-        setTimeout(function () {
-            _this.game.physics.lite.reset();
-            _this.game.scene.start('menu');
-        }, 5000);
+        // setTimeout(() => {
+        //     this.game.physics.lite.reset();
+        //     this.game.scene.start('menu');
+        // }, 5000);
+        this.game.backgroundColour = 0xe5e5e5;
         this.game.physics.lite.enablePhysics();
-        var texture = Lightning.Geometry.Rect(5, 5).generateCanvasTexture();
-        var pool = this.game.physics.lite.createPool('test');
-        for (var i = 0; i < 30; i++) {
+        var texture = Lightning.Geometry.Rect(50, 50, 0xff22aa, 0.7, true);
+        var pool = this.game.physics.lite.createPool('test', true);
+        for (var i = 0; i < 7; i++) {
             var sprite = new Lightning.Sprite();
             sprite.texture = texture;
-            sprite.x = Lightning.Maths.rngFloat(0, this.game.width);
-            sprite.y = Lightning.Maths.rngFloat(0, this.game.height);
+            sprite.x = Lightning.Maths.rngFloat(75, this.game.width - 75);
+            sprite.y = Lightning.Maths.rngFloat(75, this.game.height - 75);
             this.add(sprite);
             sprite.enablePhysicsBody();
             pool.add(sprite.body);
@@ -149,19 +153,19 @@ var GameState = (function (_super) {
             sprite.body.velocity.x = Lightning.Maths.rngFloat(-5, 5);
             sprite.body.velocity.y = Lightning.Maths.rngFloat(-5, 5);
             sprite.body.collideOnWorldBounds = true;
-            sprite.body.gravityEnabled = true;
+            // sprite.body.gravityEnabled = true;
             sprite.body.restitution = 0.5;
         }
-        var bigGuy = new Lightning.Sprite();
-        bigGuy.texture = Lightning.Geometry.Rect(50, 50).generateCanvasTexture();
-        bigGuy.x = this.game.width / 2;
-        bigGuy.y = this.game.height / 2;
-        this.add(bigGuy);
-        bigGuy.enablePhysicsBody();
-        bigGuy.body.enableDebug();
-        bigGuy.body.static = true;
-        var cEvent = this.game.physics.lite.createCollisionEvent('t', bigGuy.body, pool.bodies);
-        cEvent.onCollide(this.onCollide, this);
+        // let bigGuy = new Lightning.Sprite();
+        // bigGuy.texture = Lightning.Geometry.Rect(50, 50, 0xff22aa, 1, true);
+        // bigGuy.x = this.game.width / 2;
+        // bigGuy.y = this.game.height / 2;
+        // this.add(bigGuy);
+        // bigGuy.enablePhysicsBody();
+        // bigGuy.body.enableDebug();
+        // bigGuy.body.static = true;
+        // let cEvent = this.game.physics.lite.createCollisionEvent('t', bigGuy.body, pool.bodies);
+        // cEvent.onCollide(this.onCollide, this);
         /**
         1.  * creating basic tween
          */
@@ -347,6 +351,8 @@ var MenuState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MenuState.prototype.create = function () {
+        this.game.scenes.start('game');
+        this.game.scenes.destroy('menu');
         //     let button = new Lightning.Sprite(Lightning.Geometry.Rect(50, 50, 0xff22aa));
         //     this.add(button);
         var sound = this.game.audio.load('meeseeks', ['audio.mp3']);
@@ -396,10 +402,10 @@ var MenuState = (function (_super) {
         var t = Lightning.Geometry.Rect(50, 50, 0xff22aa);
         var s = new test_1.default(this, t);
         this.add(s);
-        var timer = new Lightning.Timer(this.game, 5000);
-        timer.events.subscribe('tick', function () {
-            console.log('testy');
-        });
+        // let timer = new Lightning.Timer(this.game, 5000);
+        // timer.events.subscribe('tick', () => {
+        //     console.log('testy');
+        // });
     };
     MenuState.prototype.update = function () {
     };

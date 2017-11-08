@@ -5,6 +5,9 @@ export default class MenuState extends Lightning.Scene {
     private particleEmitter;
 
     create() {
+        this.game.scenes.start('game');
+        this.game.scenes.destroy('menu');
+
     //     let button = new Lightning.Sprite(Lightning.Geometry.Rect(50, 50, 0xff22aa));
     //     this.add(button);
 
@@ -74,14 +77,14 @@ export default class MenuState extends Lightning.Scene {
         let s = new Test(this, t);
         this.add(s);
 
-        let timer = new Lightning.Timer(this.game, 5000);
-        timer.events.subscribe('tick', () => {
-            console.log('testy');
-        });
+        // let timer = new Lightning.Timer(this.game, 5000);
+        // timer.events.subscribe('tick', () => {
+        //     console.log('testy');
+        // });
 
     }
 
     update() {
-
+        
     }
 }

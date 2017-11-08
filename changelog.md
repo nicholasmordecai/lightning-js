@@ -3,6 +3,10 @@
 ### 0.5.3
 1. Add coveralls badge to readme.md
 2. Fix for missing liteCollisionEvent file
+3. Physics Lite ->
+    1. Fixed world collide incorrect maths
+    2. Fixed gravity being applied even when body is on the floor
+
 
 
 ### 0.5.2

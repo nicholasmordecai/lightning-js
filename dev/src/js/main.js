@@ -8,7 +8,11 @@ var game_1 = require("./scenes/game");
 var Game = (function () {
     function Game(width, height, divId) {
         if (divId === void 0) { divId = 'app'; }
-        this.game = new Lightning.Engine(width, height);
+        this.game = new Lightning.Engine(width, height, {
+            rendererOptions: {
+                transparent: false
+            }
+        });
         this.game.scenes.add('boot', new boot_1.default());
         this.game.scenes.add('preload', new preload_1.default());
         this.game.scenes.add('menu', new menu_1.default());
@@ -22,7 +26,7 @@ exports.default = Game;
 // let height = Math.round(width * 0.7);
 // new Game(width, height);
 window.onload = function () {
-    new Game(window.innerWidth, window.innerHeight);
+    new Game(600, 400);
 };
 // enable the following for cordova!!
 // var app = {

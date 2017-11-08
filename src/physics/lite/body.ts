@@ -18,11 +18,20 @@ namespace Lightning {
         private _destroyFlag:boolean;
 
         private _graphics:Graphics;
+        private _debugSprite:Lightning.Sprite;
         private _deltaG:iVector;
         private _pauseCollisionDetection:boolean;
         private _collideOnWorldBounds:boolean;
         private _gravityEnabled:boolean;
         private _restitution:number;
+
+        public _isTouchingUp: boolean;
+        public _isTouchingRight: boolean;
+        public _isTouchingDown: boolean;
+        public _isTouchingLeft: boolean;
+
+        public _isAsleepX: boolean;
+        public _isAsleepY: boolean;
 
         public angle:number;
         public x:number;
@@ -46,6 +55,14 @@ namespace Lightning {
             this.drag = 0;
             this._restitution = 1;
 
+            this._isTouchingUp = false;
+            this._isTouchingRight = false;
+            this._isTouchingDown = false;
+            this._isTouchingLeft = false;
+
+            this._isAsleepX = false;
+            this._isAsleepY = false;
+
             if(inheritAnchor) {
                 this.setAnchor(obj.anchor.x, obj.anchor.y);
             }
@@ -66,11 +83,13 @@ namespace Lightning {
         }
 
         public enableDebug() {
-            this._graphics = new Graphics();
-            this._graphics.beginFill(0xff0000, 0.2);
-            this._graphics.drawRect(this._bounds.x, this._bounds.y, this._bounds.width, this._bounds.height);
-            this._graphics.endFill();
-            this._objectRef.add(this._graphics);
+            let gfx:Lightning.Graphics = new Graphics();
+            gfx.lineStyle(1, 0x79C879, 0.6);
+            gfx.beginFill(0x79C879, 0.2);
+            gfx.drawRect(this._bounds.x, this._bounds.y, this._bounds.width, this._bounds.height);
+            gfx.endFill();
+            this._debugSprite = new Lightning.Sprite(gfx.generateCanvasTexture());
+            this._objectRef.add(this._debugSprite);
         }
 
         public get bounds():iBoundBox {
