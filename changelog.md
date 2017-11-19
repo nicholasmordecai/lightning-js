@@ -1,13 +1,27 @@
 # Changelog
 
+### 0.5.4
+1. 
+
 ### 0.5.3
 1. Add coveralls badge to readme.md
 2. Fix for missing liteCollisionEvent file
-3. Physics Lite ->
-    1. Fixed world collide incorrect maths
-    2. Fixed gravity being applied even when body is on the floor
-
-
+3. Removed physics lite in favour of Box2D
+4. Fixed divID options value on the engine constructor
+5. Removed return as texture from geometry class
+6. Added text styles interface
+7. Added a utils class, and moved non maths functions into it
+    1. Added get url parameter
+8. Scale Controller
+    1. Added functions for scaling 
+9. Fixed update loop on scene not being called
+10. Box2D
+    1. Added collide on world bounds
+    2. Set the default pixel / meter at 100:1
+    3. Dynamic create body function
+    4. Parser for creating polygons with multiple vertices.
+11. Fix core update loop to get physics to run one step in front of rendering
+    so they are both in sync.
 
 ### 0.5.2
 1. Rename state to scene as it feels more appropriate
@@ -363,4 +377,4 @@
 3. State manager fixed (class not initalising correctly).
     1. Changed to game.stateStart(class).
 4. Readme file added.
-5. Changelog added.
+5. Changelog added.1

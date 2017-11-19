@@ -2232,6 +2232,8 @@ declare namespace Box2D.Collision.Shapes {
 		**/
 		public static AsArray(vertices: Box2D.Common.Math.b2Vec2[], vertexCount?: number): b2PolygonShape;
 
+		public foo(): void;
+
 		/**
 		* Build vertices to represent an axis-aligned box.
 		* @param hx The half-width.

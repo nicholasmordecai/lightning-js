@@ -18,29 +18,53 @@ var GameState = (function (_super) {
         return _this;
     }
     GameState.prototype.create = function () {
+        this.game.physics.startPhysics();
+        for (var i = 0; i < 100; i++) {
+            var texture = Lightning.Geometry.Triangle(20, 20).generateTexture();
+            var sprite = new Lightning.Sprite(texture);
+            sprite.x = Lightning.Maths.rngInt(10, this.game.width - 10);
+            sprite.y = Lightning.Maths.rngInt(10, this.game.height - 10);
+            sprite.setAnchor(0.5);
+            this.game.physics.createBody(sprite, 'polygon', [0, -10, 10, 10, -10, 10]);
+            this.add(sprite);
+        }
+        this.game.physics.createLine(100, 100, 0, 0, 100, 100);
+        this.game.physics.createLine(300, 200, 0, 0, 100, -100);
+        this.game.physics.createLine(100, 400, 0, 0, 100, 100);
+        this.game.physics.createLine(300, 400, 0, 0, 100, -100);
+        // console.log('init game')
+        // let gfx1 = Lightning.Geometry.Square(10);
+        // gfx1.x = 10;
+        // gfx1.y = 10;
+        // gfx1.interactive = true;
+        // gfx1.on('mouseup', () => {
+        //     this.game.scale.goFullScreen();
+        // });
+        // let gfx2 = Lightning.Geometry.Square(10);
+        // gfx2.x = 580;
+        // gfx2.y = 10;
+        // let gfx3 = Lightning.Geometry.Square(10);
+        // gfx3.x = 580;
+        // gfx3.y = 380;
+        // let gfx4 = Lightning.Geometry.Square(10);
+        // gfx4.x = 10;
+        // gfx4.y = 380;
+        // let sq1 = Lightning.Geometry.Square(25);
+        // this.s1 = new Lightning.Sprite(sq1.generateTexture());
+        // this.s1.setAnchor(0.5);
+        // this.s1.x = this.game.center.x;
+        // this.s1.y = this.game.center.y;
+        // this.s2 = new Lightning.Sprite(sq1.generateTexture());
+        // this.s2.setAnchor(0.5);
+        // this.s2.rotation = Lightning.Maths.degreesToRadians(45);
+        // this.s2.x = this.game.center.x;
+        // this.s2.y = this.game.center.y;
+        // this.add(gfx1, gfx2, gfx3, gfx4, this.s1, this.s2);
         // setTimeout(() => {
         //     this.game.physics.lite.reset();
         //     this.game.scene.start('menu');
         // }, 5000);
-        this.game.backgroundColour = 0xe5e5e5;
-        this.game.physics.lite.enablePhysics();
-        var texture = Lightning.Geometry.Rect(50, 50, 0xff22aa, 0.7, true);
-        var pool = this.game.physics.lite.createPool('test', true);
-        for (var i = 0; i < 7; i++) {
-            var sprite = new Lightning.Sprite();
-            sprite.texture = texture;
-            sprite.x = Lightning.Maths.rngFloat(75, this.game.width - 75);
-            sprite.y = Lightning.Maths.rngFloat(75, this.game.height - 75);
-            this.add(sprite);
-            sprite.enablePhysicsBody();
-            pool.add(sprite.body);
-            sprite.body.enableDebug();
-            sprite.body.velocity.x = Lightning.Maths.rngFloat(-5, 5);
-            sprite.body.velocity.y = Lightning.Maths.rngFloat(-5, 5);
-            sprite.body.collideOnWorldBounds = true;
-            // sprite.body.gravityEnabled = true;
-            sprite.body.restitution = 0.5;
-        }
+        // this.game.backgroundColour = 0xe5e5e5;
         // let bigGuy = new Lightning.Sprite();
         // bigGuy.texture = Lightning.Geometry.Rect(50, 50, 0xff22aa, 1, true);
         // bigGuy.x = this.game.width / 2;
@@ -207,8 +231,7 @@ var GameState = (function (_super) {
         //     customStorage.getItem('test');
         // ... //
     };
-    GameState.prototype.onCollide = function (obj1, obj2) {
-        console.log('hi');
+    GameState.prototype.update = function (time) {
     };
     return GameState;
 }(Lightning.Scene));

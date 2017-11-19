@@ -52,7 +52,7 @@ namespace Lightning {
                     events: options.plugins.events || true,
                     keyboard: options.plugins.keyboard || true,
                     physicsLite: options.plugins.physicsLite || true,
-                    box2d: options.plugins.box2d || false,
+                    box2d: options.plugins.box2d || true,
                     services: options.plugins.services || true,
                     sockets: options.plugins.sockets || false,
                     states: options.plugins.states || true,
@@ -68,6 +68,8 @@ namespace Lightning {
 
             return ops;
         }
+
+        
 
         private initialize(width, height, options:iEngineOptions) {
 
@@ -95,11 +97,20 @@ namespace Lightning {
             /**
              * THIS NEEDS A TIDY UP!
              */
-            // setup the canvas
-            let wrapper = document.createElement('div');
-            wrapper.id = options.divID || '';
 
-            document.body.appendChild(wrapper);
+            let wrapper = null;
+
+            if(options.divID) {
+                if (!document.getElementById(options.divID)) {
+                    wrapper = document.createElement('div');
+                    document.body.appendChild(wrapper);
+                } else {
+                    wrapper = document.getElementById(options.divID);
+                }
+            } else {
+                wrapper = document.createElement('div');
+                document.body.appendChild(wrapper);
+            }
 
             /**
              * Initalise the renderer
@@ -117,10 +128,20 @@ namespace Lightning {
                 this._renderer = PIXI.autoDetectRenderer(width, height, options.rendererOptions);
             }
 
+            let debugCanvas = document.createElement("canvas");
+            debugCanvas.id = 'box2d-debug';
+            debugCanvas.style.position = "absolute";
+            debugCanvas.style.top = "0";
+            debugCanvas.style.left = "0";
+            debugCanvas.width = 600;
+            debugCanvas.height = 400;
+
+            this._renderer.view.id = 'lightning-canvas';
             wrapper.appendChild(this._renderer.view);
+            wrapper.appendChild(debugCanvas);
             
             // call the scale manager resize throttler once to set the initial scale
-            this._scaleManager.resizeThrottler(true);
+            // this._scaleManager.resizeThrottler(true);
 
             /**
              * I think this can go, but will keep it here for the time being
@@ -160,14 +181,7 @@ namespace Lightning {
             if(options.plugins.keyboard === null || options.plugins.keyboard === undefined || options.plugins.keyboard === true) {
                 this._keyboardManager = new KeyboardManager(this);
             }
-
-            /**
-             * Initalise the Lite Physics
-             */
-            if(options.plugins.physicsLite === null || options.plugins.physicsLite === undefined || options.plugins.physicsLite === true) {
-                this._physicsLite = new LitePhysicsManager(this);
-            }
-
+            
             /**
              * Initalise the Service Manager
              */
@@ -189,6 +203,10 @@ namespace Lightning {
                 this._tweenManager = new TweenManeger(this);
             }
 
+            if(options.plugins.box2d === null || options.plugins.box2d === undefined || options.plugins.box2d === true) {
+                this._physicsManager = new PhysicsManager(this);
+            }
+
             /**
              * Start the update loop automatically
              */
@@ -208,6 +226,7 @@ namespace Lightning {
          * @returns {void}
          */ 
         update(time):void {
+            this._physicsManager.update();            
             this._renderer.render(this._world);
         }
 

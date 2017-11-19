@@ -4,7 +4,7 @@ namespace Lightning {
     export class Text extends PIXI.Text {
         public globalRef:string;
         
-        public constructor(text:string, style:PIXI.ITextStyleStyle, canvas:HTMLCanvasElement = null) {
+        public constructor(text:string, style:iTextStyle, canvas:HTMLCanvasElement = null) {
             super(text, style, canvas);
         }
 

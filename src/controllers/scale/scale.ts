@@ -6,37 +6,59 @@ namespace Lightning {
         /**
          * Position Horizontally
          * Position Vertically
+         * New positions & aspect ratios
+         * 
+         * Scale Config - :
+         *      0 - No scaling - Done
+         *      1 - Maximum width (keeping AR) - Done
+         *      2 - Maximum height (keeping AR) - Done
+         *      3 - Maximum width and height (keeping AR) - Done
+         *      4 - Stretch to fix maximum width - Done
+         *      5 - Stretch to fit maximum height - Done
+         *      6 - Stretch to fit full width and full height  - Done
+         *      7 - Stretch Full Screen
+         *      8 - Scale Full Screen
+         * 
+         * 
          */
 
-        public static NONE:number = 0;
-        public static FILL:number = 1;
-        public static ASPECT_RATIO:number = 2;
 
         private game:Engine;
         private _allowedDPR:Array<number>;
-        private _currentDPR:number;
         private _originalAspectRatio:number;
         private _originalWidth:number;
         private _originalHeight:number;
         private _orientation:string;
         private _isFullscreen:boolean;
+        private _autoResize: boolean;
+
+        private _currentWidth: number;
+        private _currentHeight: number;
+        private _currentAPR: number;
+        private _currentDPR:number;        
 
         private _scaleMode:number;
         private _resizeTimeout:number;
 
         private _breakPoints: Array<{width: number, height: number, value: string}>;
 
-        constructor(game:Engine, initWidth:number, initHeight:number, scaleMode:number = 0) {
+        constructor(game:Engine, initWidth:number, initHeight:number, scaleMode:number = 0, allowedDPR: number[] = []) {
             super();
             this.game = game;
             this._currentDPR = window.devicePixelRatio;
-            this._allowedDPR = [1, 2];
+            this._allowedDPR = allowedDPR;
+            this._autoResize = false;
             this._scaleMode = scaleMode;
             
             // run the initalisation method
             this.setup(initWidth, initHeight);
             this.calculateDPR();
             this.calculateOrientation();
+
+            this.create("resize");
+            this.create("fullscreenOpened");
+            this.create("fullscreenClosed");
+
             window.addEventListener("resize", this.resizeThrottler.bind(this), false);   
         }
 
@@ -45,6 +67,10 @@ namespace Lightning {
             this._originalAspectRatio = initWidth / initHeight;
             this._originalWidth = initWidth;
             this._originalHeight = initHeight;
+
+            this._currentAPR = initWidth / initHeight;
+            this._currentWidth = initWidth;
+            this._currentHeight = initHeight;
         }
 
         private calculateDPR() {
@@ -78,6 +104,8 @@ namespace Lightning {
         }
 
         public resizeThrottler (force:boolean = false) {
+            if(!this._autoResize) return;
+
             if(force) {
                 this.resizeAspectRatio();
             } else {
@@ -102,9 +130,60 @@ namespace Lightning {
             }
         }
 
-        public resize(width:number, height:number) {
+        public stretchWidth() {
+            this.game.renderer.view.style.width = window.innerWidth.toString() + 'px';
+            this.game.renderer.view.style.height = this._currentHeight + 'px';
+        }
+
+        public stretchHeight() {
+            this.game.renderer.view.style.width = this._currentWidth + 'px';
+            this.game.renderer.view.style.height = window.innerHeight.toString() + 'px';
+        }
+
+        public stretchAll() {
+            this.game.renderer.view.style.width = window.innerWidth.toString() + 'px';
+            this.game.renderer.view.style.height = window.innerHeight.toString() + 'px';
+        }
+
+        public scaleAll() {
+            let maxWidth: number = window.innerWidth;
+            let maxHeight: number = window.innerHeight;
+
+            let scaleWidth: number = maxWidth / this._originalWidth;
+            let scaleHeight: number = maxHeight / this._originalHeight;
+
+            if(scaleWidth < scaleHeight) {
+                this.game.renderer.view.style.width = maxWidth + 'px';
+                this.game.renderer.view.style.height = (this._originalHeight * scaleWidth) + 'px';
+            } else {
+                this.game.renderer.view.style.width = (this._originalWidth * scaleHeight) + 'px';
+                this.game.renderer.view.style.height = maxHeight + 'px';
+            }
+        }
+
+        public scaleWidth() {
+            let maxWidth: number = window.innerWidth;
+
+            let scaleRatio: number = maxWidth / this._originalWidth;
+
+            this.game.renderer.view.style.width = maxWidth + 'px';
+            this.game.renderer.view.style.height = (this._originalHeight * scaleRatio) + 'px';
+        }
+
+        public scaleHeight() {
+            let maxHeight: number = window.innerHeight;
+            
+            let scaleRatio: number = maxHeight / this._originalHeight;
+
+            this.game.renderer.view.style.width = (this._originalWidth * scaleRatio) + 'px';
+            this.game.renderer.view.style.height = maxHeight + 'px';
+        }
+
+        public resize(width:number, height:number = null) {
             this.game.renderer.view.style.width = width + 'px';
-            this.game.renderer.view.style.height = height + 'px';
+            if(!height === null) {
+                this.game.renderer.view.style.height = height + 'px';        
+            }
         }
 
         private resizeAspectRatio() {
@@ -127,7 +206,7 @@ namespace Lightning {
                 newHeight = this._originalHeight * scale;
             }
 
-            this.resize(newWidth, newHeight)
+            this.resize(newWidth, newHeight);
         }
 
         private resizeStretch() {
@@ -164,8 +243,10 @@ namespace Lightning {
                 document.documentElement['msRequestFullscreen']();
             }
 
-            this.resizeThrottler();
-            this.scaleMode = Scale.ASPECT_RATIO;
+            // this.resizeThrottler();
+            setTimeout(() => {
+                this.scaleAll();        
+            }, 100);
         }
 
         public alignVertically() {
@@ -194,6 +275,14 @@ namespace Lightning {
 
         public get orientation():string {
             return this._orientation;
+        }
+
+        public get autoResize():boolean {
+            return this._autoResize;
+        }
+
+        public set autoResize(val:boolean) {
+            this._autoResize = val;
         }
     }
 }

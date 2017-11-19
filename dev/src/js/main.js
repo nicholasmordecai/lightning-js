@@ -6,9 +6,9 @@ var preload_1 = require("./scenes/preload");
 var menu_1 = require("./scenes/menu");
 var game_1 = require("./scenes/game");
 var Game = (function () {
-    function Game(width, height, divId) {
-        if (divId === void 0) { divId = 'app'; }
+    function Game(width, height) {
         this.game = new Lightning.Engine(width, height, {
+            divID: "app-container",
             rendererOptions: {
                 transparent: false
             }

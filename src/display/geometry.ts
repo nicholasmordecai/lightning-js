@@ -28,16 +28,12 @@ namespace Lightning {
          * @returns {Lightning.Graphics}
          */
 
-        public static Square(d:number, tint:number = 0xffffff, alpha:number = 1, returnAsTexture:boolean = true):Lightning.Graphics | Lightning.Texture {
+        public static Square(d:number, tint:number = 0xffffff, alpha:number = 1):Lightning.Graphics {
             let graphics = new Lightning.Graphics();
             graphics.beginFill(tint, alpha);
             graphics.drawRect(0, 0, d, d);
             graphics.endFill();
-            if(returnAsTexture) {
-                return graphics.generateCanvasTexture();
-            } else {
-                return graphics;                
-            }
+            return graphics;                
         }
 
         /**
@@ -48,16 +44,12 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        public static Rect(w:number, h:number, tint:number = 0xffffff, alpha:number = 1, returnAsTexture:boolean = true):Lightning.Graphics | Lightning.Texture {
+        public static Rect(w:number, h:number, tint:number = 0xffffff, alpha:number = 1):Lightning.Graphics {
             let graphics = new Lightning.Graphics();
             graphics.beginFill(tint, alpha);
             graphics.drawRect(0, 0, w, h);
             graphics.endFill();
-            if(returnAsTexture) {
-                return graphics.generateCanvasTexture();
-            } else {
-                return graphics;                
-            }
+            return graphics;                
         }
 
         /**
@@ -68,16 +60,12 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        public static RoundRect(w:number, h:number, radius:number, tint:number = 0xffffff, alpha:number = 1, returnAsTexture:boolean = true):Lightning.Graphics | Lightning.Texture {
+        public static RoundRect(w:number, h:number, radius:number, tint:number = 0xffffff, alpha:number = 1):Lightning.Graphics{
             let graphics = new Lightning.Graphics();
             graphics.beginFill(tint, alpha);
             graphics.drawRoundedRect(0, 0, w, h, radius);
             graphics.endFill();
-            if(returnAsTexture) {
-                return graphics.generateCanvasTexture();
-            } else {
-                return graphics;                
-            }
+            return graphics;
         }
 
         /**
@@ -88,16 +76,12 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        public static Ellipse(w:number, h:number, radius:number, tint:number = 0xffffff, alpha:number = 1, returnAsTexture:boolean = true):Lightning.Graphics | Lightning.Texture {
+        public static Ellipse(w:number, h:number, radius:number, tint:number = 0xffffff, alpha:number = 1):Lightning.Graphics{
             let graphics = new Lightning.Graphics();
             graphics.beginFill(tint, alpha);
             graphics.drawEllipse(0, 0, w, h);
             graphics.endFill();
-            if(returnAsTexture) {
-                return graphics.generateCanvasTexture();
-            } else {
-                return graphics;                
-            }
+            return graphics;                
         }
 
         /**
@@ -111,7 +95,7 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        public static Star(cx: number, cy: number, spikes: number, outerRadius: number, innerRadius: number, tint:number = 0xffffff, alpha:number = 1, returnAsTexture:boolean = true):Lightning.Graphics | Lightning.Texture {
+        public static Star(cx: number, cy: number, spikes: number, outerRadius: number, innerRadius: number, tint:number = 0xffffff, alpha:number = 1):Lightning.Graphics {
             let rot = Math.PI / 2 * 3;
             let x = cx;
             let y = cy;
@@ -132,12 +116,7 @@ namespace Lightning {
             }
             graphics.lineTo(cx, cy - outerRadius)
             graphics.endFill();
-
-            if(returnAsTexture) {
-                return graphics.generateCanvasTexture();
-            } else {
-                return graphics;                
-            }
+            return graphics;                
         }
 
         /**
@@ -150,7 +129,7 @@ namespace Lightning {
         * 
         * @returns {Lightning.Graphics}
         */
-        public static Polygon(cx: number, cy: number, sides: number, size: number, tint:number = 0xffffff, alpha:number = 1, returnAsTexture:boolean = true):Lightning.Graphics | Lightning.Texture {
+        public static Polygon(cx: number, cy: number, sides: number, size: number, tint:number = 0xffffff, alpha:number = 1):Lightning.Graphics {
             let graphics = new Graphics();
             // let size = innerRadius * outerRadius / 2;
             graphics.beginFill(tint, alpha);
@@ -158,12 +137,7 @@ namespace Lightning {
             for (let i = 1; i <= sides; i += 1) {
                 graphics.lineTo(cx + size * Math.cos(i * 2 * Math.PI / sides), cy + size * Math.sin(i * 2 * Math.PI / sides));
             }
-
-            if(returnAsTexture) {
-                return graphics.generateCanvasTexture();
-            } else {
-                return graphics;                
-            }
+            return graphics;                
         }
 
         /**
@@ -173,7 +147,7 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        public static Heart(ratio: number, tint:number = 0xffffff, alpha:number = 1, returnAsTexture:boolean = true):Lightning.Graphics | Lightning.Texture {
+        public static Heart(ratio: number, tint:number = 0xffffff, alpha:number = 1):Lightning.Graphics {
             let graphics = new Graphics();
             graphics.beginFill(tint, alpha);
             graphics.moveTo(75 * ratio, 40 * ratio);
@@ -185,11 +159,7 @@ namespace Lightning {
             graphics.bezierCurveTo(85 * ratio, 25 * ratio, 75 * ratio, 37 * ratio, 75 * ratio, 40 * ratio);
             graphics.endFill();
             
-            if(returnAsTexture) {
-                return graphics.generateCanvasTexture();
-            } else {
-                return graphics;                
-            }
+            return graphics;                
         }
 
         /**
@@ -199,19 +169,14 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        public static Circle(r: number, tint:number = 0xffffff, alpha:number = 1, returnAsTexture:boolean = true):Lightning.Graphics | Lightning.Texture {
+        public static Circle(r: number, tint:number = 0xffffff, alpha:number = 1):Lightning.Graphics {
             // think about how to implement responsive graphic drawings
             r = r * window.devicePixelRatio;
             let graphics = new Graphics();
             graphics.beginFill(tint, alpha);
             graphics.arc(75, 75, r, 0, Math.PI * 2, false);
             graphics.endFill();
-
-            if(returnAsTexture) {
-                return graphics.generateCanvasTexture();
-            } else {
-                return graphics;                
-            }
+            return graphics;                
         }
 
         /**
@@ -224,19 +189,14 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        public static Oval(centerX: number, centerY: number, width: number, height: number, tint:number = 0xffffff, alpha:number = 1, returnAsTexture:boolean = true):Lightning.Graphics | Lightning.Texture {
+        public static Oval(centerX: number, centerY: number, width: number, height: number, tint:number = 0xffffff, alpha:number = 1):Lightning.Graphics {
             let graphics = new Graphics();
             graphics.beginFill(tint, alpha);
             graphics.moveTo(centerX, centerY - height / 2);
             graphics.bezierCurveTo(centerX + width / 2, centerY - height / 2, centerX + width / 2, centerY + height / 2, centerX, centerY + height / 2)
             graphics.bezierCurveTo(centerX - width / 2, centerY + height / 2, centerX - width / 2, centerY - height / 2, centerX, centerY - height / 2);
             graphics.endFill();
-
-            if(returnAsTexture) {
-                return graphics.generateCanvasTexture();
-            } else {
-                return graphics;                
-            }
+            return graphics;                
         }
 
         /**
@@ -247,7 +207,7 @@ namespace Lightning {
          * 
          * @returns {Lightning.Graphics}
          */
-        public static Triangle(l1:number, l2:number = l1, tint:number = 0xffffff, alpha:number = 1, returnAsTexture:boolean = true):Lightning.Graphics | Lightning.Texture {
+        public static Triangle(l1:number, l2:number = l1, tint:number = 0xffffff, alpha:number = 1):Lightning.Graphics {
             let graphics = new Graphics();
             graphics.beginFill(tint, alpha);
             graphics.moveTo(l1 * 0.5, 0);
@@ -256,11 +216,7 @@ namespace Lightning {
             graphics.lineTo(l1 * 0.5, 0);
             graphics.endFill();
 
-            if(returnAsTexture) {
-                return graphics.generateCanvasTexture();
-            } else {
-                return graphics;                
-            }
+            return graphics;                
         }
 
         public static MultiShape(shapes:Array<{shape:string, x?:number, y?:number, tint?:number, alpha?:number, p1?:number, p2?:number, p3?:number, p4?:number, rotation?:number}>) {

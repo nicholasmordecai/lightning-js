@@ -9,8 +9,9 @@ export default class Game {
 
     public game:Lightning.Engine;
 
-    constructor(width:number, height:number, divId:string = 'app') {
+    constructor(width:number, height:number) {
         this.game = new Lightning.Engine(width, height, {
+            divID: "app-container",
             rendererOptions: {
                 transparent: false
             }

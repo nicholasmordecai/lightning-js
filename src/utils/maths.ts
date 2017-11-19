@@ -3,6 +3,7 @@
 /**
  * TODO
  * Unique Between
+ * Min / Max of numbers in an array
  */
 
 namespace Lightning {
@@ -145,6 +146,10 @@ namespace Lightning {
             return "0x" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
         }
 
+        public static isEven(val: number) {
+            return val % 2;
+        }
+
         /**
          * @description Find the closest value in an array of values
          * 
@@ -181,36 +186,6 @@ namespace Lightning {
             } else {
                 return high;
             }
-        }
-
-        /**
-         * @description Round an array in a random order
-         * 
-         * @param {Array<any>} array Array to be shuffled 
-         * 
-         * @returns {Array<any>}
-         * 
-         * @example
-         * ~~~
-         * 
-         * let ordered = [0, 1, 2, 3, 4, 5];
-         * let shuffled = Lightning.Maths.shuffleArray(ordered) // will return shuffled array like [4, 2, 1, 5, 0, 3];
-         * ~~~
-         */
-        public static shuffleArray(array:Array<any>) {
-            var currentIndex = array.length, temporaryValue, randomIndex;
-            // While there remain elements to shuffle...
-            while (0 !== currentIndex) {
-                // Pick a remaining element...
-                randomIndex = Math.floor(Math.random() * currentIndex);
-                currentIndex -= 1;
-
-                // And swap it with the current element.
-                temporaryValue = array[currentIndex];
-                array[currentIndex] = array[randomIndex];
-                array[randomIndex] = temporaryValue;
-            }
-            return array;
         }
 
         /**
@@ -255,67 +230,6 @@ namespace Lightning {
             } else {
                 roundTo * (Math.floor(Math.abs(number / roundTo)));
             }
-        }
-
-        /**
-         * @description Return a unique array of number between two points. 
-         * Pass an optional safeNumber which cuts the while loop out if you enter an infinite loop.
-         * This is set to 5 times your total number, which I do not recommend you remove!
-         * 
-         * 
-         * @param {number} From Unique starting position
-         * @param {number} To Unique ending position
-         * @param {number} count Number of unique values
-         * @param {number} SafeNumber Maximum iterations before breaking out of the while loop
-         * 
-         * @returns {boolean}
-         * 
-         * @example 
-         * ~~~
-         * 
-         * Lightning.Maths.uniqueRange(0, 10, 5) // will return an array of 5 unique numbers between 0 and 10
-         * ~~~
-         */
-        public static uniqueRange(from:number, to:number, count:number, safeNumber:number = count * 5): number[] {
-            if(to - from < count) {
-                console.error("Can't get unique range, not enough numbers to choose from!");
-                return null;
-            }
-            let range:Array<number> = [];
-            let c:number = 0;
-            while(range.length < count) {
-                let rng = this.rngInt(from, to);
-                if(!this.contains(range, rng)) {
-                    range.push(rng);
-                }
-                if(c > safeNumber) break;
-            }
-        }
-
-        /**
-         * @description Check an array for an element to see if it exists
-         * 
-         * 
-         * @param {Array<any>} array 
-         * @param {any} element 
-         * 
-         * @returns {boolean}
-         * 
-         * @example 
-         * ~~~
-         * 
-         * let a:Array<number> = [0, 1, 2, 3, 4]
-         * Lightning.Math.contains(a, 3); // returns true
-         * Lightning.Math.contains(a, 6) // returns false
-         * ~~~
-         */
-        public static contains(array:Array<any>, element:any):boolean {
-             for (var i = 0, len = array.length; i < len; i++) {
-                if(array[i] === element) {
-                    return true;
-                }
-            }
-            return false;
         }
 
         /**

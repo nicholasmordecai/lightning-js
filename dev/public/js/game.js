@@ -8,9 +8,9 @@ var preload_1 = require("./scenes/preload");
 var menu_1 = require("./scenes/menu");
 var game_1 = require("./scenes/game");
 var Game = (function () {
-    function Game(width, height, divId) {
-        if (divId === void 0) { divId = 'app'; }
+    function Game(width, height) {
         this.game = new Lightning.Engine(width, height, {
+            divID: "app-container",
             rendererOptions: {
                 transparent: false
             }
@@ -50,37 +50,8 @@ window.onload = function () {
 // };
 // app.initialize(); 
 
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_918d4863.js","/")
-},{"./scenes/boot":3,"./scenes/game":4,"./scenes/menu":5,"./scenes/preload":6,"buffer":8,"fsovz6":9}],2:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-"use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var Test = (function (_super) {
-    __extends(Test, _super);
-    function Test(scene, texture) {
-        var _this = _super.call(this, texture) || this;
-        _this.enableUpdate(scene.events.event('update'));
-        return _this;
-    }
-    Test.prototype.update = function () {
-        console.log('yo');
-    };
-    return Test;
-}(Lightning.Sprite));
-exports.default = Test;
-
-}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/prefabs/test.js","/prefabs")
-},{"buffer":8,"fsovz6":9}],3:[function(require,module,exports){
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_1aa40679.js","/")
+},{"./scenes/boot":2,"./scenes/game":3,"./scenes/menu":4,"./scenes/preload":5,"buffer":7,"fsovz6":8}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
@@ -100,10 +71,12 @@ var BootState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     BootState.prototype.init = function (params) {
+        console.log('init boot');
         this.game.backgroundColor = 0x4d2ac1;
         this.create();
     };
     BootState.prototype.create = function () {
+        // this.game.scale.scaleAll();
         this.game.scenes.start('preload');
     };
     return BootState;
@@ -111,7 +84,7 @@ var BootState = (function (_super) {
 exports.default = BootState;
 
 }).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/scenes/boot.js","/scenes")
-},{"buffer":8,"fsovz6":9}],4:[function(require,module,exports){
+},{"buffer":7,"fsovz6":8}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
@@ -133,29 +106,53 @@ var GameState = (function (_super) {
         return _this;
     }
     GameState.prototype.create = function () {
+        this.game.physics.startPhysics();
+        for (var i = 0; i < 100; i++) {
+            var texture = Lightning.Geometry.Triangle(20, 20).generateTexture();
+            var sprite = new Lightning.Sprite(texture);
+            sprite.x = Lightning.Maths.rngInt(10, this.game.width - 10);
+            sprite.y = Lightning.Maths.rngInt(10, this.game.height - 10);
+            sprite.setAnchor(0.5);
+            this.game.physics.createBody(sprite, 'polygon', [0, -10, 10, 10, -10, 10]);
+            this.add(sprite);
+        }
+        this.game.physics.createLine(100, 100, 0, 0, 100, 100);
+        this.game.physics.createLine(300, 200, 0, 0, 100, -100);
+        this.game.physics.createLine(100, 400, 0, 0, 100, 100);
+        this.game.physics.createLine(300, 400, 0, 0, 100, -100);
+        // console.log('init game')
+        // let gfx1 = Lightning.Geometry.Square(10);
+        // gfx1.x = 10;
+        // gfx1.y = 10;
+        // gfx1.interactive = true;
+        // gfx1.on('mouseup', () => {
+        //     this.game.scale.goFullScreen();
+        // });
+        // let gfx2 = Lightning.Geometry.Square(10);
+        // gfx2.x = 580;
+        // gfx2.y = 10;
+        // let gfx3 = Lightning.Geometry.Square(10);
+        // gfx3.x = 580;
+        // gfx3.y = 380;
+        // let gfx4 = Lightning.Geometry.Square(10);
+        // gfx4.x = 10;
+        // gfx4.y = 380;
+        // let sq1 = Lightning.Geometry.Square(25);
+        // this.s1 = new Lightning.Sprite(sq1.generateTexture());
+        // this.s1.setAnchor(0.5);
+        // this.s1.x = this.game.center.x;
+        // this.s1.y = this.game.center.y;
+        // this.s2 = new Lightning.Sprite(sq1.generateTexture());
+        // this.s2.setAnchor(0.5);
+        // this.s2.rotation = Lightning.Maths.degreesToRadians(45);
+        // this.s2.x = this.game.center.x;
+        // this.s2.y = this.game.center.y;
+        // this.add(gfx1, gfx2, gfx3, gfx4, this.s1, this.s2);
         // setTimeout(() => {
         //     this.game.physics.lite.reset();
         //     this.game.scene.start('menu');
         // }, 5000);
-        this.game.backgroundColour = 0xe5e5e5;
-        this.game.physics.lite.enablePhysics();
-        var texture = Lightning.Geometry.Rect(50, 50, 0xff22aa, 0.7, true);
-        var pool = this.game.physics.lite.createPool('test', true);
-        for (var i = 0; i < 7; i++) {
-            var sprite = new Lightning.Sprite();
-            sprite.texture = texture;
-            sprite.x = Lightning.Maths.rngFloat(75, this.game.width - 75);
-            sprite.y = Lightning.Maths.rngFloat(75, this.game.height - 75);
-            this.add(sprite);
-            sprite.enablePhysicsBody();
-            pool.add(sprite.body);
-            sprite.body.enableDebug();
-            sprite.body.velocity.x = Lightning.Maths.rngFloat(-5, 5);
-            sprite.body.velocity.y = Lightning.Maths.rngFloat(-5, 5);
-            sprite.body.collideOnWorldBounds = true;
-            // sprite.body.gravityEnabled = true;
-            sprite.body.restitution = 0.5;
-        }
+        // this.game.backgroundColour = 0xe5e5e5;
         // let bigGuy = new Lightning.Sprite();
         // bigGuy.texture = Lightning.Geometry.Rect(50, 50, 0xff22aa, 1, true);
         // bigGuy.x = this.game.width / 2;
@@ -322,15 +319,14 @@ var GameState = (function (_super) {
         //     customStorage.getItem('test');
         // ... //
     };
-    GameState.prototype.onCollide = function (obj1, obj2) {
-        console.log('hi');
+    GameState.prototype.update = function (time) {
     };
     return GameState;
 }(Lightning.Scene));
 exports.default = GameState;
 
 }).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/scenes/game.js","/scenes")
-},{"buffer":8,"fsovz6":9}],5:[function(require,module,exports){
+},{"buffer":7,"fsovz6":8}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
@@ -344,34 +340,34 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var test_1 = require("./../prefabs/test");
 var MenuState = (function (_super) {
     __extends(MenuState, _super);
     function MenuState() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MenuState.prototype.create = function () {
+        console.log('init menu');
         this.game.scenes.start('game');
         this.game.scenes.destroy('menu');
-        //     let button = new Lightning.Sprite(Lightning.Geometry.Rect(50, 50, 0xff22aa));
-        //     this.add(button);
-        var sound = this.game.audio.load('meeseeks', ['audio.mp3']);
-        this.game.keyboard.key('space').subscribe('pressed', function () {
-            sound.play();
-        });
-        this.game.keyboard.key('a').subscribeOnce('pressed', function () {
-        });
-        this.game.keyboard.key('a').subscribeOnce('pressed', function () {
-        });
-        var shape = new Lightning.Geometry.MultiShape([
-            { shape: 'circle', p1: 50, rotation: Math.PI * 0.2 },
-            { shape: 'circle', p1: 35, x: -40, y: -40 },
-            { shape: 'circle', p1: 25, x: -60, y: -70 },
-            { shape: 'circle', p1: 15, x: -75, y: -95, rotation: Math.PI * 0.2 }
-        ]);
-        this.add(shape);
-        shape.x = this.game.center.x;
-        shape.y = this.game.height * 0.5;
+        // //     let button = new Lightning.Sprite(Lightning.Geometry.Rect(50, 50, 0xff22aa));
+        // //     this.add(button);
+        //     let sound = this.game.audio.load('meeseeks', ['audio.mp3']);
+        //     this.game.keyboard.key('space').subscribe('pressed', () => {
+        //         sound.play();
+        //     });
+        //     this.game.keyboard.key('a').subscribeOnce('pressed', () => {
+        //     });
+        //     this.game.keyboard.key('a').subscribeOnce('pressed', () => {
+        //     });
+        //     let shape = new Lightning.Geometry.MultiShape([
+        //         {shape: 'circle', p1: 50, rotation: Math.PI * 0.2},
+        //         {shape: 'circle', p1: 35, x: -40, y: -40},
+        //         {shape: 'circle', p1: 25, x: -60, y: -70},
+        //         {shape: 'circle', p1: 15, x: -75, y: -95, rotation: Math.PI * 0.2}
+        //     ]);
+        //     this.add(shape);
+        //     shape.x = this.game.center.x;
+        //     shape.y = this.game.height * 0.5;
         // let tween = this.game.tweens.create(button);
         // tween.createAnim(
         //     0, 300, 1500, 'x', Lightning.Easing.ElasticInOut
@@ -382,26 +378,26 @@ var MenuState = (function (_super) {
         //     console.log('yoo')
         //     this.game.states.start('game');
         // });
-        this.particleEmitter = new Lightning.ParticleEmitter(this, 0, this.game.center.y);
-        this.add(this.particleEmitter);
-        // generate a texture for the particle emitter
-        var texture = Lightning.Geometry.Rect(8, 8, 0xff22aa);
-        // add that texture to the particle emitter
-        this.particleEmitter.add(texture);
-        this.particleEmitter.enableDebug();
-        this.particleEmitter.x = this.game.center.x;
-        this.particleEmitter.y = this.game.center.y;
-        this.particleEmitter.preFillPool(300);
-        this.particleEmitter.setGravity(0, 0.01);
-        this.particleEmitter.setVelocityRange(-0.3, 0.3, -0.3, 0.3);
-        this.particleEmitter.setInterval(50);
-        // this.particleEmitter.addToLocal = false;
-        this.particleEmitter.setRotationIncrement(-0.1, 0.1);
-        this.particleEmitter.setStrength(2);
-        this.particleEmitter.start();
-        var t = Lightning.Geometry.Rect(50, 50, 0xff22aa);
-        var s = new test_1.default(this, t);
-        this.add(s);
+        // this.particleEmitter = new Lightning.ParticleEmitter(this, 0, this.game.center.y);
+        // this.add(this.particleEmitter);
+        // // generate a texture for the particle emitter
+        // let texture:Lightning.Texture = Lightning.Geometry.Rect(8, 8, 0xff22aa);
+        // // add that texture to the particle emitter
+        // this.particleEmitter.add(texture);
+        // this.particleEmitter.enableDebug();
+        // this.particleEmitter.x = this.game.center.x;
+        // this.particleEmitter.y = this.game.center.y;
+        // this.particleEmitter.preFillPool(300);
+        // this.particleEmitter.setGravity(0, 0.01);
+        // this.particleEmitter.setVelocityRange(-0.3, 0.3, -0.3, 0.3);
+        // this.particleEmitter.setInterval(50);
+        // // this.particleEmitter.addToLocal = false;
+        // this.particleEmitter.setRotationIncrement(-0.1, 0.1)
+        // this.particleEmitter.setStrength(2);
+        // this.particleEmitter.start();
+        // let t = Lightning.Geometry.Rect(50, 50, 0xff22aa);
+        // let s = new Test(this, t);
+        // this.add(s);
         // let timer = new Lightning.Timer(this.game, 5000);
         // timer.events.subscribe('tick', () => {
         //     console.log('testy');
@@ -414,7 +410,7 @@ var MenuState = (function (_super) {
 exports.default = MenuState;
 
 }).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/scenes/menu.js","/scenes")
-},{"./../prefabs/test":2,"buffer":8,"fsovz6":9}],6:[function(require,module,exports){
+},{"buffer":7,"fsovz6":8}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
@@ -434,6 +430,7 @@ var PreloadState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     PreloadState.prototype.create = function () {
+        console.log('init preload');
         this.game.scenes.start('menu');
     };
     return PreloadState;
@@ -441,7 +438,7 @@ var PreloadState = (function (_super) {
 exports.default = PreloadState;
 
 }).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/scenes/preload.js","/scenes")
-},{"buffer":8,"fsovz6":9}],7:[function(require,module,exports){
+},{"buffer":7,"fsovz6":8}],6:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
@@ -569,7 +566,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
 }).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/browserify/node_modules/base64-js/lib/b64.js","/../../../node_modules/browserify/node_modules/base64-js/lib")
-},{"buffer":8,"fsovz6":9}],8:[function(require,module,exports){
+},{"buffer":7,"fsovz6":8}],7:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!
  * The buffer module from node.js, for the browser.
@@ -1682,7 +1679,7 @@ function assert (test, message) {
 }
 
 }).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/browserify/node_modules/buffer/index.js","/../../../node_modules/browserify/node_modules/buffer")
-},{"base64-js":7,"buffer":8,"fsovz6":9,"ieee754":10}],9:[function(require,module,exports){
+},{"base64-js":6,"buffer":7,"fsovz6":8,"ieee754":9}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // shim for using process in browser
 
@@ -1749,7 +1746,7 @@ process.chdir = function (dir) {
 };
 
 }).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/browserify/node_modules/process/browser.js","/../../../node_modules/browserify/node_modules/process")
-},{"buffer":8,"fsovz6":9}],10:[function(require,module,exports){
+},{"buffer":7,"fsovz6":8}],9:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
@@ -1837,4 +1834,4 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 }
 
 }).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/ieee754/index.js","/../../../node_modules/ieee754")
-},{"buffer":8,"fsovz6":9}]},{},[1])
+},{"buffer":7,"fsovz6":8}]},{},[1])

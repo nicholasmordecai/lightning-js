@@ -20,7 +20,7 @@ namespace Lightning {
         public construct(game:Engine) {
             this.game = game;
             this.events = new EventEmitter();
-            this.events.create('update');
+            // this.events.create('update');
             this.loader = new PIXI.loaders.Loader();
             this.loader.onError.add(this.preloadError, this);
             this.loader.onLoad.add(this.preloadSingle, this);
@@ -67,7 +67,7 @@ namespace Lightning {
          * @description Update function. This is called by the scene manager on every tick
          */
         public update(time:number = null):void {
-            this.events.emit('update', time);
+            // this.events.emit('update', time);
         }
 
         /**

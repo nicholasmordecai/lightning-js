@@ -4,7 +4,7 @@
 
 
 
-# Ligtning 0.5.3
+# Ligtning 0.5.4
 
 A complete HTML5 game development library built on Pixi.js (4.4.1)
 

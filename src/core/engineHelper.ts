@@ -23,7 +23,6 @@ namespace Lightning {
         protected _audioManager:AudioManager;
         protected _scaleManager:Scale;
         protected _debug:Debug;
-        protected _physicsLite:LitePhysicsManager;
         protected _keyboardManager:KeyboardManager;
 
         public displayInfo() {
@@ -188,7 +187,7 @@ namespace Lightning {
         }
         
         public get physics() {
-            return {lite: this._physicsLite};
+            return this._physicsManager;
         }
 
         /**

@@ -36,8 +36,10 @@ namespace Lightning {
          * @description Update loop. Called from the game ticker and is used to call each scene update function individually
          */
         protected update(time:number) {
-            for(let map of this._activeScenes) {
-                map.scene.update(time);
+            for(let map of this._scenes) {
+                if(map.active) {
+                    map.scene.update(time);                    
+                }
             }
         }
 
@@ -47,6 +49,7 @@ namespace Lightning {
         public start(key, destroyCurrentScene:boolean = true, autoInit:boolean = true, ...params) {
             if(this._verbose) console.info('SceneManager - Start Scene: "' + key + '"');
 
+            // should the scene manager destroy all active scenes?
             if(destroyCurrentScene) {
                 for(let map of this._activeScenes) {
                     // ignore destroying the scene being started if it's already active
@@ -258,6 +261,7 @@ namespace Lightning {
          */
         private addToActive(map:iSceneMap):boolean {
             if(!this.isActive(map)) {
+                console.log('adding map to active scenes', map.key)
                 this._activeScenes.push(map);
                 map.active = true;
                 return true;
@@ -267,10 +271,9 @@ namespace Lightning {
         }
 
         private isActive(map:iSceneMap):boolean {
-            let exists:boolean = false
             for(let i of this._activeScenes) {
                 if(i.key === map.key) {
-                    exists = true;
+                    return true;
                 }
             }
             return false;

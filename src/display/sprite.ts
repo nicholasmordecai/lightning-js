@@ -10,7 +10,6 @@ namespace Lightning {
         protected _respectPosition:boolean;
         protected _respectPositionValues: {x:number, y:number};
         protected _input:Input;
-        private _liteBody:LitePhysicsBody;
 
         /**
          * @param  {PIXI.Texture=null} texture
@@ -31,19 +30,7 @@ namespace Lightning {
 
         public destroy() {
             console.log('sprite destroyed', this);
-
-            if(this._liteBody) {
-                this._liteBody.destroyFlag = true;
-            }
-
             super.destroy();
-        }
-        
-        /**
-         * @param  {boolean} val
-         */
-        enablePhysicsBody() {
-            this._liteBody = new Lightning.LitePhysicsBody(this);
         }
 
         /**
@@ -77,14 +64,14 @@ namespace Lightning {
 
         /**
          */
-        set body(body:LitePhysicsBody) {
-            this._liteBody = body;
+        set body(body) {
+            this._body = body;
         }
         
         /**
          */
-        get body():LitePhysicsBody {
-            return this._liteBody;
+        get body() {
+            return this._body;
         }
 
         /**
@@ -123,13 +110,6 @@ namespace Lightning {
             /**
              * need to think about handling pointer events
              */
-        }
-        public get physicsBody():LitePhysicsBody {
-            return this._liteBody;
-        }
-
-        public set physicsBody(val:LitePhysicsBody) {
-            this._liteBody = val;
         }
 
         startDrag(event:PIXI.interaction.InteractionEvent) {

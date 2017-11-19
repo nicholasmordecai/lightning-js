@@ -16,10 +16,12 @@ var BootState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     BootState.prototype.init = function (params) {
+        console.log('init boot');
         this.game.backgroundColor = 0x4d2ac1;
         this.create();
     };
     BootState.prototype.create = function () {
+        // this.game.scale.scaleAll();
         this.game.scenes.start('preload');
     };
     return BootState;

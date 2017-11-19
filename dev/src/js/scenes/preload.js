@@ -16,6 +16,7 @@ var PreloadState = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     PreloadState.prototype.create = function () {
+        console.log('init preload');
         this.game.scenes.start('menu');
     };
     return PreloadState;
