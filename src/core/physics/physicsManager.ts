@@ -92,7 +92,7 @@ namespace Lightning {
                     b2Vecs.push(vector);
                 }
 
-                let shape = new Box2D.Collision.Shapes.b2PolygonShape();
+                let shape:any = new Box2D.Collision.Shapes.b2PolygonShape();
                 shape.SetAsArray(b2Vecs, b2Vecs.length);
                 fixtureDef.shape = shape;
                 
@@ -113,7 +113,7 @@ namespace Lightning {
             bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody;
             bodyDef.position.SetV(new Box2D.Common.Math.b2Vec2(x / 100, y / 100));
             
-            let fixtureDef = new Box2D.Dynamics.b2FixtureDef();
+            let fixtureDef:any = new Box2D.Dynamics.b2FixtureDef();
             fixtureDef.density = 1;
             fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape();
             fixtureDef.shape.SetAsEdge(new Box2D.Common.Math.b2Vec2(p1x / 100, p1y / 100), new Box2D.Common.Math.b2Vec2(p2x / 100, p2y / 100));

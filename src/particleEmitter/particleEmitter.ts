@@ -299,7 +299,7 @@ namespace Lightning {
         }
 
         public enableDebug(interval:number = 500, floatLeft:boolean = true, floatTop:boolean = true) {
-            let font = { fontSize: 16, fill: 0xffffff }
+            let font:any = { fontSize: 16, fill: 0xffffff, }
             let gap = 25;
             
             this._aliveText = new Lightning.Text('Alive: ' + this.alive, font);
