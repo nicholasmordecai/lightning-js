@@ -209,6 +209,7 @@ namespace Lightning {
 
             // destroy stuff
             this.destroyAllChildren(scene);
+            scene.destroyTimers();
 
             /**
              * Should find a more robust way of doing this

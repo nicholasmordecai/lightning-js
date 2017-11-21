@@ -3,9 +3,10 @@
 namespace Lightning {
     export class Scene extends Lightning.Group {
         
-        public game:Engine;
-        public loader:PIXI.loaders.Loader;
-        public events:EventEmitter;
+        public game: Engine;
+        public loader: PIXI.loaders.Loader;
+        public events: EventEmitter;
+        private _timers: Timer[];
 
         protected _key:string;
 
@@ -20,7 +21,7 @@ namespace Lightning {
         public construct(game:Engine) {
             this.game = game;
             this.events = new EventEmitter();
-            // this.events.create('update');
+            this._timers = [];
             this.loader = new PIXI.loaders.Loader();
             this.loader.onError.add(this.preloadError, this);
             this.loader.onLoad.add(this.preloadSingle, this);
@@ -92,6 +93,7 @@ namespace Lightning {
             console.log(err);
         }
 
+
         /**
          * @description Called when a single file has completed loading
          * 
@@ -113,6 +115,21 @@ namespace Lightning {
          */
         public preloadComplete(loader, resources):void {
             this.create();
+        }
+
+        
+        public destroyTimers() {
+            for(let i = 0, len = this._timers.length; i < len; i++) {
+                this._timers[i].destroy();
+            }
+        }
+
+        public get timers(): Timer[] {
+            return this._timers;
+        }
+
+        public addTimer(timer: Timer) {
+            this._timers.push(timer);
         }
 
         public get key() {

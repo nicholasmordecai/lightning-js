@@ -13,8 +13,14 @@ namespace Lightning {
         private _interval:number;
         private _active:boolean;
 
-        constructor(game:Engine, interval:number = 1000, autoStart:boolean = true, loop:boolean = true, autoDestroy:boolean = false) {
-            this.game = game;
+        constructor(game:Engine | Scene, interval:number = 1000, autoStart:boolean = true, loop:boolean = true, autoDestroy:boolean = false) {
+
+            if(game instanceof Engine) {
+                this.game = game;
+            } else {
+                this.game = game.game;
+                game.addTimer(this);
+            }  
 
             // set initial properties
             this._interval = interval;
