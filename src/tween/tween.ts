@@ -93,7 +93,6 @@ namespace Lightning {
             if(this._fpsEnabled) {
                 console.log('fps tick:', this._currentFPSTick, ' - ', this._fpsInterval);
                 this._currentFPSTick++;
-                // this._currentPosition++;
 
                 if(this._currentFPSTick >= this._fpsInterval) {
                     // continue
@@ -104,7 +103,7 @@ namespace Lightning {
                 }
             }
 
-            this._currentPosition++;
+            let isDelayed:boolean = false;
 
             // calc new position for each anim
             for(let anim of this._anims) {
@@ -112,8 +111,10 @@ namespace Lightning {
                 if(anim.live) {
                     anim = anim as ILiveAnim
                     if(anim.cDelay < anim.delay) {
+                        isDelayed = true;
                         anim.cDelay++;
                     } else {
+                        console.log(anim.cPos, this._interval, anim.from, anim.to, anim.time);
                         if(anim.cPos < anim.maxPos) {
                             let newFrameData = anim.easing(this._currentPosition * this._interval, anim.from, anim.to - anim.from, anim.time);
                             this._objRef[anim.property] = newFrameData;
@@ -123,6 +124,7 @@ namespace Lightning {
                 } else {
                     anim = anim as IFramedAnim
                     if(anim.cDelay < anim.delay) {
+                        isDelayed = true;
                         anim.cDelay++;
                     } else {
                         if(anim.cPos < anim.maxPos) {
@@ -131,6 +133,10 @@ namespace Lightning {
                         }
                     }
                 }
+            }
+
+            if(!isDelayed) {
+                this._currentPosition++;            
             }
 
             if(this._currentPosition >= this._length) {
@@ -147,7 +153,7 @@ namespace Lightning {
         public createAnim(from:number, to:number, time:number, property:string, easing:Function, delay:number = 0) {
             delay = Math.round((delay * (this._fps / 60)) / (1000 / 60));
 
-            let anim:ILiveAnim = {from, to, time, property, delay, cDelay: 0, easing, cPos: 0, maxPos: Math.round(time / this._interval) + delay, live:true};
+            let anim:ILiveAnim = {from, to, time, property, delay, cDelay: 0, easing, cPos: 0, maxPos: Math.round(time / this._interval), live:true};
             this._anims.push(anim);
         }
 
