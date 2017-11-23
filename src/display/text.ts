@@ -8,6 +8,15 @@ namespace Lightning {
             super(text, style, canvas);
         }
 
+        /**
+         * @param  {number} aX
+         * @param  {number=aX} aY
+         * @returns void
+         */
+        setAnchor(aX:number, aY:number = aX):void {
+            this.anchor = new PIXI.Point(aX, aY);
+        }
+
         public update(time: number) {
             
         }
