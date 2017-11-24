@@ -2,8 +2,8 @@
 [![codecov](https://codecov.io/gh/megmut/lightning-js/branch/master/graph/badge.svg)](https://codecov.io/gh/megmut/lightning-js)
 [![dependencies](https://david-dm.org/megmut/lightning-js.svg)](https://david-dm.org/megmut/lightning-js.svg)
 
-[logo]: 
-![alt text](https://www.dropbox.com/s/xtse7agn01kvfxs/readme-header.png?dl=0 "Lightning-js logo")
+
+![lightning-js logo](https://www.dropbox.com/s/xtse7agn01kvfxs/readme-header.png)
 
 
 # Ligtning 0.5.4
