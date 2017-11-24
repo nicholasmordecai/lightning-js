@@ -3,6 +3,10 @@
 [![dependencies](https://david-dm.org/megmut/lightning-js.svg)](https://david-dm.org/megmut/lightning-js.svg)
 
 
+![alt text][logo]
+
+[logo]: https://www.dropbox.com/s/xtse7agn01kvfxs/readme-header.png?dl=0
+
 
 # Ligtning 0.5.4
 
