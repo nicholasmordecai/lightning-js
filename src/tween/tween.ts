@@ -1,28 +1,5 @@
 /// <reference path="./../reference.d.ts" />
 
-declare interface ILiveAnim {
-    from:number;
-    to:number;
-    time:number;
-    property:string;
-    delay:number;
-    cDelay:number;
-    easing:Function;
-    cPos:number;
-    maxPos:number;
-    live:boolean;
-}
-
-declare interface IFramedAnim {
-    frames:Array<number|string>;
-    property:string;
-    cPos:number;
-    maxPos:number;
-    delay:number;
-    cDelay:number;
-    live:boolean;
-}
-
 namespace Lightning {
 
     /**
@@ -42,7 +19,9 @@ namespace Lightning {
         private _currentFPSTick:number;
         private _interval:number;
         private _frames:Array<any>;
-        private _anims:Array<ILiveAnim|IFramedAnim>;
+        // private _anims:Array<iLiveAnimation|iStaticAnimation>;
+        private _staticAnimations: iStaticAnimation[];
+        private _liveAnimations: iLiveAnimation[];
         private _length:number;
         private _currentPosition:number;
 
@@ -61,7 +40,8 @@ namespace Lightning {
             this._objRef = obj
             this._chains = [];
             this._live = true;
-            this._anims = [];
+            this._staticAnimations = [];
+            this._liveAnimations = [];
             this._length = 0;
             this._currentPosition = 0;
             this._fps = 60;
@@ -103,30 +83,27 @@ namespace Lightning {
             let isDelayed:boolean = false;
 
             // calc new position for each anim
-            for(let anim of this._anims) {
-
-                if(anim.live) {
-                    anim = anim as ILiveAnim
-                    if(anim.cDelay < anim.delay) {
-                        isDelayed = true;
-                        anim.cDelay++;
-                    } else {
-                        if(anim.cPos < anim.maxPos) {
-                            let newFrameData = anim.easing(this._currentPosition * this._interval, anim.from, anim.to - anim.from, anim.time);
-                            this._objRef[anim.property] = newFrameData;
-                            anim.cPos++;
-                        }
-                    }
+            for(let anim of this._liveAnimations) {
+                if(anim.cDelay < anim.delay) {
+                    isDelayed = true;
+                    anim.cDelay++;
                 } else {
-                    anim = anim as IFramedAnim
-                    if(anim.cDelay < anim.delay) {
-                        isDelayed = true;
-                        anim.cDelay++;
-                    } else {
-                        if(anim.cPos < anim.maxPos) {
-                            this._objRef[anim.property] = anim.frames[anim.cPos];
-                            anim.cPos++;
-                        }
+                    if(anim.cPos < anim.maxPos) {
+                        let newFrameData = anim.easing(this._currentPosition * this._interval, anim.from, anim.to - anim.from, anim.time);
+                        this._objRef[anim.property] = newFrameData;
+                        anim.cPos++;
+                    }
+                }
+            }
+
+            for(let anim of this._staticAnimations) {
+                if(anim.cDelay < anim.delay) {
+                    isDelayed = true;
+                    anim.cDelay++;
+                } else {
+                    if(anim.cPos < anim.maxPos) {
+                        this._objRef[anim.property] = anim.frames[anim.cPos];
+                        anim.cPos++;
                     }
                 }
             }
@@ -149,21 +126,14 @@ namespace Lightning {
         public createAnim(from:number, to:number, time:number, property:string, easing:Function, delay:number = 0) {
             delay = Math.round((delay * (this._fps / 60)) / (1000 / 60));
 
-            let anim:ILiveAnim = {from, to, time, property, delay, cDelay: 0, easing, cPos: 0, maxPos: Math.round(time / this._interval), live:true};
-            this._anims.push(anim);
+            let anim:iLiveAnimation = {from, to, time, property, delay, cDelay: 0, easing, cPos: 0, maxPos: Math.round(time / this._interval)};
+            this._liveAnimations.push(anim);
         }
 
         public importAnim( property:string, frames:Array<number|string>, delay:number = 0) {
             delay = Math.round((delay * (this._fps / 60)) / (1000 / 60));
-            let anim:IFramedAnim = {frames, property, cPos:0, maxPos:frames.length, delay, cDelay: 0, live:false};
-            this._anims.push(anim);
-        }
-
-        public exportAnim(key:string) {
-            let anim = this._anims[key];
-            if(anim) {
-                return anim.frames;
-            }
+            let anim:iStaticAnimation = {frames, property, cPos:0, maxPos:frames.length, delay, cDelay: 0};
+            this._staticAnimations.push(anim);
         }
 
         public start() {
@@ -171,7 +141,14 @@ namespace Lightning {
             this._started = true;
             this._paused = false;
             this._active = true;
-            for(let anim of this._anims) {
+            for(let anim of this._liveAnimations) {
+                if(anim.maxPos > this._length) {
+                    this._length = anim.maxPos;
+                }
+                anim.cPos = 0;
+            }
+
+            for(let anim of this._staticAnimations) {
                 if(anim.maxPos > this._length) {
                     this._length = anim.maxPos;
                 }
@@ -204,16 +181,23 @@ namespace Lightning {
             }
             
             this._currentPosition = 0;
-            for(let anim of this._anims) {
+
+            for(let anim of this._liveAnimations) {
                 anim.cPos = 0;
             }
+
+            for(let anim of this._staticAnimations) {
+                anim.cPos = 0;
+            }
+
             this.emit('loop', this);
         }
 
         public destroy() {
             this._active = false;
             this._paused = null;
-            this._anims = null;
+            this._liveAnimations = null;
+            this._staticAnimations = null;
             this._chains = null;
             this._currentPosition = null;
             this._frames = null;
@@ -268,6 +252,14 @@ namespace Lightning {
                 this._currentFPSTick = 0;
                 this._fpsInterval = Math.round(60 / val);
             }
+        }
+
+        public get liveAnimations(): iLiveAnimation[] {
+            return this._liveAnimations;
+        }
+
+        public get staticAnimations(): iStaticAnimation[] {
+            return this._staticAnimations;
         }
 
         public set active(val:boolean) {

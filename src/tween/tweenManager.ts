@@ -49,7 +49,7 @@ namespace Lightning {
             }
         }
 
-        public create(objRef:DisplayObject, autoDestroy:boolean = false, key:string = null) {
+        public create(objRef, autoDestroy:boolean = false, key:string = null) {
             let tween = new Tween(this, objRef, autoDestroy);
             if(key !== null) {
                 this._tweens[key] = tween;
@@ -57,6 +57,27 @@ namespace Lightning {
                 this._tweens.push(tween);
             }
             return tween;
+        }
+
+        public clone(tween:string|Tween, objRef): Tween {
+            let t: Tween;
+            if(typeof(tween) === 'string') {
+                t = this._tweens[tween];
+            } else {
+                t = tween;
+            }
+
+            let cloned = this.create(objRef, t.autoDestroy);
+
+            for(var liveAnim of t.liveAnimations) {
+                cloned.createAnim(liveAnim.from, liveAnim.to, liveAnim.time, liveAnim.property, liveAnim.easing, liveAnim.delay);
+            }
+            
+            for(var staticAnim of t.staticAnimations) {
+                cloned.importAnim(staticAnim.property, staticAnim.frames, staticAnim.delay);
+            }
+
+            return cloned;
         }
 
         public start(tween:string|Tween) {
