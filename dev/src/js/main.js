@@ -5,7 +5,7 @@ var boot_1 = require("./scenes/boot");
 var preload_1 = require("./scenes/preload");
 var menu_1 = require("./scenes/menu");
 var game_1 = require("./scenes/game");
-var Game = (function () {
+var Game = /** @class */ (function () {
     function Game(width, height) {
         this.game = new Lightning.Engine(width, height, {
             divID: "app-container",
@@ -26,7 +26,7 @@ exports.default = Game;
 // let height = Math.round(width * 0.7);
 // new Game(width, height);
 window.onload = function () {
-    new Game(600, 400);
+    new Game(1200, 800);
 };
 // enable the following for cordova!!
 // var app = {

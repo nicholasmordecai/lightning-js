@@ -2,15 +2,18 @@ import Test from './../prefabs/test';
 
 export default class MenuState extends Lightning.Scene {
 
-    private particleEmitter;
-
     create() {
-        console.log('init menu');
-        this.game.scenes.start('game');
-        this.game.scenes.destroy('menu');
+        let button = new Lightning.Sprite(Lightning.Geometry.Rect(50, 50, 0xff22aa).generateTexture());
+        button.x = this.game.width - 10;
+        button.y = this.game.height - 10;
+        button.interactive = true;
+        button.enableDrag();
+        button.on('mousedown', () => {
+            console.log('hi')
+        })
+        this.add(button);
 
-    // //     let button = new Lightning.Sprite(Lightning.Geometry.Rect(50, 50, 0xff22aa));
-    // //     this.add(button);
+        console.log(button)
 
     //     let sound = this.game.audio.load('meeseeks', ['audio.mp3']);
 
@@ -78,14 +81,17 @@ export default class MenuState extends Lightning.Scene {
         // let s = new Test(this, t);
         // this.add(s);
 
-        // let timer = new Lightning.Timer(this.game, 5000);
+        // let timer = new Lightning.Timer(this, 250);
         // timer.events.subscribe('tick', () => {
         //     console.log('testy');
         // });
 
-    }
+        // setTimeout(() => {
+        //     this.game.scenes.start('game');
+        //     this.game.scenes.destroy('menu');
+        // }, 2000);
+            this.game.scenes.start('game');
+            this.game.scenes.destroy('menu');
 
-    update() {
-        
     }
 }

@@ -44,7 +44,7 @@ namespace Lightning {
                  * lines, there fore use the height from the width, and divide the texture up accordingly
                  */
 
-            }            
+            }
         }
 
         // reset the current frame back to 0

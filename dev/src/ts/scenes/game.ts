@@ -10,35 +10,37 @@ export default class GameState extends Lightning.Scene {
 
     create() {
 
-        this.game.physics.startPhysics();
+        // this.game.physics.startPhysics();
 
-        for(var i = 0; i < 100; i++) {
-            let texture = Lightning.Geometry.Triangle(20, 20).generateTexture();
-            let sprite = new Lightning.Sprite(texture);
-            sprite.x = Lightning.Maths.rngInt(10, this.game.width - 10);
-            sprite.y = Lightning.Maths.rngInt(10, this.game.height - 10);
-            sprite.setAnchor(0.5);
+        // for(var i = 0; i < 100; i++) {
+        //     let texture = Lightning.Geometry.Triangle(20, 20).generateTexture();
+        //     let sprite = new Lightning.Sprite(texture);
+        //     sprite.x = Lightning.Maths.rngInt(10, this.game.width - 10);
+        //     sprite.y = Lightning.Maths.rngInt(10, this.game.height - 10);
+        //     sprite.setAnchor(0.5);
 
-            this.game.physics.createBody(sprite, 'polygon', [0, -10, 10, 10, -10, 10]);
-            this.add(sprite);
-        }
+        //     this.game.physics.createBody(sprite, 'polygon', [0, -10, 10, 10, -10, 10]);
+        //     this.add(sprite);
+        // }
 
-        this.game.physics.createLine(100, 100, 0, 0, 100, 100);
-        this.game.physics.createLine(300, 200, 0, 0, 100, -100);
-        this.game.physics.createLine(100, 400, 0, 0, 100, 100);
-        this.game.physics.createLine(300, 400, 0, 0, 100, -100);
+        // this.game.physics.createLine(100, 100, 0, 0, 100, 100);
+        // this.game.physics.createLine(300, 200, 0, 0, 100, -100);
+        // this.game.physics.createLine(100, 400, 0, 0, 100, 100);
+        // this.game.physics.createLine(300, 400, 0, 0, 100, -100);
 
         
-        // console.log('init game')
+        let sprite = new Lightning.Sprite(Lightning.Geometry.Square(50).generateTexture());
+        sprite.x = this.game.center.x;
+        sprite.y = this.game.center.y;
+        sprite.setAnchor(0.5)
+        sprite.enableDrag(true);
+        sprite.on('mouseup', (e) => {
+            console.log(e.data.global.x, e.data.global.y)
+        })
 
-        // let gfx1 = Lightning.Geometry.Square(10);
-        // gfx1.x = 10;
-        // gfx1.y = 10;
+        this.add(sprite)
 
-        // gfx1.interactive = true;
-        // gfx1.on('mouseup', () => {
-        //     this.game.scale.goFullScreen();
-        // });
+        console.log(this)
 
         // let gfx2 = Lightning.Geometry.Square(10);
         // gfx2.x = 580;
