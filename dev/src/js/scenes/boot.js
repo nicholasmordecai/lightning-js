@@ -10,14 +10,14 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var BootState = (function (_super) {
+var BootState = /** @class */ (function (_super) {
     __extends(BootState, _super);
     function BootState() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     BootState.prototype.init = function (params) {
         console.log('init boot');
-        this.game.backgroundColor = 0x4d2ac1;
+        // this.game.backgroundColor = 0x4d2ac1;
         this.create();
     };
     BootState.prototype.create = function () {
