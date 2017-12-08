@@ -141,13 +141,15 @@ namespace Lightning {
         }
 
         public stretchAll() {
-            this.game.renderer.view.style.width = window.innerWidth.toString() + 'px';
-            this.game.renderer.view.style.height = window.innerHeight.toString() + 'px';
+            let width: number = window.innerWidth;
+            let height: number = window.innerHeight;
+            this.game.renderer.view.style.width = width + 'px';
+            this.game.renderer.view.style.height = height + 'px';
         }
 
         public scaleAll() {
-            let maxWidth: number = window.innerWidth;
-            let maxHeight: number = window.innerHeight;
+            let maxWidth: number = window.innerWidth / this._currentDPR;
+            let maxHeight: number = window.innerHeight / this._currentDPR;
 
             let scaleWidth: number = maxWidth / this._originalWidth;
             let scaleHeight: number = maxHeight / this._originalHeight;
@@ -259,6 +261,10 @@ namespace Lightning {
 
         public alignHorizontally() {
             let width:number = window.innerWidth;
+            this.game.renderer.view.style.position = 'absolute';
+            let newWidth:number = width - parseInt(this.game.renderer.view.style.width);
+            newWidth *= 0.5;
+            this.game.renderer.view.style.top = newWidth + 'px';
         }
 
         public get scaleMode():number {
