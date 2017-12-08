@@ -91,12 +91,9 @@ namespace Lightning {
             if(this._paused) return;
 
             if(this._fpsEnabled) {
-                console.log('fps tick:', this._currentFPSTick, ' - ', this._fpsInterval);
                 this._currentFPSTick++;
 
                 if(this._currentFPSTick >= this._fpsInterval) {
-                    // continue
-                    console.log('run tween update');
                     this._currentFPSTick = 0;
                 } else {
                     return;
@@ -114,7 +111,6 @@ namespace Lightning {
                         isDelayed = true;
                         anim.cDelay++;
                     } else {
-                        console.log(anim.cPos, this._interval, anim.from, anim.to, anim.time);
                         if(anim.cPos < anim.maxPos) {
                             let newFrameData = anim.easing(this._currentPosition * this._interval, anim.from, anim.to - anim.from, anim.time);
                             this._objRef[anim.property] = newFrameData;
