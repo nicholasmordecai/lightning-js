@@ -16,6 +16,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       './node_modules/pixi.js/dist/pixi.min.js',
+      './libs/box2d/Box2D.js',
       './build/compile.js',
       './test/**/*.js',
     ],

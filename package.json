@@ -18,9 +18,9 @@
     "concat": "gulp concat",
     "concat-dts": "gulp concat-dts",
     "minify": "gulp minify",
-    "docs": "./node_modules/.bin/typedoc --mode file --out docs/ src/",
+    "docs": "node node_modules/.bin/typedoc --mode file --out docs/ src/",
     "build": "npm-run-all compile ts-compile concat concat-dts minify",
-    "test": "./node_modules/karma/bin/karma start karma.conf.js",
+    "test": "node node_modules/karma/bin/karma start karma.conf.js",
     "codecov": "codecov"
   },
   "author": "Nicholas Mordecai",
