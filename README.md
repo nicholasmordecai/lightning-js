@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/megmut/lightning-js.svg?style=svg)](https://circleci.com/gh/megmut/lightning-js)
+[![CircleCI](https://circleci.com/gh/Sprite-Storm/lightning-js/tree/master.svg?style=svg)](https://circleci.com/gh/Sprite-Storm/lightning-js/tree/master)
 [![codecov](https://codecov.io/gh/megmut/lightning-js/branch/master/graph/badge.svg)](https://codecov.io/gh/megmut/lightning-js)
 [![dependencies](https://david-dm.org/megmut/lightning-js.svg)](https://david-dm.org/megmut/lightning-js.svg)
 

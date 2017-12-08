@@ -8,6 +8,7 @@
 5. Fixed DPR not being taken into account when applying style rules to the canvas
 6. Fixed text styles not allowing optional paremeters in the type definition
 7. Added play function to the audio manager
+8. Added the latest dev project
 
 ### 0.5.3
 1. Add coveralls badge to readme.md
