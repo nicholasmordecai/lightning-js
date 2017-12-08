@@ -1,7 +1,13 @@
 # Changelog
 
 ### 0.5.4
-1. 
+1. Fixed typing issues for incorrect box2d dts file
+2. Fixed #29 - Tween delay not working
+3. Fixed #26 - Timer not being destroyed when scene destroyed
+4. Fixed #31 - SetAnchor not working on Text class
+5. Fixed DPR not being taken into account when applying style rules to the canvas
+6. Fixed text styles not allowing optional paremeters in the type definition
+7. Added play function to the audio manager
 
 ### 0.5.3
 1. Add coveralls badge to readme.md
