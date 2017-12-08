@@ -1,7 +1,7 @@
 [![CircleCI](https://circleci.com/gh/Sprite-Storm/lightning-js/tree/master.svg?style=svg)](https://circleci.com/gh/Sprite-Storm/lightning-js/tree/master)
 [![codecov](https://codecov.io/gh/megmut/lightning-js/branch/master/graph/badge.svg)](https://codecov.io/gh/megmut/lightning-js)
-[![dependencies](https://david-dm.org/megmut/lightning-js.svg)](https://david-dm.org/megmut/lightning-js.svg)
-[![devDependencies Status](https://david-dm.org/megmut/lightning-js/dev-status.svg)](https://david-dm.org/megmut/lightning-js?type=dev)
+[![dependencies Status](https://david-dm.org/sprite-storm/lightning-js/status.svg)](https://david-dm.org/sprite-storm/lightning-js)
+[![devDependencies Status](https://david-dm.org/sprite-storm/lightning-js/dev-status.svg)](https://david-dm.org/sprite-storm/lightning-js?type=dev)
 
 
 ![lightning-js logo](https://preview.ibb.co/gLBF3R/readme_header.png)
