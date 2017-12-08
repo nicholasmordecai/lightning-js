@@ -70,6 +70,7 @@
 /// <reference path="./display/graphics.ts" />
 /// <reference path="./display/graphics.ts" />
 /// <reference path="./display/sprite.ts" />
+/// <reference path="./display/animation.ts" />
 /// <reference path="./display/group.ts" />
 /// <reference path="./display/hud.ts" />
 /// <reference path="./display/bitmapText.ts" />
