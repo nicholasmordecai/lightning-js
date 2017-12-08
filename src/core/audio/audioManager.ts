@@ -44,8 +44,14 @@ namespace Lightning {
             return true;
         }
 
-        public stop(key:string):boolean {
+        public play(key:string, loop?: boolean, volume?: number): number {
             let sound = this.sound(key);
+            sound.loop(loop);
+            return sound.play();
+        }
+
+        public stop(key:string):boolean {
+            // let sound = this.sound(key);
             return true;
         }
 
