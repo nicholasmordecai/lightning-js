@@ -10,17 +10,22 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var MenuState = (function (_super) {
+var MenuState = /** @class */ (function (_super) {
     __extends(MenuState, _super);
     function MenuState() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MenuState.prototype.create = function () {
-        console.log('init menu');
-        this.game.scenes.start('game');
-        this.game.scenes.destroy('menu');
-        // //     let button = new Lightning.Sprite(Lightning.Geometry.Rect(50, 50, 0xff22aa));
-        // //     this.add(button);
+        var button = new Lightning.Sprite(Lightning.Geometry.Rect(50, 50, 0xff22aa).generateTexture());
+        button.x = this.game.width - 10;
+        button.y = this.game.height - 10;
+        button.interactive = true;
+        button.enableDrag();
+        button.on('mousedown', function () {
+            console.log('hi');
+        });
+        this.add(button);
+        console.log(button);
         //     let sound = this.game.audio.load('meeseeks', ['audio.mp3']);
         //     this.game.keyboard.key('space').subscribe('pressed', () => {
         //         sound.play();
@@ -68,12 +73,16 @@ var MenuState = (function (_super) {
         // let t = Lightning.Geometry.Rect(50, 50, 0xff22aa);
         // let s = new Test(this, t);
         // this.add(s);
-        // let timer = new Lightning.Timer(this.game, 5000);
+        // let timer = new Lightning.Timer(this, 250);
         // timer.events.subscribe('tick', () => {
         //     console.log('testy');
         // });
-    };
-    MenuState.prototype.update = function () {
+        // setTimeout(() => {
+        //     this.game.scenes.start('game');
+        //     this.game.scenes.destroy('menu');
+        // }, 2000);
+        this.game.scenes.start('game');
+        this.game.scenes.destroy('menu');
     };
     return MenuState;
 }(Lightning.Scene));
