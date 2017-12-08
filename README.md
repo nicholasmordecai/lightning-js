@@ -35,3 +35,4 @@ Next, go ahead and install the project.
 ```sh
 npm install -g lightning-js
 ```
+> There is a CLI available to make project development easier
