@@ -17,6 +17,8 @@
 /// <reference path ="./interfaces/iEventSubscription.ts" />
 /// <reference path ="./interfaces/iParticle.ts" />
 /// <reference path ="./interfaces/iServiceAction.ts" />
+/// <reference path ="./interfaces/iLiveAnimation.ts" />
+/// <reference path ="./interfaces/iStaticAnimation.ts" />
 /// <reference path ="./interfaces/iBoundBox.ts" />
 /// <reference path ="./interfaces/iVector.ts" />
 /// <reference path ="./interfaces/iRec.ts" />

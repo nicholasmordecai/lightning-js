@@ -36,12 +36,16 @@ var GameState = /** @class */ (function (_super) {
         sprite.x = this.game.center.x;
         sprite.y = this.game.center.y;
         sprite.setAnchor(0.5);
-        sprite.enableDrag(true);
-        sprite.on('mouseup', function (e) {
-            console.log(e.data.global.x, e.data.global.y);
-        });
-        this.add(sprite);
-        console.log(this);
+        var sprite2 = new Lightning.Sprite(Lightning.Geometry.Square(50).generateTexture());
+        sprite2.x = this.game.center.x + 100;
+        sprite2.y = this.game.center.y + 100;
+        sprite2.setAnchor(0.5);
+        this.add(sprite, sprite2);
+        var tween = this.game.tweens.create(sprite);
+        tween.createAnim(0, 300, 1500, 'x', Lightning.Easing.ElasticInOut);
+        tween.start();
+        var tween2 = this.game.tweens.clone(tween, sprite2);
+        tween2.start();
         // let gfx2 = Lightning.Geometry.Square(10);
         // gfx2.x = 580;
         // gfx2.y = 10;

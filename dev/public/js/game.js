@@ -50,7 +50,7 @@ window.onload = function () {
 // };
 // app.initialize(); 
 
-}).call(this,require("htZkx4"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_3b7a191d.js","/")
+}).call(this,require("htZkx4"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_bac2ca6c.js","/")
 },{"./scenes/boot":2,"./scenes/game":3,"./scenes/menu":4,"./scenes/preload":5,"buffer":6,"htZkx4":9}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -124,12 +124,16 @@ var GameState = /** @class */ (function (_super) {
         sprite.x = this.game.center.x;
         sprite.y = this.game.center.y;
         sprite.setAnchor(0.5);
-        sprite.enableDrag(true);
-        sprite.on('mouseup', function (e) {
-            console.log(e.data.global.x, e.data.global.y);
-        });
-        this.add(sprite);
-        console.log(this);
+        var sprite2 = new Lightning.Sprite(Lightning.Geometry.Square(50).generateTexture());
+        sprite2.x = this.game.center.x + 100;
+        sprite2.y = this.game.center.y + 100;
+        sprite2.setAnchor(0.5);
+        this.add(sprite, sprite2);
+        var tween = this.game.tweens.create(sprite);
+        tween.createAnim(0, 300, 1500, 'x', Lightning.Easing.ElasticInOut);
+        tween.start();
+        var tween2 = this.game.tweens.clone(tween, sprite2);
+        tween2.start();
         // let gfx2 = Lightning.Geometry.Square(10);
         // gfx2.x = 580;
         // gfx2.y = 10;
