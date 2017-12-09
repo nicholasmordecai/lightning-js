@@ -48,7 +48,11 @@ namespace Lightning {
          * @returns {Event}
          */
         public subscribe(key:string, fn:Function, ctx:Object = null, ... params:Array<any>):iEventSubscription {
-            return this._events[key].addSubscriber(fn, ctx, false, params);
+            if(this._events[key]) {
+                return this._events[key].addSubscriber(fn, ctx, false, params);
+            } else {
+                console.error("Event with key:", key, "not found!");
+            }
         }
 
         /**
