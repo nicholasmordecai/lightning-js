@@ -19,6 +19,7 @@
 /// <reference path ="./interfaces/iServiceAction.ts" />
 /// <reference path ="./interfaces/iLiveAnimation.ts" />
 /// <reference path ="./interfaces/iStaticAnimation.ts" />
+/// <reference path ="./interfaces/iLoaderOptions.ts" />
 /// <reference path ="./interfaces/iBoundBox.ts" />
 /// <reference path ="./interfaces/iVector.ts" />
 /// <reference path ="./interfaces/iRec.ts" />
@@ -55,6 +56,7 @@
 /// <reference path="./utils/depreciated.ts" />
 /// <reference path="./utils/debug.ts" />
 /// <reference path ="./utils/webFontLoader.ts" />
+/// <reference path ="./utils/loader.ts" />
 /// <reference path ="./utils/locale.ts" />
 /// <reference path ="./utils/logger.ts" />
 /**
