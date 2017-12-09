@@ -24,6 +24,7 @@ namespace Lightning {
         protected _scaleManager:Scale;
         protected _debug:Debug;
         protected _keyboardManager:KeyboardManager;
+        protected _logger: Logger
 
         public displayInfo() {
             //             console.log(`%c
@@ -188,6 +189,14 @@ namespace Lightning {
         
         public get physics() {
             return this._physicsManager;
+        }
+
+        public get logger(): Logger {
+            return this._logger
+        }
+
+        public log(log) {
+            this._logger.log(log);
         }
 
         /**
