@@ -4,7 +4,7 @@ namespace Lightning {
     export class Scene extends Lightning.Group {
         
         public game: Engine;
-        public loader: PIXI.loaders.Loader;
+        public loader: Loader;
         public events: EventEmitter;
         private _timers: Timer[];
 
@@ -22,10 +22,10 @@ namespace Lightning {
             this.game = game;
             this.events = new EventEmitter();
             this._timers = [];
-            this.loader = new PIXI.loaders.Loader();
-            this.loader.onError.add(this.preloadError, this);
-            this.loader.onLoad.add(this.preloadSingle, this);
-            this.loader.onComplete.add(this.preloadComplete, this);
+            this.loader = new Loader(this.game);
+            // this.loader.events.subscribe('error', this.preloadError, this);
+            // this.loader.events.subscribe('load', this.preloadSingle, this);
+            this.loader.events.subscribe('complete', this.preloadComplete, this);
         }
 
         /**
@@ -46,9 +46,9 @@ namespace Lightning {
          */
         public preload():void {
             // if there aren't any resources to upload, then skip straight to the create function
-            if(Object.keys(this.loader.resources).length < 1) {
-                this.create();
-            }
+            // if(Object.keys(this.loader.resources).length < 1) {
+            //     this.create();
+            // }
         }
 
         public prepare():void {
@@ -68,7 +68,7 @@ namespace Lightning {
          * @description Update function. This is called by the scene manager on every tick
          */
         public update(time:number = null):void {
-            // this.events.emit('update', time);
+
         }
 
         /**
@@ -84,29 +84,20 @@ namespace Lightning {
             return true;
         }
 
-        /**
-         * @description Called if the loader produces an error
-         * 
-         * @returns {void}
-         */
-        public preloadError(err):void {
-            console.log(err);
-        }
 
-
-        /**
-         * @description Called when a single file has completed loading
-         * 
-         * @returns {void}
-         */
-        public preloadSingle(loader:PIXI.loaders.Loader, resource):void {
-            // get the name of the loaded asset
-            let file:string = resource.name;
-            // remove the directory if you wish
-            file = file.replace(/^.*[\\\/]/, '');
+        // /**
+        //  * @description Called when a single file has completed loading
+        //  * 
+        //  * @returns {void}
+        //  */
+        // public preloadSingle(loader:PIXI.loaders.Loader, resource):void {
+        //     // get the name of the loaded asset
+        //     let file:string = resource.name;
+        //     // remove the directory if you wish
+        //     file = file.replace(/^.*[\\\/]/, '');
             
-            let progress:number = resource.progressChunk;
-        }
+        //     let progress:number = resource.progressChunk;
+        // }
 
         /**
          * @description Called when the loader has finished loading everything

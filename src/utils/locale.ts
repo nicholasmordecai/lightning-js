@@ -66,7 +66,7 @@ namespace Lightning {
                 string = this._languagePack[this._language][key];
             } catch (e) {
                 const log = "No key " + key + "found for language " + this._language;
-                Logger.log(1, log)
+                this.game.log(log);
                 return;
             }
 
@@ -78,7 +78,7 @@ namespace Lightning {
                     string = string.replace(this._arg1 + inject + this._arg2, params[inject]);
                 } else {
                     const log = "No parameter with key " + inject + " was found.";
-                    Logger.log(1, log)
+                    this.game.log(log);
                 }
             }
 

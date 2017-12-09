@@ -216,6 +216,8 @@ namespace Lightning {
 
             // need to wrap in options
             this._audioManager = new AudioManager(this);
+
+            this._logger = new Logger();
         }
 
         /**
