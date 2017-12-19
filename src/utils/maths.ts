@@ -264,8 +264,38 @@ namespace Lightning {
          * Lightning.Math.radiansToDegrees(0.58); // returns 33.231552117587746
          * ~~~
          */
-        public static radiansToDegrees(radians:number) {
+        public static radiansToDegrees(radians:number): number {
             return radians * 180 / Math.PI;
+        }
+
+        /**
+         * @description Generate points around a circle
+         * 
+         * 
+         * @param {number} x center of circle x value
+         * @param {number} y center of circle y value
+         * @param {number} points number of points
+         * @param {number} radius radius of circle 
+         * 
+         * 
+         * @returns {{x: number[], y: number[]}} 
+         * 
+         * @example 
+         * ~~~
+         * let circlePoints = Lightning.Maths.pointsOfCircle(150, 150, 25, 50); // returns array of x and y values
+         * 
+         * ~~~
+         */
+        public static pointsOfCircle(x, y, points, radius): {x: number[], y: number[]} {
+            let aX = [];
+            let aY = [];
+            
+            for(let i = 0; i < points; i++) {
+                aX.push(x + radius * Math.cos(2 * Math.PI * i / points));
+                aY.push(y + radius * Math.sin(2 * Math.PI * i / points));
+            }
+
+            return {x: aX, y: aY};
         }
     }
 }
