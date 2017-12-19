@@ -106,56 +106,61 @@ namespace Lightning {
         private addAudio(name, url) {
             this._loaderItems++;
             var sound = this.game.audio.load(name, [url]);
-            sound.on("load", () => this.audioLoaded(sound));
+
+            sound.once("load", () => {
+                console.log('here')
+                this.audioLoaded(sound)
+            });
         }
 
         private addToLoader(name: string, url: string | string[], options?: iLoaderOptions) {
             let newOpts: any = {};
-            if(options.xhrType) {
-                switch (options.xhrType) {
-                    case "default":
-                        newOpts.xhrType = PIXI.loaders.Resource.XHR_RESPONSE_TYPE.DEFAULT
-                        break;
-                    case "buffer":
-                        newOpts.xhrType = PIXI.loaders.Resource.XHR_RESPONSE_TYPE.BUFFER
-                        break;
-                    case "blob":
-                        newOpts.xhrType = PIXI.loaders.Resource.XHR_RESPONSE_TYPE.BLOB
-                        break;
-                    case "document":
-                        newOpts.xhrType = PIXI.loaders.Resource.XHR_RESPONSE_TYPE.DOCUMENT
-                        break;
-                    case "json":
-                        newOpts.xhrType = PIXI.loaders.Resource.XHR_RESPONSE_TYPE.JSON
-                        break;
-                    case "text":
-                        newOpts.xhrType = PIXI.loaders.Resource.XHR_RESPONSE_TYPE.TEXT
-                        break;
+            if(options) {
+                if(options.xhrType) {
+                    switch (options.xhrType) {
+                        case "default":
+                            newOpts.xhrType = PIXI.loaders.Resource.XHR_RESPONSE_TYPE.DEFAULT
+                            break;
+                        case "buffer":
+                            newOpts.xhrType = PIXI.loaders.Resource.XHR_RESPONSE_TYPE.BUFFER
+                            break;
+                        case "blob":
+                            newOpts.xhrType = PIXI.loaders.Resource.XHR_RESPONSE_TYPE.BLOB
+                            break;
+                        case "document":
+                            newOpts.xhrType = PIXI.loaders.Resource.XHR_RESPONSE_TYPE.DOCUMENT
+                            break;
+                        case "json":
+                            newOpts.xhrType = PIXI.loaders.Resource.XHR_RESPONSE_TYPE.JSON
+                            break;
+                        case "text":
+                            newOpts.xhrType = PIXI.loaders.Resource.XHR_RESPONSE_TYPE.TEXT
+                            break;
+                    }
+                }
+    
+                if(options.loadType) {
+                    switch (options.loadType) {
+                        case "audio":
+                            newOpts.loadType = PIXI.loaders.Resource.LOAD_TYPE.AUDIO
+                            break;
+                        case "image":
+                            newOpts.loadType = PIXI.loaders.Resource.LOAD_TYPE.IMAGE
+                            break;
+                        case "video":
+                            newOpts.loadType = PIXI.loaders.Resource.LOAD_TYPE.VIDEO
+                            break;
+                        case "xhr":
+                            newOpts.loadType = PIXI.loaders.Resource.LOAD_TYPE.XHR
+                            break;
+                    }
+                }
+    
+                if(options.metadata) {
+                    newOpts.metadata = options.metadata;
                 }
             }
-
-            if(options.loadType) {
-                switch (options.loadType) {
-                    case "audio":
-                        newOpts.loadType = PIXI.loaders.Resource.LOAD_TYPE.AUDIO
-                        break;
-                    case "image":
-                        newOpts.loadType = PIXI.loaders.Resource.LOAD_TYPE.IMAGE
-                        break;
-                    case "video":
-                        newOpts.loadType = PIXI.loaders.Resource.LOAD_TYPE.VIDEO
-                        break;
-                    case "xhr":
-                        newOpts.loadType = PIXI.loaders.Resource.LOAD_TYPE.XHR
-                        break;
-                }
-            }
-
-            if(options.metadata) {
-                newOpts.metadata = options.metadata;
-            }
-            
-            super.add(name, url, options);
+            super.add(name, url, newOpts);
         }
 
         private preloadError(err) {
@@ -163,21 +168,26 @@ namespace Lightning {
         }
 
         private audioLoaded(sound) {
+            console.log('audioLoaded');
             this._itemsLoaded++;
             this.checkLoadingStatus();
         }
 
         private preloadSingle(loader:PIXI.loaders.Loader, resource) {
+            console.log('preloadSingle', resource);
             this._itemsLoaded++;
             this.checkLoadingStatus(resource);            
         }
 
         private preloadComplete(loader, resources) {
+            console.log('assets complete');
             this.events.emit("assetsComplete", this);
         }
 
         private checkLoadingStatus(resources?) {
+            console.log(this._loaderItems, this._itemsLoaded, this._loaderItems === this._itemsLoaded);
             if(this._loaderItems === this._itemsLoaded) {
+                console.log('everything complete')
                 this.events.emit("complete", this);
             }
         }

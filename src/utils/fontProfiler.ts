@@ -49,9 +49,9 @@ namespace Lightning {
         public style(id: string): iBitmapStyle | iTextStyle {
             let profile: iFontProfile = this.get(id);
             if(profile.bitmap) {
-                return profile.style;
+                // return profile.style;
             } else if(profile.text) {
-                return profile.style;
+                // return profile.style;
             } else {
                 return null;
             }

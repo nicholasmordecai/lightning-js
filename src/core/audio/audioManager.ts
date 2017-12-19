@@ -18,14 +18,17 @@ namespace Lightning {
             this._sounds = {};
         }
 
-        public load(key:string, src:Array<string>, autoplay:boolean = false, loop:boolean = false, volume:number = 1):Howl {
-            let sound = new Howl({
-                src: src, 
-                autoplay: autoplay,
-                loop: loop,
-                volume: volume
+        public load(key:string, src:Array<string>):Howl {
+
+            var sound = new Howl({
+                src: ['assets/audio/play.mp3'],
+                onload: function() {
+                    console.log('foo')
+                }
             });
+
             this._sounds[key] = sound;
+            
             return sound;
         }
 
@@ -50,6 +53,11 @@ namespace Lightning {
             return sound.play();
         }
 
+        /**
+         * @todo
+         * need to implement this function
+         * @param key 
+         */
         public stop(key:string):boolean {
             // let sound = this.sound(key);
             return true;

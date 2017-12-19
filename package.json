@@ -18,7 +18,7 @@
     "concat": "gulp concat",
     "concat-dts": "gulp concat-dts",
     "minify": "gulp minify",
-    "docs": "node node_modules/.bin/typedoc --mode file --out docs/ src/",
+    "docs": "typedoc --out docs/ src/",
     "build": "npm-run-all compile ts-compile concat concat-dts minify",
     "test": "node node_modules/karma/bin/karma start karma.conf.js",
     "codecov": "codecov"
@@ -42,7 +42,6 @@
     "gulp-webserver": "^0.9.1",
     "istanbul": "^0.4.5",
     "jasmine-core": "^2.5.2",
-    "jsdoc": "^3.5.5",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.0.0",
     "karma-coverage": "^1.1.1",
@@ -62,7 +61,7 @@
     "pixi.js": "^4.5.2",
     "transform-loader": "^0.2.4",
     "tslint": "^5.5.0",
-    "typedoc": "https://github.com/DatenMetzgerX/typedoc/tarball/typescript-2-build",
+    "typedoc": "^0.9.0",
     "typescript": "^2.2.1",
     "typescript-compiler": "^1.4.1-2",
     "typings": "^2.1.0"

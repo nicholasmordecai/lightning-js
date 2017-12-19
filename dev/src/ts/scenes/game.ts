@@ -8,18 +8,22 @@ export default class GameState extends Lightning.Scene {
     private s1: Lightning.Sprite;
     private s2: Lightning.Sprite;
 
+    init() {
+        this.create();
+    }
+
     create() {
 
         // this.game.physics.startPhysics();
 
-        // for(var i = 0; i < 100; i++) {
-        //     let texture = Lightning.Geometry.Triangle(20, 20).generateTexture();
+        // for(var i = 0; i < 50; i++) {
+        //     let texture = Lightning.Geometry.Square(5, 5).generateTexture();
         //     let sprite = new Lightning.Sprite(texture);
         //     sprite.x = Lightning.Maths.rngInt(10, this.game.width - 10);
         //     sprite.y = Lightning.Maths.rngInt(10, this.game.height - 10);
         //     sprite.setAnchor(0.5);
 
-        //     this.game.physics.createBody(sprite, 'polygon', [0, -10, 10, 10, -10, 10]);
+        //     this.game.physics.createBody(sprite);
         //     this.add(sprite);
         // }
 
@@ -29,27 +33,72 @@ export default class GameState extends Lightning.Scene {
         // this.game.physics.createLine(300, 400, 0, 0, 100, -100);
 
         
-        let sprite = new Lightning.Sprite(Lightning.Geometry.Square(50).generateTexture());
-        sprite.x = this.game.center.x;
-        sprite.y = this.game.center.y;
-        sprite.setAnchor(0.5)
+        // let sprite = new Lightning.Sprite(Lightning.Geometry.Square(50).generateTexture());
+        // sprite.x = this.game.center.x;
+        // sprite.y = this.game.center.y;
+        // sprite.setAnchor(0.5)
 
-        let sprite2 = new Lightning.Sprite(Lightning.Geometry.Square(50).generateTexture());
-        sprite2.x = this.game.center.x + 100;
-        sprite2.y = this.game.center.y + 100;
-        sprite2.setAnchor(0.5)
+        // let sprite2 = new Lightning.Sprite(Lightning.Geometry.Square(50).generateTexture());
+        // sprite2.x = this.game.center.x + 10;
+        // sprite2.y = this.game.center.y + 10;
 
-        this.add(sprite, sprite2)
+        // sprite2.enableDrag(true);
+        // sprite2.setAnchor(0.5)
 
-        let tween = this.game.tweens.create(sprite);
-        tween.createAnim(
-            0, 300, 1500, 'x', Lightning.Easing.ElasticInOut
-        );
+        // this.add(sprite, sprite2)
 
+        // let tween = this.game.tweens.create(sprite);
+        // tween.importAnim('x', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]);
+        // tween.start();
+
+        this.particleEmitter = new Lightning.ParticleEmitter(this, 0, 0);
+        this.add(this.particleEmitter);
+
+        // generate a texture for the particle emitter
+        // let texture:Lightning.Texture = Lightning.Geometry.Circle(4, 0xFC4349).generateTexture();
+        // let texture2:Lightning.Texture = Lightning.Geometry.Triangle(8, 8, 0xD7DADB).generateTexture();
+        // let texture2:Lightning.Texture = Lightning.Geometry.Circle(0.5, 0x6DBCDB).generateTexture();
+        let texture1:Lightning.Texture = Lightning.Geometry.Rect(2, 2, 0xFC4349, 0.5).generateTexture();
+        let texture2:Lightning.Texture = Lightning.Geometry.Rect(2, 2, 0x6DBCDB, 1).generateTexture();
+        let texture3:Lightning.Texture = Lightning.Geometry.Rect(5, 2, 0xFFFFFF, 1).generateTexture();
+
+        // add that texture to the particle emitter
+        this.particleEmitter.add(texture1, texture3, texture2);
+
+        // this.particleEmitter.enableDebug();
+        this.particleEmitter.y = this.game.height * 0.85;
+
+        this.particleEmitter.addToLocal = false;
+        
+
+        this.particleEmitter.setGravity(0, 0);
+        this.particleEmitter.setVelocityRange(-0.3, 0.3, -0.3, 0.3);
+        this.particleEmitter.setScaleRange(0.4, 1.5, 0.4, 1.5);
+        this.particleEmitter.setAlphaRange(0.3, 0.3, 0.8, 0.8);
+        this.particleEmitter.setAlphaIncrement(-0.008);
+        this.particleEmitter.setInterval(5);
+        
+        this.particleEmitter.setRotationIncrement(-0.1, 0.1);
+        // this.particleEmitter.setSpread(0, this.game.width, 0, this.game.height);
+        this.particleEmitter.setStrength(1);
+
+        this.particleEmitter.preFillPool(200);
+        this.particleEmitter.start();
+
+        let data = Lightning.Maths.pointsOfCircle(this.game.center.x, this.game.center.y, 50, 50);
+
+        let tween = this.game.tweens.create(this.particleEmitter);
+        tween.importAnim('x', data.x);
+        tween.importAnim('y', data.y);
+        
+
+        // let tween2 = this.game.tweens.create(this.particleEmitter);
+        // tween2.createAnim(this.game.width, 0, 4000, 'x', Lightning.Easing.linear);
+
+        // tween.chain(tween2);
+        // tween2.chain(tween);
+        tween.loop(-1);
         tween.start();
-
-        let tween2 = this.game.tweens.clone(tween, sprite2);
-        tween2.start();
 
         // let gfx2 = Lightning.Geometry.Square(10);
         // gfx2.x = 580;

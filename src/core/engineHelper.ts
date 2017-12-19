@@ -24,7 +24,7 @@ namespace Lightning {
         protected _scaleManager:Scale;
         protected _debug:Debug;
         protected _keyboardManager:KeyboardManager;
-        protected _logger: Logger
+        protected _logger: Logger;
 
         public displayInfo() {
             //             console.log(`%c

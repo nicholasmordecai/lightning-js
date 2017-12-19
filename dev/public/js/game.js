@@ -28,7 +28,7 @@ exports.default = Game;
 // let height = Math.round(width * 0.7);
 // new Game(width, height);
 window.onload = function () {
-    new Game(1200, 800);
+    new Game(450, 667);
 };
 // enable the following for cordova!!
 // var app = {
@@ -50,7 +50,7 @@ window.onload = function () {
 // };
 // app.initialize(); 
 
-}).call(this,require("htZkx4"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_bac2ca6c.js","/")
+}).call(this,require("htZkx4"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_6b017802.js","/")
 },{"./scenes/boot":2,"./scenes/game":3,"./scenes/menu":4,"./scenes/preload":5,"buffer":6,"htZkx4":9}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -72,7 +72,8 @@ var BootState = /** @class */ (function (_super) {
     }
     BootState.prototype.init = function (params) {
         console.log('init boot');
-        // this.game.backgroundColor = 0x4d2ac1;
+        this.game.backgroundColor = 0x092140;
+        this.game.scale.scaleAll();
         this.create();
     };
     BootState.prototype.create = function () {
@@ -105,35 +106,72 @@ var GameState = /** @class */ (function (_super) {
         _this._start = false;
         return _this;
     }
+    GameState.prototype.init = function () {
+        this.create();
+    };
     GameState.prototype.create = function () {
         // this.game.physics.startPhysics();
-        // for(var i = 0; i < 100; i++) {
-        //     let texture = Lightning.Geometry.Triangle(20, 20).generateTexture();
+        // for(var i = 0; i < 50; i++) {
+        //     let texture = Lightning.Geometry.Square(5, 5).generateTexture();
         //     let sprite = new Lightning.Sprite(texture);
         //     sprite.x = Lightning.Maths.rngInt(10, this.game.width - 10);
         //     sprite.y = Lightning.Maths.rngInt(10, this.game.height - 10);
         //     sprite.setAnchor(0.5);
-        //     this.game.physics.createBody(sprite, 'polygon', [0, -10, 10, 10, -10, 10]);
+        //     this.game.physics.createBody(sprite);
         //     this.add(sprite);
         // }
         // this.game.physics.createLine(100, 100, 0, 0, 100, 100);
         // this.game.physics.createLine(300, 200, 0, 0, 100, -100);
         // this.game.physics.createLine(100, 400, 0, 0, 100, 100);
         // this.game.physics.createLine(300, 400, 0, 0, 100, -100);
-        var sprite = new Lightning.Sprite(Lightning.Geometry.Square(50).generateTexture());
-        sprite.x = this.game.center.x;
-        sprite.y = this.game.center.y;
-        sprite.setAnchor(0.5);
-        var sprite2 = new Lightning.Sprite(Lightning.Geometry.Square(50).generateTexture());
-        sprite2.x = this.game.center.x + 100;
-        sprite2.y = this.game.center.y + 100;
-        sprite2.setAnchor(0.5);
-        this.add(sprite, sprite2);
-        var tween = this.game.tweens.create(sprite);
-        tween.createAnim(0, 300, 1500, 'x', Lightning.Easing.ElasticInOut);
+        // let sprite = new Lightning.Sprite(Lightning.Geometry.Square(50).generateTexture());
+        // sprite.x = this.game.center.x;
+        // sprite.y = this.game.center.y;
+        // sprite.setAnchor(0.5)
+        // let sprite2 = new Lightning.Sprite(Lightning.Geometry.Square(50).generateTexture());
+        // sprite2.x = this.game.center.x + 10;
+        // sprite2.y = this.game.center.y + 10;
+        // sprite2.enableDrag(true);
+        // sprite2.setAnchor(0.5)
+        // this.add(sprite, sprite2)
+        // let tween = this.game.tweens.create(sprite);
+        // tween.importAnim('x', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]);
+        // tween.start();
+        this.particleEmitter = new Lightning.ParticleEmitter(this, 0, 0);
+        this.add(this.particleEmitter);
+        // generate a texture for the particle emitter
+        // let texture:Lightning.Texture = Lightning.Geometry.Circle(4, 0xFC4349).generateTexture();
+        // let texture2:Lightning.Texture = Lightning.Geometry.Triangle(8, 8, 0xD7DADB).generateTexture();
+        // let texture2:Lightning.Texture = Lightning.Geometry.Circle(0.5, 0x6DBCDB).generateTexture();
+        var texture1 = Lightning.Geometry.Rect(2, 2, 0xFC4349, 0.5).generateTexture();
+        var texture2 = Lightning.Geometry.Rect(2, 2, 0x6DBCDB, 1).generateTexture();
+        var texture3 = Lightning.Geometry.Rect(5, 2, 0xFFFFFF, 1).generateTexture();
+        // add that texture to the particle emitter
+        this.particleEmitter.add(texture1, texture3, texture2);
+        // this.particleEmitter.enableDebug();
+        this.particleEmitter.y = this.game.height * 0.85;
+        this.particleEmitter.addToLocal = false;
+        this.particleEmitter.setGravity(0, 0);
+        this.particleEmitter.setVelocityRange(-0.3, 0.3, -0.3, 0.3);
+        this.particleEmitter.setScaleRange(0.4, 1.5, 0.4, 1.5);
+        this.particleEmitter.setAlphaRange(0.3, 0.3, 0.8, 0.8);
+        this.particleEmitter.setAlphaIncrement(-0.008);
+        this.particleEmitter.setInterval(5);
+        this.particleEmitter.setRotationIncrement(-0.1, 0.1);
+        // this.particleEmitter.setSpread(0, this.game.width, 0, this.game.height);
+        this.particleEmitter.setStrength(1);
+        this.particleEmitter.preFillPool(200);
+        this.particleEmitter.start();
+        var data = Lightning.Maths.pointsOfCircle(this.game.center.x, this.game.center.y, 50, 50);
+        var tween = this.game.tweens.create(this.particleEmitter);
+        tween.importAnim('x', data.x);
+        tween.importAnim('y', data.y);
+        // let tween2 = this.game.tweens.create(this.particleEmitter);
+        // tween2.createAnim(this.game.width, 0, 4000, 'x', Lightning.Easing.linear);
+        // tween.chain(tween2);
+        // tween2.chain(tween);
+        tween.loop(-1);
         tween.start();
-        var tween2 = this.game.tweens.clone(tween, sprite2);
-        tween2.start();
         // let gfx2 = Lightning.Geometry.Square(10);
         // gfx2.x = 580;
         // gfx2.y = 10;
@@ -444,9 +482,20 @@ var PreloadState = /** @class */ (function (_super) {
     function PreloadState() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    PreloadState.prototype.init = function () {
+        this.create();
+    };
+    PreloadState.prototype.preload = function () {
+        // this.loader.addResource('music1', 'big.mp3');
+        // this.loader.load();
+    };
+    PreloadState.prototype.preloadComplete = function () {
+        this.create();
+    };
     PreloadState.prototype.create = function () {
-        console.log('init preload');
-        this.game.scenes.start('menu');
+        // this.game.audio.play('music1');
+        this.game.scenes.destroy('preload');
+        this.game.scenes.start('game');
     };
     return PreloadState;
 }(Lightning.Scene));
