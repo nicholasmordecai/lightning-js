@@ -38,7 +38,7 @@ namespace Lightning {
         private _currentDPR:number;        
 
         private _scaleMode:number;
-        private _resizeTimeout:number;
+        private _resizeTimeout;
 
         private _breakPoints: Array<{width: number, height: number, value: string}>;
 
@@ -88,7 +88,9 @@ namespace Lightning {
                 // find closest DPR in allowedDPR's array
                 if(this._allowedDPR.length === 0) {
                     // use any / all DPR's
-                    this._currentDPR = liveDPR;
+                    // this._currentDPR = liveDPR;
+                    this._currentDPR = 1;
+                    // alert(this._currentDPR);
                 } else {
                     let closest = Lightning.Maths.closestValue(this._allowedDPR, liveDPR);
                 }

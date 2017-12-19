@@ -1,5 +1,13 @@
 # Changelog
 
+### 0.5.5
+1. Wrote an asset loader class
+    1. Bypassed pixi's loader for audio so it gets loaded straight into howler
+    2. Created more events so you know when the audio is decoded as well as when everything else has loaded
+2. More work on the logger. Now you can acess it by this.game.log() and it's no longer a static class.
+3. Math function for generating points around a circle
+
+
 ### 0.5.4
 1. Fixed typing issues for incorrect box2d dts file
 2. Fixed #29 - Tween delay not working

@@ -1,5 +1,7 @@
 /// <reference path="./../reference.d.ts" />
 
+
+
 /**
  * Fade in / Scale in sprites - optional
  * Simple / Advanced -- for creating ultra performant particles in the 50k+ range
@@ -157,8 +159,6 @@ namespace Lightning {
                 this._particles.push(particle);                                            
                 this._deadPool.push(particle);                         
             }
-
-            console.log(this._deadPool.length);
         }
 
         public fireEmitter() {
@@ -381,6 +381,14 @@ namespace Lightning {
             }
             this.on('mousemove', this.onDrag);
             this.on('touchmove', this.onDrag);
+        }
+
+        public destroy() {
+            for(let i of this._particles) {
+                i.isDead = true;
+                i.destroy();
+            }
+            super.destroy();
         }
 
         public stopDrag(event:PIXI.interaction.InteractionEvent) {

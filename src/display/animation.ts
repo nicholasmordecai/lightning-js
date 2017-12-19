@@ -49,7 +49,7 @@ namespace Lightning {
 
         // reset the current frame back to 0
         public reset() {
-
+            this.gotoAndStop(0);
         }
     }
 }

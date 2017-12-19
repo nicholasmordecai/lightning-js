@@ -26,7 +26,7 @@ exports.default = Game;
 // let height = Math.round(width * 0.7);
 // new Game(width, height);
 window.onload = function () {
-    new Game(1200, 800);
+    new Game(450, 667);
 };
 // enable the following for cordova!!
 // var app = {

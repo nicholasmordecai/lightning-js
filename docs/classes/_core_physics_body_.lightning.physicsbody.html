@@ -1,0 +1,2283 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>PhysicsBody | lightning-js</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">lightning-js</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/_core_physics_body_.html">&quot;core/physics/body&quot;</a>
+				</li>
+				<li>
+					<a href="../modules/_core_physics_body_.lightning.html">Lightning</a>
+				</li>
+				<li>
+					<a href="_core_physics_body_.lightning.physicsbody.html">PhysicsBody</a>
+				</li>
+			</ul>
+			<h1>Class PhysicsBody</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="../globals.html">Globals</a>
+					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/_core_physics_body_.html">"core/physics/body"</a>
+						<ul>
+							<li class="current tsd-kind-module tsd-parent-kind-external-module tsd-is-not-exported">
+								<a href="../modules/_core_physics_body_.lightning.html">Lightning</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-module">
+						<a href="_core_physics_body_.lightning.physicsbody.html" class="tsd-kind-icon">Physics<wbr>Body</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="_core_physics_body_.lightning.physicsbody.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="_core_physics_body_.lightning.physicsbody.html#_displayobject" class="tsd-kind-icon">_display<wbr>Object</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+								<a href="_core_physics_body_.lightning.physicsbody.html#b2_dynamicbody" class="tsd-kind-icon">b2_<wbr>dynamic<wbr>Body</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+								<a href="_core_physics_body_.lightning.physicsbody.html#b2_kinematicbody" class="tsd-kind-icon">b2_<wbr>kinematic<wbr>Body</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+								<a href="_core_physics_body_.lightning.physicsbody.html#b2_staticbody" class="tsd-kind-icon">b2_<wbr>static<wbr>Body</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="_core_physics_body_.lightning.physicsbody.html#displayobject" class="tsd-kind-icon">display<wbr>Object</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#applyforce" class="tsd-kind-icon">Apply<wbr>Force</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#applyimpulse" class="tsd-kind-icon">Apply<wbr>Impulse</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#applytorque" class="tsd-kind-icon">Apply<wbr>Torque</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#createfixture" class="tsd-kind-icon">Create<wbr>Fixture</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#createfixture2" class="tsd-kind-icon">Create<wbr>Fixture2</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#destroyfixture" class="tsd-kind-icon">Destroy<wbr>Fixture</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getangle" class="tsd-kind-icon">Get<wbr>Angle</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getangulardamping" class="tsd-kind-icon">Get<wbr>Angular<wbr>Damping</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getangularvelocity" class="tsd-kind-icon">Get<wbr>Angular<wbr>Velocity</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getcontactlist" class="tsd-kind-icon">Get<wbr>Contact<wbr>List</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getcontrollerlist" class="tsd-kind-icon">Get<wbr>Controller<wbr>List</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getdefinition" class="tsd-kind-icon">Get<wbr>Definition</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getfixturelist" class="tsd-kind-icon">Get<wbr>Fixture<wbr>List</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getinertia" class="tsd-kind-icon">Get<wbr>Inertia</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getjointlist" class="tsd-kind-icon">Get<wbr>Joint<wbr>List</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getlineardamping" class="tsd-kind-icon">Get<wbr>Linear<wbr>Damping</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getlinearvelocity" class="tsd-kind-icon">Get<wbr>Linear<wbr>Velocity</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getlinearvelocityfromlocalpoint" class="tsd-kind-icon">Get<wbr>Linear<wbr>Velocity<wbr>From<wbr>Local<wbr>Point</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getlinearvelocityfromworldpoint" class="tsd-kind-icon">Get<wbr>Linear<wbr>Velocity<wbr>From<wbr>World<wbr>Point</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getlocalcenter" class="tsd-kind-icon">Get<wbr>Local<wbr>Center</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getlocalpoint" class="tsd-kind-icon">Get<wbr>Local<wbr>Point</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getlocalvector" class="tsd-kind-icon">Get<wbr>Local<wbr>Vector</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getmass" class="tsd-kind-icon">Get<wbr>Mass</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getmassdata" class="tsd-kind-icon">Get<wbr>Mass<wbr>Data</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getnext" class="tsd-kind-icon">Get<wbr>Next</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getposition" class="tsd-kind-icon">Get<wbr>Position</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#gettransform" class="tsd-kind-icon">Get<wbr>Transform</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#gettype" class="tsd-kind-icon">Get<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getuserdata" class="tsd-kind-icon">Get<wbr>User<wbr>Data</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getworld" class="tsd-kind-icon">Get<wbr>World</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getworldcenter" class="tsd-kind-icon">Get<wbr>World<wbr>Center</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getworldpoint" class="tsd-kind-icon">Get<wbr>World<wbr>Point</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#getworldvector" class="tsd-kind-icon">Get<wbr>World<wbr>Vector</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#isactive" class="tsd-kind-icon">Is<wbr>Active</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#isawake" class="tsd-kind-icon">Is<wbr>Awake</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#isbullet" class="tsd-kind-icon">Is<wbr>Bullet</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#isfixedrotation" class="tsd-kind-icon">Is<wbr>Fixed<wbr>Rotation</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#issleepingallowed" class="tsd-kind-icon">Is<wbr>Sleeping<wbr>Allowed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#merge" class="tsd-kind-icon">Merge</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#resetmassdata" class="tsd-kind-icon">Reset<wbr>Mass<wbr>Data</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#setactive" class="tsd-kind-icon">Set<wbr>Active</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#setangle" class="tsd-kind-icon">Set<wbr>Angle</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#setangulardamping" class="tsd-kind-icon">Set<wbr>Angular<wbr>Damping</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#setangularvelocity" class="tsd-kind-icon">Set<wbr>Angular<wbr>Velocity</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#setawake" class="tsd-kind-icon">Set<wbr>Awake</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#setbullet" class="tsd-kind-icon">Set<wbr>Bullet</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#setfixedrotation" class="tsd-kind-icon">Set<wbr>Fixed<wbr>Rotation</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#setlineardamping" class="tsd-kind-icon">Set<wbr>Linear<wbr>Damping</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#setlinearvelocity" class="tsd-kind-icon">Set<wbr>Linear<wbr>Velocity</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#setmassdata" class="tsd-kind-icon">Set<wbr>Mass<wbr>Data</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#setposition" class="tsd-kind-icon">Set<wbr>Position</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#setpositionandangle" class="tsd-kind-icon">Set<wbr>Position<wbr>And<wbr>Angle</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#setsleepingallowed" class="tsd-kind-icon">Set<wbr>Sleeping<wbr>Allowed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#settransform" class="tsd-kind-icon">Set<wbr>Transform</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#settype" class="tsd-kind-icon">Set<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#setuserdata" class="tsd-kind-icon">Set<wbr>User<wbr>Data</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_core_physics_body_.lightning.physicsbody.html#split" class="tsd-kind-icon">Split</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="tsd-signature-type">b2Body</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">PhysicsBody</span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_core_physics_body_.lightning.physicsbody.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_core_physics_body_.lightning.physicsbody.html#_displayobject" class="tsd-kind-icon">_display<wbr>Object</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_core_physics_body_.lightning.physicsbody.html#b2_dynamicbody" class="tsd-kind-icon">b2_<wbr>dynamic<wbr>Body</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_core_physics_body_.lightning.physicsbody.html#b2_kinematicbody" class="tsd-kind-icon">b2_<wbr>kinematic<wbr>Body</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_core_physics_body_.lightning.physicsbody.html#b2_staticbody" class="tsd-kind-icon">b2_<wbr>static<wbr>Body</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="_core_physics_body_.lightning.physicsbody.html#displayobject" class="tsd-kind-icon">display<wbr>Object</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-inherited">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#applyforce" class="tsd-kind-icon">Apply<wbr>Force</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#applyimpulse" class="tsd-kind-icon">Apply<wbr>Impulse</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#applytorque" class="tsd-kind-icon">Apply<wbr>Torque</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#createfixture" class="tsd-kind-icon">Create<wbr>Fixture</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#createfixture2" class="tsd-kind-icon">Create<wbr>Fixture2</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#destroyfixture" class="tsd-kind-icon">Destroy<wbr>Fixture</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getangle" class="tsd-kind-icon">Get<wbr>Angle</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getangulardamping" class="tsd-kind-icon">Get<wbr>Angular<wbr>Damping</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getangularvelocity" class="tsd-kind-icon">Get<wbr>Angular<wbr>Velocity</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getcontactlist" class="tsd-kind-icon">Get<wbr>Contact<wbr>List</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getcontrollerlist" class="tsd-kind-icon">Get<wbr>Controller<wbr>List</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getdefinition" class="tsd-kind-icon">Get<wbr>Definition</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getfixturelist" class="tsd-kind-icon">Get<wbr>Fixture<wbr>List</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getinertia" class="tsd-kind-icon">Get<wbr>Inertia</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getjointlist" class="tsd-kind-icon">Get<wbr>Joint<wbr>List</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getlineardamping" class="tsd-kind-icon">Get<wbr>Linear<wbr>Damping</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getlinearvelocity" class="tsd-kind-icon">Get<wbr>Linear<wbr>Velocity</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getlinearvelocityfromlocalpoint" class="tsd-kind-icon">Get<wbr>Linear<wbr>Velocity<wbr>From<wbr>Local<wbr>Point</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getlinearvelocityfromworldpoint" class="tsd-kind-icon">Get<wbr>Linear<wbr>Velocity<wbr>From<wbr>World<wbr>Point</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getlocalcenter" class="tsd-kind-icon">Get<wbr>Local<wbr>Center</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getlocalpoint" class="tsd-kind-icon">Get<wbr>Local<wbr>Point</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getlocalvector" class="tsd-kind-icon">Get<wbr>Local<wbr>Vector</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getmass" class="tsd-kind-icon">Get<wbr>Mass</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getmassdata" class="tsd-kind-icon">Get<wbr>Mass<wbr>Data</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getnext" class="tsd-kind-icon">Get<wbr>Next</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getposition" class="tsd-kind-icon">Get<wbr>Position</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#gettransform" class="tsd-kind-icon">Get<wbr>Transform</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#gettype" class="tsd-kind-icon">Get<wbr>Type</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getuserdata" class="tsd-kind-icon">Get<wbr>User<wbr>Data</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getworld" class="tsd-kind-icon">Get<wbr>World</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getworldcenter" class="tsd-kind-icon">Get<wbr>World<wbr>Center</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getworldpoint" class="tsd-kind-icon">Get<wbr>World<wbr>Point</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#getworldvector" class="tsd-kind-icon">Get<wbr>World<wbr>Vector</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#isactive" class="tsd-kind-icon">Is<wbr>Active</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#isawake" class="tsd-kind-icon">Is<wbr>Awake</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#isbullet" class="tsd-kind-icon">Is<wbr>Bullet</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#isfixedrotation" class="tsd-kind-icon">Is<wbr>Fixed<wbr>Rotation</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#issleepingallowed" class="tsd-kind-icon">Is<wbr>Sleeping<wbr>Allowed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#merge" class="tsd-kind-icon">Merge</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#resetmassdata" class="tsd-kind-icon">Reset<wbr>Mass<wbr>Data</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#setactive" class="tsd-kind-icon">Set<wbr>Active</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#setangle" class="tsd-kind-icon">Set<wbr>Angle</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#setangulardamping" class="tsd-kind-icon">Set<wbr>Angular<wbr>Damping</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#setangularvelocity" class="tsd-kind-icon">Set<wbr>Angular<wbr>Velocity</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#setawake" class="tsd-kind-icon">Set<wbr>Awake</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#setbullet" class="tsd-kind-icon">Set<wbr>Bullet</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#setfixedrotation" class="tsd-kind-icon">Set<wbr>Fixed<wbr>Rotation</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#setlineardamping" class="tsd-kind-icon">Set<wbr>Linear<wbr>Damping</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#setlinearvelocity" class="tsd-kind-icon">Set<wbr>Linear<wbr>Velocity</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#setmassdata" class="tsd-kind-icon">Set<wbr>Mass<wbr>Data</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#setposition" class="tsd-kind-icon">Set<wbr>Position</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#setpositionandangle" class="tsd-kind-icon">Set<wbr>Position<wbr>And<wbr>Angle</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#setsleepingallowed" class="tsd-kind-icon">Set<wbr>Sleeping<wbr>Allowed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#settransform" class="tsd-kind-icon">Set<wbr>Transform</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#settype" class="tsd-kind-icon">Set<wbr>Type</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#setuserdata" class="tsd-kind-icon">Set<wbr>User<wbr>Data</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_core_physics_body_.lightning.physicsbody.html#split" class="tsd-kind-icon">Split</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Physics<wbr>Body<span class="tsd-signature-symbol">(</span>displayObject<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_core_physics_body_.lightning.physicsbody.html" class="tsd-signature-type">PhysicsBody</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/src/core/physics/body.ts#L6">core/physics/body.ts:6</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>displayObject: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_core_physics_body_.lightning.physicsbody.html" class="tsd-signature-type">PhysicsBody</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_displayobject" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _display<wbr>Object</h3>
+					<div class="tsd-signature tsd-kind-icon">_display<wbr>Object<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/src/core/physics/body.ts#L6">core/physics/body.ts:6</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+					<a name="b2_dynamicbody" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> b2_<wbr>dynamic<wbr>Body</h3>
+					<div class="tsd-signature tsd-kind-icon">b2_<wbr>dynamic<wbr>Body<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from b2Body.b2_dynamicBody</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2540">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2540</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Dynamic Body</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+					<a name="b2_kinematicbody" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> b2_<wbr>kinematic<wbr>Body</h3>
+					<div class="tsd-signature tsd-kind-icon">b2_<wbr>kinematic<wbr>Body<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from b2Body.b2_kinematicBody</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2545">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2545</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Kinematic Body</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+					<a name="b2_staticbody" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> b2_<wbr>static<wbr>Body</h3>
+					<div class="tsd-signature tsd-kind-icon">b2_<wbr>static<wbr>Body<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from b2Body.b2_staticBody</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2550">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2550</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Static Body</p>
+						</div>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="displayobject" class="tsd-anchor"></a>
+					<h3>display<wbr>Object</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> displayObject<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> displayObject<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/src/core/physics/body.ts#L14">core/physics/body.ts:14</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/src/core/physics/body.ts#L18">core/physics/body.ts:18</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>obj: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="applyforce" class="tsd-anchor"></a>
+					<h3>Apply<wbr>Force</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Apply<wbr>Force<span class="tsd-signature-symbol">(</span>force<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span>, point<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.ApplyForce</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2557">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2557</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Apply a force at a world point. If the force is not applied at the center of mass, it will generate a torque and affect the angular velocity. This wakes up the body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>force: <span class="tsd-signature-type">b2Vec2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The world force vector, usually in Newtons (N).</p>
+									</div>
+								</li>
+								<li>
+									<h5>point: <span class="tsd-signature-type">b2Vec2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The world position of the point of application.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="applyimpulse" class="tsd-anchor"></a>
+					<h3>Apply<wbr>Impulse</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Apply<wbr>Impulse<span class="tsd-signature-symbol">(</span>impulse<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span>, point<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.ApplyImpulse</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2564">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2564</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Apply an impulse at a point. This immediately modifies the velocity. It also modifies the angular velocity if the point of application is not at the center of mass. This wakes up the body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>impulse: <span class="tsd-signature-type">b2Vec2</span></h5>
+								</li>
+								<li>
+									<h5>point: <span class="tsd-signature-type">b2Vec2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The world position of the point of application.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="applytorque" class="tsd-anchor"></a>
+					<h3>Apply<wbr>Torque</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Apply<wbr>Torque<span class="tsd-signature-symbol">(</span>torque<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.ApplyTorque</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2570">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2570</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Apply a torque. This affects the angular velocity without affecting the linear velocity of the center of mass. This wakes up the body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>torque: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Force applied about the z-axis (out of the screen), usually in N-m.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="createfixture" class="tsd-anchor"></a>
+					<h3>Create<wbr>Fixture</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Create<wbr>Fixture<span class="tsd-signature-symbol">(</span>def<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2FixtureDef</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Fixture</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.CreateFixture</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2578">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2578</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a fixture and attach it to this body. Use this function if you need to set some fixture parameters, like friction. Otherwise you can create the fixture directly from a shape. If the density is non-zero, this function automatically updates the mass of the body. Contacts are not created until the next time step.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>warning</dt>
+									<dd><p>This function is locked during callbacks.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>def: <span class="tsd-signature-type">b2FixtureDef</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The fixture definition;</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2Fixture</span></h4>
+							<p>The created fixture.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="createfixture2" class="tsd-anchor"></a>
+					<h3>Create<wbr>Fixture2</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Create<wbr>Fixture2<span class="tsd-signature-symbol">(</span>shape<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Shape</span>, density<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Fixture</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.CreateFixture2</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2587">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2587</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a fixture from a shape and attach it to this body. This is a convenience function. Use b2FixtureDef if you need to set parameters like friction, restitution, user data, or filtering. This function automatically updates the mass of the body.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>warning</dt>
+									<dd><p>This function is locked during callbacks.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>shape: <span class="tsd-signature-type">b2Shape</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The shaped of the fixture (to be cloned).</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> density: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The shape density, default is 0.0, set to zero for static bodies.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2Fixture</span></h4>
+							<p>The created fixture.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="destroyfixture" class="tsd-anchor"></a>
+					<h3>Destroy<wbr>Fixture</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Destroy<wbr>Fixture<span class="tsd-signature-symbol">(</span>fixture<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Fixture</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.DestroyFixture</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2594">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2594</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Destroy a fixture. This removes the fixture from the broad-phase and destroys all contacts associated with this fixture. This will automatically adjust the mass of the body if the body is dynamic and the fixture has positive density. All fixtures attached to a body are implicitly destroyed when the body is destroyed.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>warning</dt>
+									<dd><p>This function is locked during callbacks.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fixture: <span class="tsd-signature-type">b2Fixture</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The fixed to be removed.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getangle" class="tsd-anchor"></a>
+					<h3>Get<wbr>Angle</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Angle<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetAngle</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2600">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2600</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the angle in radians.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>The current world rotation angle in radians</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getangulardamping" class="tsd-anchor"></a>
+					<h3>Get<wbr>Angular<wbr>Damping</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Angular<wbr>Damping<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetAngularDamping</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2606">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2606</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the angular damping of the body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Angular damping of the body.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getangularvelocity" class="tsd-anchor"></a>
+					<h3>Get<wbr>Angular<wbr>Velocity</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Angular<wbr>Velocity<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetAngularVelocity</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2612">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2612</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the angular velocity.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>The angular velocity in radians/second.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getcontactlist" class="tsd-anchor"></a>
+					<h3>Get<wbr>Contact<wbr>List</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Contact<wbr>List<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2ContactEdge</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetContactList</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2618">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2618</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the list of all contacts attached to this body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2ContactEdge</span></h4>
+							<p>List of all contacts attached to this body.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getcontrollerlist" class="tsd-anchor"></a>
+					<h3>Get<wbr>Controller<wbr>List</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Controller<wbr>List<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2ControllerEdge</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetControllerList</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2624">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2624</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the list of all controllers attached to this body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2ControllerEdge</span></h4>
+							<p>List of all controllers attached to this body.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getdefinition" class="tsd-anchor"></a>
+					<h3>Get<wbr>Definition</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Definition<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2BodyDef</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetDefinition</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2631">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2631</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the definition containing the body properties.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>note</dt>
+									<dd><p>This provides a feature specific to this port.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2BodyDef</span></h4>
+							<p>The body&#39;s definition.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getfixturelist" class="tsd-anchor"></a>
+					<h3>Get<wbr>Fixture<wbr>List</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Fixture<wbr>List<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Fixture</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetFixtureList</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2637">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2637</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the list of all fixtures attached to this body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2Fixture</span></h4>
+							<p>List of all fixtures attached to this body.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getinertia" class="tsd-anchor"></a>
+					<h3>Get<wbr>Inertia</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Inertia<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetInertia</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2643">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2643</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the central rotational inertia of the body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>The rotational inertia, usually in kg-m^2.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getjointlist" class="tsd-anchor"></a>
+					<h3>Get<wbr>Joint<wbr>List</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Joint<wbr>List<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2JointEdge</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetJointList</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2649">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2649</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the list of all joints attached to this body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2JointEdge</span></h4>
+							<p>List of all joints attached to this body.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getlineardamping" class="tsd-anchor"></a>
+					<h3>Get<wbr>Linear<wbr>Damping</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Linear<wbr>Damping<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetLinearDamping</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2655">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2655</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the linear damping of the body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>The linear damping of the body.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getlinearvelocity" class="tsd-anchor"></a>
+					<h3>Get<wbr>Linear<wbr>Velocity</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Linear<wbr>Velocity<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetLinearVelocity</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2661">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2661</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the linear velocity of the center of mass.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2Vec2</span></h4>
+							<p>The linear velocity of the center of mass.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getlinearvelocityfromlocalpoint" class="tsd-anchor"></a>
+					<h3>Get<wbr>Linear<wbr>Velocity<wbr>From<wbr>Local<wbr>Point</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Linear<wbr>Velocity<wbr>From<wbr>Local<wbr>Point<span class="tsd-signature-symbol">(</span>localPoint<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetLinearVelocityFromLocalPoint</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2668">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2668</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the world velocity of a local point.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>localPoint: <span class="tsd-signature-type">b2Vec2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Point in local coordinates.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2Vec2</span></h4>
+							<p>The world velocity of the point.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getlinearvelocityfromworldpoint" class="tsd-anchor"></a>
+					<h3>Get<wbr>Linear<wbr>Velocity<wbr>From<wbr>World<wbr>Point</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Linear<wbr>Velocity<wbr>From<wbr>World<wbr>Point<span class="tsd-signature-symbol">(</span>worldPoint<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetLinearVelocityFromWorldPoint</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2675">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2675</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the world linear velocity of a world point attached to this body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>worldPoint: <span class="tsd-signature-type">b2Vec2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Point in world coordinates.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2Vec2</span></h4>
+							<p>The world velocity of the point.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getlocalcenter" class="tsd-anchor"></a>
+					<h3>Get<wbr>Local<wbr>Center</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Local<wbr>Center<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetLocalCenter</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2681">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2681</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the local position of the center of mass.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2Vec2</span></h4>
+							<p>Local position of the center of mass.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getlocalpoint" class="tsd-anchor"></a>
+					<h3>Get<wbr>Local<wbr>Point</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Local<wbr>Point<span class="tsd-signature-symbol">(</span>worldPoint<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetLocalPoint</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2688">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2688</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets a local point relative to the body&#39;s origin given a world point.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>worldPoint: <span class="tsd-signature-type">b2Vec2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointin world coordinates.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2Vec2</span></h4>
+							<p>The corresponding local point relative to the body&#39;s origin.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getlocalvector" class="tsd-anchor"></a>
+					<h3>Get<wbr>Local<wbr>Vector</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Local<wbr>Vector<span class="tsd-signature-symbol">(</span>worldVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetLocalVector</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2695">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2695</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets a local vector given a world vector.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>worldVector: <span class="tsd-signature-type">b2Vec2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>World vector.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2Vec2</span></h4>
+							<p>The corresponding local vector.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getmass" class="tsd-anchor"></a>
+					<h3>Get<wbr>Mass</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Mass<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetMass</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2701">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2701</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the total mass of the body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>The body&#39;s mass, usually in kilograms (kg).</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getmassdata" class="tsd-anchor"></a>
+					<h3>Get<wbr>Mass<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Mass<wbr>Data<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2MassData</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetMassData</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2707">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2707</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the mass data of the body. The rotational inertial is relative to the center of mass.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>data: <span class="tsd-signature-type">b2MassData</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Body&#39;s mass data, this argument is <code>out</code>.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getnext" class="tsd-anchor"></a>
+					<h3>Get<wbr>Next</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Next<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Body</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetNext</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2713">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2713</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the next body in the world&#39;s body list.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2Body</span></h4>
+							<p>Next body in the world&#39;s body list.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getposition" class="tsd-anchor"></a>
+					<h3>Get<wbr>Position</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Position<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetPosition</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2719">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2719</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the world body origin position.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2Vec2</span></h4>
+							<p>World position of the body&#39;s origin.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="gettransform" class="tsd-anchor"></a>
+					<h3>Get<wbr>Transform</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Transform<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Transform</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetTransform</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2725">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2725</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the body transform for the body&#39;s origin.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2Transform</span></h4>
+							<p>World transform of the body&#39;s origin.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="gettype" class="tsd-anchor"></a>
+					<h3>Get<wbr>Type</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Type<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetType</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2731">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2731</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the type of this body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Body type as uint.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getuserdata" class="tsd-anchor"></a>
+					<h3>Get<wbr>User<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>User<wbr>Data<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetUserData</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2737">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2737</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the user data pointer that was provided in the body definition.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<p>User&#39;s data, cast to the correct type.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getworld" class="tsd-anchor"></a>
+					<h3>Get<wbr>World</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>World<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2World</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetWorld</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2743">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2743</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the parent world of this body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2World</span></h4>
+							<p>Body&#39;s world.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getworldcenter" class="tsd-anchor"></a>
+					<h3>Get<wbr>World<wbr>Center</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>World<wbr>Center<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetWorldCenter</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2749">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2749</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the world position of the center of mass.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2Vec2</span></h4>
+							<p>World position of the center of mass.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getworldpoint" class="tsd-anchor"></a>
+					<h3>Get<wbr>World<wbr>Point</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>World<wbr>Point<span class="tsd-signature-symbol">(</span>localPoint<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetWorldPoint</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2756">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2756</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the world coordinates of a point given the local coordinates.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>localPoint: <span class="tsd-signature-type">b2Vec2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Point on the body measured relative to the body&#39;s origin.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2Vec2</span></h4>
+							<p>localPoint expressed in world coordinates.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getworldvector" class="tsd-anchor"></a>
+					<h3>Get<wbr>World<wbr>Vector</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>World<wbr>Vector<span class="tsd-signature-symbol">(</span>localVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.GetWorldVector</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2763">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2763</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the world coordinates of a vector given the local coordinates.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>localVector: <span class="tsd-signature-type">b2Vec2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Vector fixed in the body.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2Vec2</span></h4>
+							<p>localVector expressed in world coordinates.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="isactive" class="tsd-anchor"></a>
+					<h3>Is<wbr>Active</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Is<wbr>Active<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.IsActive</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2769">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2769</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the active state of the body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>True if the body is active, otherwise false.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="isawake" class="tsd-anchor"></a>
+					<h3>Is<wbr>Awake</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Is<wbr>Awake<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.IsAwake</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2775">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2775</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the sleeping state of this body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>True if the body is awake, otherwise false.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="isbullet" class="tsd-anchor"></a>
+					<h3>Is<wbr>Bullet</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Is<wbr>Bullet<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.IsBullet</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2781">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2781</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Is the body treated like a bullet for continuous collision detection?</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>True if the body is treated like a bullet, otherwise false.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="isfixedrotation" class="tsd-anchor"></a>
+					<h3>Is<wbr>Fixed<wbr>Rotation</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Is<wbr>Fixed<wbr>Rotation<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.IsFixedRotation</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2787">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2787</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Does this body have fixed rotation?</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>True for fixed, otherwise false.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="issleepingallowed" class="tsd-anchor"></a>
+					<h3>Is<wbr>Sleeping<wbr>Allowed</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Is<wbr>Sleeping<wbr>Allowed<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.IsSleepingAllowed</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2793">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2793</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Is this body allowed to sleep?</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>True if the body can sleep, otherwise false.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="merge" class="tsd-anchor"></a>
+					<h3>Merge</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Merge<span class="tsd-signature-symbol">(</span>other<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Body</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.Merge</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2799">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2799</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Merges another body into this. Only fixtures, mass and velocity are effected, Other properties are ignored.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>note</dt>
+									<dd><p>This provides a feature specific to this port.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>other: <span class="tsd-signature-type">b2Body</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="resetmassdata" class="tsd-anchor"></a>
+					<h3>Reset<wbr>Mass<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Reset<wbr>Mass<wbr>Data<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.ResetMassData</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2804">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2804</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This resets the mass properties to the sum of the mass properties of the fixtures. This normally does not need to be called unless you called SetMassData to override the mass and later you want to reset the mass.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="setactive" class="tsd-anchor"></a>
+					<h3>Set<wbr>Active</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Set<wbr>Active<span class="tsd-signature-symbol">(</span>flag<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.SetActive</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2810">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2810</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the active state of the body. An inactive body is not simulated and cannot be collided with or woken up. If you pass a flag of true, all fixtures will be added to the broad-phase. If you pass a flag of false, all fixtures will be removed from the broad-phase and all contacts will be destroyed. Fixtures and joints are otherwise unaffected. You may continue to create/destroy fixtures and joints on inactive bodies. Fixtures on an inactive body are implicitly inactive and will not participate in collisions, ray-casts, or queries. Joints connected to an inactive body are implicitly inactive. An inactive body is still owned by a b2World object and remains in the body list.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>flag: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>True to activate, false to deactivate.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="setangle" class="tsd-anchor"></a>
+					<h3>Set<wbr>Angle</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Set<wbr>Angle<span class="tsd-signature-symbol">(</span>angle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.SetAngle</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2816">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2816</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the world body angle</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>angle: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>New angle of the body.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="setangulardamping" class="tsd-anchor"></a>
+					<h3>Set<wbr>Angular<wbr>Damping</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Set<wbr>Angular<wbr>Damping<span class="tsd-signature-symbol">(</span>angularDamping<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.SetAngularDamping</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2822">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2822</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the angular damping of the body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>angularDamping: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>New angular damping value.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="setangularvelocity" class="tsd-anchor"></a>
+					<h3>Set<wbr>Angular<wbr>Velocity</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Set<wbr>Angular<wbr>Velocity<span class="tsd-signature-symbol">(</span>omega<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.SetAngularVelocity</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2828">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2828</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the angular velocity.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>omega: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>New angular velocity in radians/second.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="setawake" class="tsd-anchor"></a>
+					<h3>Set<wbr>Awake</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Set<wbr>Awake<span class="tsd-signature-symbol">(</span>flag<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.SetAwake</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2834">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2834</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the sleep state of the body. A sleeping body has vety low CPU cost.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>flag: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>True to set the body to awake, false to put it to sleep.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="setbullet" class="tsd-anchor"></a>
+					<h3>Set<wbr>Bullet</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Set<wbr>Bullet<span class="tsd-signature-symbol">(</span>flag<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.SetBullet</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2840">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2840</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Should this body be treated like a bullet for continuous collision detection?</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>flag: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>True for bullet, false for normal.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="setfixedrotation" class="tsd-anchor"></a>
+					<h3>Set<wbr>Fixed<wbr>Rotation</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Set<wbr>Fixed<wbr>Rotation<span class="tsd-signature-symbol">(</span>fixed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.SetFixedRotation</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2846">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2846</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set this body to have fixed rotation. This causes the mass to be reset.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fixed: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>True for no rotation, false to allow for rotation.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="setlineardamping" class="tsd-anchor"></a>
+					<h3>Set<wbr>Linear<wbr>Damping</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Set<wbr>Linear<wbr>Damping<span class="tsd-signature-symbol">(</span>linearDamping<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.SetLinearDamping</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2852">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2852</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the linear damping of the body.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>linearDamping: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The new linear damping for this body.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="setlinearvelocity" class="tsd-anchor"></a>
+					<h3>Set<wbr>Linear<wbr>Velocity</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Set<wbr>Linear<wbr>Velocity<span class="tsd-signature-symbol">(</span>v<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.SetLinearVelocity</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2858">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2858</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the linear velocity of the center of mass.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>v: <span class="tsd-signature-type">b2Vec2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>New linear velocity of the center of mass.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="setmassdata" class="tsd-anchor"></a>
+					<h3>Set<wbr>Mass<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Set<wbr>Mass<wbr>Data<span class="tsd-signature-symbol">(</span>massData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2MassData</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.SetMassData</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2865">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2865</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the mass properties to override the mass properties of the fixtures Note that this changes the center of mass position. Note that creating or destroying fixtures can also alter the mass. This function has no effect if the body isn&#39;t dynamic.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>warning</dt>
+									<dd><p>The supplied rotational inertia should be relative to the center of mass.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>massData: <span class="tsd-signature-type">b2MassData</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>New mass data properties.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="setposition" class="tsd-anchor"></a>
+					<h3>Set<wbr>Position</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Set<wbr>Position<span class="tsd-signature-symbol">(</span>position<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.SetPosition</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2871">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2871</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the world body origin position.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>position: <span class="tsd-signature-type">b2Vec2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>New world body origin position.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="setpositionandangle" class="tsd-anchor"></a>
+					<h3>Set<wbr>Position<wbr>And<wbr>Angle</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Set<wbr>Position<wbr>And<wbr>Angle<span class="tsd-signature-symbol">(</span>position<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Vec2</span>, angle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.SetPositionAndAngle</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2878">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2878</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the position of the body&#39;s origin and rotation (radians). This breaks any contacts and wakes the other bodies.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>position: <span class="tsd-signature-type">b2Vec2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>New world body origin position.</p>
+									</div>
+								</li>
+								<li>
+									<h5>angle: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>New world rotation angle of the body in radians.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="setsleepingallowed" class="tsd-anchor"></a>
+					<h3>Set<wbr>Sleeping<wbr>Allowed</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Set<wbr>Sleeping<wbr>Allowed<span class="tsd-signature-symbol">(</span>flag<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.SetSleepingAllowed</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2884">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2884</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Is this body allowed to sleep</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>flag: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>True if the body can sleep, false if not.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="settransform" class="tsd-anchor"></a>
+					<h3>Set<wbr>Transform</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Set<wbr>Transform<span class="tsd-signature-symbol">(</span>xf<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Transform</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.SetTransform</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2890">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2890</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the position of the body&#39;s origin and rotation (radians). This breaks any contacts and wakes the other bodies. Note this is less efficient than the other overload - you should use that if the angle is available.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>xf: <span class="tsd-signature-type">b2Transform</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Body&#39;s origin and rotation (radians).</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="settype" class="tsd-anchor"></a>
+					<h3>Set<wbr>Type</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Set<wbr>Type<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.SetType</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2896">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2896</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the type of this body. This may alter the mass and velocity</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>type: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Type enum.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="setuserdata" class="tsd-anchor"></a>
+					<h3>Set<wbr>User<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Set<wbr>User<wbr>Data<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.SetUserData</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2902">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2902</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the user data. Use this to store your application specific data.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>data: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The user data for this body.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="split" class="tsd-anchor"></a>
+					<h3>Split</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Split<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Body</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from b2Body.Split</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/megmut/lightning-js/blob/4948635/libs/box2d/index.d.ts#L2910">C:/Users/admin/Documents/sprite-storm/lightning-js/libs/box2d/index.d.ts:2910</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Splits a body into two, preserving dynamic properties</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>note</dt>
+									<dd><p>This provides a feature specific to this port.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>callback: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>fixture<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">b2Fixture</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>fixture: <span class="tsd-signature-type">b2Fixture</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">b2Body</span></h4>
+							<p>The newly created bodies from the split.</p>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

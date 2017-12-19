@@ -37,7 +37,7 @@ namespace Lightning {
         public startPhysics() {
             this._physicsWorld = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 4),  true);
             this.collideOnWorldBounds();
-            this.setupDebugDraw();
+            // this.setupDebugDraw();
             this._active = true;
         }
 
