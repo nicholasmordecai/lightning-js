@@ -18,13 +18,10 @@ namespace Lightning {
             this._sounds = {};
         }
 
-        public load(key:string, src:Array<string>):Howl {
+        public load(key:string, src):Howl {
 
-            var sound = new Howl({
-                src: ['assets/audio/play.mp3'],
-                onload: function() {
-                    console.log('foo')
-                }
+            let sound = new Howl({
+                src: src
             });
 
             this._sounds[key] = sound;
