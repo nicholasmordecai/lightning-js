@@ -58,6 +58,7 @@ namespace Lightning {
          * @example
          * ~~~
          * // inside of a scene
+         * 
          * this.loader.add("dude", "assets/dude_1.png");
          * 
          * // load an audio file (automaically gets added to this.game.audio)
@@ -68,21 +69,21 @@ namespace Lightning {
          * 
          * ~~~
          */
-        public addResource(name: string, url: string | string[], options?: iLoaderOptions): void {
+        public addResource(name: string, url: string[], options?: iLoaderOptions): void {
             if(url instanceof Array) {
                 if(this.game) {
                     this.addAudio(name, url);
                 }
             } else {
-                let ext = url.substring(url.lastIndexOf("."));
-                if(ext === '.mp3' || ext === 'mp4' || ext === 'ogg' || ext === 'wav') {
-                    if(this.game) {
-                        this.addAudio(name, url);
-                    }
-                } else {
+                // let ext = url.substring(url.lastIndexOf("."));
+                // if(ext === '.mp3' || ext === 'mp4' || ext === 'ogg' || ext === 'wav') {
+                //     if(this.game) {
+                //         this.addAudio(name, url);
+                //     }
+                // } else {
                     this._loaderItems ++;
                     this.addToLoader(name, url, options);
-                }
+                // }
             }
         }
 
@@ -105,10 +106,9 @@ namespace Lightning {
 
         private addAudio(name, url) {
             this._loaderItems++;
-            var sound = this.game.audio.load(name, [url]);
+            var sound = this.game.audio.load(name, url);
 
             sound.once("load", () => {
-                console.log('here')
                 this.audioLoaded(sound)
             });
         }
@@ -168,26 +168,26 @@ namespace Lightning {
         }
 
         private audioLoaded(sound) {
-            console.log('audioLoaded');
+            // console.log('audioLoaded');
             this._itemsLoaded++;
             this.checkLoadingStatus();
         }
 
         private preloadSingle(loader:PIXI.loaders.Loader, resource) {
-            console.log('preloadSingle', resource);
+            // console.log('preloadSingle', resource);
             this._itemsLoaded++;
             this.checkLoadingStatus(resource);            
         }
 
         private preloadComplete(loader, resources) {
-            console.log('assets complete');
+            // console.log('assets complete');
             this.events.emit("assetsComplete", this);
         }
 
         private checkLoadingStatus(resources?) {
             console.log(this._loaderItems, this._itemsLoaded, this._loaderItems === this._itemsLoaded);
             if(this._loaderItems === this._itemsLoaded) {
-                console.log('everything complete')
+                // console.log('everything complete')
                 this.events.emit("complete", this);
             }
         }
