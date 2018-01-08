@@ -7,6 +7,6 @@ namespace Lightning {
         active:boolean;
         fps:number;
         constructed:boolean;
-        scene:Lightning.Scene;
+        scene:Scene;
     }
 }

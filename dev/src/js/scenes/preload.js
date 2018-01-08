@@ -10,7 +10,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var PreloadState = /** @class */ (function (_super) {
+var PreloadState = (function (_super) {
     __extends(PreloadState, _super);
     function PreloadState() {
         return _super !== null && _super.apply(this, arguments) || this;

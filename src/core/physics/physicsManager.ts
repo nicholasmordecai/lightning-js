@@ -8,16 +8,17 @@ namespace Lightning {
         private _physicsWorld:Box2D.Dynamics.b2World;
         private _physicsWorldBounds:Box2D.Dynamics.b2BodyDef;
 
-        private scaleFactor:number = 100;
+        private _scaleFactor:number;
 
         constructor(game:Engine) {
             this.game = game;
             this._active = false;
+            this._scaleFactor = 100;
         }
 
         public update() {
             if(this._active) {
-                this._physicsWorld.Step(1 / 60  , 10 , 10 );
+                this._physicsWorld.Step(1 / 60, 10, 10);
                 this._physicsWorld.DrawDebugData();
                 this._physicsWorld.ClearForces();
 
@@ -26,8 +27,8 @@ namespace Lightning {
                     let current = next; 
                     next = next.GetNext();
                     if(current['sprite']) {
-                        current['sprite'].x = current.GetPosition().x * 100;
-                        current['sprite'].y = current.GetPosition().y * 100;
+                        current['sprite'].x = current.GetPosition().x * this._scaleFactor;
+                        current['sprite'].y = current.GetPosition().y * this._scaleFactor;
                         current['sprite'].rotation = current.GetAngle();
                     }
                 }
@@ -59,18 +60,19 @@ namespace Lightning {
         public createBody(displayObject, shape: "square" | "circle" | "polygon" = "square", vertices: Array<number> = []) {
             let bodyDef = new Box2D.Dynamics.b2BodyDef;
             bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
-            bodyDef.position.Set(displayObject.x / 100, displayObject.y / 100);
+            bodyDef.position.Set(displayObject.x / this._scaleFactor, displayObject.y / this._scaleFactor);
             bodyDef.angle = 0;
 
             let fixtureDef = new Box2D.Dynamics.b2FixtureDef();
             fixtureDef.density = 1;
             fixtureDef.friction = 0.9;
             fixtureDef.restitution = 0.7;
+
             if(shape === "square") {
                 fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape();
-                fixtureDef.shape.SetAsBox((displayObject.width / 2) / 100, (displayObject.height / 2) / 100);
+                fixtureDef.shape.SetAsBox((displayObject.width / 2) / this._scaleFactor, (displayObject.height / 2) / this._scaleFactor);
             } else if (shape === "circle") {
-                fixtureDef.shape = new Box2D.Collision.Shapes.b2CircleShape((displayObject.width / 2) / 100);            
+                fixtureDef.shape = new Box2D.Collision.Shapes.b2CircleShape((displayObject.width / 2) / this._scaleFactor);            
             } else if (shape === "polygon") {
                 let len = vertices.length;
 
@@ -105,18 +107,20 @@ namespace Lightning {
             body['sprite'] = displayObject;
             body.CreateFixture(fixtureDef);
 
+            displayObject.body = body;
+
             return body;
         }
 
         public createLine(x: number, y: number, p1x: number, p1y: number, p2x: number, p2y: number) {
             var bodyDef = new Box2D.Dynamics.b2BodyDef;
             bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody;
-            bodyDef.position.SetV(new Box2D.Common.Math.b2Vec2(x / 100, y / 100));
+            bodyDef.position.SetV(new Box2D.Common.Math.b2Vec2(x / this._scaleFactor, y / this._scaleFactor));
             
             let fixtureDef:any = new Box2D.Dynamics.b2FixtureDef();
             fixtureDef.density = 1;
             fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape();
-            fixtureDef.shape.SetAsEdge(new Box2D.Common.Math.b2Vec2(p1x / 100, p1y / 100), new Box2D.Common.Math.b2Vec2(p2x / 100, p2y / 100));
+            fixtureDef.shape.SetAsEdge(new Box2D.Common.Math.b2Vec2(p1x / this._scaleFactor, p1y / this._scaleFactor), new Box2D.Common.Math.b2Vec2(p2x / this._scaleFactor, p2y / this._scaleFactor));
             
             let body = this._physicsWorld.CreateBody(bodyDef);
             body.CreateFixture(fixtureDef);
@@ -137,16 +141,16 @@ namespace Lightning {
             this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
         
             // down
-            this._physicsWorldBounds.position.Set(0, this.game.height / 100);
+            this._physicsWorldBounds.position.Set(0, this.game.height / this._scaleFactor);
             this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
             
             // left
-            polyFixture.shape.SetAsBox(0.01, this.game.height / 100);
+            polyFixture.shape.SetAsBox(0.01, this.game.height / this._scaleFactor);
             this._physicsWorldBounds.position.Set(0, 0);
             this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
             
             // right
-            this._physicsWorldBounds.position.Set(this.game.width / 100, this.game.height / 100);
+            this._physicsWorldBounds.position.Set(this.game.width / this._scaleFactor, this.game.height / this._scaleFactor);
             this.physics.CreateBody(this._physicsWorldBounds).CreateFixture(polyFixture);
             this._physicsWorldBounds.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
 

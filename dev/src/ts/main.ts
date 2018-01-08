@@ -24,11 +24,12 @@ export default class Game {
     }
 }
 
-// let width = Math.round(document.getElementById("app-container").offsetWidth);
-// let height = Math.round(width * 0.7);
+let width = Math.round(document.getElementById("app-container").offsetWidth);
+let height = Math.round(width * 0.7);
 // new Game(width, height);
 window.onload = () => {
-    new Game(450, 667);
+    // new Game(450, 667);
+    new Game(width, height);    
 }
 
 // enable the following for cordova!!

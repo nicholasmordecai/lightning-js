@@ -128,17 +128,17 @@ namespace Lightning {
                 this._renderer = PIXI.autoDetectRenderer(width, height, options.rendererOptions);
             }
 
-            let debugCanvas = document.createElement("canvas");
-            debugCanvas.id = 'box2d-debug';
-            debugCanvas.style.position = "absolute";
-            debugCanvas.style.top = "0";
-            debugCanvas.style.left = "0";
-            debugCanvas.width = 600;
-            debugCanvas.height = 400;
+            // let debugCanvas = document.createElement("canvas");
+            // debugCanvas.id = 'box2d-debug';
+            // debugCanvas.style.position = "absolute";
+            // debugCanvas.style.top = "0";
+            // debugCanvas.style.left = "0";
+            // debugCanvas.width = 600;
+            // debugCanvas.height = 400;
 
             this._renderer.view.id = 'lightning-canvas';
             wrapper.appendChild(this._renderer.view);
-            wrapper.appendChild(debugCanvas);
+            // wrapper.appendChild(debugCanvas);
             
             // call the scale manager resize throttler once to set the initial scale
             // this._scaleManager.resizeThrottler(true);

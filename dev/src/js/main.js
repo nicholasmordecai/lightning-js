@@ -5,7 +5,7 @@ var boot_1 = require("./scenes/boot");
 var preload_1 = require("./scenes/preload");
 var menu_1 = require("./scenes/menu");
 var game_1 = require("./scenes/game");
-var Game = /** @class */ (function () {
+var Game = (function () {
     function Game(width, height) {
         this.game = new Lightning.Engine(width, height, {
             divID: "app-container",
@@ -22,11 +22,12 @@ var Game = /** @class */ (function () {
     return Game;
 }());
 exports.default = Game;
-// let width = Math.round(document.getElementById("app-container").offsetWidth);
-// let height = Math.round(width * 0.7);
+var width = Math.round(document.getElementById("app-container").offsetWidth);
+var height = Math.round(width * 0.7);
 // new Game(width, height);
 window.onload = function () {
-    new Game(450, 667);
+    // new Game(450, 667);
+    new Game(width, height);
 };
 // enable the following for cordova!!
 // var app = {

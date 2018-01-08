@@ -34,6 +34,7 @@ namespace Lightning {
         protected _interval:number = 100;
         protected _lastStart:number = null;
         protected _time:number = null;
+        protected _maxParticles: number;
         protected _textures:Array<PIXI.Texture> = [];
 
         protected _respectPosition:boolean;
@@ -71,6 +72,7 @@ namespace Lightning {
             this.gravityWells = [];
             this.obstacles = [];
             this.game.ticker.add(this.tick, this);
+            this._maxParticles = 0;
         }
 
         private tick(time:number):void {
@@ -173,6 +175,11 @@ namespace Lightning {
         }
 
         public createParticle():void {
+            if(this._particles.length < this._maxParticles) {
+                // there is already a maximum amount of particles
+                return;
+            }
+
             // get the texture from the textures array
             let texture:PIXI.Texture = this._textures[Math.floor(Math.random() * this._textures.length)];
 
@@ -477,6 +484,14 @@ namespace Lightning {
 
         public set addToLocal(val:boolean) {
             this._addToLocal = val;
+        }
+
+        public set maxParticles(val: number) {
+            this._maxParticles = val;
+        }
+
+        public get maxParticles():number {
+            return this._maxParticles;
         }
     }
 }

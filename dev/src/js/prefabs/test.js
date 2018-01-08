@@ -10,7 +10,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Test = /** @class */ (function (_super) {
+var Test = (function (_super) {
     __extends(Test, _super);
     function Test(scene, texture) {
         var _this = _super.call(this, texture) || this;

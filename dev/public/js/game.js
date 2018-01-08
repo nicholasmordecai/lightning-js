@@ -7,7 +7,7 @@ var boot_1 = require("./scenes/boot");
 var preload_1 = require("./scenes/preload");
 var menu_1 = require("./scenes/menu");
 var game_1 = require("./scenes/game");
-var Game = /** @class */ (function () {
+var Game = (function () {
     function Game(width, height) {
         this.game = new Lightning.Engine(width, height, {
             divID: "app-container",
@@ -24,11 +24,12 @@ var Game = /** @class */ (function () {
     return Game;
 }());
 exports.default = Game;
-// let width = Math.round(document.getElementById("app-container").offsetWidth);
-// let height = Math.round(width * 0.7);
+var width = Math.round(document.getElementById("app-container").offsetWidth);
+var height = Math.round(width * 0.7);
 // new Game(width, height);
 window.onload = function () {
-    new Game(450, 667);
+    // new Game(450, 667);
+    new Game(width, height);
 };
 // enable the following for cordova!!
 // var app = {
@@ -50,8 +51,8 @@ window.onload = function () {
 // };
 // app.initialize(); 
 
-}).call(this,require("htZkx4"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_6b017802.js","/")
-},{"./scenes/boot":2,"./scenes/game":3,"./scenes/menu":4,"./scenes/preload":5,"buffer":6,"htZkx4":9}],2:[function(require,module,exports){
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_8d52b247.js","/")
+},{"./scenes/boot":2,"./scenes/game":3,"./scenes/menu":4,"./scenes/preload":5,"buffer":7,"fsovz6":8}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
@@ -65,27 +66,25 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var BootState = /** @class */ (function (_super) {
+var BootState = (function (_super) {
     __extends(BootState, _super);
     function BootState() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     BootState.prototype.init = function (params) {
-        console.log('init boot');
         this.game.backgroundColor = 0x092140;
         this.game.scale.scaleAll();
         this.create();
     };
     BootState.prototype.create = function () {
-        // this.game.scale.scaleAll();
         this.game.scenes.start('preload');
     };
     return BootState;
 }(Lightning.Scene));
 exports.default = BootState;
 
-}).call(this,require("htZkx4"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/scenes\\boot.js","/scenes")
-},{"buffer":6,"htZkx4":9}],3:[function(require,module,exports){
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/scenes/boot.js","/scenes")
+},{"buffer":7,"fsovz6":8}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
@@ -99,7 +98,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var GameState = /** @class */ (function (_super) {
+var GameState = (function (_super) {
     __extends(GameState, _super);
     function GameState() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -110,267 +109,327 @@ var GameState = /** @class */ (function (_super) {
         this.create();
     };
     GameState.prototype.create = function () {
-        // this.game.physics.startPhysics();
-        // for(var i = 0; i < 50; i++) {
-        //     let texture = Lightning.Geometry.Square(5, 5).generateTexture();
-        //     let sprite = new Lightning.Sprite(texture);
-        //     sprite.x = Lightning.Maths.rngInt(10, this.game.width - 10);
-        //     sprite.y = Lightning.Maths.rngInt(10, this.game.height - 10);
-        //     sprite.setAnchor(0.5);
-        //     this.game.physics.createBody(sprite);
-        //     this.add(sprite);
-        // }
-        // this.game.physics.createLine(100, 100, 0, 0, 100, 100);
-        // this.game.physics.createLine(300, 200, 0, 0, 100, -100);
-        // this.game.physics.createLine(100, 400, 0, 0, 100, 100);
-        // this.game.physics.createLine(300, 400, 0, 0, 100, -100);
-        // let sprite = new Lightning.Sprite(Lightning.Geometry.Square(50).generateTexture());
-        // sprite.x = this.game.center.x;
-        // sprite.y = this.game.center.y;
-        // sprite.setAnchor(0.5)
-        // let sprite2 = new Lightning.Sprite(Lightning.Geometry.Square(50).generateTexture());
-        // sprite2.x = this.game.center.x + 10;
-        // sprite2.y = this.game.center.y + 10;
-        // sprite2.enableDrag(true);
-        // sprite2.setAnchor(0.5)
-        // this.add(sprite, sprite2)
-        // let tween = this.game.tweens.create(sprite);
-        // tween.importAnim('x', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]);
-        // tween.start();
-        this.particleEmitter = new Lightning.ParticleEmitter(this, 0, 0);
-        this.add(this.particleEmitter);
-        // generate a texture for the particle emitter
-        // let texture:Lightning.Texture = Lightning.Geometry.Circle(4, 0xFC4349).generateTexture();
-        // let texture2:Lightning.Texture = Lightning.Geometry.Triangle(8, 8, 0xD7DADB).generateTexture();
-        // let texture2:Lightning.Texture = Lightning.Geometry.Circle(0.5, 0x6DBCDB).generateTexture();
-        var texture1 = Lightning.Geometry.Rect(2, 2, 0xFC4349, 0.5).generateTexture();
-        var texture2 = Lightning.Geometry.Rect(2, 2, 0x6DBCDB, 1).generateTexture();
-        var texture3 = Lightning.Geometry.Rect(5, 2, 0xFFFFFF, 1).generateTexture();
-        // add that texture to the particle emitter
-        this.particleEmitter.add(texture1, texture3, texture2);
-        // this.particleEmitter.enableDebug();
-        this.particleEmitter.y = this.game.height * 0.85;
-        this.particleEmitter.addToLocal = false;
-        this.particleEmitter.setGravity(0, 0);
-        this.particleEmitter.setVelocityRange(-0.3, 0.3, -0.3, 0.3);
-        this.particleEmitter.setScaleRange(0.4, 1.5, 0.4, 1.5);
-        this.particleEmitter.setAlphaRange(0.3, 0.3, 0.8, 0.8);
-        this.particleEmitter.setAlphaIncrement(-0.008);
-        this.particleEmitter.setInterval(5);
-        this.particleEmitter.setRotationIncrement(-0.1, 0.1);
-        // this.particleEmitter.setSpread(0, this.game.width, 0, this.game.height);
-        this.particleEmitter.setStrength(1);
-        this.particleEmitter.preFillPool(200);
-        this.particleEmitter.start();
-        var data = Lightning.Maths.pointsOfCircle(this.game.center.x, this.game.center.y, 50, 50);
-        var tween = this.game.tweens.create(this.particleEmitter);
-        tween.importAnim('x', data.x);
-        tween.importAnim('y', data.y);
-        // let tween2 = this.game.tweens.create(this.particleEmitter);
-        // tween2.createAnim(this.game.width, 0, 4000, 'x', Lightning.Easing.linear);
-        // tween.chain(tween2);
-        // tween2.chain(tween);
-        tween.loop(-1);
-        tween.start();
-        // let gfx2 = Lightning.Geometry.Square(10);
-        // gfx2.x = 580;
-        // gfx2.y = 10;
-        // let gfx3 = Lightning.Geometry.Square(10);
-        // gfx3.x = 580;
-        // gfx3.y = 380;
-        // let gfx4 = Lightning.Geometry.Square(10);
-        // gfx4.x = 10;
-        // gfx4.y = 380;
-        // let sq1 = Lightning.Geometry.Square(25);
-        // this.s1 = new Lightning.Sprite(sq1.generateTexture());
-        // this.s1.setAnchor(0.5);
-        // this.s1.x = this.game.center.x;
-        // this.s1.y = this.game.center.y;
-        // this.s2 = new Lightning.Sprite(sq1.generateTexture());
-        // this.s2.setAnchor(0.5);
-        // this.s2.rotation = Lightning.Maths.degreesToRadians(45);
-        // this.s2.x = this.game.center.x;
-        // this.s2.y = this.game.center.y;
-        // this.add(gfx1, gfx2, gfx3, gfx4, this.s1, this.s2);
-        // setTimeout(() => {
-        //     this.game.physics.lite.reset();
-        //     this.game.scene.start('menu');
-        // }, 5000);
-        // this.game.backgroundColour = 0xe5e5e5;
-        // let bigGuy = new Lightning.Sprite();
-        // bigGuy.texture = Lightning.Geometry.Rect(50, 50, 0xff22aa, 1, true);
-        // bigGuy.x = this.game.width / 2;
-        // bigGuy.y = this.game.height / 2;
-        // this.add(bigGuy);
-        // bigGuy.enablePhysicsBody();
-        // bigGuy.body.enableDebug();
-        // bigGuy.body.static = true;
-        // let cEvent = this.game.physics.lite.createCollisionEvent('t', bigGuy.body, pool.bodies);
-        // cEvent.onCollide(this.onCollide, this);
-        /**
-        1.  * creating basic tween
-         */
-        // let tween = this.game.tweens.create(sprite);
-        // tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
-        // console.log(tween);
-        // tween.start();
-        // sprite.enableInput();
-        // sprite.input.onClick(() => {
-        //     this.game.goFullScreen();
-        // });
-        /**
-        11.  * setting FPS
-         */
-        // let tween = this.game.tweens.create(null, sprite);
-        // tween.setFps(5);
-        // tween.createAnim(sprite.y, 100, 300, 'y', Lightning.Easing.BackInOut);
-        // console.log(tween);
-        // tween.start();
-        /**
-        1.  * creating basic tween by importing frame data
-         */
-        // let tween = this.game.tweens.create(null, sprite);
-        // tween.importAnim('x', [0, 5, 10, 20, 25, 30, 50, 60, 80, 100, 110, 100, 90, 80, 70, 60, 50, 40,30,20,10,9,8,7,6,5,4,3,2,1,0]);
-        // console.log(tween);
-        // tween.start();
-        /**
-        2.  * Create multiple anim tween
-         */
-        // let tween:Lightning.Tween = this.game.tweens.create(null, sprite);
-        // tween.createAnim(sprite.y, 100, 500, 'y', Lightning.Easing.ExpoInOut);
-        // tween.createAnim(sprite.x, 100, 500, 'x', Lightning.Easing.ExpoInOut);
-        // tween.start();
-        /**
-        3.  * Chaining Tweens
-         */
-        // let tween:Lightning.Tween = this.game.tweens.create(null, sprite);
-        // tween.createAnim(sprite.y, 100, 500, 'y', Lightning.Easing.ExpoInOut);
-        // let tween2:Lightning.Tween = this.game.tweens.create(null, sprite);
-        // tween2.createAnim(sprite.x, 100, 500, 'x', Lightning.Easing.ExpoInOut);
-        // tween.chain(tween2);
-        // tween.start();
-        /**
-        4.  * Chaining Multiple Tweens
-         */
-        //  let low:number = this.game.height / 2 - 150;
-        //  let high:number = this.game.height / 2;
-        //  let tween:Lightning.Tween = this.game.tweens.create(null, sprite);
-        //  tween.createAnim(high, low, 500, 'y', Lightning.Easing.ExpoInOut);
-        //  let tween2:Lightning.Tween = this.game.tweens.create(null, sprite);
-        //  tween2.createAnim(low, high, 500, 'y', Lightning.Easing.ExpoInOut);
-        //  tween.chain(tween2);
-        //  tween2.chain(tween);
-        //  tween.start();
-        /**
-        5.  * Looping Tweens
-         */
-        // let tween:Lightning.Tween = this.game.tweens.create(null, sprite);
-        // tween.createAnim(sprite.y, 100, 500, 'y', Lightning.Easing.ExpoInOut);
-        // tween.loops = 5;
-        // tween.start();
-        /**
-        6.  * Infinite Looping Tweens
-         */
-        // let tween:Lightning.Tween = this.game.tweens.create(null, sprite);
-        // tween.createAnim(sprite.y, 100, 500, 'y', Lightning.Easing.ExpoInOut);
-        // tween.loops = -1;
-        // tween.start();
-        /**
-        7. * Tween Events
-         */
-        // let tween:Lightning.Tween = this.game.tweens.create(null, sprite);
-        // tween.createAnim(sprite.y, 100, 500, 'y', Lightning.Easing.ExpoInOut);
-        // tween.subscribe('start', () => {
-        //     console.log('tween started');
-        // });
-        // tween.subscribe('complete', () => {
-        //     console.log('tween completed');
-        // });
-        // tween.start();
-        /**
-         * Full list of events:
-         * start
-         * pause
-         * tick
-         * loop
-         * complete
-         * reset
-         * destroy
-         */
-        /**
-        8.  * Pause a tween
-         */
-        // let tween:Lightning.Tween = this.game.tweens.create(null, sprite);
-        // tween.createAnim(sprite.y, 100, 500, 'y', Lightning.Easing.ExpoInOut);
-        // tween.loops = -1;
-        // tween.start();
-        // setTimeout(() => {
-        //     tween.pause(true);
-        // }, 1000);
-        // setTimeout(() => {
-        //     tween.pause(false);
-        // }, 2000);
-        /**
-         9. * Move To
-         */
-        // let tween:Lightning.Tween = this.game.tweens.create(null, sprite);
-        // tween.createAnim(sprite.y, 100, 500, 'y', Lightning.Easing.ExpoInOut);
-        // tween.moveTo(Math.floor(tween.length / 2));
-        // tween.start();
-        /**
-        10. * Event Emitters
-         */
-        // // Create a new event emitter
-        // let events = new Lightning.EventEmitter();
-        // // Create a new event
-        // events.create('bang');
-        // // Subscribe to the event
-        // events.subscribe('bang', (params) => {
-        //     console.log('boom')
-        // });
-        // // Subscribe once to the event. This function callback will be removed once it has been triggered
-        // events.subscribeOnce('bang', (params) => {
-        //     console.log('boom once');
-        // });
-        // // emit the event
-        // events.emit('bang');
-        // events.emit('bang', 'some', 'params', 'to', 'pass');
-        /**
-        11.  * Game Storage
-         */
-        //     // set a new item
-        //     this.game.storage.setItem('test', 12345);
-        //     // retrieve an item
-        //    let value = this.game.storage.getItem('test');
-        //    // Remove an item
-        //    this.game.storage.removeItem('test');
-        //    // Remove all items
-        //    this.game.storage.removeAll();
-        //    // Force no use of local storage
-        //    this.game.storage.forceNoLocalStorage = true;
-        //    /**
-        //   12.   * Custom Local Storage
-        //     * 
-        //     * If you want to have multiple storage objects, you can instantiate your own
-        //     */
-        //     let customStorage = new Lightning.StorageManager();
-        //     /**
-        //      * you can pass true / false to set the force no local storage
-        //      * it defaults to false
-        //      * then you can use this as you would the game storage
-        //      */
-        //     customStorage.setItem('test', 67890);
-        //     customStorage.getItem('test');
-        // ... //
+        // generate data
+        var data = [1, 3, 5, 4, -3, 3, 17, 6, 1, 5, 3, 2];
+        var highest = this.highest(data);
+        var lowest = this.lowest(data);
+        var count = this.count(data);
+        // creat the base rectangle
+        var base = new Lightning.Sprite();
+        base.texture = Lightning.Geometry.Rect(300, 150).generateCanvasTexture();
+        base.x = this.game.center.x - 150;
+        base.y = this.game.center.y - 75;
+        this.add(base);
+        // calculate the variables
+        var padding = 0.95;
+        var width = base.width * padding;
+        var height = base.height * padding;
+        var dataHeight = Math.abs(highest) + Math.abs(lowest);
+        var ySpacing = dataHeight / height;
+        console.log(count);
+        // create each data point
+        var c = 0;
+        for (var _i = 0, data_1 = data; _i < data_1.length; _i++) {
+            var i = data_1[_i];
+            var dataPoint = new Lightning.Sprite(Lightning.Geometry.Circle(2).generateTexture());
+            dataPoint.tint = 0xff22aa;
+            // dataPoint.setAnchor(0.5);
+            dataPoint.x = (width / data.length) * c;
+            dataPoint.y = (i / 100) * height;
+            console.log(dataPoint.y);
+            base.add(dataPoint);
+            c++;
+        }
     };
+    GameState.prototype.highest = function (data) {
+        var highest = 0;
+        for (var _i = 0, data_2 = data; _i < data_2.length; _i++) {
+            var i = data_2[_i];
+            if (i > highest) {
+                highest = i;
+            }
+        }
+        return highest;
+    };
+    GameState.prototype.lowest = function (data) {
+        var lowest = 0;
+        for (var _i = 0, data_3 = data; _i < data_3.length; _i++) {
+            var i = data_3[_i];
+            if (i < lowest) {
+                lowest = i;
+            }
+        }
+        return lowest;
+    };
+    GameState.prototype.count = function (data) {
+        var count = 0;
+        for (var _i = 0, data_4 = data; _i < data_4.length; _i++) {
+            var i = data_4[_i];
+            count += parseInt(data);
+        }
+        return count;
+    };
+    // this.box2d.start();
+    // let texture = Lightning.Geometry.Square(5, 5).generateTexture();
+    // for(var i = 0; i < 1; i++) {
+    //     let sprite = new Lightning.Sprite(texture);
+    //     sprite.x = Lightning.Maths.rngInt(10, this.game.width - 10);
+    //     sprite.y = Lightning.Maths.rngInt(10, this.game.height - 10);
+    //     sprite.setAnchor(0.5);
+    //     this.game.physics.createBody(sprite);
+    //     this.add(sprite);
+    // }
+    // this.game.physics.createLine(100, 100, 0, 0, 100, 100);
+    // this.game.physics.createLine(300, 200, 0, 0, 100, -100);
+    // this.game.physics.createLine(100, 400, 0, 0, 100, 100);
+    // this.game.physics.createLine(300, 400, 0, 0, 100, -100);
+    // let sprite = new Lightning.Sprite(Lightning.Geometry.Square(50).generateTexture());
+    // sprite.x = this.game.center.x;
+    // sprite.y = this.game.center.y;
+    // sprite.setAnchor(0.5)
+    // let sprite2 = new Lightning.Sprite(Lightning.Geometry.Square(50).generateTexture());
+    // sprite2.x = this.game.center.x + 10;
+    // sprite2.y = this.game.center.y + 10;
+    // sprite2.enableDrag(true);
+    // sprite2.setAnchor(0.5)
+    // this.add(sprite, sprite2)
+    // let tween = this.game.tweens.create(sprite);
+    // tween.importAnim('x', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]);
+    // tween.start();
+    // this.particleEmitter = new Lightning.ParticleEmitter(this, 0, 0);
+    // this.add(this.particleEmitter);
+    // // generate a texture for the particle emitter
+    // // let texture:Lightning.Texture = Lightning.Geometry.Circle(4, 0xFC4349).generateTexture();
+    // // let texture2:Lightning.Texture = Lightning.Geometry.Triangle(8, 8, 0xD7DADB).generateTexture();
+    // // let texture2:Lightning.Texture = Lightning.Geometry.Circle(0.5, 0x6DBCDB).generateTexture();
+    // let texture1:Lightning.Texture = Lightning.Geometry.Rect(2, 2, 0xFC4349, 0.5).generateTexture();
+    // let texture2:Lightning.Texture = Lightning.Geometry.Rect(2, 2, 0x6DBCDB, 1).generateTexture();
+    // let texture3:Lightning.Texture = Lightning.Geometry.Rect(5, 2, 0xFFFFFF, 1).generateTexture();
+    // // add that texture to the particle emitter
+    // this.particleEmitter.add(texture1, texture3, texture2);
+    // // this.particleEmitter.enableDebug();
+    // this.particleEmitter.y = this.game.height * 0.85;
+    // this.particleEmitter.addToLocal = false;
+    // this.particleEmitter.setGravity(0, 0);
+    // this.particleEmitter.setVelocityRange(-0.3, 0.3, -0.3, 0.3);
+    // this.particleEmitter.setScaleRange(0.4, 1.5, 0.4, 1.5);
+    // this.particleEmitter.setAlphaRange(0.3, 0.3, 0.8, 0.8);
+    // this.particleEmitter.setAlphaIncrement(-0.008);
+    // this.particleEmitter.setInterval(5);
+    // this.particleEmitter.setRotationIncrement(-0.1, 0.1);
+    // // this.particleEmitter.setSpread(0, this.game.width, 0, this.game.height);
+    // this.particleEmitter.setStrength(1);
+    // this.particleEmitter.preFillPool(200);
+    // this.particleEmitter.start();
+    // let data = Lightning.Maths.pointsOfCircle(this.game.center.x, this.game.center.y, 50, 50);
+    // let tween = this.game.tweens.create(this.particleEmitter);
+    // tween.importAnim('x', data.x);
+    // tween.importAnim('y', data.y);
+    // let tween2 = this.game.tweens.create(this.particleEmitter);
+    // tween2.createAnim(this.game.width, 0, 4000, 'x', Lightning.Easing.linear);
+    // tween.chain(tween2);
+    // tween2.chain(tween);
+    // tween.loop(-1);
+    // tween.start();
+    // let gfx2 = Lightning.Geometry.Square(10);
+    // gfx2.x = 580;
+    // gfx2.y = 10;
+    // let gfx3 = Lightning.Geometry.Square(10);
+    // gfx3.x = 580;
+    // gfx3.y = 380;
+    // let gfx4 = Lightning.Geometry.Square(10);
+    // gfx4.x = 10;
+    // gfx4.y = 380;
+    // let sq1 = Lightning.Geometry.Square(25);
+    // this.s1 = new Lightning.Sprite(sq1.generateTexture());
+    // this.s1.setAnchor(0.5);
+    // this.s1.x = this.game.center.x;
+    // this.s1.y = this.game.center.y;
+    // this.s2 = new Lightning.Sprite(sq1.generateTexture());
+    // this.s2.setAnchor(0.5);
+    // this.s2.rotation = Lightning.Maths.degreesToRadians(45);
+    // this.s2.x = this.game.center.x;
+    // this.s2.y = this.game.center.y;
+    // this.add(gfx1, gfx2, gfx3, gfx4, this.s1, this.s2);
+    // setTimeout(() => {
+    //     this.game.physics.lite.reset();
+    //     this.game.scene.start('menu');
+    // }, 5000);
+    // this.game.backgroundColour = 0xe5e5e5;
+    // let bigGuy = new Lightning.Sprite();
+    // bigGuy.texture = Lightning.Geometry.Rect(50, 50, 0xff22aa, 1, true);
+    // bigGuy.x = this.game.width / 2;
+    // bigGuy.y = this.game.height / 2;
+    // this.add(bigGuy);
+    // bigGuy.enablePhysicsBody();
+    // bigGuy.body.enableDebug();
+    // bigGuy.body.static = true;
+    // let cEvent = this.game.physics.lite.createCollisionEvent('t', bigGuy.body, pool.bodies);
+    // cEvent.onCollide(this.onCollide, this);
+    /**
+    1.  * creating basic tween
+     */
+    // let tween = this.game.tweens.create(sprite);
+    // tween.createAnim(sprite.y, 100, 1500, 'y', Lightning.Easing.BackInOut);
+    // console.log(tween);
+    // tween.start();
+    // sprite.enableInput();
+    // sprite.input.onClick(() => {
+    //     this.game.goFullScreen();
+    // });
+    /**
+    11.  * setting FPS
+     */
+    // let tween = this.game.tweens.create(null, sprite);
+    // tween.setFps(5);
+    // tween.createAnim(sprite.y, 100, 300, 'y', Lightning.Easing.BackInOut);
+    // console.log(tween);
+    // tween.start();
+    /**
+    1.  * creating basic tween by importing frame data
+     */
+    // let tween = this.game.tweens.create(null, sprite);
+    // tween.importAnim('x', [0, 5, 10, 20, 25, 30, 50, 60, 80, 100, 110, 100, 90, 80, 70, 60, 50, 40,30,20,10,9,8,7,6,5,4,3,2,1,0]);
+    // console.log(tween);
+    // tween.start();
+    /**
+    2.  * Create multiple anim tween
+     */
+    // let tween:Lightning.Tween = this.game.tweens.create(null, sprite);
+    // tween.createAnim(sprite.y, 100, 500, 'y', Lightning.Easing.ExpoInOut);
+    // tween.createAnim(sprite.x, 100, 500, 'x', Lightning.Easing.ExpoInOut);
+    // tween.start();
+    /**
+    3.  * Chaining Tweens
+     */
+    // let tween:Lightning.Tween = this.game.tweens.create(null, sprite);
+    // tween.createAnim(sprite.y, 100, 500, 'y', Lightning.Easing.ExpoInOut);
+    // let tween2:Lightning.Tween = this.game.tweens.create(null, sprite);
+    // tween2.createAnim(sprite.x, 100, 500, 'x', Lightning.Easing.ExpoInOut);
+    // tween.chain(tween2);
+    // tween.start();
+    /**
+    4.  * Chaining Multiple Tweens
+     */
+    //  let low:number = this.game.height / 2 - 150;
+    //  let high:number = this.game.height / 2;
+    //  let tween:Lightning.Tween = this.game.tweens.create(null, sprite);
+    //  tween.createAnim(high, low, 500, 'y', Lightning.Easing.ExpoInOut);
+    //  let tween2:Lightning.Tween = this.game.tweens.create(null, sprite);
+    //  tween2.createAnim(low, high, 500, 'y', Lightning.Easing.ExpoInOut);
+    //  tween.chain(tween2);
+    //  tween2.chain(tween);
+    //  tween.start();
+    /**
+    5.  * Looping Tweens
+     */
+    // let tween:Lightning.Tween = this.game.tweens.create(null, sprite);
+    // tween.createAnim(sprite.y, 100, 500, 'y', Lightning.Easing.ExpoInOut);
+    // tween.loops = 5;
+    // tween.start();
+    /**
+    6.  * Infinite Looping Tweens
+     */
+    // let tween:Lightning.Tween = this.game.tweens.create(null, sprite);
+    // tween.createAnim(sprite.y, 100, 500, 'y', Lightning.Easing.ExpoInOut);
+    // tween.loops = -1;
+    // tween.start();
+    /**
+    7. * Tween Events
+     */
+    // let tween:Lightning.Tween = this.game.tweens.create(null, sprite);
+    // tween.createAnim(sprite.y, 100, 500, 'y', Lightning.Easing.ExpoInOut);
+    // tween.subscribe('start', () => {
+    //     console.log('tween started');
+    // });
+    // tween.subscribe('complete', () => {
+    //     console.log('tween completed');
+    // });
+    // tween.start();
+    /**
+     * Full list of events:
+     * start
+     * pause
+     * tick
+     * loop
+     * complete
+     * reset
+     * destroy
+     */
+    /**
+    8.  * Pause a tween
+     */
+    // let tween:Lightning.Tween = this.game.tweens.create(null, sprite);
+    // tween.createAnim(sprite.y, 100, 500, 'y', Lightning.Easing.ExpoInOut);
+    // tween.loops = -1;
+    // tween.start();
+    // setTimeout(() => {
+    //     tween.pause(true);
+    // }, 1000);
+    // setTimeout(() => {
+    //     tween.pause(false);
+    // }, 2000);
+    /**
+     9. * Move To
+     */
+    // let tween:Lightning.Tween = this.game.tweens.create(null, sprite);
+    // tween.createAnim(sprite.y, 100, 500, 'y', Lightning.Easing.ExpoInOut);
+    // tween.moveTo(Math.floor(tween.length / 2));
+    // tween.start();
+    /**
+    10. * Event Emitters
+     */
+    // // Create a new event emitter
+    // let events = new Lightning.EventEmitter();
+    // // Create a new event
+    // events.create('bang');
+    // // Subscribe to the event
+    // events.subscribe('bang', (params) => {
+    //     console.log('boom')
+    // });
+    // // Subscribe once to the event. This function callback will be removed once it has been triggered
+    // events.subscribeOnce('bang', (params) => {
+    //     console.log('boom once');
+    // });
+    // // emit the event
+    // events.emit('bang');
+    // events.emit('bang', 'some', 'params', 'to', 'pass');
+    /**
+    11.  * Game Storage
+     */
+    //     // set a new item
+    //     this.game.storage.setItem('test', 12345);
+    //     // retrieve an item
+    //    let value = this.game.storage.getItem('test');
+    //    // Remove an item
+    //    this.game.storage.removeItem('test');
+    //    // Remove all items
+    //    this.game.storage.removeAll();
+    //    // Force no use of local storage
+    //    this.game.storage.forceNoLocalStorage = true;
+    //    /**
+    //   12.   * Custom Local Storage
+    //     * 
+    //     * If you want to have multiple storage objects, you can instantiate your own
+    //     */
+    //     let customStorage = new Lightning.StorageManager();
+    //     /**
+    //      * you can pass true / false to set the force no local storage
+    //      * it defaults to false
+    //      * then you can use this as you would the game storage
+    //      */
+    //     customStorage.setItem('test', 67890);
+    //     customStorage.getItem('test');
+    // ... //
+    // }
     GameState.prototype.update = function (time) {
     };
     return GameState;
 }(Lightning.Scene));
 exports.default = GameState;
 
-}).call(this,require("htZkx4"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/scenes\\game.js","/scenes")
-},{"buffer":6,"htZkx4":9}],4:[function(require,module,exports){
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/scenes/game.js","/scenes")
+},{"buffer":7,"fsovz6":8}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
@@ -384,7 +443,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var MenuState = /** @class */ (function (_super) {
+var MenuState = (function (_super) {
     __extends(MenuState, _super);
     function MenuState() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -462,8 +521,8 @@ var MenuState = /** @class */ (function (_super) {
 }(Lightning.Scene));
 exports.default = MenuState;
 
-}).call(this,require("htZkx4"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/scenes\\menu.js","/scenes")
-},{"buffer":6,"htZkx4":9}],5:[function(require,module,exports){
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/scenes/menu.js","/scenes")
+},{"buffer":7,"fsovz6":8}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
@@ -477,7 +536,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var PreloadState = /** @class */ (function (_super) {
+var PreloadState = (function (_super) {
     __extends(PreloadState, _super);
     function PreloadState() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -501,8 +560,136 @@ var PreloadState = /** @class */ (function (_super) {
 }(Lightning.Scene));
 exports.default = PreloadState;
 
-}).call(this,require("htZkx4"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/scenes\\preload.js","/scenes")
-},{"buffer":6,"htZkx4":9}],6:[function(require,module,exports){
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/scenes/preload.js","/scenes")
+},{"buffer":7,"fsovz6":8}],6:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
+;(function (exports) {
+	'use strict';
+
+  var Arr = (typeof Uint8Array !== 'undefined')
+    ? Uint8Array
+    : Array
+
+	var PLUS   = '+'.charCodeAt(0)
+	var SLASH  = '/'.charCodeAt(0)
+	var NUMBER = '0'.charCodeAt(0)
+	var LOWER  = 'a'.charCodeAt(0)
+	var UPPER  = 'A'.charCodeAt(0)
+	var PLUS_URL_SAFE = '-'.charCodeAt(0)
+	var SLASH_URL_SAFE = '_'.charCodeAt(0)
+
+	function decode (elt) {
+		var code = elt.charCodeAt(0)
+		if (code === PLUS ||
+		    code === PLUS_URL_SAFE)
+			return 62 // '+'
+		if (code === SLASH ||
+		    code === SLASH_URL_SAFE)
+			return 63 // '/'
+		if (code < NUMBER)
+			return -1 //no match
+		if (code < NUMBER + 10)
+			return code - NUMBER + 26 + 26
+		if (code < UPPER + 26)
+			return code - UPPER
+		if (code < LOWER + 26)
+			return code - LOWER + 26
+	}
+
+	function b64ToByteArray (b64) {
+		var i, j, l, tmp, placeHolders, arr
+
+		if (b64.length % 4 > 0) {
+			throw new Error('Invalid string. Length must be a multiple of 4')
+		}
+
+		// the number of equal signs (place holders)
+		// if there are two placeholders, than the two characters before it
+		// represent one byte
+		// if there is only one, then the three characters before it represent 2 bytes
+		// this is just a cheap hack to not do indexOf twice
+		var len = b64.length
+		placeHolders = '=' === b64.charAt(len - 2) ? 2 : '=' === b64.charAt(len - 1) ? 1 : 0
+
+		// base64 is 4/3 + up to two characters of the original data
+		arr = new Arr(b64.length * 3 / 4 - placeHolders)
+
+		// if there are placeholders, only get up to the last complete 4 chars
+		l = placeHolders > 0 ? b64.length - 4 : b64.length
+
+		var L = 0
+
+		function push (v) {
+			arr[L++] = v
+		}
+
+		for (i = 0, j = 0; i < l; i += 4, j += 3) {
+			tmp = (decode(b64.charAt(i)) << 18) | (decode(b64.charAt(i + 1)) << 12) | (decode(b64.charAt(i + 2)) << 6) | decode(b64.charAt(i + 3))
+			push((tmp & 0xFF0000) >> 16)
+			push((tmp & 0xFF00) >> 8)
+			push(tmp & 0xFF)
+		}
+
+		if (placeHolders === 2) {
+			tmp = (decode(b64.charAt(i)) << 2) | (decode(b64.charAt(i + 1)) >> 4)
+			push(tmp & 0xFF)
+		} else if (placeHolders === 1) {
+			tmp = (decode(b64.charAt(i)) << 10) | (decode(b64.charAt(i + 1)) << 4) | (decode(b64.charAt(i + 2)) >> 2)
+			push((tmp >> 8) & 0xFF)
+			push(tmp & 0xFF)
+		}
+
+		return arr
+	}
+
+	function uint8ToBase64 (uint8) {
+		var i,
+			extraBytes = uint8.length % 3, // if we have 1 byte left, pad 2 bytes
+			output = "",
+			temp, length
+
+		function encode (num) {
+			return lookup.charAt(num)
+		}
+
+		function tripletToBase64 (num) {
+			return encode(num >> 18 & 0x3F) + encode(num >> 12 & 0x3F) + encode(num >> 6 & 0x3F) + encode(num & 0x3F)
+		}
+
+		// go through the array every three bytes, we'll deal with trailing stuff later
+		for (i = 0, length = uint8.length - extraBytes; i < length; i += 3) {
+			temp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
+			output += tripletToBase64(temp)
+		}
+
+		// pad the end with zeros, but make sure to not forget the extra bytes
+		switch (extraBytes) {
+			case 1:
+				temp = uint8[uint8.length - 1]
+				output += encode(temp >> 2)
+				output += encode((temp << 4) & 0x3F)
+				output += '=='
+				break
+			case 2:
+				temp = (uint8[uint8.length - 2] << 8) + (uint8[uint8.length - 1])
+				output += encode(temp >> 10)
+				output += encode((temp >> 4) & 0x3F)
+				output += encode((temp << 2) & 0x3F)
+				output += '='
+				break
+		}
+
+		return output
+	}
+
+	exports.toByteArray = b64ToByteArray
+	exports.fromByteArray = uint8ToBase64
+}(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
+
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/browserify/node_modules/base64-js/lib/b64.js","/../../../node_modules/browserify/node_modules/base64-js/lib")
+},{"buffer":7,"fsovz6":8}],7:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!
  * The buffer module from node.js, for the browser.
@@ -1614,136 +1801,75 @@ function assert (test, message) {
   if (!test) throw new Error(message || 'Failed assertion')
 }
 
-}).call(this,require("htZkx4"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/..\\..\\..\\node_modules\\gulp-browserify\\node_modules\\browserify\\node_modules\\buffer\\index.js","/..\\..\\..\\node_modules\\gulp-browserify\\node_modules\\browserify\\node_modules\\buffer")
-},{"base64-js":7,"buffer":6,"htZkx4":9,"ieee754":8}],7:[function(require,module,exports){
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/browserify/node_modules/buffer/index.js","/../../../node_modules/browserify/node_modules/buffer")
+},{"base64-js":6,"buffer":7,"fsovz6":8,"ieee754":9}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+// shim for using process in browser
 
-;(function (exports) {
-	'use strict';
+var process = module.exports = {};
 
-  var Arr = (typeof Uint8Array !== 'undefined')
-    ? Uint8Array
-    : Array
+process.nextTick = (function () {
+    var canSetImmediate = typeof window !== 'undefined'
+    && window.setImmediate;
+    var canPost = typeof window !== 'undefined'
+    && window.postMessage && window.addEventListener
+    ;
 
-	var PLUS   = '+'.charCodeAt(0)
-	var SLASH  = '/'.charCodeAt(0)
-	var NUMBER = '0'.charCodeAt(0)
-	var LOWER  = 'a'.charCodeAt(0)
-	var UPPER  = 'A'.charCodeAt(0)
-	var PLUS_URL_SAFE = '-'.charCodeAt(0)
-	var SLASH_URL_SAFE = '_'.charCodeAt(0)
+    if (canSetImmediate) {
+        return function (f) { return window.setImmediate(f) };
+    }
 
-	function decode (elt) {
-		var code = elt.charCodeAt(0)
-		if (code === PLUS ||
-		    code === PLUS_URL_SAFE)
-			return 62 // '+'
-		if (code === SLASH ||
-		    code === SLASH_URL_SAFE)
-			return 63 // '/'
-		if (code < NUMBER)
-			return -1 //no match
-		if (code < NUMBER + 10)
-			return code - NUMBER + 26 + 26
-		if (code < UPPER + 26)
-			return code - UPPER
-		if (code < LOWER + 26)
-			return code - LOWER + 26
-	}
+    if (canPost) {
+        var queue = [];
+        window.addEventListener('message', function (ev) {
+            var source = ev.source;
+            if ((source === window || source === null) && ev.data === 'process-tick') {
+                ev.stopPropagation();
+                if (queue.length > 0) {
+                    var fn = queue.shift();
+                    fn();
+                }
+            }
+        }, true);
 
-	function b64ToByteArray (b64) {
-		var i, j, l, tmp, placeHolders, arr
+        return function nextTick(fn) {
+            queue.push(fn);
+            window.postMessage('process-tick', '*');
+        };
+    }
 
-		if (b64.length % 4 > 0) {
-			throw new Error('Invalid string. Length must be a multiple of 4')
-		}
+    return function nextTick(fn) {
+        setTimeout(fn, 0);
+    };
+})();
 
-		// the number of equal signs (place holders)
-		// if there are two placeholders, than the two characters before it
-		// represent one byte
-		// if there is only one, then the three characters before it represent 2 bytes
-		// this is just a cheap hack to not do indexOf twice
-		var len = b64.length
-		placeHolders = '=' === b64.charAt(len - 2) ? 2 : '=' === b64.charAt(len - 1) ? 1 : 0
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
 
-		// base64 is 4/3 + up to two characters of the original data
-		arr = new Arr(b64.length * 3 / 4 - placeHolders)
+function noop() {}
 
-		// if there are placeholders, only get up to the last complete 4 chars
-		l = placeHolders > 0 ? b64.length - 4 : b64.length
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
 
-		var L = 0
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+}
 
-		function push (v) {
-			arr[L++] = v
-		}
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
 
-		for (i = 0, j = 0; i < l; i += 4, j += 3) {
-			tmp = (decode(b64.charAt(i)) << 18) | (decode(b64.charAt(i + 1)) << 12) | (decode(b64.charAt(i + 2)) << 6) | decode(b64.charAt(i + 3))
-			push((tmp & 0xFF0000) >> 16)
-			push((tmp & 0xFF00) >> 8)
-			push(tmp & 0xFF)
-		}
-
-		if (placeHolders === 2) {
-			tmp = (decode(b64.charAt(i)) << 2) | (decode(b64.charAt(i + 1)) >> 4)
-			push(tmp & 0xFF)
-		} else if (placeHolders === 1) {
-			tmp = (decode(b64.charAt(i)) << 10) | (decode(b64.charAt(i + 1)) << 4) | (decode(b64.charAt(i + 2)) >> 2)
-			push((tmp >> 8) & 0xFF)
-			push(tmp & 0xFF)
-		}
-
-		return arr
-	}
-
-	function uint8ToBase64 (uint8) {
-		var i,
-			extraBytes = uint8.length % 3, // if we have 1 byte left, pad 2 bytes
-			output = "",
-			temp, length
-
-		function encode (num) {
-			return lookup.charAt(num)
-		}
-
-		function tripletToBase64 (num) {
-			return encode(num >> 18 & 0x3F) + encode(num >> 12 & 0x3F) + encode(num >> 6 & 0x3F) + encode(num & 0x3F)
-		}
-
-		// go through the array every three bytes, we'll deal with trailing stuff later
-		for (i = 0, length = uint8.length - extraBytes; i < length; i += 3) {
-			temp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
-			output += tripletToBase64(temp)
-		}
-
-		// pad the end with zeros, but make sure to not forget the extra bytes
-		switch (extraBytes) {
-			case 1:
-				temp = uint8[uint8.length - 1]
-				output += encode(temp >> 2)
-				output += encode((temp << 4) & 0x3F)
-				output += '=='
-				break
-			case 2:
-				temp = (uint8[uint8.length - 2] << 8) + (uint8[uint8.length - 1])
-				output += encode(temp >> 10)
-				output += encode((temp >> 4) & 0x3F)
-				output += encode((temp << 2) & 0x3F)
-				output += '='
-				break
-		}
-
-		return output
-	}
-
-	exports.toByteArray = b64ToByteArray
-	exports.fromByteArray = uint8ToBase64
-}(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
-
-}).call(this,require("htZkx4"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/..\\..\\..\\node_modules\\gulp-browserify\\node_modules\\browserify\\node_modules\\buffer\\node_modules\\base64-js\\lib\\b64.js","/..\\..\\..\\node_modules\\gulp-browserify\\node_modules\\browserify\\node_modules\\buffer\\node_modules\\base64-js\\lib")
-},{"buffer":6,"htZkx4":9}],8:[function(require,module,exports){
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/browserify/node_modules/process/browser.js","/../../../node_modules/browserify/node_modules/process")
+},{"buffer":7,"fsovz6":8}],9:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
@@ -1830,72 +1956,5 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-}).call(this,require("htZkx4"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/..\\..\\..\\node_modules\\gulp-browserify\\node_modules\\browserify\\node_modules\\buffer\\node_modules\\ieee754\\index.js","/..\\..\\..\\node_modules\\gulp-browserify\\node_modules\\browserify\\node_modules\\buffer\\node_modules\\ieee754")
-},{"buffer":6,"htZkx4":9}],9:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-// shim for using process in browser
-
-var process = module.exports = {};
-
-process.nextTick = (function () {
-    var canSetImmediate = typeof window !== 'undefined'
-    && window.setImmediate;
-    var canPost = typeof window !== 'undefined'
-    && window.postMessage && window.addEventListener
-    ;
-
-    if (canSetImmediate) {
-        return function (f) { return window.setImmediate(f) };
-    }
-
-    if (canPost) {
-        var queue = [];
-        window.addEventListener('message', function (ev) {
-            var source = ev.source;
-            if ((source === window || source === null) && ev.data === 'process-tick') {
-                ev.stopPropagation();
-                if (queue.length > 0) {
-                    var fn = queue.shift();
-                    fn();
-                }
-            }
-        }, true);
-
-        return function nextTick(fn) {
-            queue.push(fn);
-            window.postMessage('process-tick', '*');
-        };
-    }
-
-    return function nextTick(fn) {
-        setTimeout(fn, 0);
-    };
-})();
-
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-}
-
-// TODO(shtylman)
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-
-}).call(this,require("htZkx4"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/..\\..\\..\\node_modules\\gulp-browserify\\node_modules\\browserify\\node_modules\\process\\browser.js","/..\\..\\..\\node_modules\\gulp-browserify\\node_modules\\browserify\\node_modules\\process")
-},{"buffer":6,"htZkx4":9}]},{},[1])
+}).call(this,require("fsovz6"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../../node_modules/ieee754/index.js","/../../../node_modules/ieee754")
+},{"buffer":7,"fsovz6":8}]},{},[1])

@@ -13,11 +13,75 @@ export default class GameState extends Lightning.Scene {
     }
 
     create() {
+        // generate data
+        let data: number[] = [1, 3, 5, 4, -3, 3, 17, 6, 1, 5, 3, 2];
+        let highest:number = this.highest(data);
+        let lowest:number = this.lowest(data);
+        let count: number = this.count(data);
 
-        // this.game.physics.startPhysics();
+        // creat the base rectangle
+        let base:Lightning.Sprite = new Lightning.Sprite();
+        base.texture = Lightning.Geometry.Rect(300, 150).generateCanvasTexture();
+        base.x = this.game.center.x - 150;
+        base.y = this.game.center.y - 75;
+        this.add(base);
 
-        // for(var i = 0; i < 50; i++) {
-        //     let texture = Lightning.Geometry.Square(5, 5).generateTexture();
+        // calculate the variables
+        let padding:number = 0.95;
+        let width: number = base.width * padding;
+        let height: number = base.height * padding;
+        let dataHeight = Math.abs(highest) + Math.abs(lowest);
+        let ySpacing = dataHeight / height;
+        console.log(count);
+
+
+        // create each data point
+        let c: number = 0;
+        for(let i of data) {
+            let dataPoint = new Lightning.Sprite(Lightning.Geometry.Circle(2).generateTexture());
+            dataPoint.tint = 0xff22aa;
+            // dataPoint.setAnchor(0.5);
+            dataPoint.x = (width / data.length) * c;
+            dataPoint.y = (i / 100) * height;
+            console.log(dataPoint.y)
+            base.add(dataPoint);
+            c++;
+        }
+    }
+
+    private highest(data) {
+        let highest: number = 0;
+        for(let i of data) {
+            if(i > highest) {
+                highest = i;
+            }
+        }
+        return highest;
+    }
+
+    private lowest(data) {
+        let lowest: number = 0;
+        for(let i of data) {
+            if(i < lowest) {
+                lowest = i;
+            }
+        }
+        return lowest;
+    }
+
+    private count(data) {
+        let count: number = 0;
+        for(let i of data) {
+            count += parseInt(data);
+        }
+        return count;
+    }
+
+        // this.box2d.start();
+        
+        // let texture = Lightning.Geometry.Square(5, 5).generateTexture();
+
+        // for(var i = 0; i < 1; i++) {
         //     let sprite = new Lightning.Sprite(texture);
         //     sprite.x = Lightning.Maths.rngInt(10, this.game.width - 10);
         //     sprite.y = Lightning.Maths.rngInt(10, this.game.height - 10);
@@ -51,45 +115,45 @@ export default class GameState extends Lightning.Scene {
         // tween.importAnim('x', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]);
         // tween.start();
 
-        this.particleEmitter = new Lightning.ParticleEmitter(this, 0, 0);
-        this.add(this.particleEmitter);
+        // this.particleEmitter = new Lightning.ParticleEmitter(this, 0, 0);
+        // this.add(this.particleEmitter);
 
-        // generate a texture for the particle emitter
-        // let texture:Lightning.Texture = Lightning.Geometry.Circle(4, 0xFC4349).generateTexture();
-        // let texture2:Lightning.Texture = Lightning.Geometry.Triangle(8, 8, 0xD7DADB).generateTexture();
-        // let texture2:Lightning.Texture = Lightning.Geometry.Circle(0.5, 0x6DBCDB).generateTexture();
-        let texture1:Lightning.Texture = Lightning.Geometry.Rect(2, 2, 0xFC4349, 0.5).generateTexture();
-        let texture2:Lightning.Texture = Lightning.Geometry.Rect(2, 2, 0x6DBCDB, 1).generateTexture();
-        let texture3:Lightning.Texture = Lightning.Geometry.Rect(5, 2, 0xFFFFFF, 1).generateTexture();
+        // // generate a texture for the particle emitter
+        // // let texture:Lightning.Texture = Lightning.Geometry.Circle(4, 0xFC4349).generateTexture();
+        // // let texture2:Lightning.Texture = Lightning.Geometry.Triangle(8, 8, 0xD7DADB).generateTexture();
+        // // let texture2:Lightning.Texture = Lightning.Geometry.Circle(0.5, 0x6DBCDB).generateTexture();
+        // let texture1:Lightning.Texture = Lightning.Geometry.Rect(2, 2, 0xFC4349, 0.5).generateTexture();
+        // let texture2:Lightning.Texture = Lightning.Geometry.Rect(2, 2, 0x6DBCDB, 1).generateTexture();
+        // let texture3:Lightning.Texture = Lightning.Geometry.Rect(5, 2, 0xFFFFFF, 1).generateTexture();
 
-        // add that texture to the particle emitter
-        this.particleEmitter.add(texture1, texture3, texture2);
+        // // add that texture to the particle emitter
+        // this.particleEmitter.add(texture1, texture3, texture2);
 
-        // this.particleEmitter.enableDebug();
-        this.particleEmitter.y = this.game.height * 0.85;
+        // // this.particleEmitter.enableDebug();
+        // this.particleEmitter.y = this.game.height * 0.85;
 
-        this.particleEmitter.addToLocal = false;
+        // this.particleEmitter.addToLocal = false;
         
 
-        this.particleEmitter.setGravity(0, 0);
-        this.particleEmitter.setVelocityRange(-0.3, 0.3, -0.3, 0.3);
-        this.particleEmitter.setScaleRange(0.4, 1.5, 0.4, 1.5);
-        this.particleEmitter.setAlphaRange(0.3, 0.3, 0.8, 0.8);
-        this.particleEmitter.setAlphaIncrement(-0.008);
-        this.particleEmitter.setInterval(5);
+        // this.particleEmitter.setGravity(0, 0);
+        // this.particleEmitter.setVelocityRange(-0.3, 0.3, -0.3, 0.3);
+        // this.particleEmitter.setScaleRange(0.4, 1.5, 0.4, 1.5);
+        // this.particleEmitter.setAlphaRange(0.3, 0.3, 0.8, 0.8);
+        // this.particleEmitter.setAlphaIncrement(-0.008);
+        // this.particleEmitter.setInterval(5);
         
-        this.particleEmitter.setRotationIncrement(-0.1, 0.1);
-        // this.particleEmitter.setSpread(0, this.game.width, 0, this.game.height);
-        this.particleEmitter.setStrength(1);
+        // this.particleEmitter.setRotationIncrement(-0.1, 0.1);
+        // // this.particleEmitter.setSpread(0, this.game.width, 0, this.game.height);
+        // this.particleEmitter.setStrength(1);
 
-        this.particleEmitter.preFillPool(200);
-        this.particleEmitter.start();
+        // this.particleEmitter.preFillPool(200);
+        // this.particleEmitter.start();
 
-        let data = Lightning.Maths.pointsOfCircle(this.game.center.x, this.game.center.y, 50, 50);
+        // let data = Lightning.Maths.pointsOfCircle(this.game.center.x, this.game.center.y, 50, 50);
 
-        let tween = this.game.tweens.create(this.particleEmitter);
-        tween.importAnim('x', data.x);
-        tween.importAnim('y', data.y);
+        // let tween = this.game.tweens.create(this.particleEmitter);
+        // tween.importAnim('x', data.x);
+        // tween.importAnim('y', data.y);
         
 
         // let tween2 = this.game.tweens.create(this.particleEmitter);
@@ -97,8 +161,8 @@ export default class GameState extends Lightning.Scene {
 
         // tween.chain(tween2);
         // tween2.chain(tween);
-        tween.loop(-1);
-        tween.start();
+        // tween.loop(-1);
+        // tween.start();
 
         // let gfx2 = Lightning.Geometry.Square(10);
         // gfx2.x = 580;
@@ -346,7 +410,7 @@ export default class GameState extends Lightning.Scene {
     //     customStorage.getItem('test');
         // ... //
       
-    }
+    // }
 
     public update(time) {
         

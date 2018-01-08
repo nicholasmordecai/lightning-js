@@ -10,19 +10,17 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var BootState = /** @class */ (function (_super) {
+var BootState = (function (_super) {
     __extends(BootState, _super);
     function BootState() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     BootState.prototype.init = function (params) {
-        console.log('init boot');
         this.game.backgroundColor = 0x092140;
         this.game.scale.scaleAll();
         this.create();
     };
     BootState.prototype.create = function () {
-        // this.game.scale.scaleAll();
         this.game.scenes.start('preload');
     };
     return BootState;

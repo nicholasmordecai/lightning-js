@@ -6,7 +6,6 @@
  * Refactor arrays of scenes and active scenes for dictionary definition objects
  * Implement freeze scene feature
  * Possibly refactor the scene destroy method (cycle through and also destroy all physics bodies associated with that scene)
- * Reset / Restart the scene
  * Easy to use prepare function, to create a scene, but not allow it to be rendered until ready
  */
 
@@ -60,6 +59,7 @@ namespace Lightning {
             }
 
             let map = this.findScene(key);
+
             let scene:Scene = map.scene;
             this.game.world.addChild(scene);
             
@@ -67,7 +67,6 @@ namespace Lightning {
             scene.renderable = true;
             scene.interactive = true;
             scene.interactiveChildren = true;
-
 
             if(autoInit) {
                 this.init(map, params);
@@ -120,10 +119,10 @@ namespace Lightning {
          * TODO
          * @description Will reset the scene by nullifying it and calling the constructor to re-initalize it
          */
-        public reset() {
-            // let scene = this.findScene('').scene;
-            // let newScene = scene.constructor();
-
+        public restart(key: string) {
+            let scene = this.findScene(key);
+            this.destroy(key);
+            this.start(key);
         }
 
         /**
@@ -262,7 +261,9 @@ namespace Lightning {
          */
         private addToActive(map:iSceneMap):boolean {
             if(!this.isActive(map)) {
-                console.log('adding map to active scenes', map.key)
+                if(this._verbose) {
+                    console.log('adding map to active scenes', map.key)
+                }
                 this._activeScenes.push(map);
                 map.active = true;
                 return true;

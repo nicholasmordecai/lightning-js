@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.5.6
+1. Fixed life span and max particles in the particle emitter
+2. Wrote and did first testing on scene restarting
+
 ### 0.5.5
 1. Wrote an asset loader class
     1. Bypassed pixi's loader for audio so it gets loaded straight into howler

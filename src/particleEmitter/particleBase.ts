@@ -35,7 +35,7 @@ namespace Lightning {
         }
 
         public updateSimple(time:number) {
-            if(this._deadTime <= this._lifeTime) {
+            if(this._lifeSpan <= this._lifeTime) {
                 this.returnToPool();    
                 return;
             }
@@ -81,7 +81,7 @@ namespace Lightning {
         }
 
         public updateComplex(time:number) {
-            if(this._deadTime <= this._lifeTime) {
+            if(this._lifeSpan <= this._lifeTime) {
                 this.returnToPool();    
                 return;
             }
