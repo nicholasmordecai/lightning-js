@@ -138,7 +138,7 @@ namespace Lightning {
 
             this._renderer.view.id = 'lightning-canvas';
             wrapper.appendChild(this._renderer.view);
-            wrapper.appendChild(debugCanvas);
+            // wrapper.appendChild(debugCanvas);
             
             // call the scale manager resize throttler once to set the initial scale
             // this._scaleManager.resizeThrottler(true);

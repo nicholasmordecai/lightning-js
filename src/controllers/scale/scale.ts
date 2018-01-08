@@ -87,10 +87,7 @@ namespace Lightning {
             if(!flag) {
                 // find closest DPR in allowedDPR's array
                 if(this._allowedDPR.length === 0) {
-                    // use any / all DPR's
-                    // this._currentDPR = liveDPR;
-                    this._currentDPR = 1;
-                    // alert(this._currentDPR);
+                    this._currentDPR = liveDPR;
                 } else {
                     let closest = Lightning.Maths.closestValue(this._allowedDPR, liveDPR);
                 }
