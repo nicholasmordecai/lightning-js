@@ -8,5 +8,6 @@ namespace Lightning {
         fps:number;
         constructed:boolean;
         scene:Scene;
+        refClass: Function;
     }
 }

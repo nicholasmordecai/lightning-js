@@ -7,7 +7,7 @@
 ![lightning-js logo](https://preview.ibb.co/gLBF3R/readme_header.png)
 
 
-# Ligtning 0.5.6
+# Ligtning 0.5.7
 
 A complete HTML5 game development library built on Pixi.js (4.4.1)
 

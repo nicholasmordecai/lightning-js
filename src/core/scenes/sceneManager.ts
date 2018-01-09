@@ -13,7 +13,7 @@ namespace Lightning {
     export class SceneManager extends Plugin {
 
         protected game:Engine;
-        protected _scenes:Array<iSceneMap>;
+        protected _scenes;
         protected _activeScenes:Array<iSceneMap>;
 
         private _verbose:boolean;
@@ -60,13 +60,15 @@ namespace Lightning {
 
             let map = this.findScene(key);
 
-            let scene:Scene = map.scene;
+            let scene = new map.refClass();
             this.game.world.addChild(scene);
             
             scene.visible = true;
             scene.renderable = true;
             scene.interactive = true;
             scene.interactiveChildren = true;
+            
+            map.scene = scene;
 
             if(autoInit) {
                 this.init(map, params);
@@ -240,14 +242,15 @@ namespace Lightning {
          * 
          * @returns {boolean}
          */
-        public add(key:string, scene:Scene):boolean {
+        public add(key:string, scene:Function):boolean {
             if(this._verbose) console.info('SceneManager - Adding New Scene: "' + key + '"');
             let newMap:iSceneMap = <iSceneMap>{};
             newMap.key = key;
-            newMap.scene = scene;
+            newMap.scene = null;
             newMap.active = false;
             newMap.worldIndex = null;
             newMap.fps = 60;
+            newMap.refClass = scene
             this._scenes.push(newMap);
             return true;
         }
@@ -296,7 +299,7 @@ namespace Lightning {
          * 
          * @returns {Scene}
          */
-        private findScene(key:string):iSceneMap {
+        private findScene(key:string) {
             for(let i of this._scenes) {
                 if(i.key === key) {
                     return i;

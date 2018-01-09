@@ -15,7 +15,8 @@ namespace Lightning {
          * 
          */
         constructor() {
-            super(); 
+            super();
+            console.log(this)
         }
 
         public construct(game:Engine) {
@@ -27,6 +28,7 @@ namespace Lightning {
             // this.loader.events.subscribe('load', this.preloadSingle, this);
             this.loader.events.subscribe('complete', this.preloadComplete, this);
         }
+
 
         /**
          * @description Initalization function

@@ -2,24 +2,28 @@
 
 import BootScene from './scenes/boot';
 import PreloadScene from './scenes/preload';
-import MenuScene from './scenes/menu';
-import GameScene from './scenes/game';
+// import MenuScene from './scenes/menu';
+// import GameScene from './scenes/game';
 
 export default class Game {
 
     public game:Lightning.Engine;
 
     constructor(width:number, height:number) {
+
         this.game = new Lightning.Engine(width, height, {
             divID: "app-container",
             rendererOptions: {
                 transparent: false
             }
         });
-        this.game.scenes.add('boot', new BootScene());
-        this.game.scenes.add('preload', new PreloadScene());
-        this.game.scenes.add('menu', new MenuScene());
-        this.game.scenes.add('game', new GameScene());
+
+        console.log(BootScene)
+
+        this.game.scenes.add('boot', BootScene);
+        this.game.scenes.add('preload', PreloadScene);
+        // this.game.scenes.add('menu', MenuScene);
+        // this.game.scenes.add('game', GameScene);
         this.game.scenes.start('boot');
     }
 }

@@ -17,10 +17,6 @@ var BootState = /** @class */ (function (_super) {
     }
     BootState.prototype.init = function (params) {
         this.game.backgroundColor = 0x092140;
-        this.game.scale.scaleAll();
-        this.create();
-    };
-    BootState.prototype.create = function () {
         this.game.scenes.start('preload');
     };
     return BootState;

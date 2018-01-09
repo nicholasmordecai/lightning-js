@@ -3,6 +3,10 @@
 ### 0.5.6
 1. Fixed life span and max particles in the particle emitter
 2. Wrote and did first testing on scene restarting
+3. Fixed text class optional paremeter
+4. Fixed Particle Emitter emit once
+5. Rebuilt scene manager to hold refrernces to the class and initalising on the fly
+6. Text class now has setAnchor as a function
 
 ### 0.5.5
 1. Wrote an asset loader class

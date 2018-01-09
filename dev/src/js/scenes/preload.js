@@ -16,6 +16,7 @@ var PreloadState = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     PreloadState.prototype.init = function () {
+        console.log(this._t);
         this.create();
     };
     PreloadState.prototype.preload = function () {
@@ -27,8 +28,13 @@ var PreloadState = /** @class */ (function (_super) {
     };
     PreloadState.prototype.create = function () {
         // this.game.audio.play('music1');
-        this.game.scenes.destroy('preload');
-        this.game.scenes.start('menu');
+        // this.game.scenes.destroy('preload');
+        // this.game.scenes.start('menu');
+        var _this = this;
+        setTimeout(function () {
+            _this._t = 3;
+            _this.game.scenes.restart('preload');
+        }, 3000);
     };
     return PreloadState;
 }(Lightning.Scene));

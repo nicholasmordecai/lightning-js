@@ -1,6 +1,9 @@
 export default class PreloadState extends Lightning.Scene {
 
+    private _t: number;
+
     init() {
+        console.log(this._t);
         this.create();
     }
 
@@ -15,7 +18,12 @@ export default class PreloadState extends Lightning.Scene {
 
     create() {
         // this.game.audio.play('music1');
-        this.game.scenes.destroy('preload');
-        this.game.scenes.start('menu');
+        // this.game.scenes.destroy('preload');
+        // this.game.scenes.start('menu');
+
+        setTimeout(() => {
+            this._t = 3;
+            this.game.scenes.restart('preload');
+        }, 3000);
     }
 }

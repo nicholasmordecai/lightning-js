@@ -3,8 +3,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var boot_1 = require("./scenes/boot");
 var preload_1 = require("./scenes/preload");
-var menu_1 = require("./scenes/menu");
-var game_1 = require("./scenes/game");
+// import MenuScene from './scenes/menu';
+// import GameScene from './scenes/game';
 var Game = /** @class */ (function () {
     function Game(width, height) {
         this.game = new Lightning.Engine(width, height, {
@@ -13,10 +13,11 @@ var Game = /** @class */ (function () {
                 transparent: false
             }
         });
-        this.game.scenes.add('boot', new boot_1.default());
-        this.game.scenes.add('preload', new preload_1.default());
-        this.game.scenes.add('menu', new menu_1.default());
-        this.game.scenes.add('game', new game_1.default());
+        console.log(boot_1.default);
+        this.game.scenes.add('boot', boot_1.default);
+        this.game.scenes.add('preload', preload_1.default);
+        // this.game.scenes.add('menu', MenuScene);
+        // this.game.scenes.add('game', GameScene);
         this.game.scenes.start('boot');
     }
     return Game;
