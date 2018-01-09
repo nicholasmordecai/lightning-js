@@ -9,7 +9,6 @@ export default class MenuState extends Lightning.Scene {
     }
 
     create() {
-
     //     let sound = this.game.audio.load('meeseeks', ['audio.mp3']);
 
     //     this.game.keyboard.key('space').subscribe('pressed', () => {
