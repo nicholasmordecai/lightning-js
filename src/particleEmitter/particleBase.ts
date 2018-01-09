@@ -50,7 +50,7 @@ namespace Lightning {
             // increment alpha
             if(this._alphaIncrement) {
                 this.alpha += this._alphaIncrement;
-                if(this.alpha <= 0) {
+                if(this.alpha <= 0) {                    
                     this.returnToPool();
                 }
             }

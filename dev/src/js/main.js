@@ -5,7 +5,7 @@ var boot_1 = require("./scenes/boot");
 var preload_1 = require("./scenes/preload");
 var menu_1 = require("./scenes/menu");
 var game_1 = require("./scenes/game");
-var Game = (function () {
+var Game = /** @class */ (function () {
     function Game(width, height) {
         this.game = new Lightning.Engine(width, height, {
             divID: "app-container",

@@ -93,6 +93,7 @@ namespace Lightning {
                 this._nextEmit = Date.now() + this._interval;
                 this.fireEmitter();
             }
+            
         }
 
         public updateTransform() {
@@ -160,6 +161,31 @@ namespace Lightning {
 
                 this._particles.push(particle);                                            
                 this._deadPool.push(particle);                         
+            }
+        }
+
+        public advance(steps: number = 100) {
+            let emitFreq: number = 1000 / this._interval;
+            let c: number = 0;
+            let f: number = 0;
+
+            for(var i = 0; i < steps; i++) {
+                if(f === 5) {
+                    for(var p of this._particles) {
+                        if(!p.isDead) {
+                            p.update(1);
+                        }
+                    }
+                    f = 0;
+                }
+
+                if(c === emitFreq) {
+                    this.fireEmitter();
+                    c = 0;
+                }
+
+                f++;
+                c++;
             }
         }
 

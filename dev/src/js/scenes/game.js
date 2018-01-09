@@ -10,7 +10,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var GameState = (function (_super) {
+var GameState = /** @class */ (function (_super) {
     __extends(GameState, _super);
     function GameState() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -110,10 +110,10 @@ var GameState = (function (_super) {
     // tween.start();
     // this.particleEmitter = new Lightning.ParticleEmitter(this, 0, 0);
     // this.add(this.particleEmitter);
-    // // generate a texture for the particle emitter
-    // // let texture:Lightning.Texture = Lightning.Geometry.Circle(4, 0xFC4349).generateTexture();
-    // // let texture2:Lightning.Texture = Lightning.Geometry.Triangle(8, 8, 0xD7DADB).generateTexture();
-    // // let texture2:Lightning.Texture = Lightning.Geometry.Circle(0.5, 0x6DBCDB).generateTexture();
+    // generate a texture for the particle emitter
+    // let texture:Lightning.Texture = Lightning.Geometry.Circle(4, 0xFC4349).generateTexture();
+    // let texture2:Lightning.Texture = Lightning.Geometry.Triangle(8, 8, 0xD7DADB).generateTexture();
+    // let texture2:Lightning.Texture = Lightning.Geometry.Circle(0.5, 0x6DBCDB).generateTexture();
     // let texture1:Lightning.Texture = Lightning.Geometry.Rect(2, 2, 0xFC4349, 0.5).generateTexture();
     // let texture2:Lightning.Texture = Lightning.Geometry.Rect(2, 2, 0x6DBCDB, 1).generateTexture();
     // let texture3:Lightning.Texture = Lightning.Geometry.Rect(5, 2, 0xFFFFFF, 1).generateTexture();
@@ -131,7 +131,7 @@ var GameState = (function (_super) {
     // this.particleEmitter.setRotationIncrement(-0.1, 0.1);
     // // this.particleEmitter.setSpread(0, this.game.width, 0, this.game.height);
     // this.particleEmitter.setStrength(1);
-    // this.particleEmitter.preFillPool(200);
+    // // this.particleEmitter.preFillPool(200);
     // this.particleEmitter.start();
     // let data = Lightning.Maths.pointsOfCircle(this.game.center.x, this.game.center.y, 50, 50);
     // let tween = this.game.tweens.create(this.particleEmitter);

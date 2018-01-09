@@ -10,7 +10,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var BootState = (function (_super) {
+var BootState = /** @class */ (function (_super) {
     __extends(BootState, _super);
     function BootState() {
         return _super !== null && _super.apply(this, arguments) || this;

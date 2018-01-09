@@ -10,7 +10,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var PreloadState = (function (_super) {
+var PreloadState = /** @class */ (function (_super) {
     __extends(PreloadState, _super);
     function PreloadState() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -28,7 +28,7 @@ var PreloadState = (function (_super) {
     PreloadState.prototype.create = function () {
         // this.game.audio.play('music1');
         this.game.scenes.destroy('preload');
-        this.game.scenes.start('game');
+        this.game.scenes.start('menu');
     };
     return PreloadState;
 }(Lightning.Scene));

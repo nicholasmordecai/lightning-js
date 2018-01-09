@@ -16,6 +16,6 @@ export default class PreloadState extends Lightning.Scene {
     create() {
         // this.game.audio.play('music1');
         this.game.scenes.destroy('preload');
-        this.game.scenes.start('game');
+        this.game.scenes.start('menu');
     }
 }
