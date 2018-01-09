@@ -189,7 +189,13 @@ namespace Lightning {
             }
         }
 
-        public fireEmitter() {
+        public fire(num: number) {
+            for(var i = 0; i < num; i++) {
+                this.fireEmitter();
+            }
+        }
+
+        private fireEmitter() {
             if(this._particleStrength === 1) {
                 this.createParticle();
                 
